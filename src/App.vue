@@ -5,24 +5,38 @@
 </template>
 
 <script>
-
 export default {
-  name: 'app'
-}
+  name: "app"
+};
 </script>
 
-<style>
-html, body{
-  height: 100%;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-}
+<style lang="less">
+  html,body{
+    margin: 0;
+    padding: 0;
+    background-color: #252A2F;
+    width:100%;
+    height:100%;
+    font-size: 14px;
+    .config-message{
+      margin-top: 100px;
+    }
+  }
+  #app {
+    font-family:'Microsoft YaHei';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #000;
+    padding: 0;
+    margin: 0;
+    width:100%;
+    height:100%;
+    overflow-x: hidden;
+    .single-page{
+      display: block;
+      background-color: white;
+      /*padding:0 20px;*/
+    }
+  }
+
 </style>

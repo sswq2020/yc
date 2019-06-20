@@ -6,6 +6,7 @@ const hostList = {
 };
 
 const IS_MOCK = true
+const storageURL = ""
 
 const dict = { 'SUCCESS': "000000" }
 
@@ -67,29 +68,18 @@ const roleList = {
     updatedTime: '@DATE("yyyy-MM-dd HH:mm:ss")',
 };
 
-const reviewList = {
+const shipperManageList = {
     "id|+1": "65756713724569",
-    "settlementNo": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
-    "fund": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
-    "amount": "@float(200,999)", // 金额(元)
-    "appCode": "@PICK(1,0)", // 数据来源
-    "appName": "集配货运", // 数据来源 名称
-    "payerAccountName": "惠龙易通@CITY()公司", // 转出账户名
-    "payerBankNo": "65521464564654987654", // 转出账户号
-    "payeeAccountName": "@CNAME()", // 转入账户名 
-    "payeeBankNo": "65521464564654987654", // 转入账户号
-    "payeeOpenDept": "@PICK('中国','中信')银行", // 转入账户开户机构名称
-    "status": "@PICK(2,3)", // 状态 int
-    "createdTime": "@DATE('yyyy-MM-dd HH:mm:ss')",
-    "returnMsg": '@CTITLE(5,10)',
-    "callbackStatus":"@PICK(0,1,2)",
-    "callbackResult":"执行请求失败 返回信息为==回调发生异常 异常信息为[Connect to 127.0.0.1:8080 [/127.0.0.1] failed: Connection refused (Connection refused)]执行请求失败 返回信息为==回调发生异常 异常信息为[Connect to 127.0.0.1:8080 [/127.0.0.1] failed: Connection refused (Connection refused)]执行请求失败 返回信息为",
-    "auditInstances": [{     // 审核信息,包含审核人,备注,审核时间,审核结果
-        auditorName: "@CNAME()",
-        auditTime: '@DATE("yyyy-MM-dd HH:mm:ss")',
-        auditOpinion: '@CTITLE(2,10)', // 备注意见
-        auditResult: "@PICK(4,5,6,7)", // 审核结果',
-    }]
+    "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
+    "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
+    "mock4": "@float(200,999)", // 金额(元)
+    "mock5": "@PICK(1,0)", // 数据来源
+    "mock6": "集配货运", // 数据来源 名称
+    "mock7": "惠龙易通@CITY()公司", // 转出账户名
+    "mock8": "65521464564654987654", // 转出账户号
+    "mock9": "@CNAME()", // 转入账户名 
+    "mock10": "65521464564654987654", // 转入账户号
+    "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称
 }
 
 const cashconfirmList = {
@@ -118,7 +108,7 @@ const cashconfirmList = {
 }
 
 const tradeDetailList = {
-    ...reviewList, ...{
+    ...shipperManageList, ...{
         "status": "@PICK(1,8)",
         "creditNo": "JS@INTEGER(2019690000,2019690999)"
     }
@@ -182,25 +172,23 @@ const mockRouterMap = {
         },
         // #endregion 
 
-        // #region  银行转账财务审核列表
+        // #region  查询货主管理列表
         {
             isMock: IS_MOCK,
-            methods: 'post',
-            router: 'payacc/web/settlementPayOrder/pageList/finance',
+            methods: 'get',
+            router: storageURL + '/web/settlement/pageList/shipperManage',
             result(params) {
                 return {
                     ...body,
                     ...{
                         data: {
-                            'list|1-10': [reviewList],
+                            'list|1-10': [shipperManageList],
                             "paginator": {
                                 "currentPage": params.page,
                                 "pageSize": params.pageSize,
                                 "totalCount": 1000,
                                 "totalPage": 1000 / params.pageSize
-                            },
-                            pageTotalAmount: 45567453.23,
-                            countTotalAmount: 192567453.23
+                            }
                         },
                     },
                 };

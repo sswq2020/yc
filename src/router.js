@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ let commonRoutes = {
             path: '/personal',
             name: 'personal',
             component: () => import(/* webpackChunkName: "avatar" */ '@/views/personal/index'),
+        },
+        {
+            path: '/web/settlement/pageList/shipperManage',
+            name: 'shipperManage',
+            component: ShipperManage
         }
     ]
 }

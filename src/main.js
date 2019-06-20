@@ -6,6 +6,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import VueCropper from 'vue-cropper'
 import Hletong from 'hletong-ui'
 import 'hletong-ui/lib/hletong-ui.css'
+import './static/reset.css';
+import './static/common.css';
 import {router} from './router'
 import api from '@/api'
 
@@ -14,8 +16,8 @@ Vue.use(ElementUI);
 Vue.use(Hletong);
 Vue.use(VueCropper);
 Vue.prototype.$api = api;
-
-new Vue({
-	router,
+//将app挂载到window上面，可以使用router的方法和一些弹窗效果。
+window.VueApp = new Vue({
+  router,
   render: h => h(App)
 }).$mount('#app')

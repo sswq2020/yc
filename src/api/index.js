@@ -11,7 +11,7 @@ let loginUrl = '';
 
 let redirectUrl = ''; //跳转到登录页的路由
 let cookies = cookie.parse(document.cookie);
-let Authorization = cookies.HLETTYPE +' '+cookies.HLETID
+let Authorization = cookies.HLETTYPE + ' ' + cookies.HLETID
 let uploadUrl = '/apis';
 let validUrl = 'http://10.1.15.106:8102';
 
@@ -46,15 +46,15 @@ switch (env) {
 
 }
 
-const goLogin = () => {
-    if (env == 'development') {
-        window.VueApp.$router.push({
-            name: 'login'
-        })
-    } else {
-        window.location.href = loginUrl + '?redirectUrl=' + redirectUrl;
-    }
-}
+// const goLogin = () => {
+//     if (env == 'development') {
+//         window.VueApp.$router.push({
+//             name: 'login'
+//         })
+//     } else {
+//         window.location.href = loginUrl + '?redirectUrl=' + redirectUrl;
+//     }
+// }
 
 
 /*
@@ -139,6 +139,7 @@ const fetch = (url, params, methods = 'post') => {
     if (params !== undefined && params.offset !== undefined && params.limit !== undefined) {
         params.offset = (params.offset - 1) * params.limit;
     }
+    debugger;
     const mock = isMock({ url, params, methods });
     if (env == 'development' && mock.isMock === true) {
         return new Promise((resolve) => {
@@ -164,7 +165,7 @@ const fetch = (url, params, methods = 'post') => {
                     })
                     break;
                 case '040001':
-                    goLogin();
+                  //  goLogin();
                     break;
                 default:
                     resolve(res)
@@ -205,7 +206,7 @@ const getfetch = (url, params, methods = 'post') => {
                     })
                     break;
                 case '040001':
-                    goLogin();
+                   // goLogin();
                     break;
                 default:
                     resolve(res)
@@ -228,12 +229,12 @@ const fetchBlob = (url, params, methods = 'post') => {
         if (methods == 'get') {
             url = url + '?' + qs.stringify(params);
         }
-        instance[methods](url, params,{responseType: 'arraybuffer',headers:{ResponseFilter:false}}).then(res => { // 不加这个{responseType: 'arraybuffer'},流直接解析成字符串
-                resolve(res)
-            }
+        instance[methods](url, params, { responseType: 'arraybuffer', headers: { ResponseFilter: false } }).then(res => { // 不加这个{responseType: 'arraybuffer'},流直接解析成字符串
+            resolve(res)
+        }
         ).catch(err => {
-                reject(err);
-            })
+            reject(err);
+        })
     })
 }
 
@@ -264,14 +265,14 @@ export default {
                 data: formData,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-                    'Authorization':Authorization
+                    'Authorization': Authorization
                 }
             }).then(res => {
                 /*
                 * 变量保存token，减少每次访问localstorage的消耗
                 * */
-                var cookie = 'HLETID='+res.value+';path=/;domain=hletong.com'
-                var cookie2 = 'HLETTYPE='+res.tokenType+';path=/;domain=hletong.com'
+                var cookie = 'HLETID=' + res.value + ';path=/;domain=hletong.com'
+                var cookie2 = 'HLETTYPE=' + res.tokenType + ';path=/;domain=hletong.com'
                 document.cookie = cookie
                 document.cookie = cookie2
                 resolve(res);
@@ -327,140 +328,38 @@ export default {
         // return formDataRequest(`${validUrl}/mc-client/sms/template/smsService/verifiCode`, params)
         return formDataRequest(`/sms/mc-client/sms/template/smsService/verifiCode`, params)
     },
-    // #region  财务中心
+    // #region  基础信息
     /**
      * @author sswq
      * @param params
-     * @description 查询公司账户所有信息
+     * @description 查询货主管理列表
      * */
-    getbankAccountAll(params) {
-        return fetch(storageURL + '/web/bankAccount/all/hlet', params,"get")
+    getShipperManageList(params) {
+        return fetch(storageURL + '/web/settlement/pageList/shipperManage', params, 'get')
     },
     /**
      * @author sswq
-     * @param params
-     * @description 银行转账财务审核列表
+     * @description 删除货主
      * */
-    getReviewList(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/pageList/finance', params)
+    deleteShipper(params) {
+        return fetch(storageURL + '/web/Shipper/delete', params)
+    },
+
+    /**
+     * @author sswq
+     * @description 新增货主
+     * */
+    createShipper(params) {
+        return fetch(storageURL + '/web/Shipper/create', params)
     },
     /**
      * @author sswq
-     * @param params
-     * @description 银行转账批量审核或者作废
+     * @description 编辑货主
      * */
-    batchAudit(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/audit/finance', params)
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 银行转账出纳确认列表
-     * */
-    getCashList(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/pageList/cashier', params)
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 出纳批量转账或者作废
-     * */
-    batchCash(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/audit/cashier', params)
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 出纳批量重新支付
-     * */
-    rePay(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/operate/rePay', params,'get')
-    },
-    /**
-     * @author sswq
-     * @description 刷新状态
-     * */
-    refreshStatus(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/operate/refreshStatus', params, 'get')
-    },
-    /**
-     * @author sswq
-     * @description 人工确认
-     * */
-    cashierConfirm(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/operate/cashier', params)
-    },
-    /**
-     * @author sswq
-     * @description 银行账户信息管理列表的接口---也是查询公司余额账户(第一次显示账户余额)
-     * */
-    bankAccountBalance(params) {
-        return fetch(storageURL + '/web/bankAccount/pageList/hlet', params, 'get')
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 银行交易明细列表
-     * */
-    tradeDetail(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/pageList/tradeDetail', params)
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 手动数据同步
-     * */
-    manualSync(params) {
-        return fetch(storageURL + '/web/settlementPayOrder/notifyCallback', params,'get')
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 历史或已完成结算订单下载Excel
-     * */
-    tradeDetailED(params) {
-        return fetchBlob(storageURL + '/web/settlementPayOrder/excelDownload/tradeDetail', params)
-    },
-    /**
-     * @author sswq
-     * @param params id 账户信息id
-     * @description 删除账户信息
-     * */
-    deleteBankAccount(params) {
-        return fetch(storageURL + '/web/bankAccount/delete', params, 'get')
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 新增账户信息
-     * */
-    createBankAccount(params) {
-        return fetch(storageURL + '/web/bankAccount/create', params)
-    },
-    /**
-     * @author sswq
-     * @param params 比新增多一个accountId 账户ID
-     * @description 编辑账户信息
-     * */
-    updateBankAccount(params) {
-        return fetch(storageURL + '/web/bankAccount/update', params)
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 银行卡片点击眼睛再次查询账户余额
-     * */
-    refreshBalance(params) {
-        return fetch(storageURL + '/web/bankAccount/refreshBalance', params, 'get')
-    },
-    /**
-     * @author sswq
-     * @param params
-     * @description 获取交易明细
-     * */
-    getBillDetail(params) {
-        return fetch(storageURL + '/web/billDetail/getBillDetail', params)
-    },
+    createShipper(params) {
+        return fetch(storageURL + '/web/Shipper/update', params)
+    },    
+
     // #endregion
 
     // #region  字典项
