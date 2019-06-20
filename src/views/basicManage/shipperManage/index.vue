@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle">
-      <el-button class="hlB_buts" size="small" @click="" icon="el-icon-download">新增</el-button>
+      <el-button class="hlB_buts" size="small" @click icon="el-icon-download">新增</el-button>
     </hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
@@ -43,11 +43,10 @@
           <span>{{listData.list[scope.$index][item.prop]}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="150px" align="center">
-        <template slot-scope="scope">
-          <el-button type="text" @click>编辑</el-button>
-          <el-button type="text" class="activate" @click>删除</el-button>
-        </template>
+      <el-table-column label="操作" fixed="right" width="60px" align="center">
+          <template slot-scope="scope">
+            <el-button type="text" @click="deleteItem(listData.list[scope.$index])">审核详情</el-button>
+          </template>
       </el-table-column>
     </heltable>
   </div>
@@ -132,18 +131,19 @@ export default {
 
       // #region 表格相关
       isListDataLoading: false,
+      isdeleteLoading: false,
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true
       // #endgion
-    }
+    };
   },
   methods: {
     _filter() {
       if (!_.isEqual(this.form, this.diff_form)) {
-        this.diff_form = _.clone(Object.assign({},this.form))
-        this.listParams = _.clone(Object.assign({},defaultListParams))
+        this.diff_form = _.clone(Object.assign({}, this.form));
+        this.listParams = _.clone(Object.assign({}, defaultListParams));
       }
-      return _.clone(Object.assign({},this.form,this.listParams))
+      return _.clone(Object.assign({}, this.form, this.listParams));
     },
     clearListParams() {
       this.form = { ...defaultFormData };
@@ -159,29 +159,28 @@ export default {
       this.listParams.pageSize = pageSize;
       this.getListData();
     },
-    async delete(obj) {
-      this.isVisitLoading = true;
-      const response = await this.$api.VisitCar({
-        carId,
-        visitReason: reason,
-        visitNote: note
-      });
-      this.isVisitLoading = false;
-      switch (response.errCode) {
-        case Dict.SUCCESS:
-          this.$Message.success("回访成功");
-          this.getListData();
-          setTimeout(() => {
-            this.$refs.visitdlg.cancel();
-          }, 50);
-          break;
-        default:
-          this.$Message.error(response.errMsg);
-          break;
-      }
+    deleteItem(obj) {
+      let that = this
+      const { id } = obj;
+      that.$confirm(`此操作将永久删除${obj.mock1}, 是否继续?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(async () => {
+          const response = await that.$api.deleteShipper({ id });
+          switch (response.code) {
+            case Dict.SUCCESS:
+              that.$message("删除成功");
+              that.getListData();
+              break;
+            default:
+              that.$Message.error(response.errMsg);
+              break;
+          }
+        })
     },
     async getListData() {
-      let obj = this._filter();       
+      let obj = this._filter();
       this.isListDataLoading = true;
       const res = await this.$api.getShipperManageList(obj);
       this.isListDataLoading = false;

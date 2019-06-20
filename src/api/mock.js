@@ -197,6 +197,20 @@ const mockRouterMap = {
         },
         // #endregion 
 
+
+        // #region  删除货主
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/Shipper/delete',
+            result(params) {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion    
+
         // #region  银行转账批量审核或者作废
         {
             isMock: IS_MOCK,

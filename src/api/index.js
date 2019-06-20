@@ -355,7 +355,7 @@ export default {
      * @author sswq
      * @description 编辑货主
      * */
-    createShipper(params) {
+    updateShipper(params) {
         return fetch(storageURL + '/web/Shipper/update', params)
     },    
 
