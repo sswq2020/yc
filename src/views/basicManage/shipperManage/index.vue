@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle">
-      <el-button class="hlB_buts" size="small" @click icon="el-icon-download">新增</el-button>
+      <el-button class="hlB_buts" size="small" @click="" icon="el-icon-download">新增</el-button>
     </hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
@@ -26,7 +26,7 @@
       @sizeChange="changePageSize"
       @pageChange="changePage"
       :total="listData.paginator.totalCount"
-      :currentPage="listParams.page"
+      :currentPage="listParams.currentPage"
       :pageSize="listParams.pageSize"
       :data="listData.list"
       :loading="isListDataLoading"
@@ -54,13 +54,14 @@
 </template>
 
 <script>
+import _ from "lodash";
 import { judgeAuth } from "@/util/util.js";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 const defaultFormData = {
-  param_1: null,
-  param_2: null
+  param_1: "",
+  param_2: ""
 };
 const defaultListParams = {
   pageSize: 20,
@@ -139,11 +140,10 @@ export default {
   methods: {
     _filter() {
       if (!_.isEqual(this.form, this.diff_form)) {
-        this.listParams = [...defaultListParams];
-        this.diff_form = _.clone(this.form);
+        this.diff_form = _.clone(Object.assign({},this.form))
+        this.listParams = _.clone(Object.assign({},defaultListParams))
       }
-      let obj = _.clone({ ...this.form, ...this.listParams });
-      return obj;
+      return _.clone(Object.assign({},this.form,this.listParams))
     },
     clearListParams() {
       this.form = { ...defaultFormData };
@@ -181,18 +181,17 @@ export default {
       }
     },
     async getListData() {
-      let obj = this._filter();
+      let obj = this._filter();       
       this.isListDataLoading = true;
-      const response = await this.$api.getShipperManageList(obj);
+      const res = await this.$api.getShipperManageList(obj);
       this.isListDataLoading = false;
-      switch (response.code) {
+      switch (res.code) {
         case Dict.SUCCESS:
-          debugger
-          this.listData = response.data;
+          this.listData = res.data;
           break;
         default:
           this.listData = { ...defaultListData };
-          this.$Message.error(response.errMsg);
+          this.$Message.error(res.errMsg);
           break;
       }
     },

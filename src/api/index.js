@@ -139,7 +139,6 @@ const fetch = (url, params, methods = 'post') => {
     if (params !== undefined && params.offset !== undefined && params.limit !== undefined) {
         params.offset = (params.offset - 1) * params.limit;
     }
-    debugger;
     const mock = isMock({ url, params, methods });
     if (env == 'development' && mock.isMock === true) {
         return new Promise((resolve) => {

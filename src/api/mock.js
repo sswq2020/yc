@@ -69,7 +69,8 @@ const roleList = {
 };
 
 const shipperManageList = {
-    "id|+1": "65756713724569",
+    "id|+1": "@INTEGER(1,2019690999)",
+    "mock1": "12344435", //业务单号
     "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
     "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
     "mock4": "@float(200,999)", // 金额(元)
