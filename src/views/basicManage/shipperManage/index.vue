@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle">
-      <el-button class="hlB_buts" size="small" @click icon="el-icon-download">新增</el-button>
+      <el-button class="hlB_buts" size="small" @click="add" icon="el-icon-download">新增</el-button>
     </hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
@@ -43,12 +43,20 @@
           <span>{{listData.list[scope.$index][item.prop]}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
-          <template slot-scope="scope">
-            <el-button type="text" @click="deleteItem(listData.list[scope.$index])">审核详情</el-button>
-          </template>
+      <el-table-column label="操作" fixed="right" width="120px" align="center">
+        <template slot-scope="scope">
+          <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
+          <el-button type="text" @click="deleteItem(listData.list[scope.$index])">删除</el-button>
+        </template>
       </el-table-column>
     </heltable>
+    <shipperformModal
+      ref="modal"
+      :loading="isEditLoading"
+      :isEdit="isEdit"
+      :confirmCb="pass"
+      :shipperObj="shipperObj"
+    ></shipperformModal>
   </div>
 </template>
 
@@ -58,6 +66,7 @@ import { judgeAuth } from "@/util/util.js";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import shipperformModal from "./shipperformModal.vue";
 const defaultFormData = {
   param_1: "",
   param_2: ""
@@ -118,7 +127,8 @@ export default {
   name: "shipperManage",
   components: {
     heltable,
-    hlBreadcrumb
+    hlBreadcrumb,
+    shipperformModal
   },
   data() {
     return {
@@ -132,8 +142,14 @@ export default {
       // #region 表格相关
       isListDataLoading: false,
       isdeleteLoading: false,
+      isEditLoading: false,
       tableHeader: defaulttableHeader,
-      showOverflowTooltip: true
+      showOverflowTooltip: true,
+      // #endgion
+
+      // #region 弹窗相关
+      isEdit: false,
+      shipperObj: null
       // #endgion
     };
   },
@@ -160,13 +176,15 @@ export default {
       this.getListData();
     },
     deleteItem(obj) {
-      let that = this
+      let that = this;
       const { id } = obj;
-      that.$confirm(`此操作将永久删除${obj.mock1}, 是否继续?`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(async () => {
+      that
+        .$confirm(`此操作将永久删除${obj.mock1}, 是否继续?`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(async () => {
           const response = await that.$api.deleteShipper({ id });
           switch (response.code) {
             case Dict.SUCCESS:
@@ -174,10 +192,34 @@ export default {
               that.getListData();
               break;
             default:
-              that.$Message.error(response.errMsg);
+              that.$message(response.errMsg);
               break;
           }
-        })
+        });
+    },
+    editItem(obj) {
+      this.isEdit = true;
+      this.shipperObj = obj;
+      this.$refs.modal.open();
+    },
+    add() {
+      this.isEdit = false;
+      this.shipperObj = null;
+      this.$refs.modal.open();
+    },
+    async pass(obj) {
+      const serve = this.isEdit ? "updateShipper" : "createShipper";
+      const response = await this.$api[serve]({ ...obj});
+      switch (response.code) {
+        case Dict.SUCCESS:
+          this.$message(`${this.isEdit ? "修改" : "新增"}成功`);
+          this.$refs.modal.cancle();
+          this.getListData();
+          break;
+        default:
+          this.$message(response.errMsg);
+          break;
+      }
     },
     async getListData() {
       let obj = this._filter();

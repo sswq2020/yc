@@ -144,35 +144,6 @@ const detailList = {
 
 const mockRouterMap = {
     [hostList.default]: [
-        // #region  查询公司账户所有信息
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: 'payacc/web/bankAccount/all/hlet',
-            result() {
-                return {
-                    ...body,
-                    "data": {
-                        "162865482049781760": {
-                            "accName": "惠龙易通国际物流股份有限公司涟水分公司",
-                            "accNo": "32050172763600001605",
-                            "accountId": "162865482049781760",
-                            "bankName": "建设银行",
-                            "branchName": "建设银行",
-                            "createdBy": "system",
-                            "createdTime": "2019-05-23 08:22:14.0",
-                            "shortName": "涟水1605",
-                            "ubankNo": "105100000017",
-                            "updatedBy": "system",
-                            "updatedTime": "2019-05-23 10:07:39.0",
-                            "version": "1"
-                        },
-                    },
-                };
-            }
-        },
-        // #endregion 
-
         // #region  查询货主管理列表
         {
             isMock: IS_MOCK,
@@ -210,6 +181,35 @@ const mockRouterMap = {
             }
         },
         // #endregion    
+
+        // #region  编辑货主
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/Shipper/update',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion    
+
+        // #region  新增货主
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/Shipper/create',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion    
+
+
+
 
         // #region  银行转账批量审核或者作废
         {
