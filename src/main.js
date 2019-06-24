@@ -8,8 +8,9 @@ import Hletong from 'hletong-ui'
 import 'hletong-ui/lib/hletong-ui.css'
 import './static/reset.css';
 import './static/common.css';
-import {router} from './router'
-import api from '@/api'
+import {router} from './router';
+import api from '@/api';
+import store from "./store";
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
@@ -19,5 +20,6 @@ Vue.prototype.$api = api;
 //将app挂载到window上面，可以使用router的方法和一些弹窗效果。
 window.VueApp = new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

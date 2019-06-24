@@ -50,23 +50,32 @@
         </template>
       </el-table-column>
     </heltable>
-    <shipperformModal
+    <!-- <shipperformModal
       ref="modal"
       :loading="isEditLoading"
       :isEdit="isEdit"
       :confirmCb="pass"
       :shipperObj="shipperObj"
-    ></shipperformModal>
+    ></shipperformModal> -->
+    <shipperformModalTest
+      ref="modal"
+      :loading="isEditLoading"
+      :isEdit="isEdit"
+      :confirmCb="pass"
+      :shipperObj="shipperObj"
+    ></shipperformModalTest>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 import _ from "lodash";
 import { judgeAuth } from "@/util/util.js";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import shipperformModal from "./shipperformModal.vue";
+import shipperformModalTest from "./shipperformModalTest.vue";
 const defaultFormData = {
   param_1: "",
   param_2: ""
@@ -128,7 +137,8 @@ export default {
   components: {
     heltable,
     hlBreadcrumb,
-    shipperformModal
+    shipperformModal,
+    shipperformModalTest,
   },
   data() {
     return {
@@ -153,7 +163,9 @@ export default {
       // #endgion
     };
   },
+  computed: {...mapState('modal',['visible'])},
   methods: {
+    ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     _filter() {
       if (!_.isEqual(this.form, this.diff_form)) {
         this.diff_form = _.clone(Object.assign({}, this.form));
@@ -198,22 +210,27 @@ export default {
         });
     },
     editItem(obj) {
-      this.isEdit = true;
+      // this.isEdit = true;
+      // this.shipperObj = obj;
+      // this.$refs.modal.open();
+      this.SET_MODAL_VISIBLE(true);
       this.shipperObj = obj;
-      this.$refs.modal.open();
     },
     add() {
-      this.isEdit = false;
-      this.shipperObj = null;
-      this.$refs.modal.open();
+      // this.isEdit = false;
+      // this.shipperObj = null;
+      // this.$refs.modal.open();
+      this.SET_MODAL_VISIBLE(true);
     },
     async pass(obj) {
+      console.log(obj);
       const serve = this.isEdit ? "updateShipper" : "createShipper";
       const response = await this.$api[serve]({ ...obj});
       switch (response.code) {
         case Dict.SUCCESS:
           this.$message(`${this.isEdit ? "修改" : "新增"}成功`);
-          this.$refs.modal.cancle();
+          // this.$refs.modal.cancle();
+          this.SET_MODAL_VISIBLE(false);
           this.getListData();
           break;
         default:
