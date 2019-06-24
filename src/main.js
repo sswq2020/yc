@@ -17,6 +17,8 @@ Vue.use(ElementUI);
 Vue.use(Hletong);
 Vue.use(VueCropper);
 Vue.prototype.$api = api;
+
+
 //将app挂载到window上面，可以使用router的方法和一些弹窗效果。
 window.VueApp = new Vue({
   router,

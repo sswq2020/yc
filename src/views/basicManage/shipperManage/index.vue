@@ -244,15 +244,14 @@ export default {
         });
     },
     editItem(obj) {
-      // this.isEdit = true;
-      // this.shipperObj = obj;
+      this.isEdit = true;
+      this.shipperObj = obj;
       // this.$refs.modal.open();
       this.SET_MODAL_VISIBLE(true);
-      this.shipperObj = obj;
     },
     add() {
-      // this.isEdit = false;
-      // this.shipperObj = null;
+      this.isEdit = false;
+      this.shipperObj = null;
       // this.$refs.modal.open();
       this.SET_MODAL_VISIBLE(true);
     },
