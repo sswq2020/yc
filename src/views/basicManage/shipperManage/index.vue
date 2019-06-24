@@ -17,7 +17,12 @@
         </div>
       </div>
       <div class="form-item">
-        <el-button type="primary" :loading="isListDataLoading" @click="getListData" size="small">查询</el-button>
+        <el-button
+          type="primary"
+          :loading="isListDataLoading"
+          @click="getListDataByParams"
+          size="small"
+        >查询</el-button>
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
@@ -167,10 +172,6 @@ export default {
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     _filter() {
-      if (!_.isEqual(this.form, this.diff_form)) {
-        this.diff_form = _.clone(Object.assign({}, this.form));
-        this.listParams = _.clone(Object.assign({}, defaultListParams));
-      }
       return _.clone(Object.assign({}, this.form, this.listParams));
     },
     clearListParams() {
@@ -186,6 +187,39 @@ export default {
     changePageSize(pageSize) {
       this.listParams.pageSize = pageSize;
       this.getListData();
+    },
+    getListDataByParams() {
+      this.listParams = { ...defaultListParams };
+      this.getListData();
+    },
+    async pass(obj) {
+      const serve = this.isEdit ? "updateShipper" : "createShipper";
+      const response = await this.$api[serve]({ ...obj });
+      switch (response.code) {
+        case Dict.SUCCESS:
+          this.$message(`${this.isEdit ? "修改" : "新增"}成功`);
+          this.$refs.modal.cancle();
+          this.getListData();
+          break;
+        default:
+          this.$message(response.errMsg);
+          break;
+      }
+    },
+    async getListData() {
+      let obj = this._filter();
+      this.isListDataLoading = true;
+      const res = await this.$api.getShipperManageList(obj);
+      this.isListDataLoading = false;
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.listData = res.data;
+          break;
+        default:
+          this.listData = { ...defaultListData };
+          this.$Message.error(res.errMsg);
+          break;
+      }
     },
     deleteItem(obj) {
       let that = this;
@@ -222,37 +256,6 @@ export default {
       // this.$refs.modal.open();
       this.SET_MODAL_VISIBLE(true);
     },
-    async pass(obj) {
-      console.log(obj);
-      const serve = this.isEdit ? "updateShipper" : "createShipper";
-      const response = await this.$api[serve]({ ...obj});
-      switch (response.code) {
-        case Dict.SUCCESS:
-          this.$message(`${this.isEdit ? "修改" : "新增"}成功`);
-          // this.$refs.modal.cancle();
-          this.SET_MODAL_VISIBLE(false);
-          this.getListData();
-          break;
-        default:
-          this.$message(response.errMsg);
-          break;
-      }
-    },
-    async getListData() {
-      let obj = this._filter();
-      this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(obj);
-      this.isListDataLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.listData = res.data;
-          break;
-        default:
-          this.listData = { ...defaultListData };
-          this.$Message.error(res.errMsg);
-          break;
-      }
-    },
     needfixed(fixed) {
       if (!fixed) {
         return false;
@@ -281,9 +284,6 @@ export default {
   },
   mounted() {
     this.init();
-  },
-  created() {
-    this.diff_form = { ...defaultFormData };
   }
 };
 </script>
