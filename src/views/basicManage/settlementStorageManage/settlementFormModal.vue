@@ -2,7 +2,7 @@
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item label="交割库名称" prop="mock1">
-        <el-input v-model="form.mock1" maxlength="20"></el-input>
+        <el-input v-model="form.mock1" maxlength="20"  placeholder="请输入"></el-input>
       </el-form-item>
       <div class="two-form-item">
         <el-form-item label="交割库地址" prop="mock2">
@@ -11,13 +11,11 @@
           </el-select>
         </el-form-item>
         <el-form-item prop="mock3" label-width="0">
-          <el-input v-model="form.mock3" maxlength="50"></el-input>
+          <el-input v-model="form.mock3" maxlength="50"  placeholder="请输入"></el-input>
         </el-form-item>
       </div>
       <el-form-item label="交割库容量" prop="mock4">
-        <InputNumber v-model="form.mock4"  :precision="3" :max="10"/>
-        <!-- <el-input-number v-model="form.mock4" controls-position="right" :precision="3" :min="1" :max="10"></el-input-number> -->
-        <!-- <el-input v-model="form.mock4" maxlength="10"></el-input> -->
+        <InputNumber v-model="form.mock4"  :precision="3" :max="10"  placeholder="请输入"/>
       </el-form-item>
       <el-form-item label="交割库类型" prop="mock5">
         <el-select v-model="form.mock5" placeholder="请选择">
@@ -25,10 +23,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="负责人" prop="mock6">
-        <el-input v-model="form.mock6" maxlength="20"></el-input>
+        <el-input v-model="form.mock6" maxlength="10"  placeholder="请输入"></el-input>
       </el-form-item>
-      <el-form-item label="联系电话" prop="mock7" maxlength="20">
-        <el-input v-model="form.mock7"></el-input>
+      <el-form-item label="联系电话" prop="mock7" maxlength="30">
+        <el-input v-model="form.mock7"  placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="仓管人员" prop="mock8">
         <el-select v-model="form.mock8" placeholder="请选择" multiple >
@@ -91,7 +89,6 @@ export default {
         mock5: [{ required: true, message: "请选择交割库类型", trigger: "blur" }],
         mock6: [{ required: true, message: "请输入负责人姓名", trigger: "blur" }],
         mock7: [{ required: true, message: "请输入负责人联系电话", trigger: "blur" }],
-        mock8: [{ required: true, message: "请选择仓管人员", trigger: "blur" }],
       },
       addressList: [{
           value: '选项1',
@@ -136,18 +133,10 @@ export default {
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     cancle() {
-      this.$message({
-        type: 'error',
-        message: 'error',
-        duration: 5000,
-        showClose: true
-      });
-      // this.SET_MODAL_VISIBLE(false);
-      
+      this.SET_MODAL_VISIBLE(false);
     },
     confirm() {
       let that = this;
-      
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           let parmas = JSON.parse(JSON.stringify(that.form));
@@ -161,7 +150,6 @@ export default {
   },
   watch: {
     visible(newV, oldV) {
-      console.log(newV);
       if (newV) {
         this.form = this.isEdit ? {...this.editObj} : {...defaultForm}
       }else{

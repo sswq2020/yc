@@ -1,5 +1,5 @@
 <template>
-  <el-input-number class="input-number" :value="value" @change="change" controls-position="right" :precision="3" :min="min" :max="max"></el-input-number>
+  <el-input-number class="input-number" :value="value" @change="change" controls-position="right" :precision="precision" :min="min" :max="max" :placeholder="placeholder"></el-input-number>
 </template>
 
 <script>
@@ -14,6 +14,10 @@ export default {
     precision: {
       type: Number,
       default: 2
+    },
+    placeholder: {
+       type: String,
+      default: '请输入'
     },
     min: Number,
     max: Number

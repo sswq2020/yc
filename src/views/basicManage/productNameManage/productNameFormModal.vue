@@ -1,20 +1,16 @@
 <template>
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="手机号码" prop="mock1">
-        <el-input v-model="form.mock1"></el-input>
+      <el-form-item label="大类" prop="mock1">
+        <el-select v-model="form.mock1" placeholder="请选择">
+          <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="货主名称" prop="mock2">
-        <el-input v-model="form.mock2"></el-input>
+      <el-form-item label="品名代码" prop="mock2">
+        <el-input v-model="form.mock2" maxlength="20"  placeholder="请输入"></el-input>
       </el-form-item>
-      <el-form-item label="社会统一信用代码" prop="mock3">
-        <el-input v-model="form.mock3"></el-input>
-      </el-form-item>
-      <el-form-item label="联系人" prop="mock4">
-        <el-input v-model="form.mock4"></el-input>
-      </el-form-item>
-      <el-form-item label="联系电话" prop="mock5">
-        <el-input v-model="form.mock5"></el-input>
+      <el-form-item label="品名" prop="mock3">
+        <el-input v-model="form.mock3" maxlength="20"  placeholder="请输入"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -25,16 +21,14 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  mock1:null,
-  mock2:null,
-  mock3:null,
-  mock4:null,
-  mock5:null
+  mock1: '',
+  mock2: '',
+  mock3: '',
 }
 export default {
-  name: "shipperformModalTest",
+  name: "productNameFormModal",
   props: {
     isEdit: {
       type: Boolean,
@@ -48,7 +42,7 @@ export default {
       type: Function,
       default: () => {}
     },
-    shipperObj:{
+    editObj:{
       type: Object,
       default: () => {}
     }
@@ -58,18 +52,25 @@ export default {
     return {
       form:{...defaultForm},
       rules: {
-        mock1: [{ required: true, message: "请输入手机号码", trigger: "blur" }],
-        mock2: [{ required: true, message: "请输入货主名称", trigger: "blur" }],
-        mock3: [{ required: true, message: "请输入社会统一信用代码", trigger: "blur" }],
-        mock4: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
-        mock5: [{ required: true, message: "请输入联系电话", trigger: "blur" }]
-      }
+        mock1: [{ required: true, message: "请选择大类", trigger: "blur" }],
+        mock2: [{ required: true, message: "请输入品名代码", trigger: "blur" }],
+        mock3: [{ required: true, message: "请输入品名", trigger: "blur" }],
+      },
+      addressList: [
+        {
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }
+      ],
     };
   },
   computed: {
     ...mapState('modal', ['visible']),
     title() {
-      return this.isEdit ? "编辑货主" : "新增货主";
+      return this.isEdit ? "编辑区桩位" : "新增区桩位";
     }
   },
   methods: {
@@ -88,21 +89,31 @@ export default {
           return false;
         }
       });
-    }
+    },
   },
   watch: {
     visible(newV, oldV) {
       if (newV) {
-        this.form = this.isEdit ? {...this.shipperObj} : {...defaultForm}
+        console.log(this.editObj);
+        this.form = this.isEdit ? {...this.editObj} : {...defaultForm}
       }else{
         this.$refs.ruleForm.clearValidate();
       }
     }
-  },
-  mounted() {
-    console.log(this.visible);
   }
 };
 </script>
 <style scoped lang="less">
+.two-form-item {
+  display: flex;
+  :first-child.el-form-item {
+    margin-right: 10px; 
+  }
+  :last-child.el-form-item {
+    margin-left: 10px;
+  }
+}
+.el-select {
+  width: 100%;
+}
 </style>

@@ -23,7 +23,7 @@ export default {
     }
   }
   #app {
-    font-family:'Microsoft YaHei';
+    font-family:'Microsoft YaHei, Arial';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #000;

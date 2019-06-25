@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <HLBreadcrumb :data="breadTitle">
-      <el-button class="hlB_buts" size="small" @click="add" icon="el-icon-download">新增</el-button>
+      <el-button type="primary" size="small" @click="add" icon="el-icon-plus">新增</el-button>
     </HLBreadcrumb>
     <div class="search-box">
       <div class="form-item">
@@ -13,13 +13,17 @@
       <div class="form-item">
         <label>交割库地址</label>
         <div class="form-control">
-          <el-input v-model="listParams.address" placeholder="请输入" size="small"></el-input>
+          <el-select v-model="listParams.address" placeholder="请选择">
+            <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
         </div>
       </div>
       <div class="form-item">
         <label>交割库类型</label>
         <div class="form-control">
-          <el-input v-model="listParams.type" placeholder="请输入" size="small"></el-input>
+          <el-select v-model="listParams.type" placeholder="请选择">
+            <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
         </div>
       </div>
       <div class="form-item">
@@ -58,7 +62,7 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="deleteItem(listData.list[scope.$index])">删除</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.status === 1 ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
     </HLtable>
@@ -148,7 +152,9 @@ export default {
       },
       isEdit: false,
       isEditLoading: false,
-      editObj: {}
+      editObj: {},
+      addressList: [],
+      typeList: []
     }
   },
   methods: {
@@ -163,7 +169,7 @@ export default {
           break;
         default:
           this.listData = { ...defaultListData };
-          this.$Message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
@@ -188,15 +194,16 @@ export default {
       this.SET_MODAL_VISIBLE(true);
     },
     editItem(obj) {
-      console.log(obj);
       this.isEdit = true;
       this.editObj = obj;
       this.SET_MODAL_VISIBLE(true);
     },
-    deleteItem(obj) {
+    forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id } = obj;
-      this.$confirm(`此操作将永久删除${obj.mock1}, 是否继续?`, "提示", {
+      const { id, status } = obj;
+      const operationText = status === 1 ? '禁用' : '激活';
+      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
+      this.$confirm(`确定要确定要${operationText}交割库${obj.mock1}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -205,11 +212,11 @@ export default {
         const response = await that.$api.deleteShipper({ id });
         switch (response.code) {
           case Dict.SUCCESS:
-            that.$message("删除成功");
-            that.getListData();
+            that.$messageSuccess(`${operationText}成功`);
+            that.getList();
             break;
           default:
-            that.$message(response.errMsg);
+            that.$message(`${operationText}失败，${response.errMsg}`);
             break;
         }
       });

@@ -5,16 +5,16 @@
         <el-input v-model="form.mock1"></el-input>
       </el-form-item>
       <el-form-item label="货主名称" prop="shomock2tName">
-        <el-input v-model="form.mock2"></el-input>
+        <el-input v-model="form.mock2" maxlength="50"></el-input>
       </el-form-item>
       <el-form-item label="社会统一信用代码" prop="mock3">
-        <el-input v-model="form.mock3"></el-input>
+        <el-input v-model="form.mock3" maxlength="25"></el-input>
       </el-form-item>
       <el-form-item label="联系人" prop="mock4">
-        <el-input v-model="form.mock4"></el-input>
+        <el-input v-model="form.mock4" maxlength="10"></el-input>
       </el-form-item>
       <el-form-item label="联系电话" prop="mock5">
-        <el-input v-model="form.mock5"></el-input>
+        <el-input v-model="form.mock5" maxlength="30"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

@@ -12,11 +12,24 @@ import {router} from './router';
 import api from '@/api';
 import store from "./store";
 
+
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(Hletong);
 Vue.use(VueCropper);
 Vue.prototype.$api = api;
+
+Vue.prototype.$messageError = content => Vue.prototype.$message({
+  message: content,
+  type: 'error',
+  duration: 2000
+});
+
+Vue.prototype.$messageSuccess = content => Vue.prototype.$message({
+  message: content,
+  type: 'success',
+  duration: 5000
+});
 
 
 //将app挂载到window上面，可以使用router的方法和一些弹窗效果。

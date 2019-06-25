@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle">
-      <el-button class="hlB_buts" size="small" @click="add" icon="el-icon-download">新增</el-button>
+      <el-button type="primary" size="small" @click="add" icon="el-icon-plus">新增</el-button>
     </hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
@@ -217,7 +217,7 @@ export default {
           break;
         default:
           this.listData = { ...defaultListData };
-          this.$Message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
