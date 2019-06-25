@@ -9,6 +9,12 @@ const SettlementStorageManage = () => import('@/views/basicManage/settlementStor
 const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 const SpecificationManage = () => import('@/views/basicManage/specificationManage/index')
 
+const EnterStorageDetail = () => import('@/views/warehouseManage/enterStorageDetail/index')
+const OuterStorageDetail = () => import('@/views/warehouseManage/outerStorageDetail/index')
+const PledgeDetail = () => import('@/views/warehouseManage/pledgeDetail/index')
+const ReleasePledgeDetail = () => import('@/views/warehouseManage/releasePledgeDetail/index')
+const TransferOwnershipDetail = () => import('@/views/warehouseManage/transferOwnershipDetail/index')
+
 Vue.use(Router)
 
 let globelRoutes = [
@@ -73,8 +79,32 @@ let commonRoutes = {
             path: '/web/settlement/pageList/specificationManage',
             name: 'specificationManage',
             component: SpecificationManage
-        }                                    
-
+        },  
+        {
+            path: '/web/settlement/pageList/enterStorageDetail',
+            name: 'enterStorageDetail',
+            component: EnterStorageDetail
+        },  
+        {
+            path: '/web/settlement/pageList/outerStorageDetail',
+            name: 'outerStorageDetail',
+            component: OuterStorageDetail
+        },  
+        {
+            path: '/web/settlement/pageList/pledgeDetail',
+            name: 'pledgeDetail',
+            component: PledgeDetail
+        },  
+        {
+            path: '/web/settlement/pageList/releasePledgeDetail',
+            name: 'releasePledgeDetail',
+            component: ReleasePledgeDetail
+        },  
+        {
+            path: '/web/settlement/pageList/transferOwnershipDetail',
+            name: 'transferOwnershipDetail',
+            component: TransferOwnershipDetail
+        }, 
     ]
 }
 
