@@ -15,6 +15,8 @@ const PledgeDetail = () => import('@/views/warehouseManage/pledgeDetail/index')
 const ReleasePledgeDetail = () => import('@/views/warehouseManage/releasePledgeDetail/index')
 const TransferOwnershipDetail = () => import('@/views/warehouseManage/transferOwnershipDetail/index')
 
+const InventoryTable = () => import('@/views/warehouseManage/inventoryManage/inventoryTable.vue')
+
 Vue.use(Router)
 
 let globelRoutes = [
@@ -84,6 +86,11 @@ let commonRoutes = {
             path: '/web/settlement/pageList/enterStorageDetail',
             name: 'enterStorageDetail',
             component: EnterStorageDetail
+        },  
+        {
+            path: '/web/settlement/pageList/inventoryTable',
+            name: 'inventoryTable',
+            component: InventoryTable
         },  
         {
             path: '/web/settlement/pageList/outerStorageDetail',

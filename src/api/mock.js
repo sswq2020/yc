@@ -142,6 +142,10 @@ const detailList = {
     balance: "@INTEGER(90000,2019690999)",// 余额
 }
 
+const MockRole = {
+    role: "@PICK('1','2')"  // 货主 1,仓管员 2
+}
+
 const mockRouterMap = {
     [hostList.default]: [
         // #region  查询货主管理列表
@@ -167,7 +171,6 @@ const mockRouterMap = {
             }
         },
         // #endregion 
-
 
         // #region  删除货主
         {
@@ -208,8 +211,69 @@ const mockRouterMap = {
         },
         // #endregion    
 
+        // #region  获取用户信息
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: '/system/manage/user/getUser',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        avatar: "https://file.hletong.com/group1/M00/00/00/CgESM10JhOeAMwkYAACpkiPEWEc863.png?token=0175c2599f38e9285a5c46f9aa563460&ts=1561431795",
+                        createdBy: "admin",
+                        createdTime: "2019-06-24 08:41:15.0",
+                        email: "",
+                        locked: 1,
+                        password: "92bf7f66349ac7c8ede0aedc81f41a663c720a4510dd032991f985983dd976e5",
+                        phone: "18652860219",
+                        realname: "施少伟奇",
+                        updatedBy: "admin",
+                        updatedTime: "2019-06-24 08:41:15.0",
+                        userId: "174466677793095680",
+                        username: "18652860219",
+                        version: "1"
+                    }
+                };
+            }
+        },
+        // #endregion    
 
+        // #region  获取用户系统跳转
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: '/system/manage/user/getSystems',
+            result() {
+                return {
+                    ...body,
+                    "data": [
+                        {
+                            "path": "https://pay.hletong.com",
+                            "systemCode": "cwzx",
+                            "systemId": "166948708439556096",
+                            "systemName": "惠龙云仓"
+                        }],
+                }
+            }
+        },
+        // #endregion    
 
+        // #region  获取用户角色
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: '/system/manage/user/getUserRole',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        role: MockRole
+                    }
+                };
+            }
+        },
+        // #endregion   
 
         // #region  银行转账批量审核或者作废
         {
