@@ -361,6 +361,14 @@ export default {
 
     // #endregion
 
+    // #region 根据userId判断角色是货主还是仓库管理人员
+        getUserRole(userId){
+            return fetch('/system/manage/user/getUserRole', { userId: userId }, 'get')            
+        },
+
+    // #endregion
+
+
     // #region  字典项
     /**
      * @author sswq
