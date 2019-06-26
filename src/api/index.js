@@ -327,6 +327,12 @@ export default {
         // return formDataRequest(`${validUrl}/mc-client/sms/template/smsService/verifiCode`, params)
         return formDataRequest(`/sms/mc-client/sms/template/smsService/verifiCode`, params)
     },
+    // #region 根据userId判断角色是货主还是仓库管理人员
+    getUserRole(userId){
+        return fetch('/system/manage/user/getUserRole', { userId }, 'get')            
+    },
+    // #endregion
+
     // #region  基础信息
     /**
      * @author sswq
@@ -358,18 +364,16 @@ export default {
     updateShipper(params) {
         return fetch(storageURL + '/web/Shipper/update', params)
     },    
-
     // #endregion
-
-    // #region 根据userId判断角色是货主还是仓库管理人员
-        getUserRole(userId){
-            return fetch('/system/manage/user/getUserRole', { userId: userId }, 'get')            
-        },
-
-    // #endregion
-
 
     // #region  字典项
+    /**
+     * @author sswq
+     * @description 查询所有基础信息下拉数据源
+     * */
+    getAllBaseInfo() {
+        return fetch(storageURL + '/web/systemData/getAllBaseInfo', '', 'get')
+    },
     /**
      * @author sswq
      * @description 数据来源
