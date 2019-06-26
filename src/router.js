@@ -10,6 +10,8 @@ const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 const SpecificationManage = () => import('@/views/basicManage/specificationManage/index')
 
 const EnterStorageDetail = () => import('@/views/warehouseManage/enterStorageDetail/index')
+const EnterStorageRegister = () => import('@/views/warehouseManage/enterStorageDetail/enterStorageRegister.vue')
+
 const OuterStorageDetail = () => import('@/views/warehouseManage/outerStorageDetail/index')
 const PledgeDetail = () => import('@/views/warehouseManage/pledgeDetail/index')
 const ReleasePledgeDetail = () => import('@/views/warehouseManage/releasePledgeDetail/index')
@@ -86,7 +88,12 @@ let commonRoutes = {
             path: '/web/settlement/pageList/enterStorageDetail',
             name: 'enterStorageDetail',
             component: EnterStorageDetail
-        },  
+        }, 
+        {
+            path: '/web/settlement/pageList/enterStorageDetail/register',
+            name: 'enterStorageRegister',
+            component: EnterStorageRegister
+        },        
         {
             path: '/web/settlement/pageList/inventoryTable',
             name: 'inventoryTable',
