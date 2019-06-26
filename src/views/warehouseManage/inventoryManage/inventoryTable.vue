@@ -1,16 +1,16 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle">
-      <el-button class="hlB_buts" size="small" icon="el-icon-download" @click="GoEnterRegister">入库登记</el-button>
+      <el-button class="hlB_buts" size="small" icon="el-icon-download"  v-if="!IS_SHIPPER" @click="GoEnterRegister">入库登记</el-button>
       <el-button class="hlB_buts" size="small" icon="el-icon-bank-card">出库登记</el-button>
-      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card">过户</el-button>
-      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card">冻结</el-button>
-      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card">解冻</el-button>
+      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card" v-if="!IS_SHIPPER">过户</el-button>
+      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card" v-if="!IS_SHIPPER">冻结</el-button>
+      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card" v-if="!IS_SHIPPER">解冻</el-button>
     </hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>货主</label>
-        <div class="form-control">
+        <div class="form-control" v-if="!IS_SHIPPER">
           <el-select v-model="form.param_1" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in ShipperList"
@@ -19,6 +19,9 @@
               :value="item.value"
             ></el-option>
           </el-select>
+        </div>
+        <div class="form-control" v-if="IS_SHIPPER">
+          <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -139,7 +142,8 @@ const defaultFormData = {
   param_2: "",
   param_3: "",
   param_4: "",
-  param_5: ""
+  param_5: "",
+  param_6: "",
 };
 const defaultListParams = {
   pageSize: 20,
@@ -270,6 +274,10 @@ export default {
   },
   methods: {
     _filter() {
+      if(this.IS_SHIPPER) {
+        this.form.param_1 = this.userId;
+      }
+      console.log(this.form);
       return _.clone(Object.assign({}, this.form, this.listParams));
     },
     clearListParams() {

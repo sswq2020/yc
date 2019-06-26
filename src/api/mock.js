@@ -181,7 +181,7 @@ const mockRouterMap = {
                 return {
                     ...body,
                     data: {
-                        role: MockRole
+                        ...MockRole
                     }
                 };
             }
