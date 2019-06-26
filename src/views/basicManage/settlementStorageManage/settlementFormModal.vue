@@ -44,6 +44,7 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 import InputNumber from '@/components/inputNumber.vue';
+import { phoneValidation } from '@/util/reg.js';
 const defaultForm = {
   mock1: '',
   mock2: '',
@@ -53,6 +54,16 @@ const defaultForm = {
   mock6: '',
   mock7: '',
   mock8: [],
+}
+
+const checkPhone = (rule, value, callback) => {
+  if(!value) {
+    callback(new Error('请输入负责人联系电话'));
+  } else if (!phoneValidation(value)) {
+     callback(new Error('格式错误，请输入正确格式的联系电话'));
+  } else {
+    callback();
+  }
 }
 export default {
   name: "settlementFormModal",
@@ -88,7 +99,7 @@ export default {
         mock4: [{ required: true, message: "请输入交割库容量", trigger: "blur" }],
         mock5: [{ required: true, message: "请选择交割库类型", trigger: "blur" }],
         mock6: [{ required: true, message: "请输入负责人姓名", trigger: "blur" }],
-        mock7: [{ required: true, message: "请输入负责人联系电话", trigger: "blur" }],
+        mock7: [{ required: true, validator: checkPhone,  trigger: "blur" }],
       },
       addressList: [{
           value: '选项1',

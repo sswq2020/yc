@@ -59,9 +59,7 @@ export default {
       form:{...defaultForm},
       rules: {
         mock1: [{ required: true, message: "请输入账户简称", trigger: "blur" }],
-        mock2: [
-          { required: true, message: "请输入银行账户名", trigger: "blur" }
-        ],
+        mock2: [{ required: true, message: "请输入银行账户名", trigger: "blur" }],
         mock3: [{ required: true, message: "银行账户号", trigger: "blur" }],
         mock4: [{ required: true, message: "请选择开户银行", trigger: "blur" }],
         mock5: [{ required: true, message: "开户支行/分理处", trigger: "blur" }]

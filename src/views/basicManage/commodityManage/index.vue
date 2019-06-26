@@ -73,7 +73,6 @@
       :confirmCb="modalConfirm"
     />
   </div>
-  
 </template>
 
 <script>

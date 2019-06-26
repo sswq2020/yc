@@ -1,29 +1,9 @@
 <template>
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="大类" prop="mock1">
-        <el-select v-model="form.mock1" placeholder="请选择">
-          <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="品名" prop="mock2">
-        <el-select v-model="form.mock2" placeholder="请选择">
-          <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="材质" prop="mock3">
-        <el-select v-model="form.mock3" placeholder="请选择">
-          <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="规格" prop="mock4">
-        <el-select v-model="form.mock4" placeholder="请选择">
-          <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="产地" prop="mock5">
-        <el-select v-model="form.mock5" placeholder="请选择">
-          <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+      <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
+        <el-select v-model="form[item.prop]" placeholder="请选择">
+          <el-option v-for="optionItem in item.option" :key="optionItem.value" :label="optionItem.label" :value="optionItem.value"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -43,6 +23,15 @@ const defaultForm = {
   mock4: '',
   mock5: '',
 }
+const list = [
+  {
+    value: '选项1',
+    label: '黄金糕'
+  }, {
+    value: '选项2',
+    label: '双皮奶'
+  }
+];
 export default {
   name: "commodityFormModal",
   props: {
@@ -62,26 +51,43 @@ export default {
       type: Object,
       default: () => {}
     }
-    
   },
   data() {
     return {
       form:{...defaultForm},
+      formItem: [
+        {
+          label: '大类',
+          prop: 'mock1',
+          option: list
+        },
+        {
+          label: '品名',
+          prop: 'mock2',
+          option: list
+        },
+        {
+          label: '材质',
+          prop: 'mock3',
+          option: list
+        },
+        {
+          label: '规格',
+          prop: 'mock4',
+          option: list
+        },
+        {
+          label: '产地',
+          prop: 'mock5',
+          option: list
+        }
+      ],
       rules: {
         mock2: [{ required: true, message: "请选择品名", trigger: "blur" }],
         mock3: [{ required: true, message: "请选择材质", trigger: "blur" }],
         mock4: [{ required: true, message: "请选择规格", trigger: "blur" }],
         mock5: [{ required: true, message: "请选择产地", trigger: "blur" }]
-      },
-      addressList: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }
-      ],
+      }
     };
   },
   computed: {
@@ -100,6 +106,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           let parmas = JSON.parse(JSON.stringify(that.form));
+          console.log(parmas);
           that.confirmCb(parmas);
         } else {
           console.log("error submit!!");
