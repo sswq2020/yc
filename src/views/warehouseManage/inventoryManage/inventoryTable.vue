@@ -2,8 +2,8 @@
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle">
       <el-button class="hlB_buts" size="small" icon="el-icon-download"  v-if="!IS_SHIPPER" @click="GoEnterRegister">入库登记</el-button>
-      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card">出库登记</el-button>
-      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card" v-if="!IS_SHIPPER">过户</el-button>
+      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card" :disabled="!equalShipperItems" >出库登记</el-button>
+      <el-button class="hlB_buts" size="small" icon="el-icon-bank-card" :disabled="!equalShipperItems" v-if="!IS_SHIPPER" @click="()=>{this.batchTransferOwnershipVisible = true}">过户</el-button>
       <el-button class="hlB_buts" size="small" icon="el-icon-bank-card" v-if="!IS_SHIPPER">冻结</el-button>
       <el-button class="hlB_buts" size="small" icon="el-icon-bank-card" v-if="!IS_SHIPPER">解冻</el-button>
     </hlBreadcrumb>
@@ -124,18 +124,28 @@
         </template>
       </el-table-column>
     </heltable>
+    <transitiondialog
+      :data="selectedItems"
+      :tableHeader="tableHeader.slice(0,8)"
+      :confirmCb="batchTransferOwnership"
+      :visible="batchTransferOwnershipVisible"
+      :loading="isbatchTransferOwnershipLoading"
+      :cancelCb="()=>{this.batchTransferOwnershipVisible = false}"
+      :title="titles[0]">
+    </transitiondialog>
   </div>
 </template>
 
 <script>
 // import NP from "number-precision";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
 // import { judgeAuth } from "@/util/util.js";
 import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import transitiondialog from "@/components/transitiondialog";
 
 const defaultFormData = {
   param_1: "",
@@ -178,8 +188,8 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "mock6",
-    label: "层数",
+    prop: "shipper",
+    label: "货主",
     width: "180"
   },
   {
@@ -245,21 +255,24 @@ const defaulttableHeader = [
 ];
 export default {
   name: "inventoryTable",
-  computed: {
-    ...mapState("app", ["role", "userId", "username"]),
-    IS_SHIPPER() {
-      return this.role === "1";
-    }
-  },
   mixins: [baseMixin],
   components: {
     heltable,
-    hlBreadcrumb
+    hlBreadcrumb,
+    transitiondialog
   },
   data() {
     return {
       breadTitle: ["仓储管理", "库存表"],
-      isListDataLoading: false,
+      // #region 各种lodaing
+        isListDataLoading: false,
+        isbatchTransferOwnershipLoading: false,
+      // #endgion
+
+      // #region 各个弹窗的visible
+        batchTransferOwnershipVisible: false,
+      // #endgion
+
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
       form: { ...defaultFormData }, // 查询参数
@@ -269,15 +282,23 @@ export default {
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
       /*多选的row*/
-      selectedItems: []
+      selectedItems: [],
+      titles:['批量过户']
     };
+  },
+    computed: {
+    ...mapGetters("app", ["role", "userId", "username","IS_SHIPPER"]),
+    /**选中的必须是同一个货主才能出库和过户*/
+    equalShipperItems() {
+      let arr = this.selectedItems.map(item => item.shipper);
+      return new Set(arr).size === 1;
+    },
   },
   methods: {
     _filter() {
       if(this.IS_SHIPPER) {
         this.form.param_1 = this.userId;
       }
-      console.log(this.form);
       return _.clone(Object.assign({}, this.form, this.listParams));
     },
     clearListParams() {
@@ -297,7 +318,7 @@ export default {
     async getListData() {
       let obj = this._filter();
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(obj);
+      const res = await this.$api.getInventoryTable(obj);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -314,8 +335,11 @@ export default {
     },
     GoEnterRegister() {
       this.$router.push({
-        path: `/web/settlement/pageList/enterStorageDetail/register`
+        path: '/web/settlement/pageList/enterStorageDetail/register'
       });
+    },
+    batchTransferOwnership(){
+
     },
     init() {
       setTimeout(() => {

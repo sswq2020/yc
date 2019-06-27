@@ -105,7 +105,7 @@
         <div class="bottom">
           <el-form-item>
             <el-button type="primary">确定</el-button>
-            <el-button>取消</el-button>
+            <el-button @click="back">取消</el-button>
           </el-form-item>
         </div>  
       </el-form>
@@ -160,6 +160,13 @@ export default {
       form: { ...defualtFormParams },
       rules: { ...RULES }
     };
+  },
+  methods:{
+    back(){
+      this.$router.push({
+        path: '/web/settlement/pageList/inventoryTable'
+      });      
+    }
   }
 };
 </script>

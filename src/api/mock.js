@@ -47,6 +47,23 @@ const shipperManageList = {
     "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称
 }
 
+const InventoryTableList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "mock1": "12344435", //业务单号
+    "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
+    "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
+    "mock4": "@float(200,999)", // 金额(元)
+    "mock5": "@PICK(1,0)", // 数据来源
+    "shipper": "货主@PICK('1','2','3','4','5')", // 数据来源 名称
+    "mock6": "集配货运", // 数据来源 名称
+    "mock7": "惠龙易通@CITY()公司", // 转出账户名
+    "mock8": "65521464564654987654", // 转出账户号
+    "mock9": "@CNAME()", // 转入账户名 
+    "mock10": "65521464564654987654", // 转入账户号
+    "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称
+}
+
+
 const ShipperList = [{"0": "mock1"},{"1": "mock2"}]
 const SpecificationList = [{"0": "mock1"},{"1": "mock2"}]
 const MaterialList = [{"0": "mock1"},{"1": "mock2"}]
@@ -61,6 +78,8 @@ const MockRole = {
 
 const mockRouterMap = {
     [hostList.default]: [
+    // #region 基础信息
+
         // #region  查询货主管理列表
         {
             isMock: IS_MOCK,
@@ -123,6 +142,39 @@ const mockRouterMap = {
             }
         },
         // #endregion    
+    
+    // #endregion
+
+    // #region 仓储信息
+
+        // #region  获取库存表列表
+            {
+                isMock: IS_MOCK,
+                methods: 'post',
+                router: storageURL + '/web/settlement/pageList/InventoryTable',
+                result(params) {
+                    return {
+                        ...body,
+                        ...{
+                            data: {
+                                'list|10-20': [InventoryTableList],
+                                "paginator": {
+                                    "currentPage": params.page,
+                                    "pageSize": params.pageSize,
+                                    "totalCount": 1000,
+                                    "totalPage": 1000 / params.pageSize
+                                }
+                            },
+                        },
+                    };
+                }
+            },
+        // #endregion 
+        
+        
+    // #endregion
+
+    // #region 系统参数
 
         // #region  获取用户信息
         {
@@ -187,8 +239,10 @@ const mockRouterMap = {
             }
         },
         // #endregion   
+    
+    // #endregion
 
-        // #region  字典项
+    // #region  字典项
         {
             isMock: IS_MOCK,
             methods: 'get',
@@ -248,7 +302,7 @@ const mockRouterMap = {
                 };
             }
         },
-        // #endregion                 
+    // #endregion                 
     ]
 };
 

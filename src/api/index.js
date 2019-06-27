@@ -366,6 +366,18 @@ export default {
     },    
     // #endregion
 
+    // #refion 仓储管理
+    /**
+     * @author sswq
+     * @param params
+     * @description 查询库存表的详细
+     * */
+    getInventoryTable(params){
+        return fetch(storageURL + '/web/settlement/pageList/InventoryTable', params)          
+    },    
+    // #endregion
+
+
     // #region  字典项
     /**
      * @author sswq
