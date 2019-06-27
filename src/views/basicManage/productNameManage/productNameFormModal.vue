@@ -1,16 +1,11 @@
 <template>
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="大类" prop="mock1">
-        <el-select v-model="form.mock1" placeholder="请选择">
-          <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+      <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
+        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'">
+          <el-option v-for="optionItem in item.option" :key="optionItem.value" :label="optionItem.label" :value="optionItem.value"></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="品名代码" prop="mock2">
-        <el-input v-model="form.mock2" maxlength="20"  placeholder="请输入"></el-input>
-      </el-form-item>
-      <el-form-item label="品名" prop="mock3">
-        <el-input v-model="form.mock3" maxlength="20"  placeholder="请输入"></el-input>
+        <el-input v-model="form[item.prop]" maxlength="20"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -51,6 +46,24 @@ export default {
   data() {
     return {
       form:{...defaultForm},
+      formItem: [
+        {
+          label: '大类',
+          prop: 'mock1',
+          type: 'select',
+          option: []
+        },
+        {
+          label: '品名代码',
+          prop: 'mock2',
+          type: 'input',
+        },
+        {
+          label: '品名',
+          prop: 'mock3',
+          type: 'input',
+        }
+      ],
       rules: {
         mock1: [{ required: true, message: "请选择大类", trigger: "blur" }],
         mock2: [{ required: true, message: "请输入品名代码", trigger: "blur" }],

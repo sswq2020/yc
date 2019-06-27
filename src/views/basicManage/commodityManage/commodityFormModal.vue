@@ -83,6 +83,7 @@ export default {
         }
       ],
       rules: {
+        mock1: [{ required: true, message: "请选择大类", trigger: "blur" }],
         mock2: [{ required: true, message: "请选择品名", trigger: "blur" }],
         mock3: [{ required: true, message: "请选择材质", trigger: "blur" }],
         mock4: [{ required: true, message: "请选择规格", trigger: "blur" }],
@@ -106,7 +107,6 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           let parmas = JSON.parse(JSON.stringify(that.form));
-          console.log(parmas);
           that.confirmCb(parmas);
         } else {
           console.log("error submit!!");

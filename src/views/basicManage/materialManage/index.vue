@@ -128,16 +128,16 @@ export default {
           this.listData = res.data;
           break;
         default:
-          this.listData = { ...defaultListData };
           this.$messageError(res.errMsg);
           break;
       }
     },
     search() {
-
+      this.listParams.currentPage = 1;
+      this.getList();
     },
     reset() {
-      this.listParams = defaultListParams;
+      this.listParams = {...defaultListParams};
       this,getList();
     },
     changePageSize(pageSize) {
@@ -182,6 +182,7 @@ export default {
       });
     },
     modalConfirm() {
+      this.SET_MODAL_VISIBLE(false);
     }
   },
   mounted() {

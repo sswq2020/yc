@@ -7,30 +7,30 @@
       <div class="form-item">
         <label>货主名称</label>
         <div class="form-control">
-          <el-input v-model="form.param_1" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.name" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
         <label>社会统一信用代码</label>
         <div class="form-control">
-          <el-input v-model="form.param_2" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.creditCode" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
         <el-button
           type="primary"
           :loading="isListDataLoading"
-          @click="getListDataByParams"
+          @click="search"
           size="small"
         >查询</el-button>
-        <el-button size="small" @click="clearListParams">重置</el-button>
+        <el-button size="small" @click="reset">重置</el-button>
       </div>
     </div>
     <heltable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
-      :total="listData.paginator.totalCount"
+      :total="listData.totalCount"
       :currentPage="listParams.currentPage"
       :pageSize="listParams.pageSize"
       :data="listData.list"
@@ -55,20 +55,13 @@
         </template>
       </el-table-column>
     </heltable>
-    <!-- <shipperformModal
+    <shipperformModal
       ref="modal"
       :loading="isEditLoading"
       :isEdit="isEdit"
       :confirmCb="pass"
       :shipperObj="shipperObj"
-    ></shipperformModal> -->
-    <shipperformModalTest
-      ref="modal"
-      :loading="isEditLoading"
-      :isEdit="isEdit"
-      :confirmCb="pass"
-      :shipperObj="shipperObj"
-    ></shipperformModalTest>
+    ></shipperformModal>
   </div>
 </template>
 
@@ -80,21 +73,12 @@ import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import shipperformModal from "./shipperformModal.vue";
-import shipperformModalTest from "./shipperformModalTest.vue";
-const defaultFormData = {
-  param_1: "",
-  param_2: ""
-};
+
 const defaultListParams = {
   pageSize: 20,
-  currentPage: 1
-};
-const defaultListData = {
-  paginator: {
-    totalCount: 0,
-    totalPage: 1
-  },
-  list: []
+  currentPage: 1,
+  name: '',
+  creditCode: ''
 };
 const defaulttableHeader = [
   {
@@ -143,15 +127,16 @@ export default {
     heltable,
     hlBreadcrumb,
     shipperformModal,
-    shipperformModalTest,
   },
   data() {
     return {
       breadTitle: ["基础信息", "货主管理"],
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
-      form: { ...defaultFormData }, // 查询参数
-      listData: { ...defaultListData }, // 返回list的数据结构
+      listData: { // 返回list的数据结构
+        totalCount: 0,
+        list: []
+       }, 
       // #endgion
 
       // #region 表格相关
@@ -171,26 +156,18 @@ export default {
   computed: {...mapState('modal',['visible'])},
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
-    _filter() {
-      return _.clone(Object.assign({}, this.form, this.listParams));
-    },
-    clearListParams() {
-      this.form = { ...defaultFormData };
-      this.listParams = { ...defaultListParams };
-      this.listData = { ...defaultListData };
-      this.getListData();
-    },
-    changePage(currentPage) {
-      this.listParams.currentPage = currentPage;
-      this.getListData();
-    },
-    changePageSize(pageSize) {
-      this.listParams.pageSize = pageSize;
-      this.getListData();
-    },
-    getListDataByParams() {
-      this.listParams = { ...defaultListParams };
-      this.getListData();
+    async getList() {
+      this.isListDataLoading = true;
+      const res = await this.$api.getShipperManageList(this.listParams);
+      this.isListDataLoading = false;
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.listData = res.data;
+          break;
+        default:
+          this.$messageError(res.errMsg);
+          break;
+      }
     },
     async pass(obj) {
       const serve = this.isEdit ? "updateShipper" : "createShipper";
@@ -199,27 +176,28 @@ export default {
         case Dict.SUCCESS:
           this.$message(`${this.isEdit ? "修改" : "新增"}成功`);
           this.$refs.modal.cancle();
-          this.getListData();
+          this.getList();
           break;
         default:
           this.$message(response.errMsg);
           break;
       }
     },
-    async getListData() {
-      let obj = this._filter();
-      this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(obj);
-      this.isListDataLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.listData = res.data;
-          break;
-        default:
-          this.listData = { ...defaultListData };
-          this.$messageError(res.errMsg);
-          break;
-      }
+    search() {
+      this.listParams.currentPage = 1;
+      this.getList();
+    },
+    reset() {
+      this.listParams = { ...defaultListParams };
+      this.getList();
+    },
+    changePage(currentPage) {
+      this.listParams.currentPage = currentPage;
+      this.getList();
+    },
+    changePageSize(pageSize) {
+      this.listParams.pageSize = pageSize;
+      this.getList();
     },
     deleteItem(obj) {
       let that = this;
@@ -235,7 +213,7 @@ export default {
           switch (response.code) {
             case Dict.SUCCESS:
               that.$message("删除成功");
-              that.getListData();
+              that.getList();
               break;
             default:
               that.$message(response.errMsg);
@@ -246,13 +224,11 @@ export default {
     editItem(obj) {
       this.isEdit = true;
       this.shipperObj = obj;
-      // this.$refs.modal.open();
       this.SET_MODAL_VISIBLE(true);
     },
     add() {
       this.isEdit = false;
       this.shipperObj = null;
-      // this.$refs.modal.open();
       this.SET_MODAL_VISIBLE(true);
     },
     needfixed(fixed) {
@@ -272,7 +248,7 @@ export default {
     init() {
       setTimeout(() => {
         this.perm();
-        this.clearListParams();
+        this.getList();
       }, 100);
       this.perm();
     },

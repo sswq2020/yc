@@ -1,19 +1,11 @@
 <template>
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="仓库" prop="mock1">
-        <el-select v-model="form.mock1" placeholder="请选择">
-          <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+      <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
+        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'">
+          <el-option v-for="optionItem in item.option" :key="optionItem.value" :label="optionItem.label" :value="optionItem.value"></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="库区" prop="mock2">
-        <el-input v-model="form.mock2" maxlength="10"  placeholder="请输入"></el-input>
-      </el-form-item>
-      <el-form-item label="货区" prop="mock3">
-        <el-input v-model="form.mock3" maxlength="10"  placeholder="请输入"></el-input>
-      </el-form-item>
-      <el-form-item label="仓位名称" prop="mock4">
-        <el-input v-model="form.mock4" maxlength="20"  placeholder="请输入"></el-input>
+        <el-input v-model="form[item.prop]" :maxlength="item.maxlength"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -55,6 +47,32 @@ export default {
   data() {
     return {
       form:{...defaultForm},
+      formItem: [
+        {
+          label: '仓库',
+          prop: 'mock1',
+          type: 'select',
+          option: []
+        },
+        {
+          label: '库区',
+          prop: 'mock2',
+          type: 'input',
+          maxlength: 10
+        },
+        {
+          label: '货区',
+          prop: 'mock3',
+          type: 'input',
+          maxlength: 10
+        },
+        {
+          label: '仓位名称',
+          prop: 'mock4',
+          type: 'input',
+          maxlength: 20
+        },
+      ],
       rules: {
         mock1: [{ required: true, message: "请选择仓库", trigger: "blur" }],
         mock2: [{ required: true, message: "请输入库区", trigger: "blur" }],
