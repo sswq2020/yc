@@ -64,12 +64,12 @@ const InventoryTableList = {
 }
 
 
-const ShipperList = [{"0": "mock1"},{"1": "mock2"}]
-const SpecificationList = [{"0": "mock1"},{"1": "mock2"}]
-const MaterialList = [{"0": "mock1"},{"1": "mock2"}]
-const ProductNameList = [{"0": "mock1"},{"1": "mock2"}]
-const OriginPlaceList = [{"0": "mock1"},{"1": "mock2"}]
-const storageList = [{"0": "mock1"},{"1": "mock2"}]
+const ShipperList = [{ "0": "mock1" }, { "1": "mock2" }]
+const SpecificationList = [{ "0": "mock1" }, { "1": "mock2" }]
+const MaterialList = [{ "0": "mock1" }, { "1": "mock2" }]
+const ProductNameList = [{ "0": "mock1" }, { "1": "mock2" }]
+const OriginPlaceList = [{ "0": "mock1" }, { "1": "mock2" }]
+const storageList = [{ "0": "mock1" }, { "1": "mock2" }]
 
 
 const MockRole = {
@@ -78,7 +78,7 @@ const MockRole = {
 
 const mockRouterMap = {
     [hostList.default]: [
-    // #region 基础信息
+        // #region 基础信息
 
         // #region  查询货主管理列表
         {
@@ -142,39 +142,82 @@ const mockRouterMap = {
             }
         },
         // #endregion    
-    
-    // #endregion
 
-    // #region 仓储信息
+        // #endregion
+
+        // #region 仓储信息
 
         // #region  获取库存表列表
-            {
-                isMock: IS_MOCK,
-                methods: 'post',
-                router: storageURL + '/web/settlement/pageList/InventoryTable',
-                result(params) {
-                    return {
-                        ...body,
-                        ...{
-                            data: {
-                                'list|10-20': [InventoryTableList],
-                                "paginator": {
-                                    "currentPage": params.page,
-                                    "pageSize": params.pageSize,
-                                    "totalCount": 1000,
-                                    "totalPage": 1000 / params.pageSize
-                                }
-                            },
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/settlement/pageList/InventoryTable',
+            result(params) {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            'list|10-20': [InventoryTableList],
+                            "paginator": {
+                                "currentPage": params.page,
+                                "pageSize": params.pageSize,
+                                "totalCount": 1000,
+                                "totalPage": 1000 / params.pageSize
+                            }
                         },
-                    };
-                }
-            },
+                    },
+                };
+            }
+        },
         // #endregion 
-        
-        
-    // #endregion
 
-    // #region 系统参数
+        // #region  查询选中的是否还有余量
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/InventoryTable/surplus',
+            result() {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            HasSurPlus: Math.random() > 0.5 ? true : false
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  选中的进行冻结
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/InventoryTable/frozen',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  选中的进行解冻
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/InventoryTable/unfrozen',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+
+        // #endregion
+
+        // #region 系统参数
 
         // #region  获取用户信息
         {
@@ -239,10 +282,10 @@ const mockRouterMap = {
             }
         },
         // #endregion   
-    
-    // #endregion
 
-    // #region  字典项
+        // #endregion
+
+        // #region  字典项
         {
             isMock: IS_MOCK,
             methods: 'get',
@@ -302,7 +345,7 @@ const mockRouterMap = {
                 };
             }
         },
-    // #endregion                 
+        // #endregion                 
     ]
 };
 

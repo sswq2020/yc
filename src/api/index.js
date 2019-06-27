@@ -366,7 +366,7 @@ export default {
     },    
     // #endregion
 
-    // #refion 仓储管理
+    // #region 仓储管理
     /**
      * @author sswq
      * @param params
@@ -374,9 +374,33 @@ export default {
      * */
     getInventoryTable(params){
         return fetch(storageURL + '/web/settlement/pageList/InventoryTable', params)          
-    },    
+    },   
+    /**
+     * @author sswq
+     * @param params
+     * @description 查询选中的是否还有余量
+     * */
+    getSurplus(params){
+        return fetch(storageURL + '/web/InventoryTable/surplus', params)          
+    },      
+    /**
+     * @author sswq
+     * @param params
+     * @description 选中的进行冻结
+     * */
+    frozen(params){
+        return fetch(storageURL + '/web/InventoryTable/frozen', params)          
+    },   
+    /**
+     * @author sswq
+     * @param params
+     * @description 选中的进行解冻
+     * */
+    unfrozen(params){
+        return fetch(storageURL + '/web/InventoryTable/unfrozen', params)          
+    },       
+    
     // #endregion
-
 
     // #region  字典项
     /**
