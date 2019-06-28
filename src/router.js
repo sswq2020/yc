@@ -9,6 +9,8 @@ const SettlementStorageManage = () => import('@/views/basicManage/settlementStor
 const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 const SpecificationManage = () => import('@/views/basicManage/specificationManage/index')
 
+
+// #region 仓储管理
 const EnterStorageDetail = () => import('@/views/warehouseManage/enterStorageDetail/index')
 const EnterStorageRegister = () => import('@/views/warehouseManage/enterStorageDetail/enterStorageRegister.vue')
 
@@ -16,9 +18,10 @@ const OuterStorageDetail = () => import('@/views/warehouseManage/outerStorageDet
 const PledgeDetail = () => import('@/views/warehouseManage/pledgeDetail/index')
 const ReleasePledgeDetail = () => import('@/views/warehouseManage/releasePledgeDetail/index')
 const TransferOwnershipDetail = () => import('@/views/warehouseManage/transferOwnershipDetail/index')
+const TransferOwnershipManage = () => import('@/views/warehouseManage/transferOwnershipDetail/transferOwnershipManage')
 
 const InventoryTable = () => import('@/views/warehouseManage/inventoryManage/inventoryTable.vue')
-
+// #endregion 仓储管理
 Vue.use(Router)
 
 let globelRoutes = [
@@ -118,7 +121,12 @@ let commonRoutes = {
             path: '/web/settlement/pageList/transferOwnershipDetail',
             name: 'transferOwnershipDetail',
             component: TransferOwnershipDetail
-        }, 
+        },
+        {
+            path: '/web/settlement/pageList/transferOwnershipManage',
+            name: 'transferOwnershipManage',
+            component: TransferOwnershipManage
+        },
     ]
 }
 

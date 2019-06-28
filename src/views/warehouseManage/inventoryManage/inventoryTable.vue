@@ -281,7 +281,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "mock13",
+    prop: "reserveweight",
     label: "库存重量",
     width: "180"
   },
@@ -365,7 +365,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("inventoryTable", ["setTransferOwnership","setCheckout"]),
+    ...mapMutations("inventoryManage", ["setTransferOwnership","setCheckout"]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
     },
@@ -412,7 +412,10 @@ export default {
         case Dict.SUCCESS:
           if (res.data.HasSurPlus) {
             this.batchTransferOwnershipVisible = false;
-            // this.setTransferOwnership(this.ids);
+            this.setTransferOwnership(this.selectedItems);
+            this.$router.push({
+              path: '/web/settlement/pageList/transferOwnershipManage'
+            });   
           } else {
             this.$message.error("当前存在数据无余量，不可过户");
           }

@@ -53,7 +53,7 @@ const InventoryTableList = {
     "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
     "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
     "mock4": "@float(200,999)", // 金额(元)
-    "mock5": "@PICK(1,0)", // 数据来源
+    "reserveweight": "@INTEGER(20,80)", // 数据来源
     "shipper": "货主@PICK('1','2','3','4','5')", // 数据来源 名称
     "mock6": "集配货运", // 数据来源 名称
     "mock7": "惠龙易通@CITY()公司", // 转出账户名
@@ -181,7 +181,7 @@ const mockRouterMap = {
                     ...body,
                     ...{
                         data: {
-                            HasSurPlus: Math.random() > 0.5 ? true : false
+                            HasSurPlus: Math.random() > 0.0001 ? true : false
                         },
                     },
                 };
