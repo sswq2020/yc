@@ -71,10 +71,15 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row :gutter="50" v-if="max">
+            <el-col :offset="6" :md="6" :sm="12" :xs="24">
+              <span style="color:red;font-size:12px">最大过户量10,质押中:20,挂牌中40,冻结中40</span>
+            </el-col>
+          </el-row>
         </div>
         <div class="bottom">
           <el-form-item>
-            <el-button type="primary">确定</el-button>
+            <el-button type="primary" @click="submitForm('form')">确定</el-button>
             <el-button @click="back">取消</el-button>
           </el-form-item>
         </div>
@@ -104,7 +109,7 @@ export default {
         needShowData: [],
         ...defualtFormParams
       },
-      max:null, // 从库存明细页跳转过来,会另外带来最大重量的限制
+      max: null // 从库存明细页跳转过来,会另外带来最大重量的限制
     };
   },
   computed: {
@@ -124,7 +129,7 @@ export default {
         path: "/web/settlement/pageList/inventoryTable"
       });
     },
-    validateweight(weight,max=null) {
+    validateweight(weight, max = null) {
       return [
         {
           type: "number",
@@ -134,13 +139,25 @@ export default {
         },
         {
           validator(rule, value, callback) {
-            if(max){weight = max}
+            if (max) {
+              weight = max;
+            }
             if (value > weight) {
               return callback(new Error(`不能大于${weight}`));
             }
           }
         }
       ];
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
   },
   created() {
@@ -155,7 +172,7 @@ export default {
 <style scoped lang="less">
 .form {
   padding: 30px 15px 50px 15px;
-  background:  rgba(240, 242, 245, 1);
+  background: rgba(240, 242, 245, 1);
   .form-block {
     padding-top: 15px;
     margin-bottom: 20px;
