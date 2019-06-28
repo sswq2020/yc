@@ -14,6 +14,9 @@ const SpecificationManage = () => import('@/views/basicManage/specificationManag
 const EnterStorageDetail = () => import('@/views/warehouseManage/enterStorageDetail/index')
 const EnterStorageRegister = () => import('@/views/warehouseManage/enterStorageDetail/enterStorageRegister.vue')
 
+
+const WaitCheckEnter = () => import('@/views/warehouseManage/waitCheckEnter/index')
+const WaitCheckOuter = () => import('@/views/warehouseManage/waitCheckOuter/index')
 const OuterStorageDetail = () => import('@/views/warehouseManage/outerStorageDetail/index')
 const PledgeDetail = () => import('@/views/warehouseManage/pledgeDetail/index')
 const ReleasePledgeDetail = () => import('@/views/warehouseManage/releasePledgeDetail/index')
@@ -87,6 +90,8 @@ let commonRoutes = {
             name: 'specificationManage',
             component: SpecificationManage
         },  
+
+        // #region  仓储信息      
         {
             path: '/web/settlement/pageList/enterStorageDetail',
             name: 'enterStorageDetail',
@@ -101,6 +106,17 @@ let commonRoutes = {
             path: '/web/settlement/pageList/inventoryTable',
             name: 'inventoryTable',
             component: InventoryTable
+        },
+
+        {
+            path: '/web/settlement/pageList/waitCheckEnter',
+            name: 'waitCheckEnter',
+            component: WaitCheckEnter
+        },  
+        {
+            path: '/web/settlement/pageList/waitCheckOuter',
+            name: 'waitCheckOuter',
+            component: WaitCheckOuter
         },  
         {
             path: '/web/settlement/pageList/outerStorageDetail',
@@ -126,7 +142,8 @@ let commonRoutes = {
             path: '/web/settlement/pageList/transferOwnershipManage',
             name: 'transferOwnershipManage',
             component: TransferOwnershipManage
-        },
+        }
+        // #endregion           
     ]
 }
 
