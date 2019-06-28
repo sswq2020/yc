@@ -176,7 +176,7 @@ export default {
             that.getList();
             break;
           default:
-            that.$message(`${operationText}失败，${response.errMsg}`);
+            that.$messageError(`${operationText}失败，${response.errMsg}`);
             break;
         }
       });

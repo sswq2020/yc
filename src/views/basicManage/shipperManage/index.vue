@@ -51,7 +51,7 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="deleteItem(listData.list[scope.$index])">删除</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{ scope.status === 1 ? '禁用' : '激活' }}</el-button>
         </template>
       </el-table-column>
     </heltable>
@@ -174,12 +174,12 @@ export default {
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:
-          this.$message(`${this.isEdit ? "修改" : "新增"}成功`);
+          this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
           this.$refs.modal.cancle();
           this.getList();
           break;
         default:
-          this.$message(response.errMsg);
+          this.$messageError(response.errMsg);
           break;
       }
     },
@@ -199,11 +199,13 @@ export default {
       this.listParams.pageSize = pageSize;
       this.getList();
     },
-    deleteItem(obj) {
+    forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id } = obj;
+      const { id, status } = obj;
+      const operationText = status === 1 ? '禁用' : '激活';
+      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
       that
-        .$confirm(`此操作将永久删除${obj.mock1}, 是否继续?`, "提示", {
+        .$confirm(`确定要确定要${operationText}货主${obj.mock1}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -212,11 +214,11 @@ export default {
           const response = await that.$api.deleteShipper({ id });
           switch (response.code) {
             case Dict.SUCCESS:
-              that.$message("删除成功");
+              that.$messageSuccess(`${operationText}成功`);
               that.getList();
               break;
             default:
-              that.$message(response.errMsg);
+              that.$messageError(`${operationText}失败，${response.errMsg}`);
               break;
           }
         });
