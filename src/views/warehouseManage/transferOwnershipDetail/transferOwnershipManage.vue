@@ -65,7 +65,7 @@
               <el-form-item
                 label="过户重量"
                 :prop="'needShowData.' + index + '.weight'"
-                :rules="validateweight(item.reserveweight)"
+                :rules="validateweight(item.reserveweight,max)"
               >
                 <el-input v-model.number="item.weight"></el-input>
               </el-form-item>
@@ -103,7 +103,8 @@ export default {
       form: {
         needShowData: [],
         ...defualtFormParams
-      }
+      },
+      max:null, // 从库存明细页跳转过来,会另外带来最大重量的限制
     };
   },
   computed: {
@@ -123,7 +124,7 @@ export default {
         path: "/web/settlement/pageList/inventoryTable"
       });
     },
-    validateweight(weight) {
+    validateweight(weight,max=null) {
       return [
         {
           type: "number",
@@ -133,6 +134,7 @@ export default {
         },
         {
           validator(rule, value, callback) {
+            if(max){weight = max}
             if (value > weight) {
               return callback(new Error(`不能大于${weight}`));
             }
@@ -153,9 +155,13 @@ export default {
 <style scoped lang="less">
 .form {
   padding: 30px 15px 50px 15px;
+  background:  rgba(240, 242, 245, 1);
   .form-block {
-    padding-bottom: 20px;
+    padding-top: 15px;
+    margin-bottom: 20px;
+    background: white;
     .head {
+      padding-left: 10px;
       margin-bottom: 15px;
       font-size: 18px;
       font-weight: 700;
