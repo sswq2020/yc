@@ -130,7 +130,7 @@ let commonRoutes = {
             component: InventoryTable
         },
         {
-            path: '/web/settlement/pageList/inventoryDetail',
+            path: '/web/settlement/pageList/inventoryTable/inventoryDetail',
             name: 'inventoryDetail',
             component: InventoryDetail
         },

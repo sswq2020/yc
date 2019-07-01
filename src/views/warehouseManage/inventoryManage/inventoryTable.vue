@@ -157,14 +157,9 @@
 
       <el-table-column label="操作" fixed="right" width="60px" align="center">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            @click="findDetail(listData.list[scope.$index])"
-          >查看明细</el-button>
+          <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
       </el-table-column>
-
-
     </heltable>
     <transitiondialog
       :data="selectedItems"
@@ -376,7 +371,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("inventoryManage", ["setTransferOwnership","setCheckout"]),
+    ...mapMutations("inventoryManage", ["setTransferOwnership", "setCheckout","setFindDetail"]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
     },
@@ -425,8 +420,8 @@ export default {
             this.batchTransferOwnershipVisible = false;
             this.setTransferOwnership(this.selectedItems);
             this.$router.push({
-              path: '/web/settlement/pageList/transferOwnershipManage'
-            });   
+              path: "/web/settlement/pageList/transferOwnershipManage"
+            });
           } else {
             this.$message.error("当前存在数据无余量，不可过户");
           }
@@ -476,8 +471,8 @@ export default {
             this.batchCheckOutVisible = false;
             this.setCheckout(this.selectedItems);
             this.$router.push({
-              path: '/web/settlement/pageList/outerStorageDetail/applyCheckOut'
-            });               
+              path: "/web/settlement/pageList/outerStorageDetail/applyCheckOut"
+            });
           } else {
             this.$message.error("当前存在数据无余量，不可过户");
           }
@@ -490,6 +485,12 @@ export default {
     GoEnterRegister() {
       this.$router.push({
         path: "/web/settlement/pageList/enterStorageDetail/register"
+      });
+    },
+    detail(item) {
+      this.setFindDetail(item);
+      this.$router.push({
+        path: "/web/settlement/pageList/inventoryTable/inventoryDetail"
       });
     },
     init() {
