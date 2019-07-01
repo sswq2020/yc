@@ -31,6 +31,18 @@ const TransferOwnershipDetail = () => import('@/views/warehouseManage/transferOw
 const TransferOwnershipManage = () => import('@/views/warehouseManage/transferOwnershipDetail/transferOwnershipManage')
 /**库存表*/
 const InventoryTable = () => import('@/views/warehouseManage/inventoryManage/inventoryTable.vue')
+/**库存明细*/
+const InventoryDetail = () => import('@/views/warehouseManage/inventoryManage/inventoryDetail.vue')
+/**质解押管理*/
+const TogglePledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/index.vue')
+/**质押管理*/
+const PledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/pledgeManage.vue')
+/**解押管理*/
+const ReleasePledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/releasePledgeManage.vue')
+
+
+
+
 // #endregion 仓储管理
 Vue.use(Router)
 
@@ -114,7 +126,11 @@ let commonRoutes = {
             name: 'inventoryTable',
             component: InventoryTable
         },
-
+        {
+            path: '/web/settlement/pageList/inventoryDetail',
+            name: 'inventoryDetail',
+            component: InventoryDetail
+        },
         {
             path: '/web/settlement/pageList/waitCheckEnter',
             name: 'waitCheckEnter',
@@ -139,6 +155,21 @@ let commonRoutes = {
             path: '/web/settlement/pageList/releasePledgeDetail',
             name: 'releasePledgeDetail',
             component: ReleasePledgeDetail
+        },  
+        {
+            path: '/web/settlement/pageList/togglePledgeManage',
+            name: 'togglePledgeManage',
+            component: TogglePledgeManage
+        },  
+        {
+            path: '/web/settlement/pageList/pledgeManage',
+            name: 'pledgeManage',
+            component: PledgeManage
+        },  
+        {
+            path: '/web/settlement/pageList/releasePledgeManage',
+            name: 'releasePledgeManage',
+            component: ReleasePledgeManage
         },  
         {
             path: '/web/settlement/pageList/transferOwnershipDetail',

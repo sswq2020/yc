@@ -1,12 +1,12 @@
 <template>
   <div class="container single-page">
-    入库明细
+    质押管理
   </div>
 </template>
 
 <script>
 export default {
-  name: "enterStorageDetail",
+  name: "pledgeManage",
 };
 </script>
 
