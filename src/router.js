@@ -18,9 +18,9 @@ const EnterStorageRegister = () => import('@/views/warehouseManage/enterStorageD
 /**待验收入库*/
 const WaitCheckEnter = () => import('@/views/warehouseManage/waitCheckEnter/index')
 /**验收入库*/
-const CheckEnter = () => import('@/views/warehouseManage/checkEnter/index')
+const CheckEnter = () => import('@/views/warehouseManage/waitCheckEnter/checkEnter')
 /**验收出库*/
-const CheckOuter = () => import('@/views/warehouseManage/checkOuter/index')
+const CheckOuter = () => import('@/views/warehouseManage/waitCheckOuter/checkOuter')
 /**待验收出库*/
 const WaitCheckOuter = () => import('@/views/warehouseManage/waitCheckOuter/index')
 /**出库申请*/
@@ -45,11 +45,8 @@ const TogglePledgeManage = () => import('@/views/warehouseManage/togglePledgeMan
 const PledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/pledgeManage.vue')
 /**解押管理*/
 const ReleasePledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/releasePledgeManage.vue')
-
-
-
-
 // #endregion 仓储管理
+
 Vue.use(Router)
 
 let globelRoutes = [
