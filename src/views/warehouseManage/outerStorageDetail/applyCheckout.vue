@@ -16,12 +16,12 @@
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item 
-                label="提货人" 
+              <el-form-item
+                label="提货人"
                 prop="mock2"
                 :rules="{ required: true, message: '请输入提货人', trigger: 'blur' }"
               >
-               <el-input v-model="form.mock2"></el-input>
+                <el-input v-model="form.mock2"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
@@ -115,7 +115,7 @@ export default {
   computed: {
     ...mapState("inventoryManage", ["checkout"]),
     shipper() {
-      return this.checkout[0].shipper || null;
+      return (this.checkout.length && this.checkout[0].shipper) || null;
     },
     needweights() {
       return this.form.needShowData.map(item => {
@@ -158,12 +158,19 @@ export default {
           return false;
         }
       });
+    },
+    init() {
+      if (this.checkout.length === 0) {
+        this.back();
+      } else {
+        this.form.needShowData = this.checkout.slice().map(item => {
+          return Object.assign({}, item, { num: null, weight: null });
+        });
+      }
     }
   },
   created() {
-    this.form.needShowData = this.checkout.slice().map(item => {
-      return Object.assign({}, item, { num: null, weight: null });
-    });
+    this.init()
   }
 };
 </script>

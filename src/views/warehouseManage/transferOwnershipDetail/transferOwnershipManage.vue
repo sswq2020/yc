@@ -115,7 +115,7 @@ export default {
   computed: {
     ...mapState("inventoryManage", ["transferOwnership"]),
     shipper() {
-      return this.transferOwnership[0].shipper || null;
+      return this.transferOwnership.length && this.transferOwnership[0].shipper || null;
     },
     needweights() {
       return this.form.needShowData.map(item => {
@@ -158,12 +158,19 @@ export default {
           return false;
         }
       });
+    },
+    init() {
+      if (this.transferOwnership.length === 0) {
+        this.back();
+      } else {
+        this.form.needShowData = this.transferOwnership.slice().map(item => {
+          return Object.assign({}, item, { num: null, weight: null });
+        });
+      }
     }
   },
   created() {
-    this.form.needShowData = this.transferOwnership.slice().map(item => {
-      return Object.assign({}, item, { num: null, weight: null });
-    });
+    this.init();
   }
 };
 </script>
