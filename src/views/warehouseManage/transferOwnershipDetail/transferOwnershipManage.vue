@@ -171,11 +171,11 @@ export default {
 
 <style scoped lang="less">
 .form {
-  padding: 30px 15px 50px 15px;
+  padding: 15px 15px 50px 15px;
   background: rgba(240, 242, 245, 1);
   .form-block {
     padding-top: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     background: white;
     .head {
       padding-left: 10px;

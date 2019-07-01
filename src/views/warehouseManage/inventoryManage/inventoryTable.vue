@@ -474,7 +474,10 @@ export default {
         case Dict.SUCCESS:
           if (res.data.HasSurPlus) {
             this.batchCheckOutVisible = false;
-            // this.setCheckout(this.ids);
+            this.setCheckout(this.selectedItems);
+            this.$router.push({
+              path: '/web/settlement/pageList/outerStorageDetail/applyCheckOut'
+            });               
           } else {
             this.$message.error("当前存在数据无余量，不可过户");
           }
