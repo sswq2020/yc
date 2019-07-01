@@ -17,8 +17,14 @@ const EnterStorageDetail = () => import('@/views/warehouseManage/enterStorageDet
 const EnterStorageRegister = () => import('@/views/warehouseManage/enterStorageDetail/enterStorageRegister.vue')
 /**待验收入库*/
 const WaitCheckEnter = () => import('@/views/warehouseManage/waitCheckEnter/index')
+/**验收入库*/
+const CheckEnter = () => import('@/views/warehouseManage/checkEnter/index')
+/**验收出库*/
+const CheckOuter = () => import('@/views/warehouseManage/checkOuter/index')
 /**待验收出库*/
 const WaitCheckOuter = () => import('@/views/warehouseManage/waitCheckOuter/index')
+/**出库申请*/
+const ApplyCheckOut = () => import('@/views/warehouseManage/outerStorageDetail/applyCheckout')
 /**出库明细*/
 const OuterStorageDetail = () => import('@/views/warehouseManage/outerStorageDetail/index')
 /**质押明细*/
@@ -137,15 +143,30 @@ let commonRoutes = {
             component: WaitCheckEnter
         },  
         {
+            path: '/web/settlement/pageList/waitCheckEnter/checkEnter',
+            name: 'checkEnter',
+            component: CheckEnter
+        },  
+        {
             path: '/web/settlement/pageList/waitCheckOuter',
             name: 'waitCheckOuter',
             component: WaitCheckOuter
         },  
         {
+            path: '/web/settlement/pageList/waitCheckOuter/CheckOuter',
+            name: 'checkOuter',
+            component: CheckOuter
+        },  
+        {
             path: '/web/settlement/pageList/outerStorageDetail',
             name: 'outerStorageDetail',
             component: OuterStorageDetail
-        },  
+        },
+        {
+            path: '/web/settlement/pageList/outerStorageDetail/applyCheckOut',
+            name: 'applyCheckOut',
+            component: ApplyCheckOut
+        },        
         {
             path: '/web/settlement/pageList/pledgeDetail',
             name: 'pledgeDetail',

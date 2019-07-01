@@ -14,7 +14,7 @@
         icon="el-icon-bank-card"
         :disabled="!equalShipperItems"
         @click="()=>{this.batchCheckOutVisible = true}"
-      >出库登记</el-button>
+      >出库申请</el-button>
       <el-button
         class="hlB_buts"
         size="small"
