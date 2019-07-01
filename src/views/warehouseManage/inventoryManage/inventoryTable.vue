@@ -154,6 +154,17 @@
           <span>{{listData.list[scope.$index][item.prop]}}</span>
         </template>
       </el-table-column>
+
+      <el-table-column label="操作" fixed="right" width="60px" align="center">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            @click="findDetail(listData.list[scope.$index])"
+          >查看明细</el-button>
+        </template>
+      </el-table-column>
+
+
     </heltable>
     <transitiondialog
       :data="selectedItems"

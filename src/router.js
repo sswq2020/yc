@@ -11,18 +11,25 @@ const SpecificationManage = () => import('@/views/basicManage/specificationManag
 
 
 // #region 仓储管理
+/**入库明细*/
 const EnterStorageDetail = () => import('@/views/warehouseManage/enterStorageDetail/index')
+/**入库登记*/
 const EnterStorageRegister = () => import('@/views/warehouseManage/enterStorageDetail/enterStorageRegister.vue')
-
-
+/**待验收入库*/
 const WaitCheckEnter = () => import('@/views/warehouseManage/waitCheckEnter/index')
+/**待验收出库*/
 const WaitCheckOuter = () => import('@/views/warehouseManage/waitCheckOuter/index')
+/**出库明细*/
 const OuterStorageDetail = () => import('@/views/warehouseManage/outerStorageDetail/index')
+/**质押明细*/
 const PledgeDetail = () => import('@/views/warehouseManage/pledgeDetail/index')
+/**解押明细*/
 const ReleasePledgeDetail = () => import('@/views/warehouseManage/releasePledgeDetail/index')
+/**过户明细*/
 const TransferOwnershipDetail = () => import('@/views/warehouseManage/transferOwnershipDetail/index')
+/**过户管理*/
 const TransferOwnershipManage = () => import('@/views/warehouseManage/transferOwnershipDetail/transferOwnershipManage')
-
+/**库存表*/
 const InventoryTable = () => import('@/views/warehouseManage/inventoryManage/inventoryTable.vue')
 // #endregion 仓储管理
 Vue.use(Router)
