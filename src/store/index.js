@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import modal from "./modules/modal";
 import app from "./modules/app";
-import {inventoryManage,waitCheckEnter} from "./modules/warehouseManage";
+import {inventoryManage,waitCheckEnter,waitCheckOuter} from "./modules/warehouseManage";
 
 Vue.use(Vuex);
 
@@ -23,7 +23,8 @@ const store = new Vuex.Store({
     modal,
     app,
     inventoryManage,
-    waitCheckEnter
+    waitCheckEnter,
+    waitCheckOuter
   }
 });
 

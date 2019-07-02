@@ -1,7 +1,9 @@
 import inventoryManage from "./inventoryManage/index.js";
 import waitCheckEnter from "./waitCheckEnter/index.js";
+import waitCheckOuter from "./waitCheckOuter/index.js";
 
 export { 
     inventoryManage,
-    waitCheckEnter
+    waitCheckEnter,
+    waitCheckOuter
 };
