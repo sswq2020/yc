@@ -63,6 +63,23 @@ const InventoryTableList = {
     "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称
 }
 
+const RetrievalList = {
+    "shipper":"@CNAME()",
+    "reserveweight":"@INTEGER(15,100)",
+    "id|+1": "@INTEGER(1,2019690999)",
+    "mock1": "12344435", //业务单号
+    "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
+    "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
+    "mock4": "@float(200,999)", // 金额(元)
+    "mock5": "@PICK(1,0)", // 数据来源
+    "mock6": "集配货运", // 数据来源 名称
+    "mock7": "惠龙易通@CITY()公司", // 转出账户名
+    "mock8": "65521464564654987654", // 转出账户号
+    "mock9": "@CNAME()", // 转入账户名 
+    "mock10": "65521464564654987654", // 转入账户号
+    "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称    
+}
+
 
 const ShipperList = [{ "0": "mock1" }, { "1": "mock2" }]
 const SpecificationList = [{ "0": "mock1" }, { "1": "mock2" }]
@@ -214,6 +231,24 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region  待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/waitCheckOuter/detailRetrieval',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        'list|5': [RetrievalList]
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+
 
         // #endregion
 

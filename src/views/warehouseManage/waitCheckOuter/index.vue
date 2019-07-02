@@ -59,7 +59,6 @@
       :pageSizes="[20]"
       :data="listData.list"
       :multiple="true"
-      @selection-change="selectChange"
       :loading="isListDataLoading"
     >
       <el-table-column
@@ -164,8 +163,7 @@ export default {
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
       /*多选的row*/
-      selectedItems: [],
-      titles: ["入库"]
+      titles: ["出库"]
     };
   },
   computed: {
