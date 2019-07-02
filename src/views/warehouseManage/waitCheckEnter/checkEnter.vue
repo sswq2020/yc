@@ -79,7 +79,7 @@
               <el-form-item
                 label="实收重量"
                 :prop="'needShowData.' + index + '.weight'"
-                :rules="validateweight(item.reserveweight,max)"
+                :rules="validateweight(item.reserveweight)"
               >
                 <el-input v-model.number="item.weight"></el-input>
               </el-form-item>
@@ -105,8 +105,8 @@
         </div>
         <div class="bottom">
           <el-form-item>
-            <el-button type="primary" @click="submitForm('form')">确定</el-button>
-            <el-button @click="back">取消</el-button>
+            <el-button type="primary" size="medium" @click="submitForm('form')">确定</el-button>
+            <el-button @click="back" size="medium">取消</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -215,6 +215,10 @@ export default {
       font-size: 18px;
       font-weight: 700;
     }
+  }
+  .bottom {
+    padding: 15px 0px 1px 0px;
+    background: white;
   }
 }
 </style>
