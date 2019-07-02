@@ -180,12 +180,12 @@ let commonRoutes = {
             component: TogglePledgeManage
         },  
         {
-            path: '/web/settlement/pageList/pledgeManage',
+            path: '/web/settlement/pageList/togglePledgeManage/pledgeManage',
             name: 'pledgeManage',
             component: PledgeManage
         },  
         {
-            path: '/web/settlement/pageList/releasePledgeManage',
+            path: '/web/settlement/pageList/togglePledgeManage/releasePledgeManage',
             name: 'releasePledgeManage',
             component: ReleasePledgeManage
         },  
