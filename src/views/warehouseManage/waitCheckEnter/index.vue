@@ -5,6 +5,7 @@
         class="hlB_buts"
         size="small"
         icon="el-icon-download"
+        :disabled="!equalShipperItems"
         @click="()=>{this.batchInspectionVisible = true}"
       >入库登记</el-button>
     </hlBreadcrumb>
@@ -134,7 +135,7 @@
 </template>
 
 <script>
-import { mapGetters,mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
 // import { judgeAuth } from "@/util/util.js";
 import _ from "lodash";
@@ -169,7 +170,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "mock4",
+    prop: "shipper",
     label: "货主",
     width: "180"
   },
@@ -255,6 +256,11 @@ export default {
   },
   computed: {
     ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    /**选中的必须是同一个货主才能出库和过户*/
+    equalShipperItems() {
+      let arr = this.selectedItems.map(item => item.shipper);
+      return new Set(arr).size === 1;
+    },
     /**请求参数估计只要id*/
     ids() {
       return this.selectedItems.map(item => {
@@ -300,10 +306,10 @@ export default {
       }
     },
     batchInspection() {
-        this.setInspection(this.selectedItems);
-        this.$router.push({
-          path: "/web/settlement/pageList/waitCheckEnter/checkEnter"
-        });
+      this.setInspection(this.selectedItems);
+      this.$router.push({
+        path: "/web/settlement/pageList/waitCheckEnter/checkEnter"
+      });
     },
     init() {
       setTimeout(() => {
