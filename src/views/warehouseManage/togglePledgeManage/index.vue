@@ -101,7 +101,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "mock3",
+    prop: "reserveweight",
     label: "库存重量",
     width: "180"
   },
