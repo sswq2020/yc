@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    入库管理
+    入库明细
   </div>
 </template>
 

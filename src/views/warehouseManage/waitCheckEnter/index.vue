@@ -5,43 +5,14 @@
         class="hlB_buts"
         size="small"
         icon="el-icon-download"
-        v-if="!IS_SHIPPER"
-        @click="GoEnterRegister"
+        :disabled="!equalShipperItems"
+        @click="()=>{this.batchInspectionVisible = true}"
       >入库登记</el-button>
-      <el-button
-        class="hlB_buts"
-        size="small"
-        icon="el-icon-bank-card"
-        :disabled="!equalShipperItems"
-        @click="()=>{this.batchCheckOutVisible = true}"
-      >出库申请</el-button>
-      <el-button
-        class="hlB_buts"
-        size="small"
-        icon="el-icon-bank-card"
-        :disabled="!equalShipperItems"
-        v-if="!IS_SHIPPER"
-        @click="()=>{this.batchTransferOwnershipVisible = true}"
-      >过户</el-button>
-      <el-button
-        class="hlB_buts"
-        size="small"
-        icon="el-icon-bank-card"
-        v-if="!IS_SHIPPER"
-        @click="()=>{this.batchFrozenVisible=true}"
-      >冻结</el-button>
-      <el-button
-        class="hlB_buts"
-        size="small"
-        icon="el-icon-bank-card"
-        v-if="!IS_SHIPPER"
-        @click="()=>{this.batchUnFrozenVisible = true}"
-      >解冻</el-button>
     </hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
-        <label>货主</label>
-        <div class="form-control" v-if="!IS_SHIPPER">
+        <label>货主名称</label>
+        <div class="form-control">
           <el-select v-model="form.param_1" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in ShipperList"
@@ -50,9 +21,6 @@
               :value="item.value"
             ></el-option>
           </el-select>
-        </div>
-        <div class="form-control" v-if="IS_SHIPPER">
-          <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -154,54 +122,19 @@
           <span>{{listData.list[scope.$index][item.prop]}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
-        <template slot-scope="scope">
-          <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
-        </template>
-      </el-table-column>
     </heltable>
     <transitiondialog
       :data="selectedItems"
       :tableHeader="tableHeader.slice(0,8)"
-      :confirmCb="batchCheckOut"
-      :visible="batchCheckOutVisible"
-      :loading="isbatchCheckOutLoading"
-      :cancelCb="()=>{this.batchCheckOutVisible = false}"
+      :confirmCb="batchInspection"
+      :visible="batchInspectionVisible"
+      :cancelCb="()=>{this.batchInspectionVisible = false}"
       :title="titles[0]"
-    ></transitiondialog>
-    <transitiondialog
-      :data="selectedItems"
-      :tableHeader="tableHeader.slice(0,8)"
-      :confirmCb="batchTransferOwnership"
-      :visible="batchTransferOwnershipVisible"
-      :loading="isbatchTransferOwnershipLoading"
-      :cancelCb="()=>{this.batchTransferOwnershipVisible = false}"
-      :title="titles[1]"
-    ></transitiondialog>
-    <transitiondialog
-      :data="selectedItems"
-      :tableHeader="tableHeader.slice(0,8)"
-      :confirmCb="batchFrozen"
-      :visible="batchFrozenVisible"
-      :loading="isbatchFrozenLoading"
-      :cancelCb="()=>{this.batchFrozenVisible = false}"
-      :title="titles[2]"
-    ></transitiondialog>
-    <transitiondialog
-      :data="selectedItems"
-      :tableHeader="tableHeader.slice(0,8)"
-      :confirmCb="batchUnFrozen"
-      :visible="batchUnFrozenVisible"
-      :loading="isbatchUnFrozenLoading"
-      :cancelCb="()=>{this.batchUnFrozenVisible = false}"
-      :title="titles[3]"
     ></transitiondialog>
   </div>
 </template>
 
 <script>
-// import NP from "number-precision";
 import { mapGetters, mapMutations } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
 // import { judgeAuth } from "@/util/util.js";
@@ -237,23 +170,13 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "mock2",
-    label: "入库天数",
-    width: "180"
-  },
-  {
-    prop: "mock4",
+    prop: "shipper",
     label: "货主",
     width: "180"
   },
   {
     prop: "mock5",
     label: "区桩位",
-    width: "180"
-  },
-  {
-    prop: "shipper",
-    label: "货主",
     width: "180"
   },
   {
@@ -278,7 +201,7 @@ const defaulttableHeader = [
   },
   {
     prop: "mock11",
-    label: "库存数量",
+    label: "应收数量",
     width: "180"
   },
   {
@@ -288,7 +211,7 @@ const defaulttableHeader = [
   },
   {
     prop: "reserveweight",
-    label: "库存重量",
+    label: "应收重量",
     width: "180"
   },
   {
@@ -300,25 +223,10 @@ const defaulttableHeader = [
     prop: "mock15",
     label: "计量方式",
     width: "180"
-  },
-  {
-    prop: "mock16",
-    label: "入库类型",
-    width: "180"
-  },
-  {
-    prop: "mock17",
-    label: "入库单号",
-    width: "180"
-  },
-  {
-    prop: "mock18",
-    label: "入库时间",
-    width: "180"
   }
 ];
 export default {
-  name: "inventoryTable",
+  name: "waitCheckEnter",
   mixins: [baseMixin],
   components: {
     heltable,
@@ -327,20 +235,10 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["仓储管理", "库存表"],
+      breadTitle: ["仓储管理", "待验收入库"],
       // #region 各种lodaing
       isListDataLoading: false,
-      isbatchTransferOwnershipLoading: false,
-      isbatchFrozenLoading: false,
-      isbatchUnFrozenLoading: false,
-      isbatchCheckOutLoading: false,
-      // #endgion
-
-      // #region 各个弹窗的visible
-      batchTransferOwnershipVisible: false,
-      batchFrozenVisible: false,
-      batchUnFrozenVisible: false,
-      batchCheckOutVisible: false,
+      batchInspectionVisible: false,
       // #endgion
 
       // #region 查询的基本数据结构
@@ -353,7 +251,7 @@ export default {
       showOverflowTooltip: true,
       /*多选的row*/
       selectedItems: [],
-      titles: ["批量出库登记", "批量过户", "批量冻结", "批量解冻"]
+      titles: ["入库"]
     };
   },
   computed: {
@@ -371,14 +269,11 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("inventoryManage", ["setTransferOwnership", "setCheckout","setFindDetail"]),
+    ...mapMutations("waitCheckEnter", ["setInspection"]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
     },
     _filter() {
-      if (this.IS_SHIPPER) {
-        this.form.param_1 = this.userId;
-      }
       return _.clone(Object.assign({}, this.form, this.listParams));
     },
     clearListParams() {
@@ -410,87 +305,10 @@ export default {
           break;
       }
     },
-    async batchTransferOwnership() {
-      this.isbatchTransferOwnershipLoading = true;
-      const res = await this.$api.getSurplus(this.ids);
-      this.isbatchTransferOwnershipLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          if (res.data.HasSurPlus) {
-            this.batchTransferOwnershipVisible = false;
-            this.setTransferOwnership(this.selectedItems);
-            this.$router.push({
-              path: "/web/settlement/pageList/transferOwnershipManage"
-            });
-          } else {
-            this.$message.error("当前存在数据无余量，不可过户");
-          }
-          break;
-        default:
-          this.$message.error(res.errMsg);
-          break;
-      }
-    },
-    async batchFrozen() {
-      this.isbatchFrozenLoading = true;
-      const res = await this.$api.frozen(this.ids);
-      this.isbatchFrozenLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.$message.success("冻结成功");
-          this.batchFrozenVisible = false;
-          this.getListData();
-          break;
-        default:
-          this.$message.error(res.errMsg);
-          break;
-      }
-    },
-    async batchUnFrozen() {
-      this.isbatchUnFrozenLoading = true;
-      const res = await this.$api.unfrozen(this.ids);
-      this.isbatchUnFrozenLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.$message.success("解冻结成功");
-          this.batchUnFrozenVisible = false;
-          this.getListData();
-          break;
-        default:
-          this.$message.error(res.errMsg);
-          break;
-      }
-    },
-    async batchCheckOut() {
-      this.isbatchCheckOutLoading = true;
-      const res = await this.$api.getSurplus(this.ids);
-      this.isbatchCheckOutLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          if (res.data.HasSurPlus) {
-            this.batchCheckOutVisible = false;
-            this.setCheckout(this.selectedItems);
-            this.$router.push({
-              path: "/web/settlement/pageList/outerStorageDetail/applyCheckOut"
-            });
-          } else {
-            this.$message.error("当前存在数据无余量，不可过户");
-          }
-          break;
-        default:
-          this.$message.error(res.errMsg);
-          break;
-      }
-    },
-    GoEnterRegister() {
+    batchInspection() {
+      this.setInspection(this.selectedItems);
       this.$router.push({
-        path: "/web/settlement/pageList/enterStorageDetail/register"
-      });
-    },
-    detail(item) {
-      this.setFindDetail(item);
-      this.$router.push({
-        path: "/web/settlement/pageList/inventoryTable/inventoryDetail"
+        path: "/web/settlement/pageList/waitCheckEnter/checkEnter"
       });
     },
     init() {

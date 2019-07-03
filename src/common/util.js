@@ -81,3 +81,16 @@ export const DICT_SELECT_ARR = (DictObj) => {
       };
     });
   };
+  
+/* @description 将[{"0":"mock1"},{"1":"mock2"}] 需要的形式
+* @returns {Array}
+* */
+export const _toNeedArray_ = (arr) => {
+    return arr.map((item) => {
+        return {
+            value: Object.keys(item)[0],
+            label: item[Object.keys(item)[0]]
+        }
+    })
+    
+}
