@@ -473,12 +473,19 @@ export default {
     },
     /**
      * @author sswq
+     * @description 质押解押管理列表
+     * */    
+    getPledgeinfo(params){
+        return fetch(storageURL + '/pledgeinfo/page', params)         
+    },
+    /**
+     * @author sswq
      * @param params
      * @description 待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
      * */    
     detailRetrieval(params){
         return fetch(storageURL + '/web/waitCheckOuter/detailRetrieval', params)         
-    },       
+    },            
     
     // #endregion
 

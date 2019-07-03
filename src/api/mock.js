@@ -64,8 +64,8 @@ const InventoryTableList = {
 }
 
 const RetrievalList = {
-    "shipper":"@CNAME()",
-    "reserveweight":"@INTEGER(15,100)",
+    "shipper": "@CNAME()",
+    "reserveweight": "@INTEGER(15,100)",
     "id|+1": "@INTEGER(1,2019690999)",
     "mock1": "12344435", //业务单号
     "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
@@ -78,6 +78,21 @@ const RetrievalList = {
     "mock9": "@CNAME()", // 转入账户名 
     "mock10": "65521464564654987654", // 转入账户号
     "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称    
+}
+
+const PledgeinfolIST = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "cargoName": "@CNAME()",
+    "createdBy": "system",
+    "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "inventoryTotalNums":"@INTEGER(2,1000)",
+    "inventoryTotalWeight":"@INTEGER(11,100)",
+    "isDeleted":"@PICK(0,1)",
+    "remark":"@CTITLE(2,10)",
+    "totalPledgeNums":"@INTEGER(1000,2000)",
+    "totalPledgeWeight":"@INTEGER(100,200)",
+    "updatedBy":"admin",
+    "updatedTime":'@DATE("yyyy-MM-dd HH:mm:ss")'
 }
 
 
@@ -248,6 +263,29 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  获取质押解押管理列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/pledgeinfo/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [PledgeinfolIST],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
 
 
         // #endregion
@@ -382,7 +420,7 @@ const mockRouterMap = {
 
 
         // #endregion     
-        
+
         // 数据字段项
         {
             isMock: IS_MOCK,
@@ -393,51 +431,51 @@ const mockRouterMap = {
                     ...body,
                     "data": [
                         {
-                          "createdBy": "system",
-                          "createdTime": "2019-07-01 17:17:12.349657",
-                          "dictCode": "00",
-                          "dictName": "钢材",
-                          "entryCode": "YcProductType",
-                          "orderBy": 0,
-                          "remark": "钢材",
-                          "selected": 1,
-                          "selected_": "是",
-                          "status": 1,
-                          "status_": "有效",
-                          "updatedTime": "2019-07-01 17:17:12.349657",
-                          "version": "0"
+                            "createdBy": "system",
+                            "createdTime": "2019-07-01 17:17:12.349657",
+                            "dictCode": "00",
+                            "dictName": "钢材",
+                            "entryCode": "YcProductType",
+                            "orderBy": 0,
+                            "remark": "钢材",
+                            "selected": 1,
+                            "selected_": "是",
+                            "status": 1,
+                            "status_": "有效",
+                            "updatedTime": "2019-07-01 17:17:12.349657",
+                            "version": "0"
                         },
                         {
-                          "createdBy": "system",
-                          "createdTime": "2019-07-01 17:17:12.353637",
-                          "dictCode": "01",
-                          "dictName": "石油",
-                          "entryCode": "YcProductType",
-                          "orderBy": 1,
-                          "remark": "石油",
-                          "selected": 0,
-                          "selected_": "否",
-                          "status": 1,
-                          "status_": "有效",
-                          "updatedTime": "2019-07-01 17:17:12.353637",
-                          "version": "0"
+                            "createdBy": "system",
+                            "createdTime": "2019-07-01 17:17:12.353637",
+                            "dictCode": "01",
+                            "dictName": "石油",
+                            "entryCode": "YcProductType",
+                            "orderBy": 1,
+                            "remark": "石油",
+                            "selected": 0,
+                            "selected_": "否",
+                            "status": 1,
+                            "status_": "有效",
+                            "updatedTime": "2019-07-01 17:17:12.353637",
+                            "version": "0"
                         },
                         {
-                          "createdBy": "system",
-                          "createdTime": "2019-07-01 17:17:12.359444",
-                          "dictCode": "02",
-                          "dictName": "木材",
-                          "entryCode": "YcProductType",
-                          "orderBy": 2,
-                          "remark": "木材",
-                          "selected": 0,
-                          "selected_": "否",
-                          "status": 1,
-                          "status_": "有效",
-                          "updatedTime": "2019-07-01 17:17:12.359444",
-                          "version": "0"
+                            "createdBy": "system",
+                            "createdTime": "2019-07-01 17:17:12.359444",
+                            "dictCode": "02",
+                            "dictName": "木材",
+                            "entryCode": "YcProductType",
+                            "orderBy": 2,
+                            "remark": "木材",
+                            "selected": 0,
+                            "selected_": "否",
+                            "status": 1,
+                            "status_": "有效",
+                            "updatedTime": "2019-07-01 17:17:12.359444",
+                            "version": "0"
                         }
-                      ]
+                    ]
                 };
             }
         },

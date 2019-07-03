@@ -91,27 +91,27 @@ const defaultListData = {
 };
 const defaulttableHeader = [
   {
-    prop: "mock1",
+    prop: "cargoName",
     label: "货主",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "inventoryTotalNums",
     label: "库存数量",
     width: "180"
   },
   {
-    prop: "reserveweight",
+    prop: "inventoryTotalWeight",
     label: "库存重量",
     width: "180"
   },
   {
-    prop: "mock4",
+    prop: "totalPledgeNums",
     label: "质押数量",
     width: "180"
   },
   {
-    prop: "mock5",
+    prop: "totalPledgeWeight",
     label: "质押重量",
     width: "180"
   }  
@@ -173,7 +173,7 @@ export default {
     async getListData() {
       let obj = this._filter();
       this.isListDataLoading = true;
-      const res = await this.$api.getInventoryTable(obj);
+      const res = await this.$api.getPledgeinfo(obj);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
