@@ -5,22 +5,45 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
-  name: "app"
+  name: "app",
+  computed: {
+    ...mapState("app",["role", "userId", "username"])    
+  },
+  methods: {
+    ...mapMutations("app",["setRole","setUserId","setUsername"]),
+    async getInfo() {
+      const res = await this.$api.getUser();
+      if (res.code === "000000") {
+        const userId = res.data.userId;
+        const username = res.data.username;
+        this.setUserId(userId);
+        this.setUsername(username);
+        const response = await this.$api.getUserRole(userId);
+        if(response.code === "000000") {
+            this.setRole(response.data.role);
+        }
+      }
+    }
+  },
+  created() {
+    this.getInfo()
+  }
 };
 </script>
 
 <style lang="less">
-  html,body{
-    margin: 0;
-    padding: 0;
-    background-color: #252A2F;
-    width:100%;
-    height:100%;
-    font-size: 14px;
-    .config-message{
-      margin-top: 100px;
-    }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #252a2f;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  .config-message {
+    margin-top: 100px;
   }
   #app {
     font-family:'Microsoft YaHei, Arial';
@@ -38,5 +61,5 @@ export default {
       /*padding:0 20px;*/
     }
   }
-
+}
 </style>

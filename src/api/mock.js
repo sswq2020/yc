@@ -32,42 +32,6 @@ const body_fail = {
     "mesg": "系统错误"
 }
 
-
-
-const StatusList = {
-    "1": "转账成功",
-    "2": "财务待审核",
-    "3": "财务审核不通过",
-    "4": "出纳待审核",
-    "5": "出纳审核不通过",
-    "6": "转帐中",
-    "7": "转帐状态未知",
-    "8": "转帐失败",
-    "9": "异常或其他",
-    "10": "财务审核中",
-    "11": "出纳审核中",
-    "12": "待支付",
-    "13": "银行请求失败",
-    "14": "待确认"
-}
-
-
-
-const roleList = {
-    createdBy: "system",
-    createdTime: '@DATE("yyyy-MM-dd HH:mm:ss")',
-    roleCode: "role_hlet-system-center",
-    roleDesc: "@NAME()",
-    'roleId|+1': "13724569",
-    roleName: "@NAME()",
-    status: '@PICK(0, 1)',
-    systemCode: "hlet-system-center",
-    'systemId||+1': "13724",
-    systemName: "系统中心",
-    updatedBy: "admin",
-    updatedTime: '@DATE("yyyy-MM-dd HH:mm:ss")',
-};
-
 const shipperManageList = {
     "id|+1": "@INTEGER(1,2019690999)",
     "mock1": "12344435", //业务单号
@@ -83,67 +47,56 @@ const shipperManageList = {
     "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称
 }
 
-const cashconfirmList = {
-    "creditNo": "JS@INTEGER(2019690000,2019690999)", //交易凭证号
-    "id|+1": "65756713724569",
-    "settlementNo": "JS@INTEGER(2019690000,2019690999)", //业务单号
-    "fund": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
-    "amount": "@float(200,999)", // 金额(元)
-    "appCode": "@PICK('10000','10010','10020')", // 数据来源
-    "appName": "集配货运", // 数据来源 名称
-    "payerAccountName": "惠龙易通@CITY()公司", // 转出账户名
-    "payerBankNo": "65521464564654987654", // 转出账户号
-    "payeeAccountName": "@CNAME()", // 转入账户名 
-    "payeeBankNo": "65521464564654987654", // 转入账户号
-    "payeeOpenDept": "@PICK('中国','中信')银行", // 转入账户开户机构名称
-    "status": "@PICK(4,5,6,7,11,12,13)", // 状态 int
-    "createdTime": "@DATE('yyyy-MM-dd HH:mm:ss')",
-    "cashier": "@CNAME()", // 转账人
-    "payTime": '@DATE("yyyy-MM-dd HH:mm:ss")', // 转账时间
-    "auditInstances|1-3": [{     // 审核信息,包含审核人,备注,审核时间
-        auditorName: "@CNAME()", //审核人
-        auditTime: '@DATE("yyyy-MM-dd HH:mm:ss")', // 审核时间
-        auditOpinion: '@CTITLE(2,10)', // 备注意见
-        auditResult: "@PICK(0,1)", // 审核结果',
-    }]
+const InventoryTableList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "mock1": "12344435", //业务单号
+    "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
+    "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
+    "mock4": "@float(200,999)", // 金额(元)
+    "reserveweight": "@INTEGER(20,80)", // 数据来源
+    "shipper": "货主@PICK('1','2','3','4','5')", // 数据来源 名称
+    "mock6": "集配货运", // 数据来源 名称
+    "mock7": "惠龙易通@CITY()公司", // 转出账户名
+    "mock8": "65521464564654987654", // 转出账户号
+    "mock9": "@CNAME()", // 转入账户名 
+    "mock10": "65521464564654987654", // 转入账户号
+    "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称
 }
 
-const tradeDetailList = {
-    ...shipperManageList, ...{
-        "status": "@PICK(1,8)",
-        "creditNo": "JS@INTEGER(2019690000,2019690999)"
-    }
+const RetrievalList = {
+    "shipper":"@CNAME()",
+    "reserveweight":"@INTEGER(15,100)",
+    "id|+1": "@INTEGER(1,2019690999)",
+    "mock1": "12344435", //业务单号
+    "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
+    "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
+    "mock4": "@float(200,999)", // 金额(元)
+    "mock5": "@PICK(1,0)", // 数据来源
+    "mock6": "集配货运", // 数据来源 名称
+    "mock7": "惠龙易通@CITY()公司", // 转出账户名
+    "mock8": "65521464564654987654", // 转出账户号
+    "mock9": "@CNAME()", // 转入账户名 
+    "mock10": "65521464564654987654", // 转入账户号
+    "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称    
 }
 
 
-const bankAccountList = {
-    "accountId|+1": "65756713724569", // 账户ID
-    shortName: "惠龙账户@PICK(4,5,6,7)", // 账户简称
-    accNo: "65521464564654987654", // 账号
-    accName: "惠龙易通国际物流股份有限公司涟水分公司", // 账户名称
-    openaccDept: "@PICK('中国','中信','建设')银行", // 开户机构名称
-    accStatus: "@PICK('0','1','2','4')", // 账户状态
-    balance: "@INTEGER(2019690000,2019690999)", // 余额 非公司账号无法查询
-    balancedate: '@DATE("yyyy-MM-dd HH:mm:ss")', // 余额查询日期
-    bankName: "中国建设银行", // 银行名称
-    ubankNo: "10000", // 联行号
-    branchName: "润州支行" // 分行名称
-}
+const ShipperList = [{ "0": "mock1" }, { "1": "mock2" }]
+const SpecificationList = [{ "0": "mock1" }, { "1": "mock2" }]
+const MaterialList = [{ "0": "mock1" }, { "1": "mock2" }]
+const ProductNameList = [{ "0": "mock1" }, { "1": "mock2" }]
+const OriginPlaceList = [{ "0": "mock1" }, { "1": "mock2" }]
+const storageList = [{ "0": "mock1" }, { "1": "mock2" }]
 
-const detailList = {
-    "id|+1": "65756713724569",
-    tranTime: '@DATE("yyyy-MM-dd HH:mm:ss")', // 交易时间
-    dorc: "@PICK('0','1')",//交易类型 0 借 1贷
-    creditNo: "pz@INTEGER(2019690000,2019690999)",//凭证号
-    accName1: "@CNAME",// 对方账户名称
-    accNo1: "65@INTEGER(2019690000,2019690999)",// 对方账号
-    abstractData: "@CTITLE(6)",// 摘要
-    amount: "-@INTEGER(90000,2019690999)",// 发生金额
-    balance: "@INTEGER(90000,2019690999)",// 余额
+
+const MockRole = {
+    role: "@PICK('1','2')"  // 货主 1,仓管员 2
 }
 
 const mockRouterMap = {
     [hostList.default]: [
+        // #region 基础信息
+
         // #region  查询货主管理列表
         {
             isMock: IS_MOCK,
@@ -167,7 +120,6 @@ const mockRouterMap = {
             }
         },
         // #endregion 
-
 
         // #region  删除货主
         {
@@ -208,39 +160,27 @@ const mockRouterMap = {
         },
         // #endregion    
 
+        // #endregion
 
+        // #region 仓储信息
 
-
-        // #region  银行转账批量审核或者作废
+        // #region  获取库存表列表
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: 'payacc/web/settlementPayOrder/audit/finance',
-            result(params) {
-                return Math.random() > 0.5 ? body : body_fail
-            }
-        },
-        // #endregion 
-
-        // #region  银行转账出纳确认列表
-        {
-            isMock: IS_MOCK,
-            methods: 'post',
-            router: 'payacc/web/settlementPayOrder/pageList/cashier',
+            router: storageURL + '/web/settlement/pageList/InventoryTable',
             result(params) {
                 return {
                     ...body,
                     ...{
                         data: {
-                            'list|20-30': [cashconfirmList],
+                            'list|10-20': [InventoryTableList],
                             "paginator": {
                                 "currentPage": params.page,
                                 "pageSize": params.pageSize,
                                 "totalCount": 1000,
                                 "totalPage": 1000 / params.pageSize
-                            },
-                            pageTotalAmount: 45567453.23,
-                            countTotalAmount: 192567453.23
+                            }
                         },
                     },
                 };
@@ -248,195 +188,157 @@ const mockRouterMap = {
         },
         // #endregion 
 
-        // #region  出纳批量转账或者作废
+        // #region  查询选中的是否还有余量
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: 'payacc/web/settlementPayOrder/audit/cashier',
-            result(params) {
-                return Math.random() > 0.5 ? body : body_fail
-            }
-        },
-        // #endregion         
-
-        // #region  刷新状态
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: 'payacc/web/settlementPayOrder/operate/refreshStatus',
-            result(params) {
-                return Math.random() > 0.5 ? body : body_fail
-            }
-        },
-        // #endregion 
-
-        // #region  重新支付
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: 'payacc/web/settlementPayOrder/operate/rePay',
+            router: storageURL + '/web/InventoryTable/surplus',
             result() {
-                return Math.random() > 0.5 ? body : body_fail
-            }
-        },
-        // #endregion 
-
-        // #region  人工确认
-        {
-            isMock: IS_MOCK,
-            methods: 'post',
-            router: 'payacc/web/settlementPayOrder/operate/cashier',
-            result(params) {
                 return {
                     ...body,
+                    ...{
+                        data: {
+                            HasSurPlus: Math.random() > 0.0001 ? true : false
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  选中的进行冻结
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/InventoryTable/frozen',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  选中的进行解冻
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/InventoryTable/unfrozen',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/waitCheckOuter/detailRetrieval',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        'list|5': [RetrievalList]
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+
+
+        // #endregion
+
+        // #region 系统参数
+
+        // #region  获取用户信息
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: '/system/manage/user/getUser',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        avatar: "https://file.hletong.com/group1/M00/00/00/CgESM10JhOeAMwkYAACpkiPEWEc863.png?token=0175c2599f38e9285a5c46f9aa563460&ts=1561431795",
+                        createdBy: "admin",
+                        createdTime: "2019-06-24 08:41:15.0",
+                        email: "",
+                        locked: 1,
+                        password: "92bf7f66349ac7c8ede0aedc81f41a663c720a4510dd032991f985983dd976e5",
+                        phone: "18652860219",
+                        realname: "施少伟奇",
+                        updatedBy: "admin",
+                        updatedTime: "2019-06-24 08:41:15.0",
+                        userId: "174466677793095680",
+                        username: "18652860219",
+                        version: "1"
+                    }
                 };
             }
         },
         // #endregion    
 
-        // #region  银行转账交易明细列表(历史或者已完成结算订单查询)
+        // #region  获取用户系统跳转
         {
             isMock: IS_MOCK,
-            methods: 'post',
-            router: 'payacc/web/settlementPayOrder/pageList/tradeDetail',
-            result(params) {
+            methods: 'get',
+            router: '/system/manage/user/getSystems',
+            result() {
                 return {
                     ...body,
-                    ...{
-                        data: {
-                            'list|1-10': [tradeDetailList],
-                            "paginator": {
-                                "currentPage": params.page,
-                                "pageSize": params.pageSize,
-                                "totalCount": 1000,
-                                "totalPage": 1000 / params.pageSize
-                            },
-                            pageTotalAmount: 45567453.23,
-                            countTotalAmount: 192567453.23
-                        },
-                    },
-                };
+                    "data": [
+                        {
+                            "path": "https://pay.hletong.com",
+                            "systemCode": "cwzx",
+                            "systemId": "166948708439556096",
+                            "systemName": "惠龙云仓"
+                        }],
+                }
             }
         },
-        // #endregion 
+        // #endregion    
 
-        // #region  重新转账
+        // #region  获取用户角色
         {
             isMock: IS_MOCK,
-            methods: 'post',
-            router: 'payacc/web/settlementPayOrder/audit/againTransfer',
-            result(params) {
+            methods: 'get',
+            router: '/system/manage/user/getUserRole',
+            result() {
                 return {
                     ...body,
+                    data: {
+                        ...MockRole
+                    }
                 };
             }
         },
         // #endregion   
 
-        // #region  银行账户信息管理列表也是账户余额接口
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: 'payacc/web/bankAccount/pageList/hlet',
-            result(params) {
-                return {
-                    ...body,
-                    ...{
-                        data: {
-                            'list|6-15': [bankAccountList],
-                            "paginator": {
-                                "currentPage": params.page,
-                                "pageSize": params.pageSize,
-                                "totalCount": 1000,
-                                "totalPage": 1000 / params.pageSize
-                            },
-                        },
-                    },
-                };
-            }
-        },
-        // #endregion 
+        // #endregion
 
-        // #region  银行卡片点击眼睛再次查询账户余额
+        // #region  字典项
         {
             isMock: IS_MOCK,
             methods: 'get',
-            router: 'payacc/web/bankAccount/refreshBalance',
-            result(params) {
+            router: '/web/systemData/getAllBaseInfo',
+            result() {
                 return {
                     ...body,
                     data: {
-                        balance: 854654324
+                        "ShipperList": ShipperList,
+                        "SpecificationList": SpecificationList,
+                        "MaterialList": MaterialList,
+                        "ProductNameList": ProductNameList,
+                        "OriginPlaceList": OriginPlaceList,
+                        "storageList": storageList
                     }
                 };
             }
         },
-        // #endregion 
-
-
-        // #region  删除账户信息
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: 'payacc/web/bankAccount/delete',
-            result(params) {
-                return {
-                    ...body,
-                };
-            }
-        },
-        // #endregion  
-
-        // #region  新增账户信息
-        {
-            isMock: IS_MOCK,
-            methods: 'post',
-            router: 'payacc/web/bankAccount/create',
-            result(params) {
-                return {
-                    ...body,
-                };
-            }
-        },
-        // #endregion  
-
-        // #region  编辑账户信息
-        {
-            isMock: IS_MOCK,
-            methods: 'post',
-            router: 'payacc/web/bankAccount/update',
-            result(params) {
-                return {
-                    ...body,
-                };
-            }
-        },
-        // #endregion  
-
-        // #region  获取交易明细
-        {
-            isMock: IS_MOCK,
-            methods: 'post',
-            router: 'payacc/web/billDetail/getBillDetail',
-            result(params) {
-                return {
-                    ...body,
-                    ...{
-                        data: {
-                            'list|6-15': [detailList],
-                            "paginator": {
-                                "totalPage": 5
-                            },
-                            reserveData: {}
-                        },
-                    },
-                };
-            }
-        },
-        // #endregion  
-
-
-        // #region  字典项
         {
             isMock: IS_MOCK,
             methods: 'get',
@@ -459,7 +361,6 @@ const mockRouterMap = {
             result() {
                 return {
                     ...body,
-                    data: StatusList
                 };
             }
         },
@@ -482,6 +383,7 @@ const mockRouterMap = {
 
         // #endregion     
         
+        // 数据字段项
         {
             isMock: IS_MOCK,
             methods: 'get',

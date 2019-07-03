@@ -327,6 +327,12 @@ export default {
         // return formDataRequest(`${validUrl}/mc-client/sms/template/smsService/verifiCode`, params)
         return formDataRequest(`/sms/mc-client/sms/template/smsService/verifiCode`, params)
     },
+    // #region 根据userId判断角色是货主还是仓库管理人员
+    getUserRole(userId){
+        return fetch('/system/manage/user/getUserRole', { userId }, 'get')            
+    },
+    // #endregion
+
     // #region  基础信息
     /**
      * @author sswq
@@ -358,10 +364,60 @@ export default {
     updateShipper(params) {
         return fetch(storageURL + '/web/yc/base/cargoManage/update', params)
     },    
+    // #endregion
 
+    // #region 仓储管理
+    /**
+     * @author sswq
+     * @param params
+     * @description 查询库存表的详细
+     * */
+    getInventoryTable(params){
+        return fetch(storageURL + '/web/settlement/pageList/InventoryTable', params)          
+    },   
+    /**
+     * @author sswq
+     * @param params
+     * @description 查询选中的是否还有余量
+     * */
+    getSurplus(params){
+        return fetch(storageURL + '/web/InventoryTable/surplus', params)          
+    },      
+    /**
+     * @author sswq
+     * @param params
+     * @description 选中的进行冻结
+     * */
+    frozen(params){
+        return fetch(storageURL + '/web/InventoryTable/frozen', params)          
+    },   
+    /**
+     * @author sswq
+     * @param params
+     * @description 选中的进行解冻
+     * */
+    unfrozen(params){
+        return fetch(storageURL + '/web/InventoryTable/unfrozen', params)          
+    },
+    /**
+     * @author sswq
+     * @param params
+     * @description 待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
+     * */    
+    detailRetrieval(params){
+        return fetch(storageURL + '/web/waitCheckOuter/detailRetrieval', params)         
+    },       
+    
     // #endregion
 
     // #region  字典项
+    /**
+     * @author sswq
+     * @description 查询所有基础信息下拉数据源
+     * */
+    getAllBaseInfo() {
+        return fetch(storageURL + '/web/systemData/getAllBaseInfo', '', 'get')
+    },
     /**
      * @author sswq
      * @description 数据来源
