@@ -5,7 +5,7 @@
       <div class="form-item">
         <label>货主名称</label>
         <div class="form-control">
-          <el-select v-model="form.param_1" placeholder="请选择" size="small">
+          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in ShipperList"
               :key="index"
@@ -71,12 +71,7 @@ import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 
 const defaultFormData = {
-  param_1: "",
-  param_2: "",
-  param_3: "",
-  param_4: "",
-  param_5: "",
-  param_6: ""
+  cargoId: null,
 };
 const defaultListParams = {
   pageSize: 20,
@@ -181,7 +176,7 @@ export default {
           break;
         default:
           this.listData = { ...defaultListData };
-          this.$Message.error(res.errMsg);
+          this.$message.error(res.errMsg);
           break;
       }
     },
