@@ -13,9 +13,11 @@
       <div class="form-item">
         <label>交割库地址</label>
         <div class="form-control">
-          <el-select v-model="listParams.address" placeholder="请选择">
-            <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
+          <AreaCascader 
+            :value="listParams.address" 
+            :clearable="true"
+            @selection="selectArea"
+          />
         </div>
       </div>
       <div class="form-item">
@@ -81,6 +83,7 @@ import { mapMutations  } from 'vuex';
 import Dict from "@/util/dict.js";
 import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
+import AreaCascader from "@/components/areaCascader";
 import SettlementFormModal from "./settlementFormModal.vue";
 
 const defaultListParams = {
@@ -97,6 +100,7 @@ export default {
   components: {
     HLBreadcrumb,
     HLtable,
+    AreaCascader,
     SettlementFormModal
   },
   data() {
@@ -179,7 +183,7 @@ export default {
           });
           break;
         default:
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },
@@ -199,6 +203,11 @@ export default {
       this.listParams.page = currentPage;
       this.getList();
     },
+    selectArea(value) {
+      this.listParams.storeAddressProvince = value[0] || '';
+      this.listParams.storeAddressCity = value[1] || '';
+      this.listParams.storeAddressCounty = value[2] || '';
+    },
     add() {
       this.isEdit = false;
       this.editObj = null;
@@ -216,22 +225,23 @@ export default {
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, state, version, deliveryStore } = obj;
+      const { id, state, deliveryStore } = obj;
       const operationText = state == '0' ? '禁用' : '激活';
+      const serve =  state == '0' ? 'disableDeliveryStore' : 'activeDeliveryStore';
       this.$confirm(`确定要确定要${operationText}交割库${deliveryStore}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
       })
       .then(async () => {
-        const response = await that.$api.updateDeliveryStoreState({ id, version, state: state == '0' ? '1' : '0' });
+        const response = await that.$api[serve]({ id });
         switch (response.code) {
           case Dict.SUCCESS:
             that.$messageSuccess(`${operationText}成功`);
             that.getList();
             break;
           default:
-            that.$messageError(`${operationText}失败，${response.errMsg}`);
+            that.$messageError(`${operationText}失败，${response.mesg}`);
             break;
         }
       });

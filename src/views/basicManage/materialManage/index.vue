@@ -130,7 +130,7 @@ export default {
           this.listData = res.data;
           break;
         default:
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },
@@ -178,7 +178,7 @@ export default {
             that.getList();
             break;
           default:
-            that.$messageError(`${operationText}失败，${response.errMsg}`);
+            that.$messageError(`${operationText}失败，${response.mesg}`);
             break;
         }
       });

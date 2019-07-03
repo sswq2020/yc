@@ -364,6 +364,78 @@ export default {
     updateShipper(params) {
         return fetch(storageURL + '/web/yc/base/cargoManage/update', params)
     },    
+
+    /**
+     * @author xh
+     * @description 激活货主
+     * */
+    activeCargo(params) {
+        return fetch(storageURL + '/web/yc/base/cargoManage/updateActive', params)
+    },
+    /**
+     * @author xh
+     * @description 禁用用货主
+     * */
+    disableCargo(params) {
+        return fetch(storageURL + '/web/yc/base/cargoManage/updateDisable', params)
+    },
+    /**
+     * @author xh
+     * @description 品名列表查询
+     * */
+    gettProductNamesList(params) {
+        return fetch(storageURL + '/web/yc/base/productName/listProductNames', params)
+    },
+    /**
+     * @author xh
+     * @description 新增品名
+     * */
+    addProductName(params) {
+        return fetch(storageURL + '/web/yc/base/productName/add', params)
+    },
+    /**
+     * @author xh
+     * @description 编辑品名
+     * */
+    updateProductName(params) {
+        return fetch(storageURL + '/web/yc/base/productName/update', params)
+    },
+    /**
+     * @author xh
+     * @description 禁用品名
+     * */
+    disableProductName(params) {
+        return fetch(storageURL + '/web/yc/base/productName/disable', params)
+    },
+    /**
+     * @author xh
+     * @description 激活品名
+     * */
+    activeProductName(params) {
+        return fetch(storageURL + '/web/yc/base/productName/active', params)
+    },
+    /**
+     * @author xh
+     * @description 交割库分页查询
+     * */
+    getDeliveryStoreList(params) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/pageDeliveryStore', params)
+    },
+     /**
+     * @author xh
+     * @description 禁用交割库
+     * */
+    disableDeliveryStore(params) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/updateDisable', params)
+    },
+     /**
+     * @author xh
+     * @description 激活交割库
+     * */
+    activeDeliveryStore(params) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/updateActive', params)
+    },
+
     // #endregion
 
     // #region 仓储管理
@@ -419,90 +491,13 @@ export default {
         return fetch(storageURL + '/web/systemData/getAllBaseInfo', '', 'get')
     },
     /**
-     * @author sswq
-     * @description 数据来源
-     * */
-    getAppInfo() {
-        return fetch(storageURL + '/web/systemData/appInfo', '', 'get')
-    },
-    /**
-     * @author sswq
-     * @description 支付结算订单状态
-     * */
-    getPayOrderStatus() {
-        return fetch(storageURL + '/web/systemData/settlementPayOrderStatus', '', 'get')
-    },
-    /**
-     * @author sswq
-     * @description 银行字典
-     * */
-    getbankDic() {
-        return fetch(storageURL + '/web/systemData/bankDic', '', 'get')
-    },
-    // #endregion
-
-    /**
      * @author xh
      * @description 获取字典项数据列表
      * */
     getValidList(params) {
         return fetch(storageURL + '/dict/item/valid/list/get', params, 'get')
     },
+    // #endregion
 
-    /**
-     * @author xh
-     * @description 更新货主状态
-     * */
-    updateCargoState(params) {
-        return fetch(storageURL + '/web/yc/base/cargoManage/updateState', params)
-    },
-    /**
-     * @author xh
-     * @description 品名列表查询
-     * */
-    gettProductNamesList(params) {
-        return fetch(storageURL + '/web/yc/base/productName/listProductNames', params)
-    },
-    /**
-     * @author xh
-     * @description 新增品名
-     * */
-    addProductName(params) {
-        return fetch(storageURL + '/web/yc/base/productName/add', params)
-    },
-    /**
-     * @author xh
-     * @description 编辑品名
-     * */
-    updateProductName(params) {
-        return fetch(storageURL + '/web/yc/base/productName/update', params)
-    },
-    /**
-     * @author xh
-     * @description 禁用品名
-     * */
-    disableProductName(params) {
-        return fetch(storageURL + '/web/yc/base/productName/disable', params)
-    },
-    /**
-     * @author xh
-     * @description 激活品名
-     * */
-    activeProductName(params) {
-        return fetch(storageURL + '/web/yc/base/productName/active', params)
-    },
-    /**
-     * @author xh
-     * @description 交割库分页查询
-     * */
-    getDeliveryStoreList(params) {
-        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/pageDeliveryStore', params)
-    },
-     /**
-     * @author xh
-     * @description 更新交割库状态
-     * */
-    updateDeliveryStoreState(params) {
-        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/updateState', params)
-    },
+    
 }

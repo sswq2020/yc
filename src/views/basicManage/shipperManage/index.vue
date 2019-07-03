@@ -173,7 +173,7 @@ export default {
           });
           break;
         default:
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },
@@ -211,20 +211,21 @@ export default {
       let that = this;
       const { id, state, version, cargoName } = obj;
       const operationText = state == '0' ? '禁用' : '激活';
+      const serve = state == '0' ? 'disableCargo' : 'activeCargo';
       that.$confirm(`确定要确定要${operationText}货主${cargoName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         })
         .then(async () => {
-          const response = await that.$api.updateCargoState({ id, version, state: state == '0' ? '1' : '0' });
+          const response = await that.$api[serve]({ id });
           switch (response.code) {
             case Dict.SUCCESS:
               that.$messageSuccess(`${operationText}成功`);
               that.getList();
               break;
             default:
-              that.$messageError(`${operationText}失败，${response.errMsg}`);
+              that.$messageError(`${operationText}失败，${response.mesg}`);
               break;
           }
         });

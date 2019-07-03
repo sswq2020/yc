@@ -5,10 +5,12 @@
         <el-input v-model="form.deliveryStore" maxlength="20"  placeholder="请输入"></el-input>
       </el-form-item>
       <div class="two-form-item">
-        <el-form-item label="交割库地址" prop="mock2">
-          <el-select v-model="form.mock2" placeholder="请选择">
-            <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
+        <el-form-item label="交割库地址" prop="address">
+          <AreaCascader 
+              :value="form.address" 
+              :clearable="true"
+              @selection="selectArea"
+            />
         </el-form-item>
         <el-form-item prop="storeAddressStreet" label-width="0">
           <el-input v-model="form.storeAddressStreet" maxlength="50"  placeholder="请输入"></el-input>
@@ -44,10 +46,14 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 import InputNumber from '@/components/inputNumber.vue';
+import AreaCascader from "@/components/areaCascader";
 import { phoneValidation } from '@/util/reg.js';
 const defaultForm = {
   deliveryStore: '',
-  mock2: '',
+  address: [],
+  storeAddressProvince: '',
+  storeAddressCity: '',
+  storeAddressCounty: '',
   storeAddressStreet: '',
   storeCapacity: 0,
   storeType: '',
@@ -68,7 +74,8 @@ const checkPhone = (rule, value, callback) => {
 export default {
   name: "settlementFormModal",
   components: {
-    InputNumber
+    InputNumber,
+    AreaCascader
   },
   props: {
     isEdit: {
@@ -93,13 +100,13 @@ export default {
     return {
       form:{...defaultForm},
       rules: {
-        mock1: [{ required: true, message: "请输入交割库名称", trigger: "blur" }],
-        mock2: [{ required: true, message: "请选择交割库地址", trigger: "blur" }],
-        mock3: [{ required: true, message: "请输入交割库详细地址", trigger: "blur" }],
-        mock4: [{ required: true, message: "请输入交割库容量", trigger: "blur" }],
-        mock5: [{ required: true, message: "请选择交割库类型", trigger: "blur" }],
-        mock6: [{ required: true, message: "请输入负责人姓名", trigger: "blur" }],
-        mock7: [{ required: true, validator: checkPhone,  trigger: "blur" }],
+        deliveryStore: [{ required: true, message: "请输入交割库名称", trigger: "blur" }],
+        address: [{ required: true, message: "请选择交割库地址", trigger: "blur" }],
+        storeAddressStreet: [{ required: true, message: "请输入交割库详细地址", trigger: "blur" }],
+        storeCapacity: [{ required: true, message: "请输入交割库容量", trigger: "blur" }],
+        storeType: [{ required: true, message: "请选择交割库类型", trigger: "blur" }],
+        leader: [{ required: true, message: "请输入负责人姓名", trigger: "blur" }],
+        contactTel: [{ required: true, validator: checkPhone,  trigger: "blur" }],
       },
       addressList: [{
           value: '选项1',
@@ -143,6 +150,12 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    selectArea(value) {
+      this.form.address = value;
+      this.form.storeAddressProvince = value[0] || '';
+      this.form.storeAddressCity = value[1] || '';
+      this.form.storeAddressCounty = value[2] || '';
+    },
     cancle() {
       this.SET_MODAL_VISIBLE(false);
     },
@@ -150,7 +163,11 @@ export default {
       let that = this;
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          let parmas = JSON.parse(JSON.stringify(that.form));
+          let parmas = {
+            ...that.form
+          };
+          delete parmas.address;
+          console.log(parmas);
           that.confirmCb(parmas);
         } else {
           console.log("error submit!!");
