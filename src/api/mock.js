@@ -480,7 +480,65 @@ const mockRouterMap = {
         },
 
 
-        // #endregion                 
+        // #endregion     
+        
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: '/dict/item/valid/list/get',
+            result() {
+                return {
+                    ...body,
+                    "data": [
+                        {
+                          "createdBy": "system",
+                          "createdTime": "2019-07-01 17:17:12.349657",
+                          "dictCode": "00",
+                          "dictName": "钢材",
+                          "entryCode": "YcProductType",
+                          "orderBy": 0,
+                          "remark": "钢材",
+                          "selected": 1,
+                          "selected_": "是",
+                          "status": 1,
+                          "status_": "有效",
+                          "updatedTime": "2019-07-01 17:17:12.349657",
+                          "version": "0"
+                        },
+                        {
+                          "createdBy": "system",
+                          "createdTime": "2019-07-01 17:17:12.353637",
+                          "dictCode": "01",
+                          "dictName": "石油",
+                          "entryCode": "YcProductType",
+                          "orderBy": 1,
+                          "remark": "石油",
+                          "selected": 0,
+                          "selected_": "否",
+                          "status": 1,
+                          "status_": "有效",
+                          "updatedTime": "2019-07-01 17:17:12.353637",
+                          "version": "0"
+                        },
+                        {
+                          "createdBy": "system",
+                          "createdTime": "2019-07-01 17:17:12.359444",
+                          "dictCode": "02",
+                          "dictName": "木材",
+                          "entryCode": "YcProductType",
+                          "orderBy": 2,
+                          "remark": "木材",
+                          "selected": 0,
+                          "selected_": "否",
+                          "status": 1,
+                          "status_": "有效",
+                          "updatedTime": "2019-07-01 17:17:12.359444",
+                          "version": "0"
+                        }
+                      ]
+                };
+            }
+        },
     ]
 };
 

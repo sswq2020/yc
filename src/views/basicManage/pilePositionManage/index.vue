@@ -44,8 +44,8 @@
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
-      :total="listData.totalCount"
-      :currentPage="listParams.currentPage"
+      :total="listData.paginator.totalCount"
+      :currentPage="listParams.page"
       :pageSize="listParams.pageSize"
       :data="listData.list"
       :loading="isListDataLoading"
@@ -88,7 +88,7 @@ import HLtable from "@/components/hl_table";
 import PilePositionFormModal from "./pilePositionFormModal.vue";
 
 const defaultListParams = {
-  currentPage: 1,
+  page: 1,
   pageSize: 20,
   warehouse: '',
   reservoirArea: '',
@@ -138,7 +138,9 @@ export default {
         },
       ],
       listData: {
-        totalCount: 0,
+        paginator: {
+          totalCount: 0,
+        },
         list: []
       },
       listParams: {
@@ -166,7 +168,7 @@ export default {
       }
     },
     search() {
-      this.listParams.currentPage = 1;
+      this.listParams.page = 1;
       this.getList();
     },
     reset() {
@@ -178,7 +180,7 @@ export default {
       this.getList();
     },
     changePage(currentPage) {
-      this.listParams.currentPage = currentPage;
+      this.listParams.page = currentPage;
       this.getList();
     },
     add() {
@@ -214,8 +216,19 @@ export default {
         }
       });
     },
-    modalConfirm() {
-      console.log('modal confirm');
+    async modalConfirm(obj) {
+      const serve = this.isEdit ? "updateProductName" : "addProductName";
+      const response = await this.$api[serve]({ ...obj });
+      switch (response.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
+          this.SET_MODAL_VISIBLE(false);
+          this.getList();
+          break;
+        default:
+          this.$messageError(response.mesg);
+          break;
+      }
     }
   },
   mounted() {

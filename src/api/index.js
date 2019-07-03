@@ -334,7 +334,7 @@ export default {
      * @description 查询货主管理列表
      * */
     getShipperManageList(params) {
-        return fetch(storageURL + '/web/settlement/pageList/shipperManage', params, 'get')
+        return fetch(storageURL + '/web/yc/base/cargoManage/pageCargo', params)
     },
     /**
      * @author sswq
@@ -349,14 +349,14 @@ export default {
      * @description 新增货主
      * */
     createShipper(params) {
-        return fetch(storageURL + '/web/Shipper/create', params)
+        return fetch(storageURL + '/web/yc/base/cargoManage/add', params)
     },
     /**
      * @author sswq
      * @description 编辑货主
      * */
     updateShipper(params) {
-        return fetch(storageURL + '/web/Shipper/update', params)
+        return fetch(storageURL + '/web/yc/base/cargoManage/update', params)
     },    
 
     // #endregion
@@ -382,6 +382,71 @@ export default {
      * */
     getbankDic() {
         return fetch(storageURL + '/web/systemData/bankDic', '', 'get')
-    }
+    },
     // #endregion
+
+    /**
+     * @author xh
+     * @description 获取字典项数据列表
+     * */
+    getValidList(params) {
+        return fetch(storageURL + '/dict/item/valid/list/get', params, 'get')
+    },
+
+    /**
+     * @author xh
+     * @description 更新货主状态
+     * */
+    updateCargoState(params) {
+        return fetch(storageURL + '/web/yc/base/cargoManage/updateState', params)
+    },
+    /**
+     * @author xh
+     * @description 品名列表查询
+     * */
+    gettProductNamesList(params) {
+        return fetch(storageURL + '/web/yc/base/productName/listProductNames', params)
+    },
+    /**
+     * @author xh
+     * @description 新增品名
+     * */
+    addProductName(params) {
+        return fetch(storageURL + '/web/yc/base/productName/add', params)
+    },
+    /**
+     * @author xh
+     * @description 编辑品名
+     * */
+    updateProductName(params) {
+        return fetch(storageURL + '/web/yc/base/productName/update', params)
+    },
+    /**
+     * @author xh
+     * @description 禁用品名
+     * */
+    disableProductName(params) {
+        return fetch(storageURL + '/web/yc/base/productName/disable', params)
+    },
+    /**
+     * @author xh
+     * @description 激活品名
+     * */
+    activeProductName(params) {
+        return fetch(storageURL + '/web/yc/base/productName/active', params)
+    },
+    /**
+     * @author xh
+     * @description 交割库分页查询
+     * */
+    getDeliveryStoreList(params) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/pageDeliveryStore', params)
+    },
+     /**
+     * @author xh
+     * @description 更新交割库状态
+     * */
+    updateDeliveryStoreState(params) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/updateState', params)
+    },
 }

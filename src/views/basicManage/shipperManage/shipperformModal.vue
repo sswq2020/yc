@@ -16,11 +16,11 @@
 import { mapState, mapMutations } from 'vuex';
 import { mobileValidation, phoneValidation } from '@/util/reg.js';
 const defaultForm = {
-  mock1:null,
-  mock2:null,
-  mock3:null,
-  mock4:null,
-  mock5:null
+  telPhone: null,
+  cargoName: null,
+  socialCreditCode: null,
+  bizContact: null,
+  contactTel: null
 };
 
 const checkMobile = (rule, value, callback) => {
@@ -70,36 +70,36 @@ export default {
       formItem: [
         {
           label: '手机号码',
-          prop: 'mock1',
+          prop: 'telPhone',
           maxlength: 11
         },
         {
           label: '货主名称',
-          prop: 'mock2',
+          prop: 'cargoName',
           maxlength: 50
         },
         {
           label: '社会统一信用代码',
-          prop: 'mock3',
+          prop: 'socialCreditCode',
           maxlength: 20
         },
         {
           label: '联系人',
-          prop: 'mock4',
+          prop: 'bizContact',
           maxlength: 10
         },
         {
           label: '联系电话',
-          prop: 'mock5',
+          prop: 'contactTel',
           maxlength: 30
         }
       ],
       rules: {
-        mock1: [{ required: true, validator: checkMobile, trigger: "blur" }],
-        mock2: [{ required: true, message: "请输入货主名称", trigger: "blur" }],
-        mock3: [{ required: true, message: "请输入社会统一信用代码", trigger: "blur" }],
-        mock4: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
-        mock5: [{ required: true, validator: checkPhone, trigger: "blur" }]
+        telPhone: [{ required: true, validator: checkMobile, trigger: "blur" }],
+        cargoName: [{ required: true, message: "请输入货主名称", trigger: "blur" }],
+        socialCreditCode: [{ required: true, message: "请输入社会统一信用代码", trigger: "blur" }],
+        bizContact: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
+        contactTel: [{ required: true, validator: checkPhone, trigger: "blur" }]
       }
     };
   },
@@ -117,7 +117,6 @@ export default {
     confirm() {
       let that = this;
       this.$refs.ruleForm.validate(valid => {
-        console.log(valid);
         if (valid) {
           let parmas = JSON.parse(JSON.stringify(that.form));
           that.confirmCb(parmas);

@@ -7,7 +7,7 @@
       <div class="form-item">
         <label>交割库名称</label>
         <div class="form-control">
-          <el-input v-model="listParams.name" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.deliveryStore" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -21,7 +21,7 @@
       <div class="form-item">
         <label>交割库类型</label>
         <div class="form-control">
-          <el-select v-model="listParams.type" placeholder="请选择">
+          <el-select v-model="listParams.storeType" placeholder="请选择">
             <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
@@ -40,8 +40,8 @@
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
-      :total="listData.totalCount"
-      :currentPage="listParams.currentPage"
+      :total="listData.paginator.totalCount"
+      :currentPage="listParams.page"
       :pageSize="listParams.pageSize"
       :data="listData.list"
       :loading="isListDataLoading"
@@ -62,13 +62,13 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.status === 1 ? '禁用' : '激活'}}</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.state == '0' ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
     </HLtable>
     <SettlementFormModal 
       :isEdit="isEdit"
-      :settlementObj="editObj"
+      :editObj="editObj"
       :loading="isEditLoading"
       :confirmCb="modalConfirm"
     />
@@ -84,11 +84,13 @@ import HLtable from "@/components/hl_table";
 import SettlementFormModal from "./settlementFormModal.vue";
 
 const defaultListParams = {
-  currentPage: 1,
+  page: 1,
   pageSize: 20,
-  name: '',
-  address: '',
-  type: ''
+  deliveryStore: '',
+  storeAddressProvince: '',
+  storeAddressCity: '',
+  storeAddressCounty: '',
+  storeType: ''
 };
 export default {
   name: "settlementStorageManage",
@@ -103,48 +105,50 @@ export default {
       isListDataLoading: false,
       tableHeader: [
         {
-          prop: "",
+          prop: "deliveryStore",
           label: "交割库名称",
           width: 180
         },
         {
-          prop: "",
+          prop: "addressText",
           label: "交割库地址",
           width: 300
         },
         {
-          prop: "",
+          prop: "storeCapacity",
           label: "交割库库容量",
           width: 180
         },
         {
-          prop: "",
+          prop: "storeType",
           label: "交割库类型",
           width: 180
         },
         {
-          prop: "",
+          prop: "leader",
           label: "负责人",
           width: 180
         },
         {
-          prop: "",
+          prop: "contactTel",
           label: "联系电话",
           width: 180
         },
         {
-          prop: "",
+          prop: "createdTime",
           label: "创建时间",
           width: 180
         },
         {
-          prop: "",
+          prop: "stateText",
           label: "状态",
           width: 180
         },
       ],
       listData: {
-        totalCount: 0,
+        paginator: {
+          totalCount: 0,
+        },
         list: []
       },
       listParams: {
@@ -161,11 +165,18 @@ export default {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.getDeliveryStoreList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
           this.listData = res.data;
+          this.listData.list = res.data.list.map(item => {
+            return {
+              ...item,
+              addressText: `${item.storeAddressProvince}${item.storeAddressCity}${item.storeAddressCounty}`,
+              stateText: item.state == '0' ? '正常' : '禁用'
+            }
+          });
           break;
         default:
           this.$messageError(res.errMsg);
@@ -173,7 +184,7 @@ export default {
       }
     },
     search() {
-      this.listParams.currentPage = 1;
+      this.listParams.page = 1;
       this.getList();
     },
     reset() {
@@ -185,7 +196,7 @@ export default {
       this.getList();
     },
     changePage(currentPage) {
-      this.listParams.currentPage = currentPage;
+      this.listParams.page = currentPage;
       this.getList();
     },
     add() {
@@ -195,21 +206,25 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      this.editObj = obj;
+      this.editObj = {
+        ...obj,
+        storeCapacity: parseInt(obj.storeCapacity, 10),
+        storeAdminId: []
+      };
+      console.log(obj);
       this.SET_MODAL_VISIBLE(true);
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, status } = obj;
-      const operationText = status === 1 ? '禁用' : '激活';
-      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
-      this.$confirm(`确定要确定要${operationText}交割库${obj.mock1}?`, "提示", {
+      const { id, state, version, deliveryStore } = obj;
+      const operationText = state == '0' ? '禁用' : '激活';
+      this.$confirm(`确定要确定要${operationText}交割库${deliveryStore}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
       })
       .then(async () => {
-        const response = await that.$api.deleteShipper({ id });
+        const response = await that.$api.updateDeliveryStoreState({ id, version, state: state == '0' ? '1' : '0' });
         switch (response.code) {
           case Dict.SUCCESS:
             that.$messageSuccess(`${operationText}成功`);
@@ -221,7 +236,19 @@ export default {
         }
       });
     },
-    modalConfirm() {
+    async modalConfirm(obj) {
+      const serve = this.isEdit ? "updateProductName" : "addProductName";
+      const response = await this.$api[serve]({ ...obj });
+      switch (response.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
+          this.SET_MODAL_VISIBLE(false);
+          this.getList();
+          break;
+        default:
+          this.$messageError(response.mesg);
+          break;
+      }
     }
   },
   mounted() {

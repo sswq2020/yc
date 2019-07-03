@@ -7,13 +7,13 @@
       <div class="form-item">
         <label>货主名称</label>
         <div class="form-control">
-          <el-input v-model="listParams.name" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.cargoName" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
         <label>社会统一信用代码</label>
         <div class="form-control">
-          <el-input v-model="listParams.creditCode" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.socialCreditCode" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -30,8 +30,8 @@
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
-      :total="listData.totalCount"
-      :currentPage="listParams.currentPage"
+      :total="listData.paginator.totalCount"
+      :currentPage="listParams.page"
       :pageSize="listParams.pageSize"
       :data="listData.list"
       :loading="isListDataLoading"
@@ -51,7 +51,7 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{ scope.status === 1 ? '禁用' : '激活' }}</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{ scope.row.state == '0' ? '禁用' : '激活' }}</el-button>
         </template>
       </el-table-column>
     </heltable>
@@ -59,7 +59,7 @@
       ref="modal"
       :loading="isEditLoading"
       :isEdit="isEdit"
-      :confirmCb="pass"
+      :confirmCb="modalConfirm"
       :shipperObj="shipperObj"
     ></shipperformModal>
   </div>
@@ -76,43 +76,43 @@ import shipperformModal from "./shipperformModal.vue";
 
 const defaultListParams = {
   pageSize: 20,
-  currentPage: 1,
-  name: '',
-  creditCode: ''
+  page: 1,
+  cargoName: '',
+  socialCreditCode: ''
 };
 const defaulttableHeader = [
   {
-    prop: "mock1",
+    prop: "telPhone",
     label: "手机号码",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "cargoName",
     label: "货主名称",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "socialCreditCode",
     label: "社会统一信用代码",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "bizContact",
     label: "联系人",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "contactTel",
     label: "联系电话",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "createdTime",
     label: "创建时间",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "stateText",
     label: "状态",
     width: "180"
   }
@@ -134,9 +134,11 @@ export default {
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
       listData: { // 返回list的数据结构
-        totalCount: 0,
+        paginator: {
+          totalCount: 0
+        },
         list: []
-       }, 
+      }, 
       // #endgion
 
       // #region 表格相关
@@ -163,28 +165,34 @@ export default {
       switch (res.code) {
         case Dict.SUCCESS:
           this.listData = res.data;
+          this.listData.list = res.data.list.map(item => {
+            return {
+              ...item,
+              stateText: item.state == '0' ? '正常' : '禁用'
+            }
+          });
           break;
         default:
           this.$messageError(res.errMsg);
           break;
       }
     },
-    async pass(obj) {
+    async modalConfirm(obj) {
       const serve = this.isEdit ? "updateShipper" : "createShipper";
-      const response = await this.$api[serve]({ ...obj });
+      const response = await this.$api[serve]({...obj});
       switch (response.code) {
         case Dict.SUCCESS:
           this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
-          this.$refs.modal.cancle();
+          this.SET_MODAL_VISIBLE(false);
           this.getList();
           break;
         default:
-          this.$messageError(response.errMsg);
+          this.$messageError(response.mesg);
           break;
       }
     },
     search() {
-      this.listParams.currentPage = 1;
+      this.listParams.page = 1;
       this.getList();
     },
     reset() {
@@ -192,7 +200,7 @@ export default {
       this.getList();
     },
     changePage(currentPage) {
-      this.listParams.currentPage = currentPage;
+      this.listParams.page = currentPage;
       this.getList();
     },
     changePageSize(pageSize) {
@@ -201,17 +209,15 @@ export default {
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, status } = obj;
-      const operationText = status === 1 ? '禁用' : '激活';
-      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
-      that
-        .$confirm(`确定要确定要${operationText}货主${obj.mock1}?`, "提示", {
+      const { id, state, version, cargoName } = obj;
+      const operationText = state == '0' ? '禁用' : '激活';
+      that.$confirm(`确定要确定要${operationText}货主${cargoName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         })
         .then(async () => {
-          const response = await that.$api.deleteShipper({ id });
+          const response = await that.$api.updateCargoState({ id, version, state: state == '0' ? '1' : '0' });
           switch (response.code) {
             case Dict.SUCCESS:
               that.$messageSuccess(`${operationText}成功`);
@@ -225,7 +231,16 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      this.shipperObj = obj;
+      const { id, cargoName, telPhone, socialCreditCode, bizContact, contactTel,  version} = obj;
+      this.shipperObj = {
+        id, 
+        cargoName, 
+        telPhone, 
+        socialCreditCode, 
+        bizContact, 
+        contactTel,  
+        version
+      };
       this.SET_MODAL_VISIBLE(true);
     },
     add() {

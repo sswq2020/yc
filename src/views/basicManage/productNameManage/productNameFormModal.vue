@@ -3,7 +3,7 @@
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
         <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'">
-          <el-option v-for="optionItem in item.option" :key="optionItem.value" :label="optionItem.label" :value="optionItem.value"></el-option>
+          <el-option v-for="optionItem in item.option" :key="optionItem.dictCode" :label="optionItem.dictName" :value="optionItem.dictCode"></el-option>
         </el-select>
         <el-input v-model="form[item.prop]" maxlength="20"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
       </el-form-item>
@@ -18,9 +18,9 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  mock1: '',
-  mock2: '',
-  mock3: '',
+  productTypeCode: null,
+  productNameCode: null,
+  productName: null,
 }
 export default {
   name: "productNameFormModal",
@@ -40,6 +40,10 @@ export default {
     editObj:{
       type: Object,
       default: () => {}
+    },
+    productTypeCodeList: {
+      type: Array,
+      default: []
     }
     
   },
@@ -49,41 +53,32 @@ export default {
       formItem: [
         {
           label: '大类',
-          prop: 'mock1',
+          prop: 'productTypeCode',
           type: 'select',
           option: []
         },
         {
           label: '品名代码',
-          prop: 'mock2',
+          prop: 'productNameCode',
           type: 'input',
         },
         {
           label: '品名',
-          prop: 'mock3',
+          prop: 'productName',
           type: 'input',
         }
       ],
       rules: {
-        mock1: [{ required: true, message: "请选择大类", trigger: "blur" }],
-        mock2: [{ required: true, message: "请输入品名代码", trigger: "blur" }],
-        mock3: [{ required: true, message: "请输入品名", trigger: "blur" }],
+        productTypeCode: [{ required: true, message: "请选择大类", trigger: "blur" }],
+        productNameCode: [{ required: true, message: "请输入品名代码", trigger: "blur" }],
+        productName: [{ required: true, message: "请输入品名", trigger: "blur" }],
       },
-      addressList: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }
-      ],
     };
   },
   computed: {
     ...mapState('modal', ['visible']),
     title() {
-      return this.isEdit ? "编辑区桩位" : "新增区桩位";
+      return this.isEdit ? "编辑品名" : "新增品名";
     }
   },
   methods: {
@@ -107,11 +102,13 @@ export default {
   watch: {
     visible(newV, oldV) {
       if (newV) {
-        console.log(this.editObj);
         this.form = this.isEdit ? {...this.editObj} : {...defaultForm}
       }else{
         this.$refs.ruleForm.clearValidate();
       }
+    },
+    productTypeCodeList(newV, oldV) {
+      this.formItem[0].option = newV;
     }
   }
 };

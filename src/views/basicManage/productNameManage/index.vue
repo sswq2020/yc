@@ -7,21 +7,21 @@
       <div class="form-item">
         <label>大类</label>
         <div class="form-control">
-          <el-select v-model="listParams.type" placeholder="请选择">
-            <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select v-model="listParams.productTypeCode" placeholder="请选择">
+            <el-option v-for="item in productTypeCodeList" :key="item.dictCode" :label="item.dictName" :value="item.dictCode"></el-option>
           </el-select>
         </div>
       </div>
       <div class="form-item">
         <label>品名</label>
         <div class="form-control">
-          <el-input v-model="listParams.name" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.productName" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
         <label>品名代码</label>
         <div class="form-control">
-          <el-input v-model="listParams.code" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.productNameCode" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -38,8 +38,8 @@
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
-      :total="listData.totalCount"
-      :currentPage="listParams.currentPage"
+      :total="listData.paginator.totalCount"
+      :currentPage="listParams.page"
       :pageSize="listParams.pageSize"
       :data="listData.list"
       :loading="isListDataLoading"
@@ -60,13 +60,14 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.status === 1 ? '禁用' : '激活'}}</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.productStatusCode == 0 ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
     </HLtable>
     <ProductNameFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
+      :productTypeCodeList="productTypeCodeList"
       :loading="isEditLoading"
       :confirmCb="modalConfirm"
     />
@@ -82,11 +83,11 @@ import HLtable from "@/components/hl_table";
 import ProductNameFormModal from "./productNameFormModal.vue";
 
 const defaultListParams = {
-  currentPage: 1,
+  page: 1,
   pageSize: 20,
-  type: '',
-  name: '',
-  code: ''
+  productTypeCode: '',
+  productName: '',
+  productNameCode: ''
 };
 export default {
   name: "productNameManage",
@@ -101,33 +102,35 @@ export default {
       isListDataLoading: false,
       tableHeader: [
         {
-          prop: "",
+          prop: "productTypeText",
           label: "大类",
           width: 180
         },
         {
-          prop: "",
+          prop: "productName",
           label: "品名",
           width: 300
         },
         {
-          prop: "",
+          prop: "productNameCode",
           label: "品名代码",
           width: 180
         },
         {
-          prop: "",
+          prop: "createdTime",
           label: "录入时间",
           width: 180
         },
         {
-          prop: "",
+          prop: "productStatusText",
           label: "状态",
           width: 180
         },
       ],
       listData: {
-        totalCount: 0,
+        paginator: {
+          totalCount: 0,
+        },
         list: []
       },
       listParams: {
@@ -136,14 +139,14 @@ export default {
       isEdit: false,
       isEditLoading: false,
       editObj: {},
-      typeList: []
+      productTypeCodeList: [], // 品名大类列表
     }
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.gettProductNamesList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -154,20 +157,32 @@ export default {
           break;
       }
     },
+    async getYcProductTypeList() {
+      const res = await this.$api.getValidList({
+        entryCode: 'YcProductType',
+        tenantId: 'root'
+      });
+      this.productTypeCodeList = res.data.map(item => {
+        return {
+          dictCode: item.dictCode,
+          dictName: item.dictName
+        }
+      });
+    },
     search() {
-      this.listParams.currentPage = 1;
+      this.listParams.page = 1;
       this.getList();
     },
     reset() {
       this.listParams = {...defaultListParams};
-      this,getList();
+      this.getList();
     },
     changePageSize(pageSize) {
       this.listParams.pageSize = pageSize;
       this.getList();
     },
     changePage(currentPage) {
-      this.listParams.currentPage = currentPage;
+      this.listParams.page = currentPage;
       this.getList();
     },
     add() {
@@ -177,21 +192,27 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      this.editObj = obj;
+      const { id, productName, productNameCode, productTypeCode } = obj;
+      this.editObj = {
+        id,
+        productName,
+        productNameCode,
+        productTypeCode
+      };
       this.SET_MODAL_VISIBLE(true);
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, status } = obj;
-      const operationText = status === 1 ? '禁用' : '激活';
-      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
-      this.$confirm(`确定要确定要${operationText}品名${obj.mock1}?`, "提示", {
+      const { id, productStatusCode, productName } = obj;
+      const operationText = productStatusCode == 0 ? '禁用' : '激活';
+      const serve =  productStatusCode == 0 ? 'disableProductName' : 'activeProductName';
+      this.$confirm(`确定要确定要${operationText}品名${productName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
       })
       .then(async () => {
-        const response = await that.$api[apiUrl]({ id });
+        const response = await that.$api[serve]({id});
         switch (response.code) {
           case Dict.SUCCESS:
             that.$messageSuccess(`${operationText}成功`);
@@ -203,11 +224,27 @@ export default {
         }
       });
     },
-    modalConfirm() {
+    async modalConfirm(obj) {
+      const serve = this.isEdit ? "updateProductName" : "addProductName";
+      const response = await this.$api[serve]({ ...obj });
+      switch (response.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
+          this.SET_MODAL_VISIBLE(false);
+          this.getList();
+          break;
+        default:
+          this.$messageError(response.mesg);
+          break;
+      }
     }
+  },
+  created() {
+    this.getYcProductTypeList();
   },
   mounted() {
     this.getList();
+    
   }
 };
 </script>

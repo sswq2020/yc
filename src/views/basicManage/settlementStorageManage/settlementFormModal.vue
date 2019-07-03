@@ -1,8 +1,8 @@
 <template>
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="交割库名称" prop="mock1">
-        <el-input v-model="form.mock1" maxlength="20"  placeholder="请输入"></el-input>
+      <el-form-item label="交割库名称" prop="deliveryStore">
+        <el-input v-model="form.deliveryStore" maxlength="20"  placeholder="请输入"></el-input>
       </el-form-item>
       <div class="two-form-item">
         <el-form-item label="交割库地址" prop="mock2">
@@ -10,26 +10,26 @@
             <el-option v-for="item in addressList" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="mock3" label-width="0">
-          <el-input v-model="form.mock3" maxlength="50"  placeholder="请输入"></el-input>
+        <el-form-item prop="storeAddressStreet" label-width="0">
+          <el-input v-model="form.storeAddressStreet" maxlength="50"  placeholder="请输入"></el-input>
         </el-form-item>
       </div>
-      <el-form-item label="交割库容量" prop="mock4">
-        <InputNumber v-model="form.mock4"  :precision="3" :max="10"  placeholder="请输入"/>
+      <el-form-item label="交割库容量" prop="storeCapacity">
+        <InputNumber v-model="form.storeCapacity"  :precision="3" :max="10"  placeholder="请输入"/>
       </el-form-item>
-      <el-form-item label="交割库类型" prop="mock5">
-        <el-select v-model="form.mock5" placeholder="请选择">
+      <el-form-item label="交割库类型" prop="storeType">
+        <el-select v-model="form.storeType" placeholder="请选择">
           <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="负责人" prop="mock6">
-        <el-input v-model="form.mock6" maxlength="10"  placeholder="请输入"></el-input>
+      <el-form-item label="负责人" prop="leader">
+        <el-input v-model="form.leader" maxlength="10"  placeholder="请输入"></el-input>
       </el-form-item>
-      <el-form-item label="联系电话" prop="mock7" maxlength="30">
-        <el-input v-model="form.mock7"  placeholder="请输入"></el-input>
+      <el-form-item label="联系电话" prop="contactTel" maxlength="30">
+        <el-input v-model="form.contactTel"  placeholder="请输入"></el-input>
       </el-form-item>
-      <el-form-item label="仓管人员" prop="mock8">
-        <el-select v-model="form.mock8" placeholder="请选择" multiple >
+      <el-form-item label="仓管人员" prop="storeAdminId">
+        <el-select v-model="form.storeAdminId" placeholder="请选择" multiple >
           <el-option v-for="item in userList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -46,14 +46,14 @@ import { mapState, mapMutations  } from 'vuex';
 import InputNumber from '@/components/inputNumber.vue';
 import { phoneValidation } from '@/util/reg.js';
 const defaultForm = {
-  mock1: '',
+  deliveryStore: '',
   mock2: '',
-  mock3: '',
-  mock4: 0,
-  mock5: '',
-  mock6: '',
-  mock7: '',
-  mock8: [],
+  storeAddressStreet: '',
+  storeCapacity: 0,
+  storeType: '',
+  leader: '',
+  contactTel: '',
+  storeAdminId: [],
 }
 
 const checkPhone = (rule, value, callback) => {
@@ -162,6 +162,7 @@ export default {
   watch: {
     visible(newV, oldV) {
       if (newV) {
+        console.log(this.editObj);
         this.form = this.isEdit ? {...this.editObj} : {...defaultForm}
       }else{
         this.$refs.ruleForm.clearValidate();
