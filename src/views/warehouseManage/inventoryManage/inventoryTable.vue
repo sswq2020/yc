@@ -27,6 +27,7 @@
         class="hlB_buts"
         size="small"
         icon="el-icon-bank-card"
+        :disabled="stockInventoryIds.length===0"
         v-if="!IS_SHIPPER"
         @click="()=>{this.batchFrozenVisible=true}"
       >冻结</el-button>
@@ -34,6 +35,7 @@
         class="hlB_buts"
         size="small"
         icon="el-icon-bank-card"
+        :disabled="stockInventoryIds.length===0"
         v-if="!IS_SHIPPER"
         @click="()=>{this.batchUnFrozenVisible = true}"
       >解冻</el-button>
@@ -368,6 +370,14 @@ export default {
       return this.selectedItems.map(item => {
         return item.id;
       });
+    },
+    /**冻结解冻的请求参数*/
+    stockInventoryIds(){
+      return this.selectedItems.map(item => {
+        return {
+          "stockInventoryId": item.id
+        }
+      });      
     }
   },
   methods: {
@@ -433,7 +443,7 @@ export default {
     },
     async batchFrozen() {
       this.isbatchFrozenLoading = true;
-      const res = await this.$api.frozen(this.ids);
+      const res = await this.$api.frozen(this.stockInventoryIds);
       this.isbatchFrozenLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -448,7 +458,7 @@ export default {
     },
     async batchUnFrozen() {
       this.isbatchUnFrozenLoading = true;
-      const res = await this.$api.unfrozen(this.ids);
+      const res = await this.$api.unfrozen(this.stockInventoryIds);
       this.isbatchUnFrozenLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
