@@ -247,6 +247,20 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  取消出库
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/inventory/cancelcheckout',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+
+
         // #region  待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
         {
             isMock: IS_MOCK,

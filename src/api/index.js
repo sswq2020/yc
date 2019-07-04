@@ -473,6 +473,14 @@ export default {
     },
     /**
      * @author sswq
+     * @param params
+     * @description 取消出库
+     * */
+    cancelcheckout(params){
+        return fetch(storageURL + '/inventory/cancelcheckout', params)          
+    },
+    /**
+     * @author sswq
      * @description 质押解押管理列表
      * */    
     getPledgeinfo(params){
