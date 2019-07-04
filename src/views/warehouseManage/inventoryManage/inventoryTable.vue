@@ -416,7 +416,7 @@ export default {
           break;
         default:
           this.listData = { ...defaultListData };
-          this.$message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
@@ -433,11 +433,11 @@ export default {
               path: "/web/settlement/pageList/transferOwnershipManage"
             });
           } else {
-            this.$message.error("当前存在数据无余量，不可过户");
+            this.$messageError("当前存在数据无余量，不可过户");
           }
           break;
         default:
-          this.$message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
@@ -447,12 +447,12 @@ export default {
       this.isbatchFrozenLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.$message.success("冻结成功");
+          this.$messageSuccess("冻结成功");
           this.batchFrozenVisible = false;
           this.getListData();
           break;
         default:
-          this.$message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
@@ -462,12 +462,12 @@ export default {
       this.isbatchUnFrozenLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.$message.success("解冻结成功");
+          this.$messageSuccess("解冻结成功");
           this.batchUnFrozenVisible = false;
           this.getListData();
           break;
         default:
-          this.$message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
@@ -484,11 +484,11 @@ export default {
               path: "/web/settlement/pageList/outerStorageDetail/applyCheckOut"
             });
           } else {
-            this.$message.error("当前存在数据无余量，不可过户");
+            this.$messageError("当前存在数据无余量，不可过户");
           }
           break;
         default:
-          this.$message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
