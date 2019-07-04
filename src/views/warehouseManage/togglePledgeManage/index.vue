@@ -75,7 +75,7 @@ const defaultFormData = {
 };
 const defaultListParams = {
   pageSize: 20,
-  currentPage: 1
+  page: 1
 };
 const defaultListData = {
   paginator: {
@@ -121,20 +121,12 @@ export default {
   data() {
     return {
       breadTitle: ["仓储管理", "质解押管理"],
-      // #region 各种lodaing
       isListDataLoading: false,
-      // #endgion
-
-      // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
       form: { ...defaultFormData }, // 查询参数
       listData: { ...defaultListData }, // 返回list的数据结构
-      // #endgion
-      /**表格相关*/
       tableHeader: defaulttableHeader,
-      showOverflowTooltip: true,
-      /*多选的row*/
-      titles: ["出库"]
+      showOverflowTooltip: true
     };
   },
   computed: {
@@ -157,8 +149,8 @@ export default {
       this.listData = { ...defaultListData };
       this.getListData();
     },
-    changePage(currentPage) {
-      this.listParams.currentPage = currentPage;
+    changePage(page) {
+      this.listParams.page = page;
       this.getListData();
     },
     getListDataBylistParams() {

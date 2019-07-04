@@ -225,7 +225,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/web/InventoryTable/frozen',
+            router: storageURL + '/inventory/frozen',
             result() {
                 return {
                     ...body,
@@ -238,7 +238,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/web/InventoryTable/unfrozen',
+            router: storageURL + '/inventory/unfrozen',
             result() {
                 return {
                     ...body,
