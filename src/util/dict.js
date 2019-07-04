@@ -15,28 +15,23 @@ DICT.APP_INFO = {
     [DICT.BUSINESS_ONLINE_PLANT]:'电商平台'
 }
 
-DICT.NOTIFY_STATUS  = {
-    "0":'失败',
-    "1":'成功',
-    "2":'同步中',
-    "-1": "全部"
+/** 库存正常状态 */
+DICT.INVENTORY.NORMAL = '0'
+/** 库存冻结状态 */
+DICT.INVENTORY.FROZEN = '1'
+/** 库存待出库状态 */
+DICT.INVENTORY.WAITCHECKOUT = '2'
+/** 库存挂牌状态 */
+DICT.INVENTORY.HANGOUT = '3'
+
+DICT.INVENTORY_STATUS = {
+    [DICT.INVENTORY.NORMAL]: "正常",
+    [DICT.INVENTORY.FROZEN]: "冻结中",
+    [DICT.INVENTORY.WAITCHECKOUT]: "待出库",
+    [DICT.INVENTORY.HANGOUT]: "挂牌中",
 }
 
-DICT.PAY_STATUS = {
-    "1": "转账成功",
-    "2": "财务待审核",
-    "3": "财务审核不通过",
-    "4": "出纳待审核",
-    "5": "出纳审核不通过",
-    "6": "转帐中",
-    "7": "转帐状态未知",
-    "8": "转帐失败",
-    "9": "异常或其他",
-    "10": "财务审核中",
-    "11": "出纳审核中",
-    "12": "待支付",
-    "13": "银行请求失败",
-    "14": "待确认"
-}
+
+
 
 export default DICT;

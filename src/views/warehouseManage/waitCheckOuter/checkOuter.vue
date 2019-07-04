@@ -205,7 +205,7 @@ export default {
           });
           break;
         default:
-          this.$message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
