@@ -180,7 +180,9 @@ export default {
               weight = max;
             }
             if (value > weight) {
-              return callback(new Error(`不能大于${weight}`));
+              callback(new Error(`不能大于${weight}`));
+            } else {
+              callback();
             }
           }
         }

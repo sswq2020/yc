@@ -1,12 +1,220 @@
 <template>
   <div class="container single-page">
-    解押明细
+    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <div class="search-box">
+      <div class="form-item">
+        <label>货主名称</label>
+        <div class="form-control">
+          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in ShipperList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <label>单据号码</label>
+        <div class="form-control">
+          <el-input v-model="form.releaseCode" placeholder="请输入" size="small"></el-input>
+        </div>
+      </div>
+      <div class="form-item">
+        <label>解押日期</label>
+        <div class="form-control">
+          <el-date-picker
+            v-model="form.timeRange"
+            size="small"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          ></el-date-picker>
+        </div>
+      </div>
+      <div class="form-item">
+        <el-button
+          type="primary"
+          :loading="isListDataLoading"
+          @click="getListDataBylistParams"
+          size="small"
+        >查询</el-button>
+        <el-button size="small" @click="clearListParams">重置</el-button>
+      </div>
+    </div>
+    <heltable
+      ref="tb"
+      @pageChange="changePage"
+      :total="listData.paginator.totalCount"
+      :currentPage="listParams.page"
+      :pageSize="listParams.pageSize"
+      :pageSizes="[20]"
+      :data="listData.list"
+      :multiple="true"
+      :loading="isListDataLoading"
+    >
+      <el-table-column
+        align="center"
+        :prop="item.prop"
+        :label="item.label"
+        :key="item.id"
+        v-for="(item) in tableHeader"
+        :show-overflow-tooltip="showOverflowTooltip"
+      >
+        <template slot-scope="scope">
+          <span>{{listData.list[scope.$index][item.prop]}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" fixed="right" width="60px" align="center">
+        <template slot-scope="scope">
+          <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
+        </template>
+      </el-table-column>
+    </heltable>
   </div>
 </template>
 
 <script>
+// import NP from "number-precision";
+import { mapGetters } from "vuex";
+import { baseMixin } from "@/common/mixin.js";
+import { requestParamsByTimeRange } from "@/common/util.js";
+// import { judgeAuth } from "@/util/util.js";
+import _ from "lodash";
+import Dict from "@/util/dict.js";
+import heltable from "@/components/hl_table";
+import hlBreadcrumb from "@/components/hl-breadcrumb";
+
+/**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
+const EXTRA_PARAMS_KEYS = ['releaseStartTime', 'releaseEndTime'];
+
+const defaultFormData = {
+  cargoId: null,
+  releaseCode: null,
+  timeRange: []
+};
+const defaultListParams = {
+  pageSize: 20,
+  page: 1
+};
+const defaultListData = {
+  paginator: {
+    totalCount: 0,
+    totalPage: 1
+  },
+  list: []
+};
+const defaulttableHeader = [
+  {
+    prop: "cargoId",
+    label: "货主",
+    width: "180"
+  },
+  {
+    prop: "inventoryTotalNums",
+    label: "库存数量",
+    width: "180"
+  },
+  {
+    prop: "inventoryTotalWeight",
+    label: "库存重量",
+    width: "180"
+  },
+  {
+    prop: "releaseNums",
+    label: "解押数量",
+    width: "180"
+  },
+  {
+    prop: "releaseWeight",
+    label: "解押重量",
+    width: "180"
+  },
+  {
+    prop: "releaseCode",
+    label: "单据号码",
+    width: "180"
+  },
+  {
+    prop: "releaseTime",
+    label: "解押日期",
+    width: "180"
+  }
+];
 export default {
-  name: "pledgeDetail",
+  name: "releasePledgeDetail",
+  mixins: [baseMixin],
+  components: {
+    heltable,
+    hlBreadcrumb
+  },
+  data() {
+    return {
+      breadTitle: ["仓储管理", "解押明细"],
+      isListDataLoading: false,
+      listParams: { ...defaultListParams }, // 页数
+      form: { ...defaultFormData }, // 查询参数
+      listData: { ...defaultListData }, // 返回list的数据结构
+      tableHeader: defaulttableHeader,
+      showOverflowTooltip: true,
+    };
+  },
+  computed: {
+    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"])
+  },
+  methods: {
+    _filter() {
+      const {timeRange} = this.form;
+      const _reqParams_ = requestParamsByTimeRange(this.form, timeRange, ...EXTRA_PARAMS_KEYS);
+      return _.clone(Object.assign({}, _reqParams_, this.listParams));
+    },
+    clearListParams() {
+      this.form = { ...defaultFormData };
+      this.listParams = { ...defaultListParams };
+      this.listData = { ...defaultListData };
+      this.getListData();
+    },
+    changePage(page) {
+      this.listParams.page = page;
+      this.getListData();
+    },
+    getListDataBylistParams() {
+      this.listParams = { ...defaultListParams };
+      this.getListData();
+    },
+    async getListData() {
+      let obj = this._filter();
+      this.isListDataLoading = true;
+      const res = await this.$api.getReleasePledgeDetailList(obj);
+      this.isListDataLoading = false;
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.listData = res.data;
+          break;
+        default:
+          this.listData = { ...defaultListData };
+          this.$messageError(res.errMsg);
+          break;
+      }
+    },
+    detail(item) {
+      console.log(item);
+    },
+    init() {
+      setTimeout(() => {
+        this.clearListParams();
+        this.perm();
+      }, 20);
+      this.perm();
+    },
+    perm() {}
+  },
+  mounted() {
+    this.init();
+  }
 };
 </script>
 

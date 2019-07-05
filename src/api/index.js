@@ -532,8 +532,38 @@ export default {
      * @description 质押解押管理列表
      * */    
     getPledgeinfo(params){
-        return fetch(storageURL + '/pledgeinfo/page', params)         
+        return fetch(storageURL + '/web/yc/pledgeinfo/page', params)         
     },
+    /**
+     * @author sswq
+     * @param cargoId 货主id
+     * @description 获取质押总量
+     * */    
+    getPledgeNum(cargoId){
+        return fetch(storageURL + '/web/yc/pledgeinfo/pledgeNum', {cargoId},'get')         
+    }, 
+    /**
+     * @author sswq
+     * @param cargoId 货主id
+     * @description 获取可用总量
+     * */    
+    getAvailableNum(cargoId){
+        return fetch(storageURL + '/web/yc/pledgeinfo/available', {cargoId},'get')         
+    }, 
+    /**
+     * @author sswq
+     * @description 质押明细列表
+     * */    
+    getPledgeDetailList(params){
+        return fetch(storageURL + '/web/yc/pledgeinfo/detail', params)         
+    },    
+    /**
+     * @author sswq
+     * @description 解押明细列表
+     * */    
+    getReleasePledgeDetailList(params){
+        return fetch(storageURL + '/web/yc/releaseinfo/detail', params)         
+    },      
     /**
      * @author sswq
      * @param params
@@ -559,6 +589,13 @@ export default {
      * */
     getValidList(params) {
         return fetch(storageURL + '/dict/item/valid/list/get', params, 'get')
+    },
+    /**
+     * @author xh
+     * @description 获取银行列表
+     * */
+    getBankList(params) {
+        return fetch(storageURL + '/web/yc/bank/info', params, 'get')
     },
     // #endregion
 
