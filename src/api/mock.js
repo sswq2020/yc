@@ -336,7 +336,38 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  获取质押总量
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/pledgeinfo/pledgeNum',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        totalPledgeNums:78,
+                        totalPledgeWeight:200
+                    },
 
+                };
+            }
+        },
+        // #endregion 
+        
+        // #region  获取可用总量
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/pledgeinfo/available',
+            result() {
+                return {
+                    ...body,
+                    data: 185
+                };
+            }
+        },
+        // #endregion 
+              
         // #region  获取质押明细列表
         {
             isMock: IS_MOCK,
