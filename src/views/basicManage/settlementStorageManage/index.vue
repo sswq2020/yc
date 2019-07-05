@@ -247,7 +247,7 @@ export default {
       });
     },
     async modalConfirm(obj) {
-      const serve = this.isEdit ? "updateProductName" : "addProductName";
+      const serve = this.isEdit ? "updateDeliveryStore" : "addDeliveryStore";
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:

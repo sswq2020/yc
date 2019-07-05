@@ -1,11 +1,11 @@
 <template>
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="材质名称" prop="mock1">
-        <el-input v-model="form.mock1" maxlength="10"  placeholder="请输入"></el-input>
+      <el-form-item label="材质名称" prop="materialName">
+        <el-input v-model="form.materialName" maxlength="10"  placeholder="请输入"></el-input>
       </el-form-item>
-      <el-form-item label="备注" prop="mock2">
-        <el-input type="textarea"  v-model="form.mock2" :autosize="{ minRows: 5}" size="medium" placeholder="请输入" maxlength="100"></el-input>
+      <el-form-item label="备注" prop="materialRemark">
+        <el-input type="textarea"  v-model="form.materialRemark" :autosize="{ minRows: 5}" size="medium" placeholder="请输入" maxlength="100"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -18,8 +18,8 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  mock1: '',
-  mock2: '',
+  materialName: '',
+  materialRemark: '',
 }
 export default {
   name: "materialFormModal",
@@ -45,7 +45,7 @@ export default {
     return {
       form:{...defaultForm},
       rules: {
-        mock1: [{ required: true, message: "请输入材质名称", trigger: "blur" }],
+        materialName: [{ required: true, message: "请输入材质名称", trigger: "blur" }],
       }
     };
   },

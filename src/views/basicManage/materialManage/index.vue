@@ -7,7 +7,7 @@
       <div class="form-item">
         <label>材质名称</label>
         <div class="form-control">
-          <el-input v-model="listParams.name" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.materialName" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -46,7 +46,7 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.status === 1 ? '禁用' : '激活'}}</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.materialStatusCode == "0" ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
     </HLtable>
@@ -70,7 +70,7 @@ import MaterialFormModal from "./materialFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  name: '',
+  materialName: '',
 };
 export default {
   name: "materialManage",
@@ -85,22 +85,22 @@ export default {
       isListDataLoading: false,
       tableHeader: [
         {
-          prop: "",
+          prop: "materialName",
           label: "材质名称",
           width: 180
         },
         {
-          prop: "",
+          prop: "materialRemark",
           label: "备注",
           width: 300
         },
         {
-          prop: "",
+          prop: "createdTime",
           label: "录入时间",
           width: 180
         },
         {
-          prop: "",
+          prop: "materialStatusText",
           label: "状态",
           width: 180
         },
@@ -123,7 +123,7 @@ export default {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.getMaterialsList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -157,15 +157,20 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      this.editObj = obj;
+      const {id, materialName, materialRemark} = obj;
+      this.editObj = {
+        id,
+        materialName,
+        materialRemark
+      };
       this.SET_MODAL_VISIBLE(true);
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, status } = obj;
-      const operationText = status === 1 ? '禁用' : '激活';
-      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
-      this.$confirm(`确定要确定要${operationText}材质${obj.mock1}?`, "提示", {
+      const { id, materialStatusCode, materialName } = obj;
+      const operationText = materialStatusCode == "0" ? '禁用' : '激活';
+      const apiUrl = materialStatusCode == "0" ? 'disableMaterial' : 'activeMaterial';
+      this.$confirm(`确定要确定要${operationText}材质${materialName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -184,7 +189,7 @@ export default {
       });
     },
     async modalConfirm(obj) {
-      const serve = this.isEdit ? "updateProductName" : "addProductName";
+      const serve = this.isEdit ? "updateMaterial" : "addMaterial";
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:

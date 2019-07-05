@@ -421,6 +421,20 @@ export default {
     getDeliveryStoreList(params) {
         return fetch(storageURL + '/web/yc/base/deliveryStoreManage/pageDeliveryStore', params)
     },
+    /**
+     * @author xh
+     * @description 新增交割库
+     * */
+    addDeliveryStore(params) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/add', params)
+    },
+    /**
+     * @author xh
+     * @description 编辑交割库
+     * */
+    updateDeliveryStore(params) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/update', params)
+    },
      /**
      * @author xh
      * @description 禁用交割库
@@ -435,7 +449,41 @@ export default {
     activeDeliveryStore(params) {
         return fetch(storageURL + '/web/yc/base/deliveryStoreManage/updateActive', params)
     },
-
+    /**
+     * @author xh
+     * @description 材质列表查询
+     * */
+    getMaterialsList(params) {
+        return fetch(storageURL + '/web/yc/base/material/listMaterials', params)
+    },
+    /**
+     * @author xh
+     * @description 新增材质
+     * */
+    addMaterial(params) {
+        return fetch(storageURL + '/web/yc/base/material/add', params)
+    },
+    /**
+     * @author xh
+     * @description 编辑材质
+     * */
+    updateMaterial(params) {
+        return fetch(storageURL + '/web/yc/base/material/update', params)
+    },
+    /**
+     * @author xh
+     * @description 禁用材质
+     * */
+    disableMaterial(params) {
+        return fetch(storageURL + '/web/yc/base/material/disable', params)
+    },
+    /**
+     * @author xh
+     * @description 激活材质
+     * */
+    activeMaterial(params) {
+        return fetch(storageURL + '/web/yc/base/material/active', params)
+    },
     // #endregion
 
     // #region 仓储管理
