@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
-    <div class="form">
+    <div class="form" v-if="pledgeData && pledgeData.cargoId">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
           <el-row>
@@ -11,32 +11,58 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="业务类型" prop="mock1">
-                <el-input :value="form.mock1" :disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="质权方" prop="mock2">
-                <el-input v-model="form.mock2"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="质压方" prop="mock3">
-                <el-input :value="form.mock3" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="质押数量" prop="mock4">
-                <el-input :value="form.mock4"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item 
-                label="质押重量" 
-                prop="mock5"
-                :rules="validateweight(form.reserveweight)"
+              <el-form-item
+                label="业务类型"
+                prop="pledgeType"
+                :rules="[{ required: true, message: '请选择业务类型', trigger: 'blur' }]"
               >
-                <el-input v-model.number="form.mock5"></el-input>
+                <el-select v-model="form.pledgeType" placeholder="请选择" size="small">
+                  <el-option
+                    v-for="(item,index) in typeDatas"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item
+                label="质权方(银行)"
+                prop="bankId"
+                :rules="[{ required: true, message: '请选择质权方' }]"
+              >
+                <el-select v-model="form.bankId" placeholder="请选择" size="small">
+                  <el-option
+                    v-for="(item,index) in bankList"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item label="质压方" prop="pledgeCargo">
+                <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item
+                label="质押数量"
+                prop="pledgeNums"
+                :rules="validatenum(form.inventoryTotalNums)"
+              >
+                <el-input v-model.number="form.pledgeNums"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item
+                label="质押重量"
+                prop="pledgeWeight"
+                :rules="validateweight(form.inventoryTotalWeight,max)"
+              >
+                <el-input v-model.number="form.pledgeWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -45,18 +71,18 @@
           <div class="head">库存信息</div>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="mock6">
-                <el-input :value="form.mock6" disabled="disabled"></el-input>
+              <el-form-item label="货主" prop="pledgeCargo">
+                <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="库存数量" prop="mock7">
-                <el-input :value="form.mock7" disabled="disabled"></el-input>
+              <el-form-item label="库存数量" prop="inventoryTotalNums">
+                <el-input :value="form.inventoryTotalNums" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="库存重量" prop="mock8">
-                <el-input :value="form.reserveweight" disabled="disabled"></el-input>
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item label="库存重量" prop="inventoryTotalWeight">
+                <el-input :value="form.inventoryTotalWeight" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -74,20 +100,29 @@
 
 <script>
 import { mapState } from "vuex";
+import _ from "lodash";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import Dict from "@/util/dict.js";
+import { DICT_SELECT_ARR } from "@/common/util";
+import { bankMixin } from "@/common/mixin.js";
+const TypeDatas = DICT_SELECT_ARR(Dict.PLEDGE_BUSINESS_TYPE);
 const defualtFormParams = {
-  mock1: null,
-  mock2: null,
-  mock3: null,
-  mock4: null,
-  mock5: null,
-  mock6: null,
-  mock7: null,
-  mock8: null
+  bankId: null,
+  bankName: null,
+  cargoId: null,
+  cargoName: null,
+  pledgeCargo: null,
+  pledgeNums: null,
+  pledgeType: "0",
+  pledgeWeight: null,
+  pledgeCode: null,
+  inventoryTotalNums: null,
+  inventoryTotalWeight: null
 };
 
 export default {
   name: "pledgeManage",
+  mixins: [bankMixin],
   components: {
     hlBreadcrumb
   },
@@ -98,11 +133,12 @@ export default {
       form: {
         ...defualtFormParams
       },
-      max: null // 从库存明细页跳转过来,会另外带来最大重量的限制
+      typeDatas: TypeDatas,
+      max: null // 进入该页面需要获取最大可用重量
     };
   },
   computed: {
-    ...mapState("togglePledgeManage", ["pledgeData"]),
+    ...mapState("togglePledgeManage", ["pledgeData"])
   },
   methods: {
     back() {
@@ -130,6 +166,20 @@ export default {
         }
       ];
     },
+    validatenum(num) {
+      return [
+        {
+          validator(rule, value, callback) {
+            if (!value) {
+              return;
+            }
+            if (value > num) {
+              return callback(new Error(`不能大于${num}`));
+            }
+          }
+        }
+      ];
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -140,11 +190,20 @@ export default {
         }
       });
     },
-    init() {
-      if (!this.pledgeData) {
-        this.back();
+    async init() {
+      if (this.pledgeData && this.pledgeData.cargoId) {
+        const res = await this.$api.getAvailableNum(this.pledgeData.cargoId);
+        switch (res.code) {
+          case Dict.SUCCESS:
+            this.max = res.data;
+            break;
+          default:
+            this.$messageError(res.errMsg);
+            break;
+        }
+        this.form = _.clone(Object.assign({},this.form,{ pledgeCargo: this.pledgeData.cargoName },this.pledgeData));
       } else {
-        this.form = JSON.parse(JSON.stringify(this.pledgeData));
+        this.back();
       }
     }
   },
@@ -158,11 +217,8 @@ export default {
 <style scoped lang="less">
 .form {
   padding: 15px 15px 50px 15px;
-  background: rgba(240, 242, 245, 1);
   .form-block {
     padding-top: 15px;
-    margin-bottom: 15px;
-    background: white;
     .head {
       padding-left: 10px;
       margin-bottom: 15px;

@@ -51,8 +51,8 @@
 
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="GoPledge(listData.list[scope.$index])">质押</el-button>
-          <el-button type="text" @click="GoReleasePledge(listData.list[scope.$index])">解押</el-button>
+          <el-button type="text"  v-if="listData.list[scope.$index].inventoryAvailableWeight > 0"  @click="GoPledge(listData.list[scope.$index])">质押</el-button>
+          <el-button type="text"  v-if="listData.list[scope.$index].totalPledgeWeight > 0" @click="GoReleasePledge(listData.list[scope.$index])">解押</el-button>
         </template>
       </el-table-column>
 

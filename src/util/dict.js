@@ -24,6 +24,7 @@ DICT.INVENTORY_WAITCHECKOUT = '2'
 /** 库存挂牌状态 */
 DICT.INVENTORY_HANGOUT = '3'
 
+/** 库存状态 */
 DICT.INVENTORY_STATUS = {
     [DICT.INVENTORY_NORMAL]: "正常",
     [DICT.INVENTORY_FROZEN]: "冻结中",
@@ -31,6 +32,12 @@ DICT.INVENTORY_STATUS = {
     [DICT.INVENTORY_HANGOUT]: "挂牌中",
 }
 
+/**总量质押*/
+DICT.TOTAL_PLEDGE = '0'
+/**业务类型*/
+DICT.PLEDGE_BUSINESS_TYPE = {
+    [DICT.TOTAL_PLEDGE]: "总量质押"
+}
 
 
 
