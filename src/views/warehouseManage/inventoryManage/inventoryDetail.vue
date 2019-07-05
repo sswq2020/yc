@@ -278,28 +278,28 @@ export default {
       this.getListData();
     },
     authCheckout(item) {
-      return item.state === Dict.INVENTORY.NORMAL;
+      return item.state === Dict.INVENTORY_NORMAL;
     },
     authCancelCheckout(item) {
-      return item.state === Dict.INVENTORY.WAITCHECKOUT;
+      return item.state === Dict.INVENTORY_WAITCHECKOUT;
     },
     authTransferOwner(item) {
       if (this.IS_SHIPPER) {
         return false;
       }
-      return item.state === Dict.INVENTORY.NORMAL;
+      return item.state === Dict.INVENTORY_NORMAL;
     },
     authUnFrozen(item) {
       if (this.IS_SHIPPER) {
         return false;
       }
-      return item.state === Dict.INVENTORY.FROZEN;
+      return item.state === Dict.INVENTORY_FROZEN;
     },
     authFrozen(item) {
       if (this.IS_SHIPPER) {
         return false;
       }
-      return item.state === Dict.INVENTORY.NORMAL;
+      return item.state === Dict.INVENTORY_NORMAL;
     },
     async getListData() {
       let obj = this._filter();
