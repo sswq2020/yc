@@ -145,7 +145,7 @@ const defaulttableHeader = [
   }
 ];
 export default {
-  name: "pledgeDetail",
+  name: "releasePledgeDetail",
   mixins: [baseMixin],
   components: {
     heltable,

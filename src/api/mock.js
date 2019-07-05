@@ -317,7 +317,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/pledgeinfo/page',
+            router: storageURL + '/web/yc/pledgeinfo/page',
             result(params) {
                 return {
                     ...body,
