@@ -484,7 +484,7 @@ export default {
      * @description 质押解押管理列表
      * */    
     getPledgeinfo(params){
-        return fetch(storageURL + '/pledgeinfo/page', params)         
+        return fetch(storageURL + '/web/yc/pledgeinfo/page', params)         
     },
     /**
      * @author sswq
