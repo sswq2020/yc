@@ -129,11 +129,32 @@
         </el-table-column>
 
         <el-table-column label="操作" fixed="right" width="180px" align="center">
-          <template>
-            <el-button type="text">出库</el-button>
-            <el-button type="text">取消出库</el-button>
-            <el-button type="text" v-if="!IS_SHIPPER">过户</el-button>
-            <el-button type="text" v-if="!IS_SHIPPER">冻结</el-button>
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              @click="CheckOut(listData.list[scope.$index])"
+              v-if="authCheckout(listData.list[scope.$index])"
+            >出库</el-button>
+            <el-button
+              type="text"
+              @click="CancelCheckout(listData.list[scope.$index])"
+              v-if="authCancelCheckout(listData.list[scope.$index])"
+            >取消出库</el-button>
+            <el-button
+              type="text"
+              @click="TransferOwner(listData.list[scope.$index])"
+              v-if="authTransferOwner(listData.list[scope.$index])"
+            >过户</el-button>
+            <el-button
+              type="text"
+              @click="Frozen(listData.list[scope.$index])"
+              v-if="authFrozen(listData.list[scope.$index])"
+            >冻结</el-button>
+            <el-button
+              type="text"
+              @click="UnFrozen(listData.list[scope.$index])"
+              v-if="authUnFrozen(listData.list[scope.$index])"
+            >解冻</el-button>
           </template>
         </el-table-column>
       </heltable>
@@ -256,6 +277,30 @@ export default {
       this.listParams.currentPage = currentPage;
       this.getListData();
     },
+    authCheckout(item) {
+      return item.state === Dict.INVENTORY_NORMAL;
+    },
+    authCancelCheckout(item) {
+      return item.state === Dict.INVENTORY_WAITCHECKOUT;
+    },
+    authTransferOwner(item) {
+      if (this.IS_SHIPPER) {
+        return false;
+      }
+      return item.state === Dict.INVENTORY_NORMAL;
+    },
+    authUnFrozen(item) {
+      if (this.IS_SHIPPER) {
+        return false;
+      }
+      return item.state === Dict.INVENTORY_FROZEN;
+    },
+    authFrozen(item) {
+      if (this.IS_SHIPPER) {
+        return false;
+      }
+      return item.state === Dict.INVENTORY_NORMAL;
+    },
     async getListData() {
       let obj = this._filter();
       this.isListDataLoading = true;
@@ -267,86 +312,127 @@ export default {
           break;
         default:
           this.listData = { ...defaultListData };
-          this.$message.error(res.errMsg);
+          this.$messageError(res.errMsg);
           break;
       }
     },
-    async batchTransferOwnership() {
-      this.isbatchTransferOwnershipLoading = true;
-      const res = await this.$api.getSurplus(this.ids);
-      this.isbatchTransferOwnershipLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          if (res.data.HasSurPlus) {
-            this.batchTransferOwnershipVisible = false;
-            this.setTransferOwnership(this.selectedItems);
-            this.$router.push({
-              path: "/web/settlement/pageList/transferOwnershipManage"
-            });
-          } else {
-            this.$message.error("当前存在数据无余量，不可过户");
+    Frozen(item) {
+      let that = this;
+      const stockInventoryId = item.id;
+      that.$confirm(`确定要冻结`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(async () => {
+          const res = await that.$api.frozen([{ stockInventoryId }]);
+          switch (res.code) {
+            case Dict.SUCCESS:
+              that.$messageSuccess(`冻结成功`);
+              that.getListData();
+              break;
+            default:
+              that.$messageError(`冻结失败,${res.mesg}`);
+              break;
           }
-          break;
-        default:
-          this.$message.error(res.errMsg);
-          break;
-      }
+        });
     },
-    async batchFrozen() {
-      this.isbatchFrozenLoading = true;
-      const res = await this.$api.frozen(this.ids);
-      this.isbatchFrozenLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.$message.success("冻结成功");
-          this.batchFrozenVisible = false;
-          this.getListData();
-          break;
-        default:
-          this.$message.error(res.errMsg);
-          break;
-      }
-    },
-    async batchUnFrozen() {
-      this.isbatchUnFrozenLoading = true;
-      const res = await this.$api.unfrozen(this.ids);
-      this.isbatchUnFrozenLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.$message.success("解冻结成功");
-          this.batchUnFrozenVisible = false;
-          this.getListData();
-          break;
-        default:
-          this.$message.error(res.errMsg);
-          break;
-      }
-    },
-    async batchCheckOut() {
-      this.isbatchCheckOutLoading = true;
-      const res = await this.$api.getSurplus(this.ids);
-      this.isbatchCheckOutLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          if (res.data.HasSurPlus) {
-            this.batchCheckOutVisible = false;
-            this.setCheckout(this.selectedItems);
-            this.$router.push({
-              path: "/web/settlement/pageList/outerStorageDetail/applyCheckOut"
-            });
-          } else {
-            this.$message.error("当前存在数据无余量，不可过户");
+    UnFrozen(item) {
+      let that = this;
+      const stockInventoryId = item.id;
+      that.$confirm(`确定要解冻`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(async () => {
+          const res = await that.$api.unfrozen([{ stockInventoryId }]);
+          switch (res.code) {
+            case Dict.SUCCESS:
+              that.$messageSuccess(`解冻成功`);
+              that.getListData();
+              break;
+            default:
+              that.$messageError(`解冻失败,${res.mesg}`);
+              break;
           }
-          break;
-        default:
-          this.$message.error(res.errMsg);
-          break;
-      }
+        });
     },
-    GoEnterRegister() {
-      this.$router.push({
-        path: "/web/settlement/pageList/enterStorageDetail/register"
-      });
+    CheckOut(item) {
+      let that = this;
+      const { id } = item;
+      that.$confirm(`确定要出库申请`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(async () => {
+          const res = await that.$api.getSurplus([id]);
+          switch (res.code) {
+            case Dict.SUCCESS:
+              if (res.data.HasSurPlus) {
+                this.setCheckout([item]);
+                this.$router.push({
+                  path:
+                    "/web/settlement/pageList/outerStorageDetail/applyCheckOut"
+                });
+              } else {
+                this.$messageError("当前存在数据无余量，不可过户");
+              }
+              break;
+            default:
+              this.$messageError(res.errMsg);
+              break;
+          }
+        });
+    },
+    TransferOwner(item) {
+      let that = this;
+      const { id } = item;
+      that.$confirm(`确定要过户`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(async () => {
+          const res = await that.$api.getSurplus([id]);
+          switch (res.code) {
+            case Dict.SUCCESS:
+              if (res.data.HasSurPlus) {
+              this.setTransferOwnership([item]);
+              this.$router.push({
+                path: "/web/settlement/pageList/transferOwnershipManage"
+              });
+              } else {
+                this.$messageError("当前存在数据无余量，不可过户");
+              }
+              break;
+            default:
+              this.$messageError(res.errMsg);
+              break;
+          }
+        });
+    },
+    CancelCheckout(item) {
+      let that = this;
+      const { id } = item;
+      that.$confirm(`确定要取消出库`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(async () => {
+          const res = await that.$api.cancelcheckout({ id });
+          switch (res.code) {
+            case Dict.SUCCESS:
+              that.$messageSuccess(`取消出库成功`);
+              that.getList();
+              break;
+            default:
+              that.$messageError(`取消出库失败，${res.mesg}`);
+              break;
+          }
+        });
     },
     init() {
       if (!this.findDetail) {
