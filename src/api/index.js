@@ -488,6 +488,22 @@ export default {
     },
     /**
      * @author sswq
+     * @param cargoId 货主id
+     * @description 获取质押总量
+     * */    
+    getPledgeNum(cargoId){
+        return fetch(storageURL + '/web/yc/pledgeinfo/pledgeNum', {cargoId},'get')         
+    }, 
+    /**
+     * @author sswq
+     * @param cargoId 货主id
+     * @description 获取可用总量
+     * */    
+    getAvailableNum(cargoId){
+        return fetch(storageURL + '/web/yc/pledgeinfo/available', {cargoId},'get')         
+    }, 
+    /**
+     * @author sswq
      * @description 质押明细列表
      * */    
     getPledgeDetailList(params){
