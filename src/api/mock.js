@@ -111,6 +111,24 @@ const PledgeDetailList = {
     "pledgeTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
     "updatedBy": "admin",
     "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'    
+} 
+
+const ReleasePledgeDetailList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "cargoName": "@CNAME()",
+    "cargoId":"@INTEGER(1,2019690999)",
+    "createdBy": "system",
+    "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "inventoryTotalNums": "@INTEGER(2,1000)",
+    "inventoryTotalWeight": "@INTEGER(11,100)",
+    "pledgeCargo":"@CNAME()",
+    "releaseCode":"@INTEGER(34345656546,99345656546)",
+    "releaseNums": "@INTEGER(1000,2000)",
+    "pledgeType": "@PICK(0,1)",
+    "releaseWeight":"@INTEGER(100,200)",
+    "releaseTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "updatedBy": "admin",
+    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'     
 }
 
 
@@ -342,6 +360,28 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  获取解押明细列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/releaseinfo/detail',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [ReleasePledgeDetailList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
 
         // #endregion
 
