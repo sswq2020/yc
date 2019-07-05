@@ -83,12 +83,15 @@ const RetrievalList = {
 const PledgeinfolIST = {
     "id|+1": "@INTEGER(1,2019690999)",
     "cargoName": "@CNAME()",
+    "cargoId": "@INTEGER(1,2019690999)",
     "createdBy": "system",
     "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "pledgeCode": "@INTEGER(34345656546,99345656546)",
     "inventoryTotalNums": "@INTEGER(2,1000)",
     "inventoryTotalWeight": "@INTEGER(11,100)",
     "isDeleted": "@PICK(0,1)",
     "remark": "@CTITLE(2,10)",
+    "inventoryAvailableWeight": "@PICK(0,67,100,150)",
     "totalPledgeNums": "@INTEGER(1000,2000)",
     "totalPledgeWeight": "@INTEGER(100,200)",
     "updatedBy": "admin",
@@ -98,37 +101,37 @@ const PledgeinfolIST = {
 const PledgeDetailList = {
     "id|+1": "@INTEGER(1,2019690999)",
     "cargoName": "@CNAME()",
-    "cargoId":"@INTEGER(1,2019690999)",
+    "cargoId": "@INTEGER(1,2019690999)",
     "createdBy": "system",
     "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
     "inventoryTotalNums": "@INTEGER(2,1000)",
     "inventoryTotalWeight": "@INTEGER(11,100)",
-    "pledgeCargo":"@CNAME()",
-    "pledgeCode":"@INTEGER(34345656546,99345656546)",
+    "pledgeCargo": "@CNAME()",
+    "pledgeCode": "@INTEGER(34345656546,99345656546)",
     "pledgeNums": "@INTEGER(1000,2000)",
     "pledgeType": "@PICK(0,1)",
-    "pledgeWeight":"@INTEGER(100,200)",
+    "pledgeWeight": "@INTEGER(100,200)",
     "pledgeTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
     "updatedBy": "admin",
-    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'    
-} 
+    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'
+}
 
 const ReleasePledgeDetailList = {
     "id|+1": "@INTEGER(1,2019690999)",
     "cargoName": "@CNAME()",
-    "cargoId":"@INTEGER(1,2019690999)",
+    "cargoId": "@INTEGER(1,2019690999)",
     "createdBy": "system",
     "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
     "inventoryTotalNums": "@INTEGER(2,1000)",
     "inventoryTotalWeight": "@INTEGER(11,100)",
-    "pledgeCargo":"@CNAME()",
-    "releaseCode":"@INTEGER(34345656546,99345656546)",
+    "pledgeCargo": "@CNAME()",
+    "releaseCode": "@INTEGER(34345656546,99345656546)",
     "releaseNums": "@INTEGER(1000,2000)",
     "pledgeType": "@PICK(0,1)",
-    "releaseWeight":"@INTEGER(100,200)",
+    "releaseWeight": "@INTEGER(100,200)",
     "releaseTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
     "updatedBy": "admin",
-    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'     
+    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'
 }
 
 
@@ -345,15 +348,15 @@ const mockRouterMap = {
                 return {
                     ...body,
                     data: {
-                        totalPledgeNums:78,
-                        totalPledgeWeight:200
+                        totalPledgeNums: 78,
+                        totalPledgeWeight: 200
                     },
 
                 };
             }
         },
         // #endregion 
-        
+
         // #region  获取可用总量
         {
             isMock: IS_MOCK,
@@ -367,7 +370,7 @@ const mockRouterMap = {
             }
         },
         // #endregion 
-              
+
         // #region  获取质押明细列表
         {
             isMock: IS_MOCK,
@@ -506,45 +509,52 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'get',
-            router: 'payacc/web/systemData/appInfo',
+            router: '/web/yc/bank/info',
             result() {
                 return {
                     ...body,
-                    data: {
-                        "10000": "导入",
-                        "10010": "集配平台",
-                        "10020": "电商平台",
-                    }
-                };
-            }
-        },
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: 'payacc/web/systemData/settlementPayOrderStatus',
-            result() {
-                return {
-                    ...body,
-                };
-            }
-        },
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: 'payacc/web/systemData/bankDic',
-            result() {
-                return {
-                    ...body,
-                    data: {
-                        "10000": "中国建设银行",
-                        "10010": "中国农业银行",
-                        "10020": "交通银行",
-                    }
-                };
-            }
-        },
+                    data: [
+                        {
+                            "affiliateBank": "中信银行",
+                            "bankIphone": "15952903666",
+                            "bankStatus": "0",
+                            "cityId": "321100",
+                            "cityName": "镇江市",
+                            "createdTime": "2019-07-04 17:49:45.0",
+                            "detailAddress": "长江路301号",
+                            "id": "1",
+                            "iphone": "15952903985",
+                            "isDeleted": 0,
+                            "provinceId": "320000",
+                            "provinceName": "江苏省",
+                            "regionId": "321111",
+                            "regionName": "润州区",
+                            "subbranch": "润州支行",
+                            "updatedTime": "2019-07-04 17:49:48.0"
+                        },
+                        {
+                            "affiliateBank": "中国银行",
+                            "bankIphone": "15952903666",
+                            "bankStatus": "0",
+                            "cityId": "321100",
+                            "cityName": "镇江市",
+                            "createdTime": "2019-07-04 17:49:45.0",
+                            "detailAddress": "长江路301号",
+                            "id": "2",
+                            "iphone": "15952903985",
+                            "isDeleted": 0,
+                            "provinceId": "320000",
+                            "provinceName": "江苏省",
+                            "regionId": "321111",
+                            "regionName": "润州区",
+                            "subbranch": "润州支行",
+                            "updatedTime": "2019-07-04 17:49:48.0"
+                        }
 
-
+                    ]
+                };
+            }
+        },
         // #endregion     
 
         // 数据字段项

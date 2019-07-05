@@ -542,6 +542,13 @@ export default {
     getValidList(params) {
         return fetch(storageURL + '/dict/item/valid/list/get', params, 'get')
     },
+    /**
+     * @author xh
+     * @description 获取银行列表
+     * */
+    getBankList(params) {
+        return fetch(storageURL + '/web/yc/bank/info', params, 'get')
+    },
     // #endregion
 
     
