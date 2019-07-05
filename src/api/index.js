@@ -495,6 +495,13 @@ export default {
     },    
     /**
      * @author sswq
+     * @description 解押明细列表
+     * */    
+    getReleasePledgeDetailList(params){
+        return fetch(storageURL + '/web/yc/releaseinfo/detail', params)         
+    },      
+    /**
+     * @author sswq
      * @param params
      * @description 待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
      * */    
