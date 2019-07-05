@@ -160,8 +160,9 @@ export default {
               weight = max;
             }
             if (value > weight) {
-              return callback(new Error(`不能大于${weight}`));
+              callback(new Error(`不能大于${weight}`));
             }
+            callback();
           }
         }
       ];
@@ -171,11 +172,12 @@ export default {
         {
           validator(rule, value, callback) {
             if (!value) {
-              return;
+              callback();
             }
             if (value > num) {
-              return callback(new Error(`不能大于${num}`));
+               callback(new Error(`不能大于${num}`));
             }
+            callback();
           }
         }
       ];
