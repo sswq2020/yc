@@ -488,6 +488,13 @@ export default {
     },
     /**
      * @author sswq
+     * @description 质押明细列表
+     * */    
+    getPledgeDetailList(params){
+        return fetch(storageURL + '/web/yc/pledgeinfo/detail', params)         
+    },    
+    /**
+     * @author sswq
      * @param params
      * @description 待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
      * */    

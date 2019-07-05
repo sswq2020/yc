@@ -85,14 +85,32 @@ const PledgeinfolIST = {
     "cargoName": "@CNAME()",
     "createdBy": "system",
     "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
-    "inventoryTotalNums":"@INTEGER(2,1000)",
-    "inventoryTotalWeight":"@INTEGER(11,100)",
-    "isDeleted":"@PICK(0,1)",
-    "remark":"@CTITLE(2,10)",
-    "totalPledgeNums":"@INTEGER(1000,2000)",
-    "totalPledgeWeight":"@INTEGER(100,200)",
-    "updatedBy":"admin",
-    "updatedTime":'@DATE("yyyy-MM-dd HH:mm:ss")'
+    "inventoryTotalNums": "@INTEGER(2,1000)",
+    "inventoryTotalWeight": "@INTEGER(11,100)",
+    "isDeleted": "@PICK(0,1)",
+    "remark": "@CTITLE(2,10)",
+    "totalPledgeNums": "@INTEGER(1000,2000)",
+    "totalPledgeWeight": "@INTEGER(100,200)",
+    "updatedBy": "admin",
+    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'
+}
+
+const PledgeDetailList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "cargoName": "@CNAME()",
+    "cargoId":"@INTEGER(1,2019690999)",
+    "createdBy": "system",
+    "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "inventoryTotalNums": "@INTEGER(2,1000)",
+    "inventoryTotalWeight": "@INTEGER(11,100)",
+    "pledgeCargo":"@CNAME()",
+    "pledgeCode":"@INTEGER(34345656546,99345656546)",
+    "pledgeNums": "@INTEGER(1000,2000)",
+    "pledgeType": "@PICK(0,1)",
+    "pledgeWeight":"@INTEGER(100,200)",
+    "pledgeTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "updatedBy": "admin",
+    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'    
 }
 
 
@@ -300,6 +318,29 @@ const mockRouterMap = {
         },
         // #endregion 
 
+
+        // #region  获取质押明细列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/pledgeinfo/detail',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [PledgeDetailList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
 
 
         // #endregion
