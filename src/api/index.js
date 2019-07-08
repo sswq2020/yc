@@ -484,6 +484,76 @@ export default {
     activeMaterial(params) {
         return fetch(storageURL + '/web/yc/base/material/active', params)
     },
+    /**
+     * @author xh
+     * @description 产地分页查询
+     * */
+    getOriginPlaceList(params) {
+        return fetch(storageURL + '/web/yc/base/originPlace/listMaterials', params)
+    },
+    /**
+     * @author xh
+     * @description 新增产地
+     * */
+    addOriginPlace(params) {
+        return fetch(storageURL + '/web/yc/base/originPlace/add', params)
+    },
+    /**
+     * @author xh
+     * @description 编辑产地
+     * */
+    updateOriginPlace(params) {
+        return fetch(storageURL + '/web/yc/base/originPlace/update', params)
+    },
+     /**
+     * @author xh
+     * @description 禁用产地
+     * */
+    disableOriginPlace(params) {
+        return fetch(storageURL + '/web/yc/base/originPlace/disable', params)
+    },
+     /**
+     * @author xh
+     * @description 激活产地
+     * */
+    activeOriginPlace(params) {
+        return fetch(storageURL + '/web/yc/base/originPlace/active', params)
+    },
+    /**
+     * @author xh
+     * @description 规格分页查询
+     * */
+    getSpecList(params) {
+        return fetch(storageURL + '/web/yc/base/spec/listMaterials', params)
+    },
+    /**
+     * @author xh
+     * @description 新增规格
+     * */
+    addSpec(params) {
+        return fetch(storageURL + '/web/yc/base/spec/add', params)
+    },
+    /**
+     * @author xh
+     * @description 编辑规格
+     * */
+    updateSpec(params) {
+        return fetch(storageURL + '/web/yc/base/spec/update', params)
+    },
+     /**
+     * @author xh
+     * @description 禁用规格
+     * */
+    disableSpec(params) {
+        return fetch(storageURL + '/web/yc/base/spec/disable', params)
+    },
+     /**
+     * @author xh
+     * @description 激活规格
+     * */
+    activeSpec(params) {
+        return fetch(storageURL + '/web/yc/base/spec/active', params)
+    },
     // #endregion
 
     // #region 仓储管理

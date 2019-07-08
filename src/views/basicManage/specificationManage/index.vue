@@ -7,7 +7,7 @@
       <div class="form-item">
         <label>规格名称</label>
         <div class="form-control">
-          <el-input v-model="listParams.name" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.specificationsName" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -46,7 +46,7 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.status === 1 ? '禁用' : '激活'}}</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.specificationsStatusCode == '0' ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
     </HLtable>
@@ -70,7 +70,7 @@ import specificationFormModal from "./specificationFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  name: '',
+  specificationsName: '',
 };
 export default {
   name: "specificationManage",
@@ -85,22 +85,22 @@ export default {
       isListDataLoading: false,
       tableHeader: [
         {
-          prop: "",
+          prop: "specificationsName",
           label: "规格名称",
           width: 180
         },
         {
-          prop: "",
+          prop: "specificationsRemark",
           label: "备注",
           width: 300
         },
         {
-          prop: "",
+          prop: "createdTime",
           label: "录入时间",
           width: 180
         },
         {
-          prop: "",
+          prop: "specificationsStatusText",
           label: "状态",
           width: 180
         },
@@ -123,7 +123,7 @@ export default {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.getSpecList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -140,7 +140,7 @@ export default {
     },
     reset() {
       this.listParams = {...defaultListParams};
-      this,getList();
+      this.getList();
     },
     changePageSize(pageSize) {
       this.listParams.pageSize = pageSize;
@@ -157,15 +157,20 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      this.editObj = obj;
+      const {id, specificationsName, specificationsRemark} = obj;
+      this.editObj = {
+        id, 
+        specificationsName, 
+        specificationsRemark
+      };
       this.SET_MODAL_VISIBLE(true);
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, status } = obj;
-      const operationText = status === 1 ? '禁用' : '激活';
-      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
-      this.$confirm(`确定要确定要${operationText}规格${obj.mock1}?`, "提示", {
+      const { id, specificationsStatusCode,  specificationsName} = obj;
+      const operationText = specificationsStatusCode === '0' ? '禁用' : '激活';
+      const apiUrl = specificationsStatusCode === '0' ? 'disableSpec' : 'activeSpec';
+      this.$confirm(`确定要确定要${operationText}规格${specificationsName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -184,7 +189,7 @@ export default {
       });
     },
     async modalConfirm(obj) {
-      const serve = this.isEdit ? "updateProductName" : "addProductName";
+      const serve = this.isEdit ? "updateSpec" : "addSpec";
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:

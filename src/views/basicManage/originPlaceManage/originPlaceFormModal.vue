@@ -1,11 +1,11 @@
 <template>
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="产地名称" prop="mock1">
-        <el-input v-model="form.mock1" maxlength="10"  placeholder="请输入"></el-input>
+      <el-form-item label="产地名称" prop="originPlaceName">
+        <el-input v-model="form.originPlaceName" maxlength="10"  placeholder="请输入"></el-input>
       </el-form-item>
-      <el-form-item label="备注" prop="mock2">
-        <el-input type="textarea"  v-model="form.mock2" :autosize="{ minRows: 5}" size="medium" placeholder="请输入" maxlength="100"></el-input>
+      <el-form-item label="备注" prop="originPlaceRemark">
+        <el-input type="textarea"  v-model="form.originPlaceRemark" :autosize="{ minRows: 5}" size="medium" placeholder="请输入" maxlength="100"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -18,8 +18,8 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  mock1: '',
-  mock2: '',
+  originPlaceName: '',
+  originPlaceRemark: '',
 }
 export default {
   name: "OriginPlaceFormModal",
@@ -45,7 +45,7 @@ export default {
     return {
       form:{...defaultForm},
       rules: {
-        mock1: [{ required: true, message: "请输入材质名称", trigger: "blur" }],
+        originPlaceName: [{ required: true, message: "请输入产地名称", trigger: "blur" }],
       }
     };
   },
