@@ -7,13 +7,13 @@
         icon="el-icon-download"
         :disabled="!equalShipperItems"
         @click="()=>{this.batchInspectionVisible = true}"
-      >入库登记</el-button>
+      >入库</el-button>
     </hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>货主名称</label>
         <div class="form-control">
-          <el-select v-model="form.param_1" placeholder="请选择" size="small">
+          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in ShipperList"
               :key="index"
@@ -26,7 +26,7 @@
       <div class="form-item">
         <label>仓库</label>
         <div class="form-control">
-          <el-select v-model="form.param_2" placeholder="请选择" size="small">
+          <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in storageList"
               :key="index"
@@ -39,7 +39,7 @@
       <div class="form-item">
         <label>品名</label>
         <div class="form-control">
-          <el-select v-model="form.param_3" placeholder="请选择" size="small">
+          <el-select v-model="form.productNameId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in ProductNameList"
               :key="index"
@@ -52,7 +52,7 @@
       <div class="form-item">
         <label>材质</label>
         <div class="form-control">
-          <el-select v-model="form.param_4" placeholder="请选择" size="small">
+          <el-select v-model="form.materialId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in MaterialList"
               :key="index"
@@ -65,7 +65,7 @@
       <div class="form-item">
         <label>规格</label>
         <div class="form-control">
-          <el-select v-model="form.param_5" placeholder="请选择" size="small">
+          <el-select v-model="form.specificationsId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in SpecificationList"
               :key="index"
@@ -78,7 +78,7 @@
       <div class="form-item">
         <label>产地</label>
         <div class="form-control">
-          <el-select v-model="form.param_6" placeholder="请选择" size="small">
+          <el-select v-model="form.originPlaceId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in OriginPlaceList"
               :key="index"
@@ -145,12 +145,12 @@ import hlBreadcrumb from "@/components/hl-breadcrumb";
 import transitiondialog from "@/components/transitiondialog";
 
 const defaultFormData = {
-  param_1: "",
-  param_2: "",
-  param_3: "",
-  param_4: "",
-  param_5: "",
-  param_6: ""
+  cargoId: "",
+  deliveryStoreId: "",
+  productNameId: "",
+  materialId: "",
+  specificationsId: "",
+  originPlaceId: ""
 };
 const defaultListParams = {
   pageSize: 20,
@@ -165,47 +165,47 @@ const defaultListData = {
 };
 const defaulttableHeader = [
   {
-    prop: "mock1",
+    prop: "deliveryStore",
     label: "仓库",
     width: "180"
   },
   {
-    prop: "shipper",
+    prop: "cargoName",
     label: "货主",
     width: "180"
   },
   {
-    prop: "mock5",
+    prop: "pilePosition",
     label: "区桩位",
     width: "180"
   },
   {
-    prop: "mock7",
+    prop: "productName",
     label: "品名",
     width: "180"
   },
   {
-    prop: "mock8",
+    prop: "materialName",
     label: "材质",
     width: "180"
   },
   {
-    prop: "mock9",
+    prop: "specificationsName",
     label: "规格",
     width: "180"
   },
   {
-    prop: "mock10",
+    prop: "originPlaceName",
     label: "产地",
     width: "180"
   },
   {
-    prop: "mock11",
+    prop: "supposedNum",
     label: "应收数量",
     width: "180"
   },
   {
-    prop: "mock12",
+    prop: "numUnit",
     label: "数量单位",
     width: "180"
   },
@@ -215,12 +215,12 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "mock14",
+    prop: "weightUnit",
     label: "重量单位",
     width: "180"
   },
   {
-    prop: "mock15",
+    prop: "measuringTypeEnum",
     label: "计量方式",
     width: "180"
   }
@@ -293,7 +293,7 @@ export default {
     async getListData() {
       let obj = this._filter();
       this.isListDataLoading = true;
-      const res = await this.$api.getInventoryTable(obj);
+      const res = await this.$api.getStockRegister(obj);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
