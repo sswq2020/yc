@@ -74,6 +74,12 @@
         </template>
       </el-table-column>
     </heltable>
+    <tickets 
+      :visible="visible"
+      :cancelCb="()=>{this.visible = false}"
+      :confirmCb="print"
+      title="质押单">
+    </tickets>
   </div>
 </template>
 
@@ -87,6 +93,7 @@ import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import tickets from "./tickets";
 
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
 const EXTRA_PARAMS_KEYS = ['pledgeStartTime', 'pledgeEndTime'];
@@ -149,7 +156,8 @@ export default {
   mixins: [baseMixin],
   components: {
     heltable,
-    hlBreadcrumb
+    hlBreadcrumb,
+    tickets
   },
   data() {
     return {
@@ -160,6 +168,7 @@ export default {
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
+      visible:false
     };
   },
   computed: {
@@ -201,7 +210,11 @@ export default {
       }
     },
     detail(item) {
+      this.visible = true;
       console.log(item);
+    },
+    print(){
+
     },
     init() {
       setTimeout(() => {
