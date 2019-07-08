@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
-    <div class="form">
+    <div class="form"  v-if="releasePledgeData && releasePledgeData.cargoId">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
           <el-row>
@@ -11,27 +11,24 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="质权方" prop="mock2">
-                <el-input v-model="form.mock2"></el-input>
+              <el-form-item label="质权方" prop="bankName">
+                <el-input :value="form.bankName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="质压方" prop="mock3">
-                <el-input :value="form.mock3" disabled="disabled"></el-input>
+              <el-form-item label="质压方" prop="cargoName">
+                <el-input :value="form.cargoName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="解押数量" prop="mock4">
-                <el-input :value="form.mock4"></el-input>
+              <el-form-item label="解押数量" prop="releaseNums" rules="validatenum(form.inventoryTotalNums)">
+                <el-input v-model.number="form.releaseNums"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item 
-                label="解押重量" 
-                prop="mock5"
-                :rules="validateweight(form.reserveweight)"
-              >
-                <el-input v-model.number="form.mock5"></el-input>
+                label="解押重量" prop="releaseWeight" :rules="validateweight(form.reserveweight)">
+                <el-input v-model.number="form.releaseWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -40,18 +37,18 @@
           <div class="head">库存信息</div>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="mock6">
-                <el-input :value="form.mock6" disabled="disabled"></el-input>
+              <el-form-item label="货主" prop="pledgeCargo">
+                <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="库存数量" prop="mock7">
-                <el-input :value="form.mock7" disabled="disabled"></el-input>
+              <el-form-item label="库存数量" prop="inventoryTotalNums">
+                <el-input :value="form.inventoryTotalNums" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="库存重量" prop="mock8">
-                <el-input :value="form.reserveweight" disabled="disabled"></el-input>
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item label="库存重量" prop="inventoryTotalWeight">
+                <el-input :value="form.inventoryTotalWeight" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -69,20 +66,26 @@
 
 <script>
 import { mapState } from "vuex";
+import _ from "lodash";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import Dict from "@/util/dict.js";
+import { bankMixin } from "@/common/mixin.js";
 const defualtFormParams = {
-  mock1: null,
-  mock2: null,
-  mock3: null,
-  mock4: null,
-  mock5: null,
-  mock6: null,
-  mock7: null,
-  mock8: null
+  bankId: null, // 质权方id(银行id)
+  bankName: null, // 银行名称
+  cargoId: null, //货主id
+  cargoName: null, // 货主也是质押方
+  pledgeCargo: null, // 质押方
+  releaseNums: null, // 解押数量
+  releaseWeight: null,// 解押重量
+  releaseCode: null, // 解押单号
+  inventoryTotalNums: null, // 库存数量
+  inventoryTotalWeight: null // 库存重量
 };
 
 export default {
   name: "releasePledgeManage",
+  mixins: [bankMixin],
   components: {
     hlBreadcrumb
   },
@@ -109,7 +112,7 @@ export default {
         {
           type: "number",
           required: true,
-          message: "请输入质押重量",
+          message: "请输入解押重量",
           trigger: "blur"
         },
         {
@@ -119,28 +122,74 @@ export default {
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));
-            }else {
-              callback();
             }
+            callback();
           }
         }
       ];
     },
+    validatenum(num) {
+      return [
+        {
+          validator(rule, value, callback) {
+            if (!value) {
+              callback();
+            }
+            if (value > num) {
+              callback(new Error(`不能大于${num}`));
+            }
+            callback();
+          }
+        }
+      ];
+    },
+    async _doReleasePledge_(obj) {
+      const res = await this.$api.DoReleasePledge(obj);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess(`解押成功`);
+          this.back();
+          break;
+        default:
+          this.$messageError(res.errMsg);
+          break;
+      }
+    },
     submitForm(formName) {
+      let that = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          const Index = that.bankList.findIndex(item => {
+            return item.label === that.form.bankName;
+          });
+          that.form.bankId = that.bankList[Index].value;
+          that._doReleasePledge_(that.form);
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
     },
-    init() {
-      if (!this.releasePledgeData) {
-        this.back();
+    async init() {
+      if (this.releasePledgeData && this.releasePledgeData.cargoId) {
+        const res = await this.$api.getPledgeNum(this.releasePledgeData.cargoId);
+        switch (res.code) {
+          case Dict.SUCCESS:
+            this.max = res.data;
+            break;
+          default:
+            this.$messageError(res.errMsg);
+            break;
+        }
+        this.form = _.clone(
+          Object.assign(
+            {},
+            this.form,
+            { pledgeCargo: this.releasePledgeData.cargoName },
+            this.releasePledgeData
+          )
+        );
       } else {
-        this.form = JSON.parse(JSON.stringify(this.releasePledgeData));
+        this.back();
       }
     }
   },
