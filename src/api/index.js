@@ -560,10 +560,10 @@ export default {
     /**
      * @author sswq
      * @param params
-     * @description 查询库存表的详细
+     * @description 查询库存表列表
      * */
     getInventoryTable(params){
-        return fetch(storageURL + '/web/settlement/pageList/InventoryTable', params)          
+        return fetch(storageURL + '/web/yc/base/stockInventory/page', params)          
     },   
     /**
      * @author sswq
