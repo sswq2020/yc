@@ -299,12 +299,12 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "measuringTypeEnum",
+    prop: "measuring",
     label: "计量方式",
     width: "180"
   },
   {
-    prop: "wareHousingTypeEnum",
+    prop: "incomingType",
     label: "入库类型",
     width: "180"
   },
@@ -371,6 +371,14 @@ export default {
         return item.id;
       });
     },
+    /**过户管理需要的stockId*/
+    stockIds() {
+      return this.selectedItems.map(item => {
+        return {
+          "stockId": item.id
+        };
+      });
+    },    
     /**冻结解冻的请求参数*/
     stockInventoryIds(){
       return this.selectedItems.map(item => {
@@ -428,7 +436,7 @@ export default {
         case Dict.SUCCESS:
           if (res.data.HasSurPlus) {
             this.batchTransferOwnershipVisible = false;
-            this.setTransferOwnership(this.selectedItems);
+            this.setTransferOwnership(this.stockIds);
             this.$router.push({
               path: "/web/settlement/pageList/transferOwnershipManage"
             });

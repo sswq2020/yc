@@ -34,10 +34,19 @@ DICT.INVENTORY_STATUS = {
 
 /**总量质押*/
 DICT.TOTAL_PLEDGE = '0'
-/**业务类型*/
+/**质押业务类型*/
 DICT.PLEDGE_BUSINESS_TYPE = {
     [DICT.TOTAL_PLEDGE]: "总量质押"
 }
+
+/**转账过户*/
+DICT.ACCOUNT_TRANSFER = '0'
+/**过户业务类型*/
+DICT.TRANSFER_OWNERSHIP_BUSINESS_TYPE = {
+    [DICT.ACCOUNT_TRANSFER]: "转账过户"
+}
+
+
 
 
 

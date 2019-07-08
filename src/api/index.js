@@ -572,7 +572,15 @@ export default {
      * */
     getInventoryDetail(params){
         return fetch(storageURL + '/web/yc/base/stockInventoryDetail/page', params)          
-    },          
+    },   
+    /**
+     * @author sswq
+     * @param params
+     * @description 获取过户信息
+     * */
+    getInventoryTransferinfo(params){
+        return fetch(storageURL + '/web/yc/inventory/transferinfo', params)          
+    },      
     /**
      * @author sswq
      * @param params

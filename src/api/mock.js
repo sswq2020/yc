@@ -57,9 +57,9 @@ const InventoryTableList = {
     "disableWeightInventory": 0,
     "incomingId": "CYJY@INTEGER(2019690000,2019690999)", //入库单号
     "incomingTime": '@DATE("yyyy-MM-dd HH:mm:ss")', // 入库时间
-    "incomingType": "",
+    "incomingType": "@PICK('收货入库','过货入库')",
     "isDeleted": 0,
-    "measuring": "",
+    "measuring": "@PICK('磅计','抄码')",
     "remark": "",
     "updatedBy": "",
     "updatedTime": "",
@@ -108,6 +108,11 @@ const InventoryDetailList = {
     "operateWeight": 185, // 操作重量
     "stockInventoryId|+1": "@INTEGER(1,2019690999)" // 库存id
 }
+
+const TransferinfoList = {
+    ...InventoryTableList
+}
+
 
 const RetrievalList = {
     "shipper": "@CNAME()",
@@ -387,6 +392,21 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region 获取过户信息
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/inventory/transferinfo',
+            result() {
+                return {
+                    ...body,
+                    "data|1-2":[TransferinfoList]
+                };
+            }
+        },
+        // #endregion 
+
 
         // #region  待验收入库列表
         {
