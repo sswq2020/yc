@@ -175,19 +175,35 @@ export default {
               callback();
             }
             if (value > num) {
-               callback(new Error(`不能大于${num}`));
+              callback(new Error(`不能大于${num}`));
             }
             callback();
           }
         }
       ];
     },
+    async _doPledge_(obj) {
+      const res = await this.$api.DoPledge(obj);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess("质押成功");
+          this.back();
+          break;
+        default:
+          this.$messageError(res.errMsg);
+          break;
+      }
+    },
     submitForm(formName) {
+      let that = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          const Index = that.bankList.findIndex(item => {
+            return item.value === that.form.bankId;
+          });
+          that.form.bankName = that.bankList[Index].label;
+          that._doPledge_(that.form);
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -203,7 +219,14 @@ export default {
             this.$messageError(res.errMsg);
             break;
         }
-        this.form = _.clone(Object.assign({},this.form,{ pledgeCargo: this.pledgeData.cargoName },this.pledgeData));
+        this.form = _.clone(
+          Object.assign(
+            {},
+            this.form,
+            { pledgeCargo: this.pledgeData.cargoName },
+            this.pledgeData
+          )
+        );
       } else {
         this.back();
       }

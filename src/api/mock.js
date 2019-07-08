@@ -371,6 +371,32 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  质押操作
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/pledgeinfo/pledge',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  解押操作
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/releaseinfo/release',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion         
+
         // #region  获取质押明细列表
         {
             isMock: IS_MOCK,

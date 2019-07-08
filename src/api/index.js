@@ -552,6 +552,23 @@ export default {
     }, 
     /**
      * @author sswq
+     * @param params 质押请求参数
+     * @description 质押操作
+     * */        
+    DoPledge(params){
+        return fetch(storageURL + '/web/yc/pledgeinfo/pledge', params)  
+    },
+    /**
+     * @author sswq
+     * @param params 解押请求参数
+     * @description 解押操作
+     * */        
+    DoReleasePledge(params){
+        return fetch(storageURL + '/web/yc/releaseinfo/release', params)  
+    },
+
+    /**
+     * @author sswq
      * @description 质押明细列表
      * */    
     getPledgeDetailList(params){
