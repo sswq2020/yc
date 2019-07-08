@@ -599,6 +599,13 @@ export default {
     },
     /**
      * @author sswq
+     * @description 待验收入库列表
+     * */    
+    getStockRegister(params){
+        return fetch(storageURL + '/web/yc/base/stockRegister/page', params)         
+    },    
+    /**
+     * @author sswq
      * @description 质押解押管理列表
      * */    
     getPledgeinfo(params){

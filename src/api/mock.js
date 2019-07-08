@@ -316,6 +316,31 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  待验收入库列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRegister/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [PledgeinfolIST],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
+
+
         // #region  获取质押解押管理列表
         {
             isMock: IS_MOCK,
