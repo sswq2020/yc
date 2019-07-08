@@ -564,7 +564,15 @@ export default {
      * */
     getInventoryTable(params){
         return fetch(storageURL + '/web/yc/base/stockInventory/page', params)          
-    },   
+    },
+    /**
+     * @author sswq
+     * @param params
+     * @description 查询库存明细分页
+     * */
+    getInventoryDetail(params){
+        return fetch(storageURL + '/web/yc/base/stockInventoryDetail/page', params)          
+    },          
     /**
      * @author sswq
      * @param params

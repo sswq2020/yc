@@ -10,86 +10,86 @@
         </el-row>
         <el-row :gutter="50">
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="入库单号" prop="mock1">
-              <el-input :value="form.mock1" :disabled="disabled"></el-input>
+            <el-form-item label="入库单号" prop="incomingId">
+              <el-input :value="form.incomingId" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="入库日期" prop="mock2">
-              <el-input :value="form.mock2" :disabled="disabled"></el-input>
+            <el-form-item label="入库日期" prop="incomingTime">
+              <el-input :value="form.incomingTime" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="货主" prop="mock3">
-              <el-input :value="form.mock3" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="交易仓库" prop="mock1">
-              <el-input :value="form.mock1" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="区桩位" prop="mock2">
-              <el-input :value="form.mock2" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="层数" prop="mock3">
-              <el-input :value="form.mock3" :disabled="disabled"></el-input>
+            <el-form-item label="货主" prop="cargoName">
+              <el-input :value="form.cargoName" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="50">
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="品名" prop="mock1">
-              <el-input :value="form.mock1" :disabled="disabled"></el-input>
+            <el-form-item label="交易仓库" prop="deliveryStore">
+              <el-input :value="form.deliveryStore" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="材质" prop="mock2">
-              <el-input :value="form.mock2" :disabled="disabled"></el-input>
+            <el-form-item label="区桩位" prop="pilePosition">
+              <el-input :value="form.pilePosition" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="规格" prop="mock3">
-              <el-input :value="form.mock3" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="产地" prop="mock1">
-              <el-input :value="form.mock1" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="库存数量" prop="mock2">
-              <el-input :value="form.mock2" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="库存重量" prop="mock3">
-              <el-input :value="form.mock3" :disabled="disabled"></el-input>
+            <el-form-item label="层数" prop="piles">
+              <el-input :value="form.piles" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="50">
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="计量方式" prop="mock1">
-              <el-input :value="form.mock1" :disabled="disabled"></el-input>
+            <el-form-item label="品名" prop="productName">
+              <el-input :value="form.productName" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="数量单位" prop="mock2">
-              <el-input :value="form.mock2" :disabled="disabled"></el-input>
+            <el-form-item label="材质" prop="materialName">
+              <el-input :value="form.materialName" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label=" 重量单位" prop="mock3">
-              <el-input :value="form.mock3" :disabled="disabled"></el-input>
+            <el-form-item label="规格" prop="specificationsName">
+              <el-input :value="form.specificationsName" :disabled="disabled"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="50">
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="产地" prop="originPlaceName">
+              <el-input :value="form.originPlaceName" :disabled="disabled"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="库存数量" prop="totalNumInventory">
+              <el-input :value="form.totalNumInventory" :disabled="disabled"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="库存重量" prop="totalWeightInventory">
+              <el-input :value="form.totalWeightInventory" :disabled="disabled"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="50">
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="计量方式" prop="measuringTypeEnum">
+              <el-input :value="form.measuringTypeEnum" :disabled="disabled"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="数量单位" prop="numUnit">
+              <el-input :value="form.numUnit" :disabled="disabled"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="重量单位" prop="weightUnit">
+              <el-input :value="form.weightUnit" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -169,18 +169,21 @@ import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 const defaultForm = {
-  mock1: "",
-  mock2: "",
-  mock3: "",
-  mock4: "",
-  mock5: "",
-  mock6: "",
-  mock7: "",
-  mock8: "",
-  mock9: "",
-  mock10: "",
-  mock11: "",
-  mock12: ""
+  incomingId: "",
+  incomingTime: "",
+  cargoName: "",
+  deliveryStore: "",
+  pilePosition: "",
+  piles: "",
+  productName: "",
+  materialName: "",
+  specificationsName: "",
+  originPlaceName: "",
+  totalNumInventory: "",
+  totalWeightInventory: "",
+  measuringTypeEnum:"",
+  numUnit:"",
+  weightUnit:""
 };
 const defaultListParams = {
   pageSize: 5,
@@ -195,41 +198,55 @@ const defaultListData = {
 };
 const defaulttableHeader = [
   {
-    prop: "mock1",
+    prop: "totalNumInventory",
     label: "库存数量",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "numUnit",
     label: "数量单位",
     width: "180"
   },
   {
-    prop: "mock4",
+    prop: "totalWeightInventory",
     label: "库存重量",
     width: "180"
   },
   {
-    prop: "mock5",
+    prop: "weightUnit",
     label: "重量单位",
     width: "180"
   },
   {
-    prop: "mock6",
+    prop: "operateNum",
     label: "操作数量",
     width: "180"
   },
   {
-    prop: "mock7",
+    prop: "operateWeight",
     label: "操作重量",
     width: "180"
   },
   {
-    prop: "mock8",
+    prop: "stateText",
     label: "状态",
     width: "180"
   }
 ];
+
+const rowAdapter = (list) => {
+    if (!list) {
+        return []
+    }
+    if (list.length > 0) {
+        list = list.map((row) => {
+            return row = { ...row, stateText: Dict.INVENTORY_STATUS[row.state] }
+        })
+    }
+    return list
+}
+
+
 export default {
   name: "inventoryDetail",
   components: {
@@ -263,10 +280,10 @@ export default {
       });
     },
     _filter() {
-      if (this.IS_SHIPPER) {
-        this.findDetail.userId = this.userId;
-      }
-      return _.clone(Object.assign({}, this.findDetail, this.listParams));
+      // if (this.IS_SHIPPER) {
+      //   this.findDetail.userId = this.userId;
+      // }
+      return _.clone(Object.assign({}, this.listParams));
     },
     clearListParams() {
       this.listParams = { ...defaultListParams };
@@ -304,10 +321,11 @@ export default {
     async getListData() {
       let obj = this._filter();
       this.isListDataLoading = true;
-      const res = await this.$api.getInventoryTable(obj);
+      const res = await this.$api.getInventoryDetail(obj);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
+          res.data.list = rowAdapter(res.data.list);
           this.listData = res.data;
           break;
         default:
@@ -318,7 +336,7 @@ export default {
     },
     Frozen(item) {
       let that = this;
-      const stockInventoryId = item.id;
+      const {stockInventoryId} = item;
       that.$confirm(`确定要冻结`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -339,7 +357,7 @@ export default {
     },
     UnFrozen(item) {
       let that = this;
-      const stockInventoryId = item.id;
+      const {stockInventoryId} = item;
       that.$confirm(`确定要解冻`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",

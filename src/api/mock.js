@@ -90,6 +90,25 @@ const InventoryTableList = {
     "incomingDays": 0 //入库天数
 }
 
+const InventoryDetailList = {
+    "id|+1": "@INTEGER(1,2019690999)", // 主键
+    "createdBy": "",
+    "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "isDeleted": 0,
+    "remark": "",
+    "state": "@PICK('0','1','2','3')",
+    "updatedBy": "",
+    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "version": 0,
+    "totalNumInventory": 96, // 库存数量
+    "numUnit": "支", // 数量单位
+    "totalWeightInventory": 6, // 库存重量
+    "weightUnit": "吨", // 重量单位
+    "operateNum": 34, // 操作数量
+    "operateWeight": 185, // 操作重量
+    "stockInventoryId|+1": "@INTEGER(1,2019690999)" // 库存id
+}
+
 const RetrievalList = {
     "shipper": "@CNAME()",
     "reserveweight": "@INTEGER(15,100)",
@@ -268,6 +287,32 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region  获取库存明细分页
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockInventoryDetail/page',
+            result(params) {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            'list|10-20': [InventoryDetailList],
+                            "paginator": {
+                                "currentPage": params.page,
+                                "pageSize": params.pageSize,
+                                "totalCount": 1000,
+                                "totalPage": 1000 / params.pageSize
+                            }
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+
 
         // #region  查询选中的是否还有余量
         {
