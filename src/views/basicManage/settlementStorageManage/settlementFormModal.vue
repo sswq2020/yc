@@ -179,9 +179,8 @@ export default {
   watch: {
     visible(newV, oldV) {
       if (newV) {
-        console.log(this.editObj);
-        this.form = this.isEdit ? {...this.editObj} : {...defaultForm}
-      }else{
+        this.form = this.isEdit ? {...this.editObj} : {...defaultForm};
+      } else {
         this.$refs.ruleForm.clearValidate();
       }
     }

@@ -90,8 +90,7 @@ export default {
       let that = this;
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          let parmas = JSON.parse(JSON.stringify(that.form));
-          that.confirmCb(parmas);
+          that.confirmCb({...that.form});
         } else {
           console.log("error submit!!");
           return false;
@@ -102,8 +101,8 @@ export default {
   watch: {
     visible(newV, oldV) {
       if (newV) {
-        this.form = this.isEdit ? {...this.editObj} : {...defaultForm}
-      }else{
+        this.form = this.isEdit ? {...this.editObj} : {...defaultForm};
+      } else {
         this.$refs.ruleForm.clearValidate();
       }
     },
