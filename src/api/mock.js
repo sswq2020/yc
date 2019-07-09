@@ -435,6 +435,20 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  过户的最大可用量量
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/inventory/transfer/available',
+            result() {
+                return {
+                    ...body,
+                    data: '55'
+                };
+            }
+        },
+        // #endregion 
+        
         // #region 操作过户
         {
             isMock: IS_MOCK,

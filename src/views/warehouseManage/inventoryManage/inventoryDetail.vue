@@ -417,7 +417,7 @@ export default {
           switch (res.code) {
             case Dict.SUCCESS:
               if (res.data.HasSurPlus) {
-              this.setTransferOwnership([item]);
+              this.setTransferOwnership([{stockId:id}]);
               this.$router.push({
                 path: "/web/settlement/pageList/transferOwnershipManage"
               });

@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
-    <div class="form" v-if="inspection.length">
+    <div class="form" v-if="form.needShowData.length">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block" v-for="(item,index) in form.needShowData" :key="item.id">
           <div class="head">登记信息</div>
