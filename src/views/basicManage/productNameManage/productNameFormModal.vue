@@ -3,7 +3,7 @@
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
         <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'">
-          <el-option v-for="optionItem in item.option" :key="optionItem.dictCode" :label="optionItem.dictName" :value="optionItem.dictCode"></el-option>
+          <el-option v-for="optionItem in Object.keys(item.optionData)" :key="optionItem" :label="item.optionData[optionItem]" :value="optionItem"></el-option>
         </el-select>
         <el-input v-model="form[item.prop]" maxlength="20"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
       </el-form-item>
@@ -41,9 +41,9 @@ export default {
       type: Object,
       default: () => {}
     },
-    productTypeCodeList: {
-      type: Array,
-      default: []
+    productTypeCodeData: {
+      type: Object,
+      default: () => {}
     }
     
   },
@@ -55,7 +55,7 @@ export default {
           label: '大类',
           prop: 'productTypeCode',
           type: 'select',
-          option: []
+          optionData: {}
         },
         {
           label: '品名代码',
@@ -107,7 +107,7 @@ export default {
       }
     },
     productTypeCodeList(newV, oldV) {
-      this.formItem[0].option = newV;
+      this.formItem[0].optionData = newV;
     }
   }
 };

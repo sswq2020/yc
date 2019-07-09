@@ -29,13 +29,13 @@ const modal = {
   actions: {
     async getDropDownData({commit}) {
       const res = await api.getDropDownList();
-        switch (res.code) {
-          case Dict.SUCCESS:
-            commit('SET_DROP_DOWN_DATA', res.data);
-            break;
-          default:
-            break;
-        }
+      switch (res.code) {
+        case Dict.SUCCESS:
+          commit('SET_DROP_DOWN_DATA', res.data);
+          break;
+        default:
+          break;
+      }
     }
   }
 }

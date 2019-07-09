@@ -2,7 +2,7 @@
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
-        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'">
+        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'" @change="handleChange">
           <el-option v-for="optionItem in Object.keys(dropDownData.deliveryStoreMap)" :key="optionItem" :label="dropDownData.deliveryStoreMap[optionItem]" :value="optionItem"></el-option>
         </el-select>
         <el-input v-model="form[item.prop]" :maxlength="item.maxlength"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
@@ -89,6 +89,9 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    handleChange(val) {
+      this.form.deliveryStore = this.dropDownData.deliveryStoreMap[val];
+    },
     cancle() {
       this.SET_MODAL_VISIBLE(false);
     },

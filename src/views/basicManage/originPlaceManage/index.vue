@@ -203,7 +203,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     this.getList();
   }
 };

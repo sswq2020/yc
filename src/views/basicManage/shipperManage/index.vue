@@ -275,7 +275,7 @@ export default {
       // this.batchexport = judgeAuth("finance:tradedetail:export");
     }
   },
-  mounted() {
+  created() {
     this.init();
   }
 };

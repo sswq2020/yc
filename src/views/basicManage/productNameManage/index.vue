@@ -8,7 +8,7 @@
         <label>大类</label>
         <div class="form-control">
           <el-select v-model="listParams.productTypeCode" placeholder="请选择">
-            <el-option v-for="item in productTypeCodeList" :key="item.dictCode" :label="item.dictName" :value="item.dictCode"></el-option>
+            <el-option v-for="item in Object.keys(productTypeCodeData)" :key="item" :label="productTypeCodeData[item]" :value="item"></el-option>
           </el-select>
         </div>
       </div>
@@ -67,7 +67,7 @@
     <ProductNameFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
-      :productTypeCodeList="productTypeCodeList"
+      :productTypeCodeData="productTypeCodeData"
       :loading="isEditLoading"
       :confirmCb="modalConfirm"
     />
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { mapMutations  } from 'vuex';
+import { mapState, mapMutations, mapActions  } from 'vuex';
 import Dict from "@/util/dict.js";
 import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
@@ -139,11 +139,14 @@ export default {
       isEdit: false,
       isEditLoading: false,
       editObj: {},
-      productTypeCodeList: [], // 品名大类列表
     }
+  },
+  computed: {
+    ...mapState('app', ['productTypeCodeData'])
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    ...mapActions('app', ['setYcProductTypeCodeData']),
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.gettProductNamesList(this.listParams);
@@ -159,18 +162,6 @@ export default {
           this.$messageError(res.mesg);
           break;
       }
-    },
-    async getYcProductTypeList() {
-      const res = await this.$api.getValidList({
-        entryCode: 'YcProductType',
-        tenantId: 'root'
-      });
-      this.productTypeCodeList = res.data.map(item => {
-        return {
-          dictCode: item.dictCode,
-          dictName: item.dictName
-        }
-      });
     },
     search() {
       this.listParams.page = 1;
@@ -243,11 +234,8 @@ export default {
     }
   },
   created() {
-    this.getYcProductTypeList();
-  },
-  mounted() {
+    this.setYcProductTypeCodeData();
     this.getList();
-    
   }
 };
 </script>
