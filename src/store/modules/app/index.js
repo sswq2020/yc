@@ -16,13 +16,13 @@ const store = {
       productTypeCodeData: state => state.productTypeCodeData, 
     },
     mutations: {
-      setRole(state,payload){
+      [type.SET_ROLE](state,payload){
         state.role = payload
       },
-      setUserId(state,payload){
+      [type.SET_USER_ID](state,payload){
         state.userId = payload
       },
-      setUsername(state,payload){
+      [type.SET_USER_NAME](state,payload){
         state.username = payload
       },
       [type.SET_YC_PRODUCT_TYPE](state,payload) {

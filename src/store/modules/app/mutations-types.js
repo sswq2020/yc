@@ -1,1 +1,7 @@
 export const SET_YC_PRODUCT_TYPE = 'SET_YC_PRODUCT_TYPE';
+
+export const SET_ROLE = 'SET_ROLE';
+
+export const SET_USER_ID = 'SET_USER_ID';
+
+export const SET_USER_NAME = 'type.SET_USER_NAME';
