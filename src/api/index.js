@@ -723,7 +723,13 @@ export default {
     DoReleasePledge(params){
         return fetch(storageURL + '/web/yc/releaseinfo/release', params)  
     },
-
+    /**
+     * @author sswq
+     * @description 过户明细列表
+     * */     
+    getTransferDetailList(params){
+        return fetch(storageURL + '/web/yc/inventory/transfer/detail', params)         
+    },   
     /**
      * @author sswq
      * @description 质押明细列表

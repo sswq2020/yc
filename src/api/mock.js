@@ -113,6 +113,17 @@ const TransferinfoList = {
     ...InventoryTableList
 }
 
+const TransferDetailList = {
+    ...InventoryTableList,
+    newShipperName:"@CNAME()", // 新货主
+    originalShipperName:"@CNAME()", // 原货主
+    realTransferNums:34, // 实际过户数量
+    realTransferWeights:168, // 实际过户重量
+    transferNums: 65, // 过户数量
+    transferWeights:897, // 过户重量
+    transferTime:'@DATE("yyyy-MM-dd HH:mm:ss")', // 过户时间
+    transferType: "@PICK('收货入库','过货入库')" // 过户类型
+}
 
 const RetrievalList = {
     "shipper": "@CNAME()",
@@ -418,7 +429,6 @@ const mockRouterMap = {
         },
         // #endregion 
         
-
         // #region  待验收入库列表
         {
             isMock: IS_MOCK,
@@ -441,8 +451,6 @@ const mockRouterMap = {
             }
         },
         // #endregion 
-
-
 
         // #region  获取质押解押管理列表
         {
@@ -524,6 +532,29 @@ const mockRouterMap = {
             }
         },
         // #endregion         
+
+        // #region  获取过户明细列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/inventory/transfer/detail',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [TransferDetailList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
 
         // #region  获取质押明细列表
         {
