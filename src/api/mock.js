@@ -110,7 +110,9 @@ const InventoryDetailList = {
 }
 
 const TransferinfoList = {
-    ...InventoryTableList
+    ...InventoryTableList,
+    availableNumInventory:"@INTEGER(100,250)",
+    availableWeightInventory:"@INTEGER(100,250)"
 }
 
 const TransferDetailList = {
