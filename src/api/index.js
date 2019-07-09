@@ -580,7 +580,15 @@ export default {
      * */
     getInventoryTransferinfo(params){
         return fetch(storageURL + '/web/yc/inventory/transferinfo', params)          
-    },      
+    },    
+    /**
+     * @author sswq
+     * @param params
+     * @description 过户操作
+     * */
+    DoTransfer(params){
+        return fetch(storageURL + '/web/yc/inventory/transfer', params)          
+    },       
     /**
      * @author sswq
      * @param params

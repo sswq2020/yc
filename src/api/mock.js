@@ -317,8 +317,6 @@ const mockRouterMap = {
         },
         // #endregion 
 
-
-
         // #region  查询选中的是否还有余量
         {
             isMock: IS_MOCK,
@@ -407,6 +405,19 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region 操作过户
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/inventory/transfer',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+        
 
         // #region  待验收入库列表
         {
