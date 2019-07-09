@@ -767,6 +767,13 @@ export default {
     },
     /**
      * @author sswq
+     * @description 入库明细列表
+     * */     
+    getStockRegisterDetailList(params){
+        return fetch(storageURL + '/web/yc/base/stockRegisterDetail/page', params)         
+    },  
+    /**
+     * @author sswq
      * @description 过户明细列表
      * */     
     getTransferDetailList(params){
