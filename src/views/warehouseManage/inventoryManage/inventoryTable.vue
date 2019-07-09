@@ -362,7 +362,7 @@ export default {
     ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
     /**选中的必须是同一个货主才能出库和过户*/
     equalShipperItems() {
-      let arr = this.selectedItems.map(item => item.shipper);
+      let arr = this.selectedItems.map(item => item.cargoId);
       return new Set(arr).size === 1;
     },
     /**请求参数估计只要id*/
