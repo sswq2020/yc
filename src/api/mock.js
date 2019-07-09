@@ -125,6 +125,14 @@ const StockRegisterList = {
     "registerTime":'@DATE("yyyy-MM-dd HH:mm:ss")'
 }
 
+const StockRemovalList = {
+  ...InventoryTableList,
+  "actualRemovalNum": 65, 
+  "actualRemovalWeight": 99,
+  "applyRemovalTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+  "supposedRemovalNum": 65,
+  "supposedRemovalWeight": 84,
+}
 
 const TransferinfoList = {
     ...InventoryTableList,
@@ -404,7 +412,6 @@ const mockRouterMap = {
         },
         // #endregion 
 
-
         // #region  待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
         {
             isMock: IS_MOCK,
@@ -462,6 +469,29 @@ const mockRouterMap = {
         },
         // #endregion 
         
+        // #region  待验收出库列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRemoval/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [StockRemovalList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
         // #region  待验收入库列表
         {
             isMock: IS_MOCK,
@@ -498,7 +528,6 @@ const mockRouterMap = {
         },
         // #endregion 
         
-
         // #region  获取质押解押管理列表
         {
             isMock: IS_MOCK,

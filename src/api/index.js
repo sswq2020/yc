@@ -729,6 +729,13 @@ export default {
     },
     /**
      * @author sswq
+     * @description 待验收出库列表
+     * */    
+    getStockRemovalList(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/page', params)         
+    },    
+    /**
+     * @author sswq
      * @description 待验收入库列表
      * */    
     getStockRegisterList(params){
