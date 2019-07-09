@@ -7,7 +7,7 @@
         <div class="form-control">
           <el-select v-model="form.cargoId" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in ShipperList"
+              v-for="(item,index) in cargoList"
               :key="index"
               :label="item.label"
               :value="item.value"

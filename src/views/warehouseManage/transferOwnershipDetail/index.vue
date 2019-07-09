@@ -7,7 +7,7 @@
         <div class="form-control">
           <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in ShipperList"
+              v-for="(item,index) in cargoList"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -20,7 +20,7 @@
         <div class="form-control">
           <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in storageList"
+              v-for="(item,index) in deliveryStoreList"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -33,7 +33,7 @@
         <div class="form-control">
           <el-select v-model="form.productNameId" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in ProductNameList"
+              v-for="(item,index) in productNameList"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -46,7 +46,7 @@
         <div class="form-control">
           <el-select v-model="form.materialId" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in MaterialList"
+              v-for="(item,index) in materialList"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -59,7 +59,7 @@
         <div class="form-control">
           <el-select v-model="form.specificationsId" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in SpecificationList"
+              v-for="(item,index) in specificationsList"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -72,7 +72,7 @@
         <div class="form-control">
           <el-select v-model="form.originPlaceId" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in OriginPlaceList"
+              v-for="(item,index) in originPlaceList"
               :key="index"
               :label="item.label"
               :value="item.value"

@@ -199,12 +199,12 @@ const ReleasePledgeDetailList = {
 }
 
 
-const ShipperList = [{ "0": "mock1" }, { "1": "mock2" }]
-const SpecificationList = [{ "0": "mock1" }, { "1": "mock2" }]
-const MaterialList = [{ "0": "mock1" }, { "1": "mock2" }]
-const ProductNameList = [{ "0": "mock1" }, { "1": "mock2" }]
-const OriginPlaceList = [{ "0": "mock1" }, { "1": "mock2" }]
-const storageList = [{ "0": "mock1" }, { "1": "mock2" }]
+const cargoMap = {"1": "小红","2": "熊安明","c8254b4eb6154d9d91992acdf0df248a": "1","fba7fb0eabc64ee882233e85d9b62d26": "kkkkkyinkai","95105a94a7c5487c93616d505958c850": "test1"}
+const specificationsMap = {"5d9992cab42840138a35b585e637b5e1": "25mm*20mm*30mm","8810851ea47c414db9129f14aba557ed": "1","b609063bb007469ab52cccc5f930c685": "11","cc1926c4da1448739ddd8a0d3e1f82eb": "30*20*30"}
+const materialMap =  {"8293674dcc74426e97983b85f5bfd305": "ABC1"}
+const productNameMap = { "0b8b112b5eb34d8b824c6cb5dcb5a686": "粗石油222","b2fd07bb44d94647a7731f6cac488f62": "粗石油222","ce78797629a448c89f2e0330de4c1ce1": "H型钢"}
+const originPlaceMap =  {"bc5ecc7158f44eccae90cada6e986165": "测试1"}
+const deliveryStoreMap = {"bc5ecc7158f44eccae90cada6e986165": "仓库1","bc5ecc7158f44ecc56": "仓库2"}
 
 
 const MockRole = {
@@ -678,17 +678,17 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'get',
-            router: '/web/systemData/getAllBaseInfo',
+            router: '/web/yc/inventory/transfer/base',
             result() {
                 return {
                     ...body,
                     data: {
-                        "ShipperList": ShipperList,
-                        "SpecificationList": SpecificationList,
-                        "MaterialList": MaterialList,
-                        "ProductNameList": ProductNameList,
-                        "OriginPlaceList": OriginPlaceList,
-                        "storageList": storageList
+                        "cargoMap": cargoMap,
+                        "specificationsMap": specificationsMap,
+                        "materialMap": materialMap,
+                        "productNameMap": productNameMap,
+                        "originPlaceMap": originPlaceMap,
+                        "deliveryStoreMap": deliveryStoreMap
                     }
                 };
             }
