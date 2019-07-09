@@ -2,8 +2,8 @@
   <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
-        <el-select v-model="form[item.prop]" placeholder="请选择">
-          <el-option v-for="optionItem in item.option" :key="optionItem.value" :label="optionItem.label" :value="optionItem.value"></el-option>
+        <el-select v-model="form[item.prop]" placeholder="请选择" @change="select($event, item.prop)">
+          <el-option v-for="optionItem in Object.keys(item.optionData)" :key="optionItem" :label="item.optionData[optionItem]" :value="optionItem"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -16,22 +16,19 @@
 
 <script>
 import { mapState, mapMutations  } from 'vuex';
+import Dict from "@/util/dict.js";
 const defaultForm = {
-  mock1: '',
-  mock2: '',
-  mock3: '',
-  mock4: '',
-  mock5: '',
-}
-const list = [
-  {
-    value: '选项1',
-    label: '黄金糕'
-  }, {
-    value: '选项2',
-    label: '双皮奶'
-  }
-];
+  productTypeCode: '',
+  productName: '',
+  productNameId: '',
+  materialId: '',
+  materialName: '',
+  specificationsId: '',
+  specificationsName: '',
+  originPlaceId: '',
+  originPlaceName: '',
+};
+
 export default {
   name: "commodityFormModal",
   props: {
@@ -58,47 +55,96 @@ export default {
       formItem: [
         {
           label: '大类',
-          prop: 'mock1',
-          option: list
+          prop: 'productTypeCode',
+          optionData: {}
         },
         {
           label: '品名',
-          prop: 'mock2',
-          option: list
+          prop: 'productNameId',
+          optionMap: 'productNameMap',
+          optionData: {}
         },
         {
           label: '材质',
-          prop: 'mock3',
-          option: list
+          prop: 'materialId',
+          optionMap: 'materialMap',
+          optionData: {}
         },
         {
           label: '规格',
-          prop: 'mock4',
-          option: list
+          prop: 'specificationsId',
+          optionMap: 'specificationsMap',
+          optionData: {}
         },
         {
           label: '产地',
-          prop: 'mock5',
-          option: list
+          prop: 'originPlaceId',
+          optionMap: 'originPlaceMap',
+          optionData: {}
         }
       ],
       rules: {
-        mock1: [{ required: true, message: "请选择大类", trigger: "blur" }],
-        mock2: [{ required: true, message: "请选择品名", trigger: "blur" }],
-        mock3: [{ required: true, message: "请选择材质", trigger: "blur" }],
-        mock4: [{ required: true, message: "请选择规格", trigger: "blur" }],
-        mock5: [{ required: true, message: "请选择产地", trigger: "blur" }]
+        productTypeCode: [{ required: true, message: "请选择大类", trigger: "blur" }],
+        productNameId: [{ required: true, message: "请选择品名", trigger: "blur" }],
+        materialId: [{ required: true, message: "请选择材质", trigger: "blur" }],
+        specificationsId: [{ required: true, message: "请选择规格", trigger: "blur" }],
+        originPlaceId: [{ required: true, message: "请选择产地", trigger: "blur" }]
       }
     };
   },
   computed: {
     ...mapState('modal', ['visible']),
+    ...mapState('app', ['productTypeCodeData']),
     title() {
       return this.isEdit ? "编辑物资" : "新增物资";
     }
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    async getInitData() {
+      const apiUrl = this.isEdit ? 'updateGoodsInit' : 'addGoodsInit';
+      const params = this.isEdit ? {id: this.form.id} : {}
+      const res = await this.$api[apiUrl](params);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          const { data } = res;
+          this.formItem = this.formItem.map(item => {
+            return {
+              ...item,
+              optionData:  item.optionMap && data[item.optionMap]   ? data[item.optionMap] : item.optionData
+            }
+          });
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    async select(value, prop) {
+      if (prop == 'productTypeCode') { // 选择的是大类
+        const res = await this.$api.selectProductNames({productTypeCode: value});
+        switch (res.code) {
+          case Dict.SUCCESS:
+            this.formItem[1].optionData = res.data; // 根据选择大类设置品名的下拉
+            this.form.productNameId = '';
+            this.form.productNameName = '';
+            break;
+          default:
+            this.$messageError(res.mesg);
+            break;
+        }
+      } else {
+        let text = '';
+        for(let i = 0, len = this.formItem.length; i < len; i++) {
+          if (this.formItem[i].prop === prop) {
+            text = this.formItem[i].optionData[value];
+            break;
+          }
+        }
+        this.form[prop.replace(/Id|NameId/, 'Name')] = text;
+      }
+      
+    },
     cancle() {
       this.SET_MODAL_VISIBLE(false);
     },
@@ -112,12 +158,14 @@ export default {
           return false;
         }
       });
-    },
+    }
   },
   watch: {
     visible(newV, oldV) {
       if (newV) {
         this.form = this.isEdit ? {...this.editObj} : {...defaultForm};
+        this.formItem[0].optionData = this.productTypeCodeData;
+        this.getInitData();
       } else {
         this.$refs.ruleForm.clearValidate();
       }

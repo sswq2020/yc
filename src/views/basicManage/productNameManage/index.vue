@@ -150,7 +150,10 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData = res.data;
+          const { data } = res;
+          if (data) {
+            this.listData = data;
+          }
           break;
         default:
           this.$messageError(res.mesg);

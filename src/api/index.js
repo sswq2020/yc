@@ -489,7 +489,7 @@ export default {
      * @description 产地分页查询
      * */
     getOriginPlaceList(params) {
-        return fetch(storageURL + '/web/yc/base/originPlace/listMaterials', params)
+        return fetch(storageURL + '/web/yc/base/originPlace/listOriginPlaces', params)
     },
     /**
      * @author xh
@@ -524,7 +524,7 @@ export default {
      * @description 规格分页查询
      * */
     getSpecList(params) {
-        return fetch(storageURL + '/web/yc/base/spec/listMaterials', params)
+        return fetch(storageURL + '/web/yc/base/spec/listSpecs', params)
     },
     /**
      * @author xh
@@ -553,6 +553,62 @@ export default {
      * */
     activeSpec(params) {
         return fetch(storageURL + '/web/yc/base/spec/active', params)
+    },
+    /**
+     * @author xh
+     * @description 物资分页查询
+     * */
+    getGoodsList(params) {
+        return fetch(storageURL + '/web/yc/base/goods/listGoods', params)
+    },
+    /**
+     * @author xh
+     * @description 新增物资
+     * */
+    addGoods(params) {
+        return fetch(storageURL + '/web/yc/base/goods/add', params)
+    },
+    /**
+     * @author xh
+     * @description 编辑物资
+     * */
+    updateGoods(params) {
+        return fetch(storageURL + '/web/yc/base/goods/update', params)
+    },
+     /**
+     * @author xh
+     * @description 禁用物资
+     * */
+    disableGoods(params) {
+        return fetch(storageURL + '/web/yc/base/goods/disable', params)
+    },
+     /**
+     * @author xh
+     * @description 激活物资
+     * */
+    activeGoods(params) {
+        return fetch(storageURL + '/web/yc/base/goods/active', params)
+    },
+    /**
+     * @author xh
+     * @description 新增物资初始化查询
+     * */
+    addGoodsInit(params) {
+        return fetch(storageURL + '/web/yc/base/goods/addInit', params, 'get')
+    },
+    /**
+     * @author xh
+     * @description 更新物资初始化查询
+     * */
+    updateGoodsInit(params) {
+        return fetch(storageURL + '/web/yc/base/goods/updateInit', params, 'get')
+    },
+    /**
+     * @author xh
+     * @description 根据大类查询品名
+     * */
+    selectProductNames(params) {
+        return fetch(storageURL + '/web/yc/base/goods/selectProductNames', params, 'get')
     },
     // #endregion
 

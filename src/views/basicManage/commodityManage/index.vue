@@ -7,22 +7,22 @@
       <div class="form-item">
         <label>物资代码</label>
         <div class="form-control">
-          <el-input v-model="listParams.name" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.goodCode" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
         <label>大类</label>
         <div class="form-control">
-          <el-select v-model="listParams.type" placeholder="请选择">
-            <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select v-model="listParams.productTypeCode" placeholder="请选择"  @change="selectProduct">
+            <el-option v-for="item in Object.keys(productTypeCodeData)" :key="item" :label="productTypeCodeData[item]" :value="item"></el-option>
           </el-select>
         </div>
       </div>
       <div class="form-item">
         <label>品名</label>
         <div class="form-control">
-          <el-select v-model="listParams.type" placeholder="请选择">
-            <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select v-model="listParams.productNameId" placeholder="请选择">
+            <el-option v-for="item in Object.keys(productNameData)" :key="item" :label="productNameData[item]" :value="item"></el-option>
           </el-select>
         </div>
       </div>
@@ -62,7 +62,7 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.status === 1 ? '禁用' : '激活'}}</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.goodsStatusCode == '0' ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
     </HLtable>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { mapMutations  } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import Dict from "@/util/dict.js";
 import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
@@ -85,9 +85,9 @@ import CommodityFormModal from "./commodityFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  name: '',
-  address: '',
-  type: ''
+  goodCode: '',
+  productTypeCode: '',
+  productNameId: ''
 };
 export default {
   name: "commodityManage",
@@ -102,35 +102,35 @@ export default {
       isListDataLoading: false,
       tableHeader: [
         {
-          prop: "",
+          prop: "goodCode",
           label: "物资代码",
         },
         {
-          prop: "",
+          prop: "productTypeText",
           label: "大类",
         },
         {
-          prop: "",
+          prop: "productName",
           label: "品名",
         },
         {
-          prop: "",
+          prop: "materialName",
           label: "材质",
         },
         {
-          prop: "",
+          prop: "specificationsName",
           label: "规格",
         },
         {
-          prop: "",
+          prop: "originPlaceName",
           label: "产地",
         },
         {
-          prop: "",
+          prop: "createdTime",
           label: "录入时间",
         },
         {
-          prop: "",
+          prop: "goodsStatusText",
           label: "状态",
         },
       ],
@@ -146,18 +146,32 @@ export default {
       isEdit: false,
       isEditLoading: false,
       editObj: {},
-      typeList: []
+      productNameData: {}
     }
   },
+  computed: mapState('app', ['productTypeCodeData']),
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    ...mapActions('app', ['setYcProductTypeCodeData']),
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.getGoodsList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
           this.listData = res.data;
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    async selectProduct(value) {
+      const res = await this.$api.selectProductNames({productTypeCode: value});
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.productNameData = res.data;
+          this.listParams.productNameId = '';
           break;
         default:
           this.$messageError(res.mesg);
@@ -170,6 +184,7 @@ export default {
     },
     reset() {
       this.listParams = {...defaultListParams};
+      this.productNameData = {};
       this.getList();
     },
     changePageSize(pageSize) {
@@ -187,16 +202,16 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      this.editObj = obj;
+      this.editObj = {...obj};
       console.log(this.editObj);
       this.SET_MODAL_VISIBLE(true);
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, status } = obj;
-      const operationText = status === 1 ? '禁用' : '激活';
-      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
-      this.$confirm(`确定要${operationText}物资${obj.mock1}?`, "提示", {
+      const { id, goodsStatusCode, goodCode, productName } = obj;
+      const operationText = goodsStatusCode == '0' ? '禁用' : '激活';
+      const apiUrl = goodsStatusCode == '0' ? 'disableGoods' : 'activeGoods';
+      this.$confirm(`确定要${operationText}物资${goodCode}-${productName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -214,8 +229,8 @@ export default {
         }
       });
     },
-    async modalConfirm(parmas) {
-      const serve = this.isEdit ? "updateProductName" : "addProductName";
+    async modalConfirm(obj) {
+      const serve = this.isEdit ? "updateGoods" : "addGoods";
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:
@@ -229,7 +244,8 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
+    this.setYcProductTypeCodeData();
     this.getList();
   }
 };

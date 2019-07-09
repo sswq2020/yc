@@ -1,0 +1,1 @@
+export const SET_YC_PRODUCT_TYPE = 'SET_YC_PRODUCT_TYPE';
