@@ -109,6 +109,14 @@ const InventoryDetailList = {
     "stockInventoryId|+1": "@INTEGER(1,2019690999)" // 库存id
 }
 
+const StockRegisterDetailList = {
+    ...InventoryTableList,
+    "num": 23,
+    "weight":243,
+    "registerId":"SH1905060002"
+}
+
+
 const TransferinfoList = {
     ...InventoryTableList,
     availableNumInventory:"@INTEGER(100,250)",
@@ -534,6 +542,29 @@ const mockRouterMap = {
             }
         },
         // #endregion         
+
+        // #region  入库明细列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRegisterDetail/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [StockRegisterDetailList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
 
         // #region  获取过户明细列表
         {
