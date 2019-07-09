@@ -14,7 +14,7 @@
               <el-form-item
                 label="业务类型"
                 prop="transferType"
-                :rules="[{ required: true, message: '请选择业务类型', trigger: 'blur' }]"
+                :rules="[{ required: true, message: '请选择业务类型'}]"
               >
                 <el-select v-model="form.transferType" placeholder="请选择" size="small">
                   <el-option
@@ -35,11 +35,11 @@
               <el-form-item
                 label="新货主"
                 prop="newShipperId"
-                :rules="{ required: true, message: '请输入新货主', trigger: 'blur' }"
+                :rules="{ required: true, message: '请选择新货主'}"
               >
                 <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in ShipperList"
+                    v-for="(item,index) in cargoList"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
@@ -125,7 +125,7 @@
               <el-form-item
                 label="过户数量"
                 :prop="'needShowData.' + index + '.transferNums'"
-                :rules="validatenum(item.totalNumInventory)"
+                :rules="validatenum(item.availableNumInventory)"
               >
                 <el-input v-model.number="item.transferNums"></el-input>
               </el-form-item>
@@ -134,15 +134,15 @@
               <el-form-item
                 label="过户重量"
                 :prop="'needShowData.' + index + '.transferWeights'"
-                :rules="validateweight(item.totalWeightInventory,max)"
+                :rules="validateweight(item.availableWeightInventory,max)"
               >
                 <el-input v-model.number="item.transferWeights"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="50" v-if="form.needShowData&&form.needShowData.length===1&&max">
-            <el-col :offset="6" :md="6" :sm="12" :xs="24">
-              <span style="color:red;font-size:12px">最大过户量10,质押中:20,挂牌中40,冻结中40</span>
+          <el-row :gutter="50" v-if="form.needShowData&&form.needShowData.length===1">
+            <el-col :offset="13" :md="6" :sm="12" :xs="24">
+              <span style="color:red;font-size:12px">最大过户量:{{item.availableWeightInventory}}</span>
             </el-col>
           </el-row>
         </div>

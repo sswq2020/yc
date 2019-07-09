@@ -1,15 +1,15 @@
 import api from '@/api'
 import Dict from '@/util/dict.js'
-import { _toNeedArray_ } from './util'
+import { _toArray_ } from './util'
 export const baseMixin = {
     data() {
         return {
-            ShipperList: [],
-            SpecificationList: [],
-            MaterialList: [],
-            ProductNameList: [],
-            OriginPlaceList: [],
-            storageList: []
+            cargoList: [],
+            specificationsList: [],
+            materialList: [],
+            productNameList: [],
+            originPlaceList: [],
+            deliveryStoreList: []
         }
     },
     methods: {
@@ -19,7 +19,7 @@ export const baseMixin = {
             switch (response.code) {
                 case Dict.SUCCESS:
                     Object.keys(response.data).forEach((item) => {
-                        _this[item] = _toNeedArray_(response.data[item])
+                        _this[item.slice(0, -3)+'List'] = _toArray_(response.data[item])
                     })
                     break;
                 default:

@@ -7,7 +7,7 @@
         <div class="form-control">
           <el-select v-model="form.param_1" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in ShipperList"
+              v-for="(item,index) in cargoList"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -20,7 +20,7 @@
         <div class="form-control">
           <el-select v-model="form.param_2" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in storageList"
+              v-for="(item,index) in deliveryStoreList"
               :key="index"
               :label="item.label"
               :value="item.value"
