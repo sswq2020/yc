@@ -3,7 +3,7 @@
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
         <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'">
-          <el-option v-for="optionItem in item.option" :key="optionItem.value" :label="optionItem.label" :value="optionItem.value"></el-option>
+          <el-option v-for="optionItem in Object.keys(dropDownData.deliveryStoreMap)" :key="optionItem" :label="dropDownData.deliveryStoreMap[optionItem]" :value="optionItem"></el-option>
         </el-select>
         <el-input v-model="form[item.prop]" :maxlength="item.maxlength"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
       </el-form-item>
@@ -18,10 +18,11 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  mock1: '',
-  mock2: '',
-  mock3: '',
-  mock4: '',
+  storeId: '',
+  deliveryStore: '',
+  reservoirArea: '',
+  cargoArea: '',
+  positionName: '',
 }
 export default {
   name: "pilePositionManage",
@@ -50,48 +51,38 @@ export default {
       formItem: [
         {
           label: '仓库',
-          prop: 'mock1',
+          prop: 'storeId',
           type: 'select',
-          option: []
         },
         {
           label: '库区',
-          prop: 'mock2',
+          prop: 'reservoirArea',
           type: 'input',
           maxlength: 10
         },
         {
           label: '货区',
-          prop: 'mock3',
+          prop: 'cargoArea',
           type: 'input',
           maxlength: 10
         },
         {
           label: '仓位名称',
-          prop: 'mock4',
+          prop: 'positionName',
           type: 'input',
           maxlength: 20
         },
       ],
       rules: {
-        mock1: [{ required: true, message: "请选择仓库", trigger: "blur" }],
-        mock2: [{ required: true, message: "请输入库区", trigger: "blur" }],
-        mock3: [{ required: true, message: "请输入货区", trigger: "blur" }],
-        mock4: [{ required: true, message: "请输入仓位名称", trigger: "blur" }],
+        storeId: [{ required: true, message: "请选择仓库", trigger: "blur" }],
+        reservoirArea: [{ required: true, message: "请输入库区", trigger: "blur" }],
+        cargoArea: [{ required: true, message: "请输入货区", trigger: "blur" }],
+        positionName: [{ required: true, message: "请输入仓位名称", trigger: "blur" }],
       },
-      addressList: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }
-      ],
     };
   },
   computed: {
-    ...mapState('modal', ['visible']),
+    ...mapState('modal', ['visible', 'dropDownData']),
     title() {
       return this.isEdit ? "编辑区桩位" : "新增区桩位";
     }

@@ -610,6 +610,48 @@ export default {
     selectProductNames(params) {
         return fetch(storageURL + '/web/yc/base/goods/selectProductNames', params, 'get')
     },
+    /**
+     * @author xh
+     * @description 区桩位分页查询
+     * */
+    getPilePositionsList(params) {
+        return fetch(storageURL + '/web/yc/base/pilePosition/listPilePositions', params)
+    },
+    /**
+     * @author xh
+     * @description 新增区桩位
+     * */
+    addPilePositions(params) {
+        return fetch(storageURL + '/web/yc/base/pilePosition/add', params)
+    },
+    /**
+     * @author xh
+     * @description 编辑区桩位
+     * */
+    updatePilePositions(params) {
+        return fetch(storageURL + '/web/yc/base/pilePosition/update', params)
+    },
+     /**
+     * @author xh
+     * @description 禁用区桩位
+     * */
+    disablePilePositions(params) {
+        return fetch(storageURL + '/web/yc/base/pilePosition/disable', params)
+    },
+     /**
+     * @author xh
+     * @description 激活区桩位
+     * */
+    activePilePositions(params) {
+        return fetch(storageURL + '/web/yc/base/pilePosition/active', params)
+    },
+    /**
+     * @author xh
+     * @description 下拉查询
+     * */
+    getDropDownList() {
+        return fetch(storageURL + '/web/yc/inventory/transfer/base', '', 'get')
+    },
     // #endregion
 
     // #region 仓储管理

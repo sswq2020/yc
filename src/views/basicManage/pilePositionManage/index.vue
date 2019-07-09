@@ -7,8 +7,8 @@
       <div class="form-item">
         <label>仓库</label>
         <div class="form-control">
-          <el-select v-model="listParams.warehouse" placeholder="请选择">
-            <el-option v-for="item in warehouseList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select v-model="listParams.storeId" placeholder="请选择">
+            <el-option v-for="item in Object.keys(dropDownData.deliveryStoreMap)" :key="item" :label="dropDownData.deliveryStoreMap[item]" :value="item"></el-option>
           </el-select>
         </div>
       </div>
@@ -66,7 +66,7 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.status === 1 ? '禁用' : '激活'}}</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.pilePositionStatusCode == '0' ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
     </HLtable>
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { mapMutations  } from 'vuex';
+import {  mapState, mapMutations, mapActions  } from 'vuex';
 import Dict from "@/util/dict.js";
 import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
@@ -90,9 +90,10 @@ import PilePositionFormModal from "./pilePositionFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  warehouse: '',
+  cargoArea: '',
+  positionName: '',
   reservoirArea: '',
-  positionName: ''
+  storeId: '',
 };
 export default {
   name: "pilePositionManage",
@@ -107,32 +108,32 @@ export default {
       isListDataLoading: false,
       tableHeader: [
         {
-          prop: "",
+          prop: "deliveryStore",
           label: "仓库",
           width: 180
         },
         {
-          prop: "",
+          prop: "reservoirArea",
           label: "库区",
           width: 300
         },
         {
-          prop: "",
+          prop: "cargoArea",
           label: "货区",
           width: 180
         },
         {
-          prop: "",
+          prop: "positionName",
           label: "仓位名称",
           width: 180
         },
         {
-          prop: "",
+          prop: "createdTime",
           label: "录入时间",
           width: 180
         },
         {
-          prop: "",
+          prop: "pilePositionStatusText",
           label: "状态",
           width: 180
         },
@@ -152,11 +153,15 @@ export default {
       warehouseList: []
     }
   },
+  computed: {
+    ...mapState('modal', ['dropDownData'])
+  },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    ...mapActions('modal', ['getDropDownData']),
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.getPilePositionsList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -173,7 +178,7 @@ export default {
     },
     reset() {
       this.listParams = {...defaultListParams};
-      this,getList();
+      this.getList();
     },
     changePageSize(pageSize) {
       this.listParams.pageSize = pageSize;
@@ -185,7 +190,7 @@ export default {
     },
     add() {
       this.isEdit = false;
-      this.editObj = null;
+      this.editObj = {};
       this.SET_MODAL_VISIBLE(true);
     },
     editItem(obj) {
@@ -195,10 +200,10 @@ export default {
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, status } = obj;
-      const operationText = status === 1 ? '禁用' : '激活';
-      const apiUrl = status === 1 ? 'forbiddenUrl' : 'activeUrl';
-      this.$confirm(`确定要确定要${operationText}区桩位${obj.mock1}?`, "提示", {
+      const { id, pilePositionStatusCode, reservoirArea, cargoArea, positionName } = obj;
+      const operationText = pilePositionStatusCode == '0' ? '禁用' : '激活';
+      const apiUrl = pilePositionStatusCode == '0' ? 'disablePilePositions' : 'activePilePositions';
+      this.$confirm(`确定要确定要${operationText}区桩位${reservoirArea}-${cargoArea}-${positionName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -217,7 +222,7 @@ export default {
       });
     },
     async modalConfirm(obj) {
-      const serve = this.isEdit ? "updateProductName" : "addProductName";
+      const serve = this.isEdit ? "updatePilePositions" : "addPilePositions";
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:
@@ -231,7 +236,8 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
+    this.getDropDownData();
     this.getList();
   }
 };

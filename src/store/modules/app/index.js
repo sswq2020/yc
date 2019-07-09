@@ -1,5 +1,6 @@
 import * as type from './mutations-types';
 import api from "@/api";
+import Dict from "@/util/dict.js";
 const store = {
     namespaced: true,
     state: {
@@ -36,10 +37,16 @@ const store = {
           tenantId: 'root'
         });
         const listData = {};
-        res.data[0].items.forEach(item => {
-          listData[item.id] = item.text;
-        });
-        commit('SET_YC_PRODUCT_TYPE', listData);
+        switch (res.code) {
+          case Dict.SUCCESS:
+            res.data[0].items.forEach(item => {
+              listData[item.id] = item.text;
+            });
+            commit('SET_YC_PRODUCT_TYPE', listData);
+            break;
+          default:
+            break;
+        }
       },
     }
 }
