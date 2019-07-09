@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
-    <div class="form">
+    <div class="form" v-if="form.needShowData.length">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
           <el-row>
@@ -13,24 +13,38 @@
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item
                 label="业务类型"
-                prop="mock1"
-                :rules="{ required: true, message: '请输入邮箱地址', trigger: 'blur' }"
+                prop="transferType"
+                :rules="[{ required: true, message: '请选择业务类型', trigger: 'blur' }]"
               >
-                <el-input v-model="form.mock1"></el-input>
+                <el-select v-model="form.transferType" placeholder="请选择" size="small">
+                  <el-option
+                    v-for="(item,index) in typeDatas"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="mock2">
-                <el-input :value="shipper" :disabled="disabled"></el-input>
+              <el-form-item label="原货主" prop="originalShipperName">
+                <el-input :value="form.originalShipperName" :disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item
                 label="新货主"
-                prop="mock3"
+                prop="newShipperId"
                 :rules="{ required: true, message: '请输入新货主', trigger: 'blur' }"
               >
-                <el-input v-model="form.mock3"></el-input>
+                <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
+                  <el-option
+                    v-for="(item,index) in ShipperList"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -39,39 +53,94 @@
           <div class="head">库存信息</div>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="交易仓库" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
+              <el-form-item label="交易仓库" prop="deliveryStore">
+                <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="区桩位" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
+              <el-form-item label="区桩位" prop="pilePosition">
+                <el-input :value="item.pilePosition" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="层数" prop="mock5">
-                <el-input :value="item.mock6" disabled="disabled"></el-input>
+              <el-form-item label="层数" prop="piles">
+                <el-input :value="item.piles" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="50">
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="品名" prop="productName">
+                <el-input :value="item.productName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="材质" prop="materialName">
+                <el-input :value="item.materialName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="规格" prop="specificationsName">
+                <el-input :value="item.specificationsName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="50">
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="产地" prop="originPlaceName">
+                <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="库存数量" prop="totalNumInventory">
+                <el-input :value="item.totalNumInventory" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="库存重量" prop="totalWeightInventory">
+                <el-input :value="item.totalWeightInventory" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="50">
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="计量方式" prop="measuring">
+                <el-input :value="item.measuring" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="数量单位" prop="numUnit">
+                <el-input :value="item.numUnit" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="重量单位" prop="weightUnit">
+                <el-input :value="item.weightUnit" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <div class="head">出库信息</div>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="过户数量">
-                <el-input v-model="item.num"></el-input>
+              <el-form-item
+                label="过户数量"
+                :prop="'needShowData.' + index + '.transferNums'"
+                :rules="validatenum(item.totalNumInventory)"
+              >
+                <el-input v-model.number="item.transferNums"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item
                 label="过户重量"
-                :prop="'needShowData.' + index + '.weight'"
-                :rules="validateweight(item.reserveweight,max)"
+                :prop="'needShowData.' + index + '.transferWeights'"
+                :rules="validateweight(item.totalWeightInventory,max)"
               >
-                <el-input v-model.number="item.weight"></el-input>
+                <el-input v-model.number="item.transferWeights"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="50" v-if="max">
+          <el-row :gutter="50" v-if="form.needShowData&&form.needShowData.length===1&&max">
             <el-col :offset="6" :md="6" :sm="12" :xs="24">
               <span style="color:red;font-size:12px">最大过户量10,质押中:20,挂牌中40,冻结中40</span>
             </el-col>
@@ -79,7 +148,12 @@
         </div>
         <div class="bottom">
           <el-form-item>
-            <el-button type="primary" size="medium" @click="submitForm('form')">确定</el-button>
+            <el-button
+              type="primary"
+              :loading="loading"
+              size="medium"
+              @click="submitForm('form')"
+            >确定</el-button>
             <el-button size="medium" @click="back">取消</el-button>
           </el-form-item>
         </div>
@@ -91,37 +165,37 @@
 <script>
 import { mapState } from "vuex";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import Dict from "@/util/dict.js";
+import { baseMixin } from "@/common/mixin.js";
+import { DICT_SELECT_ARR } from "@/common/util";
+const TypeDatas = DICT_SELECT_ARR(Dict.TRANSFER_OWNERSHIP_BUSINESS_TYPE);
 const defualtFormParams = {
-  mock1: null,
-  mock2: null
+  transferType: null,
+  newShipperId: null,
+  originalShipperName: null
 };
 
 export default {
   name: "transferOwnershipManage",
+  mixins: [baseMixin],
   components: {
     hlBreadcrumb
   },
   data() {
     return {
-      breadTitle: ["仓储管理", "库存表", "过户管理"],
+      loading: false,
+      breadTitle: ["仓储管理", "库存明细", "过户管理"],
       disabled: true,
       form: {
         needShowData: [],
         ...defualtFormParams
       },
+      typeDatas: TypeDatas,
       max: null // 从库存明细页跳转过来,会另外带来最大重量的限制
     };
   },
   computed: {
-    ...mapState("inventoryManage", ["transferOwnership"]),
-    shipper() {
-      return this.transferOwnership.length && this.transferOwnership[0].shipper || null;
-    },
-    needweights() {
-      return this.form.needShowData.map(item => {
-        return { weight: item.weight };
-      });
-    }
+    ...mapState("inventoryManage", ["transferOwnership"])
   },
   methods: {
     back() {
@@ -144,9 +218,23 @@ export default {
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));
-            }else {
+            }
+            callback();
+          }
+        }
+      ];
+    },
+    validatenum(num) {
+      return [
+        {
+          validator(rule, value, callback) {
+            if (!value) {
               callback();
             }
+            if (value > num) {
+              callback(new Error(`不能大于${num}`));
+            }
+            callback();
           }
         }
       ];
@@ -154,20 +242,86 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          const params = this._serialize_();
+          this._doTransfer_(params);
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-    init() {
+    async _doTransfer_(params) {
+      this.loading = true;
+      const res = await this.$api.DoTransfer(params);
+      this.loading = false;
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess("过户成功");
+          this.back();
+          break;
+        default:
+          this.$messageError(res.errMsg);
+          break;
+      }
+    },
+    _serialize_() {
+      const index = this.ShipperList.findIndex(item => {
+        return (item.value = this.form.newShipperId);
+      });
+      this.form.newShipperName = this.ShipperList[index].label;
+      const {
+        newShipperId,
+        newShipperName,
+        originalShipperId,
+        originalShipperName,
+        transferType
+      } = this.form;
+      const params = this.form.needShowData.map((item, index) => {
+        return Object.assign(
+          {},
+          {
+            newShipperId,
+            newShipperName,
+            originalShipperId,
+            originalShipperName,
+            transferType
+          },
+          { stockId: this.transferOwnership[index] },
+          { realTransferNums: item.transferNums },
+          { realTransferWeights: item.transferWeights },
+          item
+        );
+      });
+      return params;
+    },
+    async init() {
       if (this.transferOwnership.length === 0) {
         this.back();
       } else {
-        this.form.needShowData = this.transferOwnership.slice().map(item => {
-          return Object.assign({}, item, { num: null, weight: null });
-        });
+        let res = await this.$api.getInventoryTransferinfo(
+          this.transferOwnership
+        );
+        switch (res.code) {
+          case Dict.SUCCESS:
+            res.data = res.data.slice().map(item => {
+              return Object.assign({}, item, {
+                transferNums: null,
+                transferWeights: null
+              });
+            });
+            this.form = Object.assign(
+              {},
+              {
+                originalShipperId: res.data[0].cargoId,
+                originalShipperName: res.data[0].cargoName
+              },
+              { needShowData: res.data }
+            );
+            break;
+          default:
+            this.$messageError(res.errMsg);
+            break;
+        }
       }
     }
   },
