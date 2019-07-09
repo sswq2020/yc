@@ -141,8 +141,8 @@
             </el-col>
           </el-row>
           <el-row :gutter="50" v-if="form.needShowData&&form.needShowData.length===1">
-            <el-col :offset="13" :md="6" :sm="12" :xs="24">
-              <span style="color:red;font-size:12px">最大过户量:{{item.availableWeightInventory}}</span>
+            <el-col :offset="6" :md="6" :sm="12" :xs="24">
+              <span style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;">最大过户量:{{max}}</span>
             </el-col>
           </el-row>
         </div>
@@ -294,34 +294,43 @@ export default {
       });
       return params;
     },
+    async _getTransferAvailable_(arr){
+      debugger
+        const response = await this.$api.getTransferAvailable({
+          cargoId: arr[0].cargoId,
+          stockId: arr[0].id
+        });
+        this.max = Number(response.data);
+    },
     async init() {
       if (this.transferOwnership.length === 0) {
         this.back();
-      } else {
-        let res = await this.$api.getInventoryTransferinfo(
-          this.transferOwnership
-        );
-        switch (res.code) {
-          case Dict.SUCCESS:
-            res.data = res.data.slice().map(item => {
-              return Object.assign({}, item, {
-                transferNums: null,
-                transferWeights: null
-              });
+        return;
+      }
+      let res = await this.$api.getInventoryTransferinfo(this.transferOwnership);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          if (res.data.length === 1) {
+            this._getTransferAvailable_(res.data);
+          }
+          res.data = res.data.slice().map(item => {
+            return Object.assign({}, item, {
+              transferNums: null,
+              transferWeights: null
             });
-            this.form = Object.assign(
-              {},
-              {
-                originalShipperId: res.data[0].cargoId,
-                originalShipperName: res.data[0].cargoName
-              },
-              { needShowData: res.data }
-            );
-            break;
-          default:
-            this.$messageError(res.errMsg);
-            break;
-        }
+          });
+          this.form = Object.assign(
+            {},
+            {
+              originalShipperId: res.data[0].cargoId,
+              originalShipperName: res.data[0].cargoName
+            },
+            { needShowData: res.data }
+          );
+          break;
+        default:
+          this.$messageError(res.errMsg);
+          break;
       }
     }
   },

@@ -674,6 +674,14 @@ export default {
     /**
      * @author sswq
      * @param params
+     * @description 过户的最大可用量
+     * */
+    getTransferAvailable(params){
+        return fetch(storageURL + '/web/yc/inventory/transfer/available', params,'get')          
+    },    
+    /**
+     * @author sswq
+     * @param params
      * @description 获取过户信息
      * */
     getInventoryTransferinfo(params){
