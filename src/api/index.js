@@ -723,9 +723,16 @@ export default {
      * @author sswq
      * @description 待验收入库列表
      * */    
-    getStockRegister(params){
+    getStockRegisterList(params){
         return fetch(storageURL + '/web/yc/base/stockRegister/page', params)         
-    },    
+    },
+    /**
+     * @author sswq
+     * @description 验收入库
+     * */    
+    examine(params){
+        return fetch(storageURL + '/web/yc/base/stockRegister/examine', params)         
+    },
     /**
      * @author sswq
      * @description 质押解押管理列表
