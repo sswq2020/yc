@@ -49,19 +49,70 @@ const shipperManageList = {
 
 const InventoryTableList = {
     "id|+1": "@INTEGER(1,2019690999)",
-    "mock1": "12344435", //业务单号
-    "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
-    "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
-    "mock4": "@float(200,999)", // 金额(元)
-    "reserveweight": "@INTEGER(20,80)", // 数据来源
-    "shipper": "货主@PICK('1','2','3','4','5')", // 数据来源 名称
-    "mock6": "集配货运", // 数据来源 名称
-    "mock7": "惠龙易通@CITY()公司", // 转出账户名
-    "mock8": "65521464564654987654", // 转出账户号
-    "mock9": "@CNAME()", // 转入账户名 
-    "mock10": "65521464564654987654", // 转入账户号
-    "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称
+    "availableNumInventory": 0,
+    "availableWeightInventory": 0,
+    "createdBy": "",
+    "createdTime": "",
+    "disableNumInventory": 0,
+    "disableWeightInventory": 0,
+    "incomingId": "CYJY@INTEGER(2019690000,2019690999)", //入库单号
+    "incomingTime": '@DATE("yyyy-MM-dd HH:mm:ss")', // 入库时间
+    "incomingType": "@PICK('收货入库','过货入库')",
+    "isDeleted": 0,
+    "measuring": "@PICK('磅计','抄码')",
+    "remark": "",
+    "updatedBy": "",
+    "updatedTime": "",
+    "version": 0,
+    "volumeNumSold": 0,
+    "volumeWeightSold": 0,
+    "deliveryStoreId": "",
+    "deliveryStore": "@PICK('仓库一','仓库二')", // 仓库
+    "cargoId": "@PICK('1','2')",
+    "cargoName": "@PICK('货主1','货主2')", // 货主
+    "pilePositionId": "",
+    "pilePosition": "A",// 区桩位
+    "piles": '054', // 层数
+    "productNameId": "",
+    "productName": "H型钢", // 品名
+    "materialId": "",
+    "materialName": "Q235", // 材质
+    "specificationsId": "",
+    "specificationsName": "350*175", // 规格
+    "originPlaceId": "",
+    "originPlaceName": "江苏镇江沙钢", // 产地
+    "totalNumInventory": 96, // 库存数量
+    "numUnit": "支", // 数量单位
+    "totalWeightInventory": 6, // 库存重量
+    "weightUnit": "吨", // 重量单位
+    "measuringTypeEnum": "@PICK('磅计','抄码')", // 计量方式
+    "wareHousingTypeEnum": "@PICK('收货入库','过货入库')", //入库类型
+    "incomingDays": 0 //入库天数
 }
+
+const InventoryDetailList = {
+    "id|+1": "@INTEGER(1,2019690999)", // 主键
+    "createdBy": "",
+    "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "isDeleted": 0,
+    "remark": "",
+    "state": "@PICK('0','1','2','3')",
+    "updatedBy": "",
+    "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "version": 0,
+    "totalNumInventory": 96, // 库存数量
+    "numUnit": "支", // 数量单位
+    "totalWeightInventory": 6, // 库存重量
+    "weightUnit": "吨", // 重量单位
+    "operateNum": 34, // 操作数量
+    "operateWeight": 185, // 操作重量
+    "stockInventoryId|+1": "@INTEGER(1,2019690999)" // 库存id
+}
+
+const TransferinfoList = {
+    ...InventoryTableList
+}
+
 
 const RetrievalList = {
     "shipper": "@CNAME()",
@@ -222,13 +273,37 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/web/settlement/pageList/InventoryTable',
+            router: storageURL + '/web/yc/base/stockInventory/page',
             result(params) {
                 return {
                     ...body,
                     ...{
                         data: {
                             'list|10-20': [InventoryTableList],
+                            "paginator": {
+                                "currentPage": params.page,
+                                "pageSize": params.pageSize,
+                                "totalCount": 1000,
+                                "totalPage": 1000 / params.pageSize
+                            }
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  获取库存明细分页
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockInventoryDetail/page',
+            result(params) {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            'list|10-20': [InventoryDetailList],
                             "paginator": {
                                 "currentPage": params.page,
                                 "pageSize": params.pageSize,
@@ -315,6 +390,34 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region 获取过户信息
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/inventory/transferinfo',
+            result() {
+                return {
+                    ...body,
+                    "data|1-2":[TransferinfoList]
+                };
+            }
+        },
+        // #endregion 
+
+        // #region 操作过户
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/inventory/transfer',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+        
 
         // #region  待验收入库列表
         {

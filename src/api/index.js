@@ -616,11 +616,35 @@ export default {
     /**
      * @author sswq
      * @param params
-     * @description 查询库存表的详细
+     * @description 查询库存表列表
      * */
     getInventoryTable(params){
-        return fetch(storageURL + '/web/settlement/pageList/InventoryTable', params)          
+        return fetch(storageURL + '/web/yc/base/stockInventory/page', params)          
+    },
+    /**
+     * @author sswq
+     * @param params
+     * @description 查询库存明细分页
+     * */
+    getInventoryDetail(params){
+        return fetch(storageURL + '/web/yc/base/stockInventoryDetail/page', params)          
     },   
+    /**
+     * @author sswq
+     * @param params
+     * @description 获取过户信息
+     * */
+    getInventoryTransferinfo(params){
+        return fetch(storageURL + '/web/yc/inventory/transferinfo', params)          
+    },    
+    /**
+     * @author sswq
+     * @param params
+     * @description 过户操作
+     * */
+    DoTransfer(params){
+        return fetch(storageURL + '/web/yc/inventory/transfer', params)          
+    },       
     /**
      * @author sswq
      * @param params

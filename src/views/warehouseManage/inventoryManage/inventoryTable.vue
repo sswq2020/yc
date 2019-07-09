@@ -44,7 +44,7 @@
       <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.param_1" placeholder="请选择" size="small">
+          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in ShipperList"
               :key="index"
@@ -60,7 +60,7 @@
       <div class="form-item">
         <label>仓库</label>
         <div class="form-control">
-          <el-select v-model="form.param_2" placeholder="请选择" size="small">
+          <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in storageList"
               :key="index"
@@ -73,7 +73,7 @@
       <div class="form-item">
         <label>品名</label>
         <div class="form-control">
-          <el-select v-model="form.param_3" placeholder="请选择" size="small">
+          <el-select v-model="form.productNameId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in ProductNameList"
               :key="index"
@@ -86,7 +86,7 @@
       <div class="form-item">
         <label>材质</label>
         <div class="form-control">
-          <el-select v-model="form.param_4" placeholder="请选择" size="small">
+          <el-select v-model="form.materialId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in MaterialList"
               :key="index"
@@ -99,7 +99,7 @@
       <div class="form-item">
         <label>规格</label>
         <div class="form-control">
-          <el-select v-model="form.param_5" placeholder="请选择" size="small">
+          <el-select v-model="form.specificationsId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in SpecificationList"
               :key="index"
@@ -112,7 +112,7 @@
       <div class="form-item">
         <label>产地</label>
         <div class="form-control">
-          <el-select v-model="form.param_6" placeholder="请选择" size="small">
+          <el-select v-model="form.originPlaceId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in OriginPlaceList"
               :key="index"
@@ -214,12 +214,12 @@ import hlBreadcrumb from "@/components/hl-breadcrumb";
 import transitiondialog from "@/components/transitiondialog";
 
 const defaultFormData = {
-  param_1: "",
-  param_2: "",
-  param_3: "",
-  param_4: "",
-  param_5: "",
-  param_6: ""
+  cargoId: null,
+  deliveryStoreId: null,
+  productNameId: null,
+  materialId: null,
+  specificationsId: null,
+  originPlaceId: null
 };
 const defaultListParams = {
   pageSize: 20,
@@ -234,87 +234,87 @@ const defaultListData = {
 };
 const defaulttableHeader = [
   {
-    prop: "mock1",
+    prop: "deliveryStore",
     label: "仓库",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "incomingDays",
     label: "入库天数",
     width: "180"
   },
   {
-    prop: "mock4",
+    prop: "cargoName",
     label: "货主",
     width: "180"
   },
   {
-    prop: "mock5",
+    prop: "pilePosition",
     label: "区桩位",
     width: "180"
   },
   {
-    prop: "shipper",
-    label: "货主",
+    prop: "piles",
+    label: "层数",
     width: "180"
   },
   {
-    prop: "mock7",
+    prop: "productName",
     label: "品名",
     width: "180"
   },
   {
-    prop: "mock8",
+    prop: "materialName",
     label: "材质",
     width: "180"
   },
   {
-    prop: "mock9",
+    prop: "specificationsName",
     label: "规格",
     width: "180"
   },
   {
-    prop: "mock10",
+    prop: "originPlaceName",
     label: "产地",
     width: "180"
   },
   {
-    prop: "mock11",
+    prop: "totalNumInventory",
     label: "库存数量",
     width: "180"
   },
   {
-    prop: "mock12",
+    prop: "numUnit",
     label: "数量单位",
     width: "180"
   },
   {
-    prop: "reserveweight",
+    prop: "totalWeightInventory",
     label: "库存重量",
     width: "180"
   },
   {
-    prop: "mock14",
+    prop: "weightUnit",
     label: "重量单位",
     width: "180"
   },
   {
-    prop: "mock15",
+    prop: "measuring",
     label: "计量方式",
     width: "180"
   },
   {
-    prop: "mock16",
+    prop: "incomingType",
     label: "入库类型",
     width: "180"
   },
   {
-    prop: "mock17",
+    prop: "incomingId",
     label: "入库单号",
     width: "180"
   },
   {
-    prop: "mock18",
+    prop: "incomingTime",
     label: "入库时间",
     width: "180"
   }
@@ -362,7 +362,7 @@ export default {
     ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
     /**选中的必须是同一个货主才能出库和过户*/
     equalShipperItems() {
-      let arr = this.selectedItems.map(item => item.shipper);
+      let arr = this.selectedItems.map(item => item.cargoId);
       return new Set(arr).size === 1;
     },
     /**请求参数估计只要id*/
@@ -371,6 +371,14 @@ export default {
         return item.id;
       });
     },
+    /**过户管理需要的stockId*/
+    stockIds() {
+      return this.selectedItems.map(item => {
+        return {
+          "stockId": item.id
+        };
+      });
+    },    
     /**冻结解冻的请求参数*/
     stockInventoryIds(){
       return this.selectedItems.map(item => {
@@ -387,7 +395,7 @@ export default {
     },
     _filter() {
       if (this.IS_SHIPPER) {
-        this.form.param_1 = this.userId;
+        this.form.cargoId = this.userId;
       }
       return _.clone(Object.assign({}, this.form, this.listParams));
     },
@@ -428,7 +436,7 @@ export default {
         case Dict.SUCCESS:
           if (res.data.HasSurPlus) {
             this.batchTransferOwnershipVisible = false;
-            this.setTransferOwnership(this.selectedItems);
+            this.setTransferOwnership(this.stockIds);
             this.$router.push({
               path: "/web/settlement/pageList/transferOwnershipManage"
             });
@@ -505,6 +513,7 @@ export default {
     },
     init() {
       setTimeout(() => {
+        this.clearListParams();
         this.perm();
       }, 20);
       this.perm();
