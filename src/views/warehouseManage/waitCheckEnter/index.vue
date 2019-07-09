@@ -210,7 +210,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "reserveweight",
+    prop: "supposedWeight",
     label: "应收重量",
     width: "180"
   },
@@ -220,7 +220,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "measuringTypeEnum",
+    prop: "measuring",
     label: "计量方式",
     width: "180"
   }
@@ -293,7 +293,7 @@ export default {
     async getListData() {
       let obj = this._filter();
       this.isListDataLoading = true;
-      const res = await this.$api.getStockRegister(obj);
+      const res = await this.$api.getStockRegisterList(obj);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:

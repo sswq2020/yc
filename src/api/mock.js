@@ -116,6 +116,15 @@ const StockRegisterDetailList = {
     "registerId":"SH1905060002"
 }
 
+const StockRegisterList = {
+    ...InventoryTableList,
+    "num": 23, // 实收数量
+    "weight":243,//实收重量
+    "supposedNum": 56, // 应收数量
+    "supposedWeight": 130, // 应收重量
+    "registerTime":'@DATE("yyyy-MM-dd HH:mm:ss")'
+}
+
 
 const TransferinfoList = {
     ...InventoryTableList,
@@ -448,7 +457,7 @@ const mockRouterMap = {
                 return {
                     ...body,
                     data: {
-                        'list|10-20': [PledgeinfolIST],
+                        'list|10-20': [StockRegisterList],
                         "paginator": {
                             "currentPage": params.page,
                             "pageSize": params.pageSize,
@@ -461,6 +470,20 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region  验收入库
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRegister/examine',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+        
 
         // #region  获取质押解押管理列表
         {
