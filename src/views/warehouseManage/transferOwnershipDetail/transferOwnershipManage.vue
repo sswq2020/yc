@@ -142,7 +142,9 @@
           </el-row>
           <el-row :gutter="50" v-if="form.needShowData&&form.needShowData.length===1">
             <el-col :offset="6" :md="6" :sm="12" :xs="24">
-              <span style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;">最大过户量:{{max}}</span>
+              <span
+                style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;"
+              >最大过户量:{{max}}</span>
             </el-col>
           </el-row>
         </div>
@@ -265,10 +267,10 @@ export default {
       }
     },
     _serialize_() {
-      const index = this.ShipperList.findIndex(item => {
+      const index = this.cargoList.findIndex(item => {
         return (item.value = this.form.newShipperId);
       });
-      this.form.newShipperName = this.ShipperList[index].label;
+      this.form.newShipperName = this.cargoList[index].label;
       const {
         newShipperId,
         newShipperName,
@@ -294,20 +296,29 @@ export default {
       });
       return params;
     },
-    async _getTransferAvailable_(arr){
-      debugger
-        const response = await this.$api.getTransferAvailable({
-          cargoId: arr[0].cargoId,
-          stockId: arr[0].id
-        });
-        this.max = Number(response.data);
+    async _getTransferAvailable_(arr) {
+      const res = await this.$api.getTransferAvailable({
+        cargoId: arr[0].cargoId,
+        stockId: arr[0].id
+      });
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.max = Number(res.data);
+          break;
+        default:
+          this.max = null;
+          this.$messageError(res.errMsg);
+          break;
+      }
     },
     async init() {
       if (this.transferOwnership.length === 0) {
         this.back();
         return;
       }
-      let res = await this.$api.getInventoryTransferinfo(this.transferOwnership);
+      let res = await this.$api.getInventoryTransferinfo(
+        this.transferOwnership
+      );
       switch (res.code) {
         case Dict.SUCCESS:
           if (res.data.length === 1) {
