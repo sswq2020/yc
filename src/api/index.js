@@ -761,7 +761,7 @@ export default {
      * @description 查询所有基础信息下拉数据源
      * */
     getAllBaseInfo() {
-        return fetch(storageURL + '/web/systemData/getAllBaseInfo', '', 'get')
+        return fetch(storageURL + '/web/yc/inventory/transfer/base', '', 'get')
     },
     /**
      * @author xh
