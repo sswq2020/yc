@@ -725,7 +725,7 @@ export default {
      * @description 取消出库
      * */
     cancelcheckout(params){
-        return fetch(storageURL + '/inventory/cancelcheckout', params)          
+        return fetch(storageURL + '/web/yc/base/stockInventoryDetail/cancelRemoval', params)          
     },
     /**
      * @author sswq
