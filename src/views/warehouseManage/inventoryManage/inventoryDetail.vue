@@ -389,7 +389,7 @@ export default {
           switch (res.code) {
             case Dict.SUCCESS:
               if (res.data.HasSurPlus) {
-                this.setCheckout([item]);
+                this.setCheckout([{stockId:id}]);
                 this.$router.push({
                   path:
                     "/web/settlement/pageList/outerStorageDetail/applyCheckOut"

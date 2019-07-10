@@ -752,6 +752,14 @@ export default {
     }, 
     /**
      * @author sswq
+     * @param params
+     * @description 出库申请
+     * */    
+    DoCheckOutApply(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/apply', params)         
+    }, 
+    /**
+     * @author sswq
      * @description 待验收入库列表
      * */    
     getStockRegisterList(params){
