@@ -175,13 +175,13 @@ export default {
     GoPledge(item) {
       this.setPledgeData(item);
       this.$router.push({
-        path: "/web/settlement/pageList/togglePledgeManage/pledgeManage"
+        path: "/web/yc/pledgeinfo/page/pledgeManage"
       });
     },
     GoReleasePledge(item){
       this.setReleasePledgeData(item);
       this.$router.push({
-        path: "/web/settlement/pageList/togglePledgeManage/releasePledgeManage"
+        path: "/web/yc/pledgeinfo/page/releasePledgeManage"
       });
     },
     init() {

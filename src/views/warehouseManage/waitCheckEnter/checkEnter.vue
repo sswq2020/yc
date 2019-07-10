@@ -143,7 +143,7 @@ export default {
   methods: {
     back() {
       this.$router.push({
-        path: "/web/settlement/pageList/waitCheckEnter"
+        path: "/web/yc/base/stockRegister/page"
       });
     },
     validateweight(weight, max = null) {

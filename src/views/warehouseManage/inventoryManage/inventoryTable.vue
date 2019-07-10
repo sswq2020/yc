@@ -489,7 +489,7 @@ export default {
             this.batchCheckOutVisible = false;
             this.setCheckout(this.stockIds);
             this.$router.push({
-              path: "/web/settlement/pageList/outerStorageDetail/applyCheckOut"
+              path: "/web/yc/base/stockRemovalDetail/page/applyCheckOut"
             });
           } else {
             this.$messageError("当前存在数据无余量，不可过户");
@@ -502,13 +502,13 @@ export default {
     },
     GoEnterRegister() {
       this.$router.push({
-        path: "/web/settlement/pageList/enterStorageDetail/register"
+        path: "/web/yc/base/stockRegisterDetail/page/register"
       });
     },
     detail(item) {
       this.setFindDetail(item);
       this.$router.push({
-        path: "/web/settlement/pageList/inventoryTable/inventoryDetail"
+        path: "/web/yc/base/stockInventory/page/inventoryDetail"
       });
     },
     init() {

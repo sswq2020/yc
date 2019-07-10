@@ -257,7 +257,7 @@ export default {
   methods: {
     back() {
       this.$router.push({
-        path: "/web/settlement/pageList/inventoryTable"
+        path: "/web/yc/base/stockInventory/page"
       });
     },
     async _addStockRegister_(){
