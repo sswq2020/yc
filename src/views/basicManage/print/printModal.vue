@@ -24,7 +24,7 @@
     <!--endprint-->
     <div slot="footer" class="dialog-footer">
       <PrintBtn contentId="printContent"/>
-      <el-button type="primary" @click="download">下载</el-button>
+      <el-button type="primary" >下载</el-button>
     </div>
   </el-dialog>
 </template>
@@ -46,7 +46,7 @@ export default {
     ...mapState('modal', ['visible']),
   },
   methods: {
-    
+
   },
 };
 </script>
