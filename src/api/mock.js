@@ -499,6 +499,19 @@ const mockRouterMap = {
         },
         // #endregion 
         
+        // #region  出库申请
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRemoval/apply',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+        
         // #region  待验收入库列表
         {
             isMock: IS_MOCK,
