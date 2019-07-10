@@ -98,6 +98,11 @@ let commonRoutes = {
             component: ProductNameManage
         },  
         {
+            path: '/web/settlement/pageList/print',
+            name: 'print',
+            component: () => import('@/views/basicManage/print/index')
+        },  
+        {
             path: '/web/settlement/pageList/settlementStorageManage',
             name: 'settlementStorageManage',
             component: SettlementStorageManage
