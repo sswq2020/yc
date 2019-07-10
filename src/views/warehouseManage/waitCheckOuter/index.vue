@@ -216,20 +216,11 @@ export default {
       }
     },
     Retrieval(item) {
-      let that = this;
-      const { id } = item;
-      that
-        .$confirm(`确定要出库`, "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-        .then(() => {
-          this.setRetrieval([{ stockId: id }]);
-          this.$router.push({
-            path: "/web/settlement/pageList/waitCheckOuter/CheckOuter"
-          });
-        });
+      const { removalId } = item;
+      this.setRetrieval(removalId);
+      this.$router.push({
+        path: "/web/settlement/pageList/waitCheckOuter/CheckOuter"
+      });
     },
     init() {
       setTimeout(() => {

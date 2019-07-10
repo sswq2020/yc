@@ -736,6 +736,22 @@ export default {
     },    
     /**
      * @author sswq
+     * @param removalId
+     * @description 待验收出库选中某一仓库,根据申请removalId，给出详细的列表信息
+     * */    
+    detailRetrieval(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/list', params)         
+    },            
+    /**
+     * @author sswq
+     * @param params
+     * @description 验收出库
+     * */    
+    DoRemovalCheck(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/removal', params)         
+    }, 
+    /**
+     * @author sswq
      * @description 待验收入库列表
      * */    
     getStockRegisterList(params){
@@ -815,15 +831,6 @@ export default {
     getReleasePledgeDetailList(params){
         return fetch(storageURL + '/web/yc/releaseinfo/detail', params)         
     },      
-    /**
-     * @author sswq
-     * @param params
-     * @description 待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
-     * */    
-    detailRetrieval(params){
-        return fetch(storageURL + '/web/waitCheckOuter/detailRetrieval', params)         
-    },            
-    
     // #endregion
 
     // #region  字典项
