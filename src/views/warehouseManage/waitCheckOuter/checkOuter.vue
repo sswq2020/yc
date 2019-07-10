@@ -161,7 +161,7 @@ export default {
   methods: {
     back() {
       this.$router.push({
-        path: "/web/settlement/pageList/waitCheckOuter"
+        path: "/web/yc/base/stockRemoval/page"
       });
     },
     validateweight(weight, max = null) {

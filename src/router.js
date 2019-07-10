@@ -120,82 +120,82 @@ let commonRoutes = {
 
         // #region  仓储信息      
         {
-            path: '/web/settlement/pageList/enterStorageDetail',
+            path: '/web/yc/base/stockRegisterDetail/page',
             name: 'enterStorageDetail',
             component: EnterStorageDetail
         }, 
         {
-            path: '/web/settlement/pageList/enterStorageDetail/register',
+            path: '/web/yc/base/stockRegisterDetail/page/register',
             name: 'enterStorageRegister',
             component: EnterStorageRegister
         },        
         {
-            path: '/web/settlement/pageList/inventoryTable',
+            path: '/web/yc/base/stockInventory/page',
             name: 'inventoryTable',
             component: InventoryTable
         },
         {
-            path: '/web/settlement/pageList/inventoryTable/inventoryDetail',
+            path: '/web/yc/base/stockInventory/page/inventoryDetail',
             name: 'inventoryDetail',
             component: InventoryDetail
         },
         {
-            path: '/web/settlement/pageList/waitCheckEnter',
+            path: '/web/yc/base/stockRegister/page',
             name: 'waitCheckEnter',
             component: WaitCheckEnter
         },  
         {
-            path: '/web/settlement/pageList/waitCheckEnter/checkEnter',
+            path: '/web/yc/base/stockRegister/page/checkEnter',
             name: 'checkEnter',
             component: CheckEnter
         },  
         {
-            path: '/web/settlement/pageList/waitCheckOuter',
+            path: '/web/yc/base/stockRemoval/page',
             name: 'waitCheckOuter',
             component: WaitCheckOuter
         },  
         {
-            path: '/web/settlement/pageList/waitCheckOuter/CheckOuter',
+            path: '/web/yc/base/stockRemoval/page/CheckOuter',
             name: 'checkOuter',
             component: CheckOuter
         },  
         {
-            path: '/web/settlement/pageList/outerStorageDetail',
+            path: '/web/yc/base/stockRemovalDetail/page',
             name: 'outerStorageDetail',
             component: OuterStorageDetail
         },
         {
-            path: '/web/settlement/pageList/outerStorageDetail/applyCheckOut',
+            path: '/web/yc/base/stockRemovalDetail/page/applyCheckOut',
             name: 'applyCheckOut',
             component: ApplyCheckOut
         },        
         {
-            path: '/web/settlement/pageList/pledgeDetail',
+            path: '/web/yc/pledgeinfo/detail',
             name: 'pledgeDetail',
             component: PledgeDetail
         },  
         {
-            path: '/web/settlement/pageList/releasePledgeDetail',
+            path: '/web/yc/releaseinfo/detail',
             name: 'releasePledgeDetail',
             component: ReleasePledgeDetail
         },  
         {
-            path: '/web/settlement/pageList/togglePledgeManage',
+            path: '/web/yc/pledgeinfo/page',
             name: 'togglePledgeManage',
             component: TogglePledgeManage
         },  
         {
-            path: '/web/settlement/pageList/togglePledgeManage/pledgeManage',
+            path: '/web/yc/pledgeinfo/page/pledgeManage',
             name: 'pledgeManage',
             component: PledgeManage
         },  
         {
-            path: '/web/settlement/pageList/togglePledgeManage/releasePledgeManage',
+            path: '/web/yc/pledgeinfo/page/releasePledgeManage',
             name: 'releasePledgeManage',
             component: ReleasePledgeManage
         },  
         {
-            path: '/web/settlement/pageList/transferOwnershipDetail',
+            path: '/web/yc/inventory/transfer/detail',
             name: 'transferOwnershipDetail',
             component: TransferOwnershipDetail
         },

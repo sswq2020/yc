@@ -125,6 +125,20 @@ const StockRegisterList = {
     "registerTime": '@DATE("yyyy-MM-dd HH:mm:ss")'
 }
 
+const StockRemovalDetailList = {
+    ...InventoryTableList,
+    "removalId|+1": "@INTEGER(1,2019690999)",
+    "actualRemovalNum": 65,
+    "actualRemovalWeight": 99,
+    "applyRemovalTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "supposedRemovalNum": 65,
+    "supposedRemovalWeight": 84,
+    "consignee":'@CNAME()', 
+    'pickUpPassword':12323,
+    'outsideType':'库存发货'
+}
+
+
 const StockRemovalList = {
     ...InventoryTableList,
     "removalId|+1": "@INTEGER(1,2019690999)",
@@ -301,6 +315,19 @@ const mockRouterMap = {
         // #endregion
 
         // #region 仓储信息
+
+        // #region  入库登记
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRegister/add',
+            result(params) {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion 
 
         // #region  获取库存表列表
         {
@@ -629,6 +656,29 @@ const mockRouterMap = {
         },
         // #endregion         
 
+        // #region  出库明细列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRemovalDetail/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [StockRemovalDetailList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
         // #region  入库明细列表
         {
             isMock: IS_MOCK,
@@ -652,7 +702,7 @@ const mockRouterMap = {
         },
         // #endregion 
 
-        // #region  获取过户明细列表
+        // #region  过户明细列表
         {
             isMock: IS_MOCK,
             methods: 'post',
@@ -675,7 +725,7 @@ const mockRouterMap = {
         },
         // #endregion 
 
-        // #region  获取质押明细列表
+        // #region  质押明细列表
         {
             isMock: IS_MOCK,
             methods: 'post',
@@ -698,7 +748,7 @@ const mockRouterMap = {
         },
         // #endregion 
 
-        // #region  获取解押明细列表
+        // #region  解押明细列表
         {
             isMock: IS_MOCK,
             methods: 'post',
@@ -977,7 +1027,7 @@ const mockRouterMap = {
                                     "text": "抄码"
                                 }
                             ]
-                        },                                                                        
+                        },
                     ]
                 };
             }

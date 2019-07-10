@@ -104,7 +104,7 @@ export default {
   methods: {
     back() {
       this.$router.push({
-        path: "/web/settlement/pageList/togglePledgeManage"
+        path: "/web/yc/pledgeinfo/page"
       });
     },
     validateweight(weight, max = null) {

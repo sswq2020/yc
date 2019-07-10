@@ -658,6 +658,14 @@ export default {
     /**
      * @author sswq
      * @param params
+     * @description 入库登记
+     * */
+    addStockRegister(params){
+        return fetch(storageURL + '/web/yc/base/stockRegister/add', params)          
+    },
+    /**
+     * @author sswq
+     * @param params
      * @description 查询库存表列表
      * */
     getInventoryTable(params){
@@ -811,6 +819,13 @@ export default {
     DoReleasePledge(params){
         return fetch(storageURL + '/web/yc/releaseinfo/release', params)  
     },
+    /**
+     * @author sswq
+     * @description 出库明细列表
+     * */     
+    getStockRemovalDetailList(params){
+        return fetch(storageURL + '/web/yc/base/stockRemovalDetail/page', params)         
+    },  
     /**
      * @author sswq
      * @description 入库明细列表

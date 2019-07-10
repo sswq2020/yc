@@ -308,7 +308,7 @@ export default {
     batchInspection() {
       this.setInspection(this.selectedItems);
       this.$router.push({
-        path: "/web/settlement/pageList/waitCheckEnter/checkEnter"
+        path: "/web/yc/base/stockRegister/page/checkEnter"
       });
     },
     init() {

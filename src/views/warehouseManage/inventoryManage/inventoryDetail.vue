@@ -276,7 +276,7 @@ export default {
     ...mapMutations("inventoryManage", ["setTransferOwnership", "setCheckout"]),
     back() {
       this.$router.push({
-        path: "/web/settlement/pageList/inventoryTable"
+        path: "/web/yc/base/stockInventory/page"
       });
     },
     _filter() {
@@ -392,7 +392,7 @@ export default {
                 this.setCheckout([{stockId:id}]);
                 this.$router.push({
                   path:
-                    "/web/settlement/pageList/outerStorageDetail/applyCheckOut"
+                    "/web/yc/base/stockRemovalDetail/page/applyCheckOut"
                 });
               } else {
                 this.$messageError("当前存在数据无余量，不可过户");
