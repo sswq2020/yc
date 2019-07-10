@@ -433,21 +433,20 @@ export default {
     },
     CancelCheckout(item) {
       let that = this;
-      const { id } = item;
       that.$confirm(`确定要取消出库`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         })
         .then(async () => {
-          const res = await that.$api.cancelcheckout({ id });
+          const res = await that.$api.cancelcheckout(item);
           switch (res.code) {
             case Dict.SUCCESS:
               that.$messageSuccess(`取消出库成功`);
               that.getList();
               break;
             default:
-              that.$messageError(`取消出库失败，${res.mesg}`);
+              that.$messageError(`取消出库失败,${res.mesg}`);
               break;
           }
         });
