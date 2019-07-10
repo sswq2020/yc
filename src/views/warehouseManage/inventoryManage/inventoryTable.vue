@@ -371,7 +371,7 @@ export default {
         return item.id;
       });
     },
-    /**过户管理需要的stockId*/
+    /**过户管理和出库申请都需要的stockId*/
     stockIds() {
       return this.selectedItems.map(item => {
         return {
@@ -487,7 +487,7 @@ export default {
         case Dict.SUCCESS:
           if (res.data.HasSurPlus) {
             this.batchCheckOutVisible = false;
-            this.setCheckout(this.selectedItems);
+            this.setCheckout(this.stockIds);
             this.$router.push({
               path: "/web/settlement/pageList/outerStorageDetail/applyCheckOut"
             });

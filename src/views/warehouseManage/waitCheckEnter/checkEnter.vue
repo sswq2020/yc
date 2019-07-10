@@ -1,77 +1,81 @@
 <template>
   <div class="container single-page">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
-    <div class="form">
+    <div class="form" v-if="form.needShowData.length">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block" v-for="(item,index) in form.needShowData" :key="item.id">
           <div class="head">登记信息</div>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="登记日期" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
+              <el-form-item label="登记日期" prop="registerTime">
+                <el-input :value="item.registerTime" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
+              <el-form-item label="货主" prop="cargoName">
+                <el-input :value="item.cargoName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="品名" prop="mock5">
-                <el-input :value="item.mock6" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="材质" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="产地" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="规格" prop="mock5">
-                <el-input :value="item.mock6" disabled="disabled"></el-input>
+              <el-form-item label="品名" prop="productName">
+                <el-input :value="item.productName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="应收数量" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
+              <el-form-item label="材质" prop="materialName">
+                <el-input :value="item.materialName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="应收重量" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
+              <el-form-item label="产地" prop="originPlaceName">
+                <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="数量单位" prop="mock5">
-                <el-input :value="item.mock6" disabled="disabled"></el-input>
+              <el-form-item label="规格" prop="specificationsName">
+                <el-input :value="item.specificationsName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="重量单位" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
+              <el-form-item label="应收数量" prop="supposedNum">
+                <el-input :value="item.supposedNum" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="计量方式" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
+              <el-form-item label="应收重量" prop="supposedWeight">
+                <el-input :value="item.supposedWeight" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="数量单位" prop="numUnit">
+                <el-input :value="item.numUnit" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="50">
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="重量单位" prop="weightUnit">
+                <el-input :value="item.weightUnit" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="计量方式" prop="measuring">
+                <el-input :value="item.measuring" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <div class="head">验收信息</div>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="实收数量">
+              <el-form-item 
+              label="实收数量"
+              :prop="'needShowData.' + index + '.num'"
+              :rules="validatenum(item.supposedNum)"
+              >
                 <el-input v-model="item.num"></el-input>
               </el-form-item>
             </el-col>
@@ -79,7 +83,7 @@
               <el-form-item
                 label="实收重量"
                 :prop="'needShowData.' + index + '.weight'"
-                :rules="validateweight(item.reserveweight)"
+                :rules="validateweight(item.supposedWeight)"
               >
                 <el-input v-model.number="item.weight"></el-input>
               </el-form-item>
@@ -87,25 +91,25 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="交易仓库" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
+              <el-form-item label="交易仓库" prop="deliveryStore">
+                <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="区桩位" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
+              <el-form-item label="区桩位" prop="pilePosition">
+                <el-input :value="item.pilePosition" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="层数" prop="mock5">
-                <el-input :value="item.mock6" disabled="disabled"></el-input>
+              <el-form-item label="层数" prop="piles">
+                <el-input :value="item.piles" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </div>
         <div class="bottom">
           <el-form-item>
-            <el-button type="primary" size="medium" @click="submitForm('form')">确定</el-button>
+            <el-button type="primary" :loading="loading"  size="medium" @click="submitForm('form')">确定</el-button>
             <el-button @click="back" size="medium">取消</el-button>
           </el-form-item>
         </div>
@@ -117,11 +121,7 @@
 <script>
 import { mapState } from "vuex";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
-const defualtFormParams = {
-  mock1: null,
-  mock2: null
-};
-
+import Dict from "@/util/dict.js";
 export default {
   name: "checkEnter",
   components: {
@@ -129,29 +129,21 @@ export default {
   },
   data() {
     return {
+      loading: false,
       breadTitle: ["仓储管理", "待验收入库", "验收入库"],
       disabled: true,
       form: {
         needShowData: [],
-        ...defualtFormParams
       }
     };
   },
   computed: {
     ...mapState("waitCheckEnter", ["inspection"]),
-    shipper() {
-      return (this.inspection.length && this.inspection[0].shipper) || null;
-    },
-    needweights() {
-      return this.form.needShowData.map(item => {
-        return { weight: item.weight };
-      });
-    }
   },
   methods: {
     back() {
       this.$router.push({
-        path: "/web/settlement/pageList/inventoryTable"
+        path: "/web/settlement/pageList/waitCheckEnter"
       });
     },
     validateweight(weight, max = null) {
@@ -169,17 +161,45 @@ export default {
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));
-            }else {
-              callback();
             }
+            callback();
           }
         }
       ];
     },
+    validatenum(num) {
+      return [
+        {
+          validator(rule, value, callback) {
+            if (!value) {
+              callback();
+            }
+            if (value > num) {
+              callback(new Error(`不能大于${num}`));
+            }
+            callback();
+          }
+        }
+      ];
+    },
+   async _examine_(){
+      this.loading = true;
+      const res = await this.$api.examine(this.form.needShowData);
+      this.loading = false;
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess("验收入库成功");
+          this.back();
+          break;
+        default:
+          this.$messageError(res.errMsg);
+          break;
+      }        
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          this._examine_();
         } else {
           console.log("error submit!!");
           return false;

@@ -674,6 +674,14 @@ export default {
     /**
      * @author sswq
      * @param params
+     * @description 过户的最大可用量
+     * */
+    getTransferAvailable(params){
+        return fetch(storageURL + '/web/yc/inventory/transfer/available', params,'get')          
+    },    
+    /**
+     * @author sswq
+     * @param params
      * @description 获取过户信息
      * */
     getInventoryTransferinfo(params){
@@ -717,15 +725,53 @@ export default {
      * @description 取消出库
      * */
     cancelcheckout(params){
-        return fetch(storageURL + '/inventory/cancelcheckout', params)          
+        return fetch(storageURL + '/web/yc/base/stockInventoryDetail/cancelRemoval', params)          
     },
+    /**
+     * @author sswq
+     * @description 待验收出库列表
+     * */    
+    getStockRemovalList(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/page', params)         
+    },    
+    /**
+     * @author sswq
+     * @param removalId
+     * @description 待验收出库选中某一仓库,根据申请removalId，给出详细的列表信息
+     * */    
+    detailRetrieval(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/list', params)         
+    },            
+    /**
+     * @author sswq
+     * @param params
+     * @description 验收出库
+     * */    
+    DoRemovalCheck(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/removal', params)         
+    }, 
+    /**
+     * @author sswq
+     * @param params
+     * @description 出库申请
+     * */    
+    DoCheckOutApply(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/apply', params)         
+    }, 
     /**
      * @author sswq
      * @description 待验收入库列表
      * */    
-    getStockRegister(params){
+    getStockRegisterList(params){
         return fetch(storageURL + '/web/yc/base/stockRegister/page', params)         
-    },    
+    },
+    /**
+     * @author sswq
+     * @description 验收入库
+     * */    
+    examine(params){
+        return fetch(storageURL + '/web/yc/base/stockRegister/examine', params)         
+    },
     /**
      * @author sswq
      * @description 质押解押管理列表
@@ -767,6 +813,13 @@ export default {
     },
     /**
      * @author sswq
+     * @description 入库明细列表
+     * */     
+    getStockRegisterDetailList(params){
+        return fetch(storageURL + '/web/yc/base/stockRegisterDetail/page', params)         
+    },  
+    /**
+     * @author sswq
      * @description 过户明细列表
      * */     
     getTransferDetailList(params){
@@ -786,15 +839,6 @@ export default {
     getReleasePledgeDetailList(params){
         return fetch(storageURL + '/web/yc/releaseinfo/detail', params)         
     },      
-    /**
-     * @author sswq
-     * @param params
-     * @description 待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
-     * */    
-    detailRetrieval(params){
-        return fetch(storageURL + '/web/waitCheckOuter/detailRetrieval', params)         
-    },            
-    
     // #endregion
 
     // #region  字典项

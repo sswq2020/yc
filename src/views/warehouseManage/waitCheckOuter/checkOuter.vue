@@ -11,22 +11,22 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="mock1">
-                <el-input :value="shipper" :disabled="disabled"></el-input>
+              <el-form-item label="货主" prop="cargoName">
+                <el-input :value="form.cargoName" :disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="提货人" prop="mock2">
-                <el-input :value="form.mock2" :disabled="disabled"></el-input>
+              <el-form-item label="提货人" prop="consignee">
+                <el-input :value="form.consignee" :disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item
                 label="提货密码"
-                prop="mock3"
+                prop="pickUpPassword"
                 :rules="{ required: true, message: '请输入提货密码', trigger: 'blur' }"
               >
-                <el-input v-model="form.mock3"></el-input>
+                <el-input v-model="form.pickUpPassword"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -35,88 +35,92 @@
           <div class="head">库存信息</div>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="登记日期" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
+              <el-form-item label="交易仓库" prop="deliveryStore">
+                <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
+              <el-form-item label="货主" prop="cargoName">
+                <el-input :value="item.cargoName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="品名" prop="mock5">
-                <el-input :value="item.mock6" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="材质" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="产地" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="规格" prop="mock5">
-                <el-input :value="item.mock6" disabled="disabled"></el-input>
+              <el-form-item label="品名" prop="productName">
+                <el-input :value="item.productName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="应收数量" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
+              <el-form-item label="材质" prop="materialName">
+                <el-input :value="item.materialName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="应收重量" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
+              <el-form-item label="产地" prop="originPlaceName">
+                <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="数量单位" prop="mock5">
-                <el-input :value="item.mock6" disabled="disabled"></el-input>
+              <el-form-item label="规格" prop="specificationsName">
+                <el-input :value="item.specificationsName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="重量单位" prop="mock4">
-                <el-input :value="item.mock4" disabled="disabled"></el-input>
+              <el-form-item label="应收数量" prop="supposedRemovalNum">
+                <el-input :value="item.supposedRemovalNum" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="计量方式" prop="mock5">
-                <el-input :value="item.mock5" disabled="disabled"></el-input>
+              <el-form-item label="应收重量" prop="supposedRemovalWeight">
+                <el-input :value="item.supposedRemovalWeight" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="数量单位" prop="numUnit">
+                <el-input :value="item.numUnit" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="50">
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="重量单位" prop="weightUnit">
+                <el-input :value="item.weightUnit" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24">
+              <el-form-item label="计量方式" prop="measuring">
+                <el-input :value="item.measuring" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <div class="head">验收信息</div>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="实提数量">
-                <el-input v-model="item.num"></el-input>
+              <el-form-item
+                label="实提数量"
+                :prop="'needShowData.' + index + '.actualRemovalNum'"
+                :rules="validatenum(item.supposedRemovalNum)"
+              >
+                <el-input v-model.number="item.actualRemovalNum"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item
                 label="实提重量"
-                :prop="'needShowData.' + index + '.weight'"
-                :rules="validateweight(item.reserveweight)"
+                :prop="'needShowData.' + index + '.actualRemovalWeight'"
+                :rules="validateweight(item.supposedRemovalWeight)"
               >
-                <el-input v-model.number="item.weight"></el-input>
+                <el-input v-model.number="item.actualRemovalWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </div>
         <div class="bottom">
           <el-form-item>
-            <el-button type="primary" size="medium" @click="submitForm('form')">确定</el-button>
+            <el-button type="primary" size="medium" :loading="loading" @click="submitForm('form')">确定</el-button>
             <el-button @click="back" size="medium">取消</el-button>
           </el-form-item>
         </div>
@@ -130,8 +134,9 @@ import { mapState } from "vuex";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
 const defualtFormParams = {
-  mock1: null,
-  mock2: null
+  pickUpPassword: null,
+  cargoName: null,
+  consignee: null
 };
 
 export default {
@@ -141,6 +146,7 @@ export default {
   },
   data() {
     return {
+      loading:false,
       breadTitle: ["仓储管理", "待验收入库", "验收出库"],
       disabled: true,
       form: {
@@ -150,20 +156,12 @@ export default {
     };
   },
   computed: {
-    ...mapState("waitCheckOuter", ["retrieval"]),
-    shipper() {
-      return this.form.needShowData.length && this.form.needShowData[0].shipper || null
-    },
-    needweights() {
-      return this.form.needShowData.map(item => {
-        return { weight: item.weight };
-      });
-    }
+    ...mapState("waitCheckOuter", ["retrieval"])
   },
   methods: {
     back() {
       this.$router.push({
-        path: "/web/settlement/pageList/inventoryTable"
+        path: "/web/settlement/pageList/waitCheckOuter"
       });
     },
     validateweight(weight, max = null) {
@@ -171,7 +169,7 @@ export default {
         {
           type: "number",
           required: true,
-          message: "请输入实收重量",
+          message: "请输入过户重量",
           trigger: "blur"
         },
         {
@@ -181,30 +179,82 @@ export default {
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));
-            } else {
-              callback();
             }
+            callback();
           }
         }
       ];
     },
+    validatenum(num) {
+      return [
+        {
+          validator(rule, value, callback) {
+            if (!value) {
+              callback();
+            }
+            if (value > num) {
+              callback(new Error(`不能大于${num}`));
+            }
+            callback();
+          }
+        }
+      ];
+    },
+    _serialize_(){
+      const {
+         pickUpPassword
+      } = this.form;
+      const params = this.form.needShowData.map((item) => {
+        return Object.assign(
+          {pickUpPassword},
+          item
+        );
+      });
+      return params;
+    },
+    async _removalCheck_(params){
+      this.loading = true;
+      const res = await this.$api.DoRemovalCheck(params);
+      this.loading = false;
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess("验收出库成功");
+          this.back();
+          break;
+        default:
+          this.$messageError(res.errMsg);
+          break;
+      }
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          const params = this._serialize_();
+          this._removalCheck_(params);
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-    async getDetail(id) {
-      const res = await this.$api.detailRetrieval(id);
+    async getDetail(removalId) {
+      const res = await this.$api.detailRetrieval({ removalId });
       switch (res.code) {
         case Dict.SUCCESS:
-          this.form.needShowData = res.data.list.slice().map(item => {
-            return Object.assign({}, item, { num: null, weight: null });
+          res.data = res.data.slice().map(item => {
+            return Object.assign({}, item, {
+              actualRemovalNum: null,
+              actualRemovalWeight: null
+            });
           });
+          this.form = Object.assign(
+            {},
+            {
+              consignee: res.data[0].consignee,
+              cargoName: res.data[0].cargoName
+            },
+            { needShowData: res.data }
+          );
           break;
         default:
           this.$messageError(res.errMsg);
@@ -215,7 +265,7 @@ export default {
       if (!this.retrieval) {
         this.back();
       } else {
-        this.getDetail(this.retrieval.id);
+        this.getDetail(this.retrieval);
       }
     }
   },

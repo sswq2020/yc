@@ -9,7 +9,8 @@ export const baseMixin = {
             materialList: [],
             productNameList: [],
             originPlaceList: [],
-            deliveryStoreList: []
+            deliveryStoreList: [],
+            pilePositionList: []
         }
     },
     methods: {

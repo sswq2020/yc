@@ -109,39 +109,59 @@ const InventoryDetailList = {
     "stockInventoryId|+1": "@INTEGER(1,2019690999)" // 库存id
 }
 
+const StockRegisterDetailList = {
+    ...InventoryTableList,
+    "num": 23,
+    "weight": 243,
+    "registerId": "SH1905060002"
+}
+
+const StockRegisterList = {
+    ...InventoryTableList,
+    "num": 23, // 实收数量
+    "weight": 243,//实收重量
+    "supposedNum": 56, // 应收数量
+    "supposedWeight": 130, // 应收重量
+    "registerTime": '@DATE("yyyy-MM-dd HH:mm:ss")'
+}
+
+const StockRemovalList = {
+    ...InventoryTableList,
+    "removalId|+1": "@INTEGER(1,2019690999)",
+    "actualRemovalNum": 65,
+    "actualRemovalWeight": 99,
+    "applyRemovalTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "supposedRemovalNum": 65,
+    "supposedRemovalWeight": 84,
+}
+
 const TransferinfoList = {
     ...InventoryTableList,
-    availableNumInventory:"@INTEGER(100,250)",
-    availableWeightInventory:"@INTEGER(100,250)"
+    availableNumInventory: "@INTEGER(100,250)",
+    availableWeightInventory: "@INTEGER(100,250)"
 }
 
 const TransferDetailList = {
     ...InventoryTableList,
-    newShipperName:"@CNAME()", // 新货主
-    originalShipperName:"@CNAME()", // 原货主
-    realTransferNums:34, // 实际过户数量
-    realTransferWeights:168, // 实际过户重量
+    newShipperName: "@CNAME()", // 新货主
+    originalShipperName: "@CNAME()", // 原货主
+    realTransferNums: 34, // 实际过户数量
+    realTransferWeights: 168, // 实际过户重量
     transferNums: 65, // 过户数量
-    transferWeights:897, // 过户重量
-    transferTime:'@DATE("yyyy-MM-dd HH:mm:ss")', // 过户时间
+    transferWeights: 897, // 过户重量
+    transferTime: '@DATE("yyyy-MM-dd HH:mm:ss")', // 过户时间
     transferType: "@PICK('收货入库','过货入库')" // 过户类型
 }
 
 const RetrievalList = {
-    "shipper": "@CNAME()",
-    "reserveweight": "@INTEGER(15,100)",
-    "id|+1": "@INTEGER(1,2019690999)",
-    "mock1": "12344435", //业务单号
-    "mock2": "CYJY@INTEGER(2019690000,2019690999)", //业务单号
-    "mock3": "@PICK('盖蓬费', '超损费','车船运费')", // 款项
-    "mock4": "@float(200,999)", // 金额(元)
-    "mock5": "@PICK(1,0)", // 数据来源
-    "mock6": "集配货运", // 数据来源 名称
-    "mock7": "惠龙易通@CITY()公司", // 转出账户名
-    "mock8": "65521464564654987654", // 转出账户号
-    "mock9": "@CNAME()", // 转入账户名 
-    "mock10": "65521464564654987654", // 转入账户号
-    "mock11": "@PICK('中国','中信')银行", // 转入账户开户机构名称    
+    ...InventoryTableList,
+    "removalId|+1": "@INTEGER(1,2019690999)",
+    "actualRemovalNum": 65,
+    "actualRemovalWeight": 99,
+    "applyRemovalTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "supposedRemovalNum": 65,
+    "supposedRemovalWeight": 84,
+    "pickUpPassword": "",
 }
 
 const PledgeinfolIST = {
@@ -199,13 +219,13 @@ const ReleasePledgeDetailList = {
 }
 
 
-const cargoMap = {"1": "小红","2": "熊安明","c8254b4eb6154d9d91992acdf0df248a": "1","fba7fb0eabc64ee882233e85d9b62d26": "kkkkkyinkai","95105a94a7c5487c93616d505958c850": "test1"}
-const specificationsMap = {"5d9992cab42840138a35b585e637b5e1": "25mm*20mm*30mm","8810851ea47c414db9129f14aba557ed": "1","b609063bb007469ab52cccc5f930c685": "11","cc1926c4da1448739ddd8a0d3e1f82eb": "30*20*30"}
-const materialMap =  {"8293674dcc74426e97983b85f5bfd305": "ABC1"}
-const productNameMap = { "0b8b112b5eb34d8b824c6cb5dcb5a686": "粗石油222","b2fd07bb44d94647a7731f6cac488f62": "粗石油222","ce78797629a448c89f2e0330de4c1ce1": "H型钢"}
-const originPlaceMap =  {"bc5ecc7158f44eccae90cada6e986165": "测试1"}
-const deliveryStoreMap = {"bc5ecc7158f44eccae90cada6e986165": "仓库1","bc5ecc7158f44ecc56": "仓库2"}
-
+const cargoMap = { "1": "小红", "2": "熊安明", "c8254b4eb6154d9d91992acdf0df248a": "1", "fba7fb0eabc64ee882233e85d9b62d26": "kkkkkyinkai", "95105a94a7c5487c93616d505958c850": "test1" }
+const specificationsMap = { "5d9992cab42840138a35b585e637b5e1": "25mm*20mm*30mm", "8810851ea47c414db9129f14aba557ed": "1", "b609063bb007469ab52cccc5f930c685": "11", "cc1926c4da1448739ddd8a0d3e1f82eb": "30*20*30" }
+const materialMap = { "8293674dcc74426e97983b85f5bfd305": "ABC1" }
+const productNameMap = { "0b8b112b5eb34d8b824c6cb5dcb5a686": "粗石油222", "b2fd07bb44d94647a7731f6cac488f62": "粗石油222", "ce78797629a448c89f2e0330de4c1ce1": "H型钢" }
+const originPlaceMap = { "bc5ecc7158f44eccae90cada6e986165": "测试1" }
+const deliveryStoreMap = { "bc5ecc7158f44eccae90cada6e986165": "仓库1", "bc5ecc7158f44ecc56": "仓库2" }
+const pilePositionMap = { "bc5ecc7158f44eccae90cada6e986165": "区桩A", "bc5ecc7158f44ecc56": "区桩B" }
 
 const MockRole = {
     role: "@PICK('1','2')"  // 货主 1,仓管员 2
@@ -378,7 +398,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/inventory/cancelcheckout',
+            router: storageURL + '/web/yc/base/stockInventoryDetail/cancelRemoval',
             result() {
                 return {
                     ...body,
@@ -387,18 +407,16 @@ const mockRouterMap = {
         },
         // #endregion 
 
-
         // #region  待验收出库选中某一仓库,根据申请出库重量，给出详细的列表信息
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/web/waitCheckOuter/detailRetrieval',
+            router: storageURL + '/web/yc/base/stockRemoval/list',
             result() {
                 return {
                     ...body,
-                    data: {
-                        'list|5': [RetrievalList]
-                    },
+                    'data|1-2': [RetrievalList]
+
                 };
             }
         },
@@ -412,7 +430,21 @@ const mockRouterMap = {
             result() {
                 return {
                     ...body,
-                    "data|1-2":[TransferinfoList]
+                    "data|1-2": [TransferinfoList]
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  过户的最大可用量量
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/inventory/transfer/available',
+            result() {
+                return {
+                    ...body,
+                    data: '55'
                 };
             }
         },
@@ -430,7 +462,56 @@ const mockRouterMap = {
             }
         },
         // #endregion 
-        
+
+        // #region  待验收出库列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRemoval/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [StockRemovalList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  验收出库
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRemoval/removal',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  出库申请
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRemoval/apply',
+            result() {
+                return {
+                    ...body,
+                };
+            }
+        },
+        // #endregion 
+
         // #region  待验收入库列表
         {
             isMock: IS_MOCK,
@@ -440,7 +521,7 @@ const mockRouterMap = {
                 return {
                     ...body,
                     data: {
-                        'list|10-20': [PledgeinfolIST],
+                        'list|10-20': [StockRegisterList],
                         "paginator": {
                             "currentPage": params.page,
                             "pageSize": params.pageSize,
@@ -449,6 +530,19 @@ const mockRouterMap = {
                         }
                     },
 
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  验收入库
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRegister/examine',
+            result() {
+                return {
+                    ...body,
                 };
             }
         },
@@ -534,6 +628,29 @@ const mockRouterMap = {
             }
         },
         // #endregion         
+
+        // #region  入库明细列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRegisterDetail/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [StockRegisterDetailList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
 
         // #region  获取过户明细列表
         {
@@ -688,7 +805,8 @@ const mockRouterMap = {
                         "materialMap": materialMap,
                         "productNameMap": productNameMap,
                         "originPlaceMap": originPlaceMap,
-                        "deliveryStoreMap": deliveryStoreMap
+                        "deliveryStoreMap": deliveryStoreMap,
+                        "pilePositionMap": pilePositionMap
                     }
                 };
             }
@@ -757,29 +875,109 @@ const mockRouterMap = {
                             "entryCode": "YcProductType",
                             "entryName": "品名大类",
                             "items": [
-                              {
-                                "disabled": false,
-                                "id": "00",
-                                "orderBy": 0,
-                                "selected": 0,
-                                "text": "钢材"
-                              },
-                              {
-                                "disabled": false,
-                                "id": "01",
-                                "orderBy": 1,
-                                "selected": 0,
-                                "text": "石油"
-                              },
-                              {
-                                "disabled": false,
-                                "id": "02",
-                                "orderBy": 2,
-                                "selected": 0,
-                                "text": "木材"
-                              }
+                                {
+                                    "disabled": false,
+                                    "id": "00",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "钢材"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "01",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "石油"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "02",
+                                    "orderBy": 2,
+                                    "selected": 0,
+                                    "text": "木材"
+                                }
                             ]
-                          }
+                        },
+                        {
+                            "entryCode": "YcNumUnit",
+                            "entryName": "数量单位",
+                            "items": [
+                                {
+                                    "disabled": false,
+                                    "id": "1",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "个"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "2",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "位"
+                                }
+                            ]
+                        },
+                        {
+                            "entryCode": "YcWeightUnit",
+                            "entryName": "数量单位",
+                            "items": [
+                                {
+                                    "disabled": false,
+                                    "id": "1",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "吨"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "2",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "斤"
+                                }
+                            ]
+                        },
+                        {
+                            "entryCode": "YcDeliveryStoreType",
+                            "entryName": "交割库类型",
+                            "items": [
+                                {
+                                    "disabled": false,
+                                    "id": "1",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "收货入库"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "2",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "过户入库"
+                                }
+                            ]
+                        },
+                        {
+                            "entryCode": "YcMeasuringType",
+                            "entryName": "计量方式",
+                            "items": [
+                                {
+                                    "disabled": false,
+                                    "id": "1",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "磅计"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "2",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "抄码"
+                                }
+                            ]
+                        },                                                                        
                     ]
                 };
             }
