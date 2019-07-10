@@ -249,7 +249,7 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["仓储管理", "过户明细"],
+      breadTitle: ["仓储管理", "入库明细"],
       isListDataLoading: false,
       listParams: { ...defaultListParams }, // 页数
       form: { ...defaultFormData }, // 查询参数

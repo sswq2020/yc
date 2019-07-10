@@ -1,6 +1,15 @@
 import api from '@/api'
 import Dict from '@/util/dict.js'
 import { _toArray_ } from './util'
+
+const _DICT_SERVE_ = [
+    "YcNumUnit",
+    "YcWeightUnit",
+    "YcDeliveryStoreType",
+    "YcMeasuringType"
+]
+
+
 export const baseMixin = {
     data() {
         return {
@@ -61,4 +70,43 @@ export const bankMixin = {
         this._getBankList()
 
     }
+}
+
+
+export const dictMixin = {
+    data() {
+        return {
+            YcNumUnitList: [],
+            YcWeightUnitList: [],
+            YcDeliveryStoreTypeList: [],
+            YcMeasuringTypeList: []
+        }
+    },
+    methods: {
+        async _getValidList() {
+            let that = this
+            const res = await api.getValidList({
+                entryCode: _DICT_SERVE_.join(),
+                tenantId: 'root'
+            })
+            switch (res.code) {
+                case Dict.SUCCESS:
+                   res.data.forEach((obj)=>{
+                       that[obj.entryCode+'List'] =  obj.items.map((item)=>{
+                           return {
+                            value:item.id,
+                            label:item.text
+                           }
+                       })
+                   })
+                    break;
+                default:
+                    break;
+            }
+        }
+    },
+    created() {
+        this._getValidList()
+
+    }    
 }
