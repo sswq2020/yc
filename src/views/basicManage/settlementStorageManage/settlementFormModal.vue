@@ -48,6 +48,7 @@ import { mapState, mapMutations  } from 'vuex';
 import InputNumber from '@/components/inputNumber.vue';
 import AreaCascader from "@/components/areaCascader";
 import { phoneValidation } from '@/util/reg.js';
+import Dict from "@/util/dict.js";
 const defaultForm = {
   deliveryStore: '',
   address: [],
@@ -148,6 +149,7 @@ export default {
             ...that.form
           };
           delete parmas.address;
+          console.log(parmas);
           that.confirmCb(parmas);
         } else {
           console.log("error submit!!");

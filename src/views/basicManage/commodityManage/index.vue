@@ -152,7 +152,7 @@ export default {
   computed: mapState('app', ['productTypeCodeData']),
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
-    ...mapActions('app', ['setYcProductTypeCodeData']),
+    ...mapActions('app', ['setYcData']),
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getGoodsList(this.listParams);
@@ -245,7 +245,7 @@ export default {
     }
   },
   created() {
-    this.setYcProductTypeCodeData();
+    this.setYcData();
     this.getList();
   }
 };

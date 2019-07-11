@@ -170,7 +170,7 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
-    ...mapActions('app', ['setYcDeliveryStoreTypeData']),
+    ...mapActions('app', ['setYcData']),
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getDeliveryStoreList(this.listParams);
@@ -221,8 +221,7 @@ export default {
       this.isEdit = true;
       this.editObj = {
         ...obj,
-        storeCapacity: parseInt(obj.storeCapacity, 10),
-        storeAdminId: []
+        storeCapacity: parseInt(obj.storeCapacity, 10)
       };
       console.log(obj);
       this.SET_MODAL_VISIBLE(true);
@@ -266,7 +265,7 @@ export default {
     }
   },
   created() {
-    this.setYcDeliveryStoreTypeData();
+    this.setYcData();
     this.getList();
   }
 };

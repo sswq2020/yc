@@ -36,9 +36,10 @@ const store = {
       },
     },
     actions: {
-      async setYcProductTypeCodeData({ commit  }) {
+      // 获取数据字典项
+      async setYcData({ commit  }) {
         const dictionaryData = {
-          YcProductType: 'SET_YC_DELIVERY_STORE',
+          YcProductType: 'SET_YC_PRODUCT_TYPE',
           YcDeliveryStoreType: 'SET_YC_DELIVERY_STORE'
         }; 
         const res = await api.getValidList({
@@ -47,15 +48,13 @@ const store = {
         });
         switch (res.code) {
           case Dict.SUCCESS:
-            Object.keys(dictionaryData).forEach(item => {
+            res.data.forEach(data => {
               const listData = {};
-              res.data.forEach(data => {
-                if(data.entryCode === item) {
-                  listData[data.dictCode] = data.dictName;
-                }
+              data.items.forEach(item => {
+                listData[item.id] = item.text;
               });
-              commit(dictionaryData[item], listData);
-            })
+              commit(dictionaryData[data.entryCode], listData);
+            });
             break;
           default:
             break;

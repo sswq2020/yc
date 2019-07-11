@@ -876,7 +876,7 @@ export default {
      * @description 获取字典项数据列表
      * */
     getValidList(params) {
-        return fetch(storageURL + '/dict/item/valid/list/get', params, 'get')
+        return fetch(storageURL + '/dict/item/valid/options/get', params, 'get')
     },
     /**
      * @author xh
