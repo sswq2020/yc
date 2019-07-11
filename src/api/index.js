@@ -37,7 +37,7 @@ switch (env) {
         break;
     case 'test':
         baseURL = 'http://10.1.15.106:8445';
-        redirectUrl = 'http://cw.hlet.com';
+        redirectUrl = 'http://yc.hlet.com';
         loginUrl = 'http://login.hlet.com';
         storageURL = ''
         break;
@@ -46,15 +46,15 @@ switch (env) {
 
 }
 
-// const goLogin = () => {
-//     if (env == 'development') {
-//         window.VueApp.$router.push({
-//             name: 'login'
-//         })
-//     } else {
-//         window.location.href = loginUrl + '?redirectUrl=' + redirectUrl;
-//     }
-// }
+const goLogin = () => {
+    if (env == 'development') {
+        window.VueApp.$router.push({
+            name: 'login'
+        })
+    } else {
+        window.location.href = loginUrl + '?redirectUrl=' + redirectUrl;
+    }
+}
 
 
 /*
@@ -164,7 +164,7 @@ const fetch = (url, params, methods = 'post') => {
                     })
                     break;
                 case '040001':
-                  //  goLogin();
+                    goLogin();
                     break;
                 default:
                     resolve(res)
@@ -205,7 +205,7 @@ const getfetch = (url, params, methods = 'post') => {
                     })
                     break;
                 case '040001':
-                   // goLogin();
+                    goLogin();
                     break;
                 default:
                     resolve(res)
