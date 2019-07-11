@@ -37,24 +37,24 @@ switch (env) {
         break;
     case 'test':
         baseURL = 'http://10.1.15.106:8445';
-        redirectUrl = 'http://cw.hlet.com';
+        redirectUrl = 'http://yc.hlet.com';
         loginUrl = 'http://login.hlet.com';
-        storageURL = ''
+        storageURL = 'hlyc'
         break;
     default:
         break;
 
 }
 
-// const goLogin = () => {
-//     if (env == 'development') {
-//         window.VueApp.$router.push({
-//             name: 'login'
-//         })
-//     } else {
-//         window.location.href = loginUrl + '?redirectUrl=' + redirectUrl;
-//     }
-// }
+const goLogin = () => {
+    if (env == 'development') {
+        window.VueApp.$router.push({
+            name: 'login'
+        })
+    } else {
+        window.location.href = loginUrl + '?redirectUrl=' + redirectUrl;
+    }
+}
 
 
 /*
@@ -164,7 +164,7 @@ const fetch = (url, params, methods = 'post') => {
                     })
                     break;
                 case '040001':
-                  //  goLogin();
+                    goLogin();
                     break;
                 default:
                     resolve(res)
@@ -205,7 +205,7 @@ const getfetch = (url, params, methods = 'post') => {
                     })
                     break;
                 case '040001':
-                   // goLogin();
+                    goLogin();
                     break;
                 default:
                     resolve(res)
@@ -717,7 +717,7 @@ export default {
      * @description 选中的进行冻结
      * */
     frozen(params){
-        return fetch(storageURL + '/inventory/frozen', params)          
+        return fetch(storageURL + '/web/yc/inventory/frozen', params)          
     },   
     /**
      * @author sswq
@@ -725,7 +725,7 @@ export default {
      * @description 选中的进行解冻
      * */
     unfrozen(params){
-        return fetch(storageURL + '/inventory/unfrozen', params)          
+        return fetch(storageURL + '/web/yc/inventory/unfrozen', params)          
     },
     /**
      * @author sswq
