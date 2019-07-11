@@ -73,51 +73,50 @@ let commonRoutes = {
             component: () => import(/* webpackChunkName: "avatar" */ '@/views/personal/index'),
         },
         {
-            path: '/web/settlement/pageList/commodityManage',
+            path: '/web/yc/base/goods/listGoods',
             name: 'commodityManage',
             component: CommodityManage
         },
         {
-            path: '/web/settlement/pageList/materialManage',
+            path: '/web/yc/base/material/listMaterials',
             name: 'materialManage',
             component: MaterialManage
         },
         {
-            path: '/web/settlement/pageList/pilePositionManage',
+            path: '/web/yc/base/pilePosition/listPilePositions',
             name: 'pilePositionManage',
             component: PilePositionManage
         },
         {
-            path: '/web/settlement/pageList/originPlaceManage',
+            path: '/web/yc/base/originPlace/listOriginPlaces',
             name: 'originPlaceManage',
             component: OriginPlaceManage
         },
         {
-            path: '/web/settlement/pageList/productNameManage',
+            path: '/web/yc/base/productName/listProductNames',
             name: 'productNameManage',
             component: ProductNameManage
+        },  
+        {
+            path: '/web/yc/base/deliveryStoreManage/pageDeliveryStore',
+            name: 'settlementStorageManage',
+            component: SettlementStorageManage
+        },
+        {
+            path: '/web/yc/base/cargoManage/pageCargo',
+            name: 'shipperManage',
+            component: ShipperManage
+        },
+        {
+            path: '/web/yc/base/spec/listSpecs',
+            name: 'specificationManage',
+            component: SpecificationManage
         },  
         {
             path: '/web/settlement/pageList/print',
             name: 'print',
             component: () => import('@/views/basicManage/print/index')
         },  
-        {
-            path: '/web/settlement/pageList/settlementStorageManage',
-            name: 'settlementStorageManage',
-            component: SettlementStorageManage
-        },
-        {
-            path: '/web/settlement/pageList/shipperManage',
-            name: 'shipperManage',
-            component: ShipperManage
-        },
-        {
-            path: '/web/settlement/pageList/specificationManage',
-            name: 'specificationManage',
-            component: SpecificationManage
-        },  
-
         // #region  仓储信息      
         {
             path: '/web/yc/base/stockRegisterDetail/page',
