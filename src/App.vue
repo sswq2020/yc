@@ -20,10 +20,10 @@ export default {
         const username = res.data.username;
         this.SET_USER_ID(userId);
         this.SET_USER_NAME(username);
-        const response = await this.$api.getUserRole(userId);
-        if(response.code === "000000") {
-            this.SET_ROLE(response.data.role);
-        }
+        // const response = await this.$api.getUserRole(userId);
+        // if(response.code === "000000") {
+        //     this.SET_ROLE(response.data.role);
+        // }
       }
     }
   },

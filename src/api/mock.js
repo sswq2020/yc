@@ -5,7 +5,7 @@ const hostList = {
     default: ""
 };
 
-const IS_MOCK = true
+const IS_MOCK = false
 const storageURL = ""
 
 const dict = { 'SUCCESS': "000000" }
@@ -399,7 +399,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/inventory/frozen',
+            router: storageURL + '/web/yc/inventory/frozen',
             result() {
                 return {
                     ...body,
@@ -412,7 +412,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/inventory/unfrozen',
+            router: storageURL + '/web/yc/inventory/unfrozen',
             result() {
                 return {
                     ...body,
