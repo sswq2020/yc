@@ -365,6 +365,25 @@ export default {
       let arr = this.selectedItems.map(item => item.cargoId);
       return new Set(arr).size === 1;
     },
+    /**简单的判断是没有余量*/
+    IsNoSurplus() {
+      return this.selectedItems.some(item=>{
+        return item.availableWeightInventory === 0
+      })
+    },
+    /**没有余量的序号列出来*/
+    IndexNoSurplus(){
+      return this.selectedItems.map((item,index) =>{
+        return {
+          num: index + 1,
+          bool:item.availableWeightInventory === 0
+        }
+      }).filter((item)=>{
+        return item.bool
+      }).map((item)=>{
+        return item.num
+      })
+    },
     /**请求参数估计只要id*/
     ids() {
       return this.selectedItems.map(item => {
@@ -375,21 +394,25 @@ export default {
     stockIds() {
       return this.selectedItems.map(item => {
         return {
-          "stockId": item.id
+          stockId: item.id
         };
       });
-    },    
+    },
     /**冻结解冻的请求参数*/
-    stockInventoryIds(){
+    stockInventoryIds() {
       return this.selectedItems.map(item => {
         return {
-          "stockInventoryId": item.id
-        }
-      });      
+          stockInventoryId: item.id
+        };
+      });
     }
   },
   methods: {
-    ...mapMutations("inventoryManage", ["setTransferOwnership", "setCheckout","setFindDetail"]),
+    ...mapMutations("inventoryManage", [
+      "setTransferOwnership",
+      "setCheckout",
+      "setFindDetail"
+    ]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
     },
@@ -429,25 +452,17 @@ export default {
       }
     },
     async batchTransferOwnership() {
-      this.isbatchTransferOwnershipLoading = true;
-      const res = await this.$api.getSurplus(this.ids);
-      this.isbatchTransferOwnershipLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          if (res.data.HasSurPlus) {
-            this.batchTransferOwnershipVisible = false;
-            this.setTransferOwnership(this.stockIds);
-            this.$router.push({
-              path: "/web/settlement/pageList/transferOwnershipManage"
-            });
-          } else {
-            this.$messageError("当前存在数据无余量，不可过户");
-          }
-          break;
-        default:
-          this.$messageError(res.errMsg);
-          break;
+      if(this.IsNoSurplus){
+          const str = this.IndexNoSurplus.join();
+          this.$messageError(`选中的第${str}数据无余量，不可过户`);
+          return;
       }
+        this.batchTransferOwnershipVisible = false;
+        this.setTransferOwnership(this.stockIds);
+        this.$router.push({
+          path: "/web/settlement/pageList/transferOwnershipManage"
+        });
+
     },
     async batchFrozen() {
       this.isbatchFrozenLoading = true;
@@ -480,25 +495,16 @@ export default {
       }
     },
     async batchCheckOut() {
-      this.isbatchCheckOutLoading = true;
-      const res = await this.$api.getSurplus(this.ids);
-      this.isbatchCheckOutLoading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          if (res.data.HasSurPlus) {
-            this.batchCheckOutVisible = false;
-            this.setCheckout(this.stockIds);
-            this.$router.push({
-              path: "/web/yc/base/stockRemovalDetail/page/applyCheckOut"
-            });
-          } else {
-            this.$messageError("当前存在数据无余量，不可过户");
-          }
-          break;
-        default:
-          this.$messageError(res.errMsg);
-          break;
+      if(this.IsNoSurplus){
+          const str = this.IndexNoSurplus.join();
+          this.$messageError(`选中的第${str}数据无余量，不可c出库申请`);
+          return;
       }
+      this.batchCheckOutVisible = false;
+      this.setCheckout(this.stockIds);
+      this.$router.push({
+        path: "/web/yc/base/stockRemovalDetail/page/applyCheckOut"
+      });
     },
     GoEnterRegister() {
       this.$router.push({
