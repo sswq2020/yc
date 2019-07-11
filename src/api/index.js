@@ -449,6 +449,13 @@ export default {
     activeDeliveryStore(params) {
         return fetch(storageURL + '/web/yc/base/deliveryStoreManage/updateActive', params)
     },
+     /**
+     * @author xh
+     * @description 仓管人员下拉获取
+     * */
+    getStoreAdminData() {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/getStoreAdmin', '', 'get')
+    },
     /**
      * @author xh
      * @description 材质列表查询

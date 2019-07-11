@@ -922,112 +922,80 @@ const mockRouterMap = {
                     ...body,
                     "data": [
                         {
-                            "entryCode": "YcProductType",
-                            "entryName": "品名大类",
-                            "items": [
-                                {
-                                    "disabled": false,
-                                    "id": "00",
-                                    "orderBy": 0,
-                                    "selected": 0,
-                                    "text": "钢材"
-                                },
-                                {
-                                    "disabled": false,
-                                    "id": "01",
-                                    "orderBy": 1,
-                                    "selected": 0,
-                                    "text": "石油"
-                                },
-                                {
-                                    "disabled": false,
-                                    "id": "02",
-                                    "orderBy": 2,
-                                    "selected": 0,
-                                    "text": "木材"
-                                }
-                            ]
-                        },
-                        {
-                            "entryCode": "YcNumUnit",
-                            "entryName": "数量单位",
-                            "items": [
-                                {
-                                    "disabled": false,
-                                    "id": "1",
-                                    "orderBy": 0,
-                                    "selected": 0,
-                                    "text": "个"
-                                },
-                                {
-                                    "disabled": false,
-                                    "id": "2",
-                                    "orderBy": 1,
-                                    "selected": 0,
-                                    "text": "位"
-                                }
-                            ]
-                        },
-                        {
-                            "entryCode": "YcWeightUnit",
-                            "entryName": "数量单位",
-                            "items": [
-                                {
-                                    "disabled": false,
-                                    "id": "1",
-                                    "orderBy": 0,
-                                    "selected": 0,
-                                    "text": "吨"
-                                },
-                                {
-                                    "disabled": false,
-                                    "id": "2",
-                                    "orderBy": 1,
-                                    "selected": 0,
-                                    "text": "斤"
-                                }
-                            ]
-                        },
-                        {
+                            "createdBy": "system",
+                            "createdTime": "2019-07-10 16:17:01.961632",
+                            "dictCode": "0",
+                            "dictName": "室内库",
                             "entryCode": "YcDeliveryStoreType",
-                            "entryName": "交割库类型",
-                            "items": [
-                                {
-                                    "disabled": false,
-                                    "id": "1",
-                                    "orderBy": 0,
-                                    "selected": 0,
-                                    "text": "收货入库"
-                                },
-                                {
-                                    "disabled": false,
-                                    "id": "2",
-                                    "orderBy": 1,
-                                    "selected": 0,
-                                    "text": "过户入库"
-                                }
-                            ]
-                        },
-                        {
-                            "entryCode": "YcMeasuringType",
-                            "entryName": "计量方式",
-                            "items": [
-                                {
-                                    "disabled": false,
-                                    "id": "1",
-                                    "orderBy": 0,
-                                    "selected": 0,
-                                    "text": "磅计"
-                                },
-                                {
-                                    "disabled": false,
-                                    "id": "2",
-                                    "orderBy": 1,
-                                    "selected": 0,
-                                    "text": "抄码"
-                                }
-                            ]
-                        },
+                            "orderBy": 0,
+                            "remark": "室内库",
+                            "selected": 1,
+                            "selected_": "是",
+                            "status": 1,
+                            "status_": "有效",
+                            "updatedTime": "2019-07-10 16:17:01.961632",
+                            "version": "0"
+                          },
+                          {
+                            "createdBy": "system",
+                            "createdTime": "2019-07-10 16:17:01.969776",
+                            "dictCode": "1",
+                            "dictName": "室外库",
+                            "entryCode": "YcDeliveryStoreType",
+                            "orderBy": 1,
+                            "remark": "室外库",
+                            "selected": 0,
+                            "selected_": "否",
+                            "status": 1,
+                            "status_": "有效",
+                            "updatedTime": "2019-07-10 16:17:01.969776",
+                            "version": "0"
+                          },
+                          {
+                            "createdBy": "system",
+                            "createdTime": "2019-07-01 17:17:12.349657",
+                            "dictCode": "00",
+                            "dictName": "钢材",
+                            "entryCode": "YcProductType",
+                            "orderBy": 0,
+                            "remark": "钢材",
+                            "selected": 1,
+                            "selected_": "是",
+                            "status": 1,
+                            "status_": "有效",
+                            "updatedTime": "2019-07-01 17:17:12.349657",
+                            "version": "0"
+                          },
+                          {
+                            "createdBy": "system",
+                            "createdTime": "2019-07-01 17:17:12.353637",
+                            "dictCode": "01",
+                            "dictName": "石油",
+                            "entryCode": "YcProductType",
+                            "orderBy": 1,
+                            "remark": "石油",
+                            "selected": 0,
+                            "selected_": "否",
+                            "status": 1,
+                            "status_": "有效",
+                            "updatedTime": "2019-07-01 17:17:12.353637",
+                            "version": "0"
+                          },
+                          {
+                            "createdBy": "system",
+                            "createdTime": "2019-07-01 17:17:12.359444",
+                            "dictCode": "02",
+                            "dictName": "木材",
+                            "entryCode": "YcProductType",
+                            "orderBy": 2,
+                            "remark": "木材",
+                            "selected": 0,
+                            "selected_": "否",
+                            "status": 1,
+                            "status_": "有效",
+                            "updatedTime": "2019-07-01 17:17:12.359444",
+                            "version": "0"
+                          }
                     ]
                 };
             }

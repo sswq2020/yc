@@ -21,7 +21,7 @@
       </el-form-item>
       <el-form-item label="交割库类型" prop="storeType">
         <el-select v-model="form.storeType" placeholder="请选择">
-          <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-option v-for="item in Object.keys(deliveryStoreTypeData)" :key="item" :label="deliveryStoreTypeData[item]" :value="item"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="负责人" prop="leader">
@@ -32,7 +32,7 @@
       </el-form-item>
       <el-form-item label="仓管人员" prop="storeAdminId">
         <el-select v-model="form.storeAdminId" placeholder="请选择" multiple >
-          <el-option v-for="item in userList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-option v-for="item in Object.keys(storeAdminData)" :key="item" :label="storeAdminData[item]" :value="item"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -108,48 +108,29 @@ export default {
         leader: [{ required: true, message: "请输入负责人姓名", trigger: "blur" }],
         contactTel: [{ required: true, validator: checkPhone,  trigger: "blur" }],
       },
-      addressList: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }],
-      typeList: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }],
-      userList: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ]
+      storeAdminData: {}
     };
   },
   computed: {
     ...mapState('modal', ['visible']),
+    ...mapState('app', ['deliveryStoreTypeData']),
     title() {
       return this.isEdit ? "编辑交割库" : "新增交割库";
     }
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    async getStoreAdmin() {
+      const res = await this.$api.getStoreAdminData();
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.storeAdminData = res.data;
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
     selectArea(value) {
       this.form.address = value;
       this.form.storeAddressProvince = value[0] || '';
@@ -167,7 +148,6 @@ export default {
             ...that.form
           };
           delete parmas.address;
-          console.log(parmas);
           that.confirmCb(parmas);
         } else {
           console.log("error submit!!");
@@ -184,6 +164,9 @@ export default {
         this.$refs.ruleForm.clearValidate();
       }
     }
+  },
+  created() {
+    this.getStoreAdmin();
   }
 };
 </script>

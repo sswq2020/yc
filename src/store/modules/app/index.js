@@ -7,7 +7,8 @@ const store = {
         role:null,
         userId:null,
         username:null,
-        productTypeCodeData: {}
+        productTypeCodeData: {},
+        deliveryStoreTypeData: {},
     },
     getters: {
       role: state => state.role,
@@ -15,6 +16,7 @@ const store = {
       username: state => state.username,
       IS_SHIPPER: state => state.role === "1", // 判断是否是货主
       productTypeCodeData: state => state.productTypeCodeData, 
+      deliveryStoreTypeData: state => state.deliveryStoreTypeData, 
     },
     mutations: {
       [type.SET_ROLE](state,payload){
@@ -28,21 +30,32 @@ const store = {
       },
       [type.SET_YC_PRODUCT_TYPE](state,payload) {
         state.productTypeCodeData = payload;
-      }    
+      },    
+      [type.SET_YC_DELIVERY_STORE](state,payload) {
+        state.deliveryStoreTypeData = payload;
+      },
     },
     actions: {
       async setYcProductTypeCodeData({ commit  }) {
+        const dictionaryData = {
+          YcProductType: 'SET_YC_DELIVERY_STORE',
+          YcDeliveryStoreType: 'SET_YC_DELIVERY_STORE'
+        }; 
         const res = await api.getValidList({
-          entryCode: 'YcProductType',
-          tenantId: 'root'
+          entryCode: Object.keys(dictionaryData).join(),
+          tenantId: 'hlyc'
         });
-        const listData = {};
         switch (res.code) {
           case Dict.SUCCESS:
-            res.data[0].items.forEach(item => {
-              listData[item.id] = item.text;
-            });
-            commit('SET_YC_PRODUCT_TYPE', listData);
+            Object.keys(dictionaryData).forEach(item => {
+              const listData = {};
+              res.data.forEach(data => {
+                if(data.entryCode === item) {
+                  listData[data.dictCode] = data.dictName;
+                }
+              });
+              commit(dictionaryData[item], listData);
+            })
             break;
           default:
             break;

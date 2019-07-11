@@ -24,7 +24,7 @@
         <label>交割库类型</label>
         <div class="form-control">
           <el-select v-model="listParams.storeType" placeholder="请选择">
-            <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="item in Object.keys(deliveryStoreTypeData)" :key="item" :label="deliveryStoreTypeData[item]" :value="item"></el-option>
           </el-select>
         </div>
       </div>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { mapMutations  } from 'vuex';
+import { mapMutations, mapActions, mapState  } from 'vuex';
 import Dict from "@/util/dict.js";
 import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
@@ -165,8 +165,12 @@ export default {
       typeList: []
     }
   },
+  computed: {
+    ...mapState('app', ['deliveryStoreTypeData']),
+  },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    ...mapActions('app', ['setYcDeliveryStoreTypeData']),
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getDeliveryStoreList(this.listParams);
@@ -262,6 +266,7 @@ export default {
     }
   },
   created() {
+    this.setYcDeliveryStoreTypeData();
     this.getList();
   }
 };
