@@ -1,13 +1,13 @@
 <template>
   <el-dialog
     :close-on-click-modal="false"
-    width="100%"
+    width="1000px"
     :visible.sync="visible"
     :show-close="showClose"
     :center="true"
     :title="title"
   >
-    <table id="customers">
+    <table id="customers" style="border-collapse: collapse;">
       <tr>
         <th colspan="3">质押方:镇江中友钢铁物资有限公司</th>
         <th colspan="3">质押方:001</th>
@@ -151,15 +151,19 @@
       </tr>
     </table>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="confirm()">打印</el-button>
+      <PrintBtn contentId="customers"/>
       <el-button @click="cancle()">取 消</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
+import PrintBtn from '@/components/print.vue';
 export default {
   name: "tickets",
+  components: {
+    PrintBtn
+  },  
   props: {
     title: {
       type: String,
@@ -198,23 +202,21 @@ export default {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   width: 100%;
   border-collapse: collapse;
+  font-size:12px;
 }
 #customers td,
 #customers th {
-  font-size: 1em;
-  border: 1px solid #98bf21;
+  font-size:1em;
+  border: 1px solid #000000;
   padding: 3px 7px 2px 7px;
 }
 #customers th {
-  font-size: 1.1em;
-  text-align: left;
+  text-align: center;
   padding-top: 5px;
   padding-bottom: 4px;
-  background-color: #a7c942;
-  color: #ffffff;
+  color: #000000;
 }
 #customers tr.alt td {
   color: #000000;
-  background-color: #eaf2d3;
 }
 </style>

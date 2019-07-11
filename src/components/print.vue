@@ -13,26 +13,23 @@ export default {
   },
   methods: {
     doPrint() {
-      const printData = document.getElementById(this.contentId).innerHTML; // 根据id获取需要打印的内容
-      const iframe = document.createElement('iframe'); 
-      const f = document.body.appendChild(iframe);
-      const w = f.contentWindow || f.contentDocument;
-      const contentStyle = this.getStyle(); // 获取样式
-      w.document.write(`<html> <head> <style> ${contentStyle} </style> </head> <body> ${printData} </body> </html>`);
-      f.contentWindow.focus()
-      f.contentWindow.print()
-      setTimeout(function () {
-        document.body.removeChild(iframe)
-      }, 100)
-    },
-    getStyle() {
-      const styleList  = document.getElementsByTagName('style');
-      let styleStr = '';
-      for(let i = 0; i < styleList.length; i++) {
-        styleStr += styleList[i].innerHTML
+      let el = document.getElementById(this.contentId).cloneNode(true);
+      let wind = window.open('','print');
+      let linkList = window.parent.document.getElementsByTagName('style');
+      for(let i = 0; i < linkList.length;i++){
+          let tag = document.createElement('style');
+          tag.type='text/css';
+          tag.innerText= linkList[i].innerText.replace(/\r?\n|\r/g, "");
+          wind.document.head.appendChild(tag);
       }
-      return styleStr;
-    }
+      wind.document.body.appendChild(el);
+      setTimeout(()=>{
+          wind.print();
+      },1000)
+      if(navigator.userAgent.indexOf('MSIE') > 0) {
+          wind.document.body.removeChild(el);
+      }
+    },
   }
 }
 </script>
