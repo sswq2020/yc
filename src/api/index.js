@@ -717,7 +717,7 @@ export default {
      * @description 选中的进行冻结
      * */
     frozen(params){
-        return fetch(storageURL + '/inventory/frozen', params)          
+        return fetch(storageURL + '/web/yc/inventory/frozen', params)          
     },   
     /**
      * @author sswq
@@ -725,7 +725,7 @@ export default {
      * @description 选中的进行解冻
      * */
     unfrozen(params){
-        return fetch(storageURL + '/inventory/unfrozen', params)          
+        return fetch(storageURL + '/web/yc/inventory/unfrozen', params)          
     },
     /**
      * @author sswq
