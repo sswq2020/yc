@@ -288,7 +288,7 @@ export default {
             originalShipperName,
             transferType
           },
-          { stockId: this.transferOwnership[index] },
+          { stockId: this.transferOwnership[index].stockId },
           { realTransferNums: item.transferNums },
           { realTransferWeights: item.transferWeights },
           item
