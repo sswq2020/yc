@@ -385,10 +385,13 @@ export default {
           type: "warning"
         })
         .then(async () => {
-          const res = await that.$api.getSurplus([id]);
+          const res = await that.$api.getTransferAvailable({
+            cargoId: this.form.cargoId,
+            stockId: id
+          });
           switch (res.code) {
             case Dict.SUCCESS:
-              if (res.data.HasSurPlus) {
+              if (res.data) {
                 this.setCheckout([{stockId:id}]);
                 this.$router.push({
                   path:
@@ -413,10 +416,13 @@ export default {
           type: "warning"
         })
         .then(async () => {
-          const res = await that.$api.getSurplus([id]);
+          const res = await that.$api.getTransferAvailable({
+            cargoId: this.form.cargoId,
+            stockId: id
+          });
           switch (res.code) {
             case Dict.SUCCESS:
-              if (res.data.HasSurPlus) {
+              if (res.data) {
               this.setTransferOwnership([{stockId:id}]);
               this.$router.push({
                 path: "/web/settlement/pageList/transferOwnershipManage"
