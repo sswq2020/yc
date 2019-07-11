@@ -283,7 +283,7 @@ export default {
       // if (this.IS_SHIPPER) {
       //   this.findDetail.userId = this.userId;
       // }
-      return _.clone(Object.assign({}, this.listParams));
+      return _.clone(Object.assign({},this.form, this.listParams));
     },
     clearListParams() {
       this.listParams = { ...defaultListParams };
@@ -461,7 +461,7 @@ export default {
       if (!this.findDetail) {
         this.back();
       } else {
-        this.form = Object.assign({}, this.form, this.findDetail);
+        this.form = Object.assign({}, this.form, this.findDetail,{stockInventoryId:this.findDetail.id});
         this.clearListParams();
       }
     }
