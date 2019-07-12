@@ -598,6 +598,27 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  解押管理页面专门获取质押信息
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/pledgeinfo/cargo/info',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        "bankId": "1", //质权方id(银行id)
+                        "bankName": "中国银行", // 质权方名称
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
+
+
+
         // #region  获取质押总量
         {
             isMock: IS_MOCK,
