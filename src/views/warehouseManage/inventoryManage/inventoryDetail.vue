@@ -78,8 +78,8 @@
         </el-row>
         <el-row :gutter="50">
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="计量方式" prop="measuringTypeEnum">
-              <el-input :value="form.measuringTypeEnum" :disabled="disabled"></el-input>
+            <el-form-item label="计量方式" prop="measuringText">
+              <el-input :value="form.measuringText" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
@@ -181,7 +181,7 @@ const defaultForm = {
   originPlaceName: "",
   totalNumInventory: "",
   totalWeightInventory: "",
-  measuringTypeEnum:"",
+  measuringText:"",
   numUnit:"",
   weightUnit:""
 };
