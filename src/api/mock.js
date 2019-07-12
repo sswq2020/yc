@@ -5,7 +5,7 @@ const hostList = {
     default: ""
 };
 
-const IS_MOCK = true;
+const IS_MOCK = false;
 const storageURL = ""
 
 const dict = { 'SUCCESS': "000000" }
@@ -57,9 +57,9 @@ const InventoryTableList = {
     "disableWeightInventory": 0,
     "incomingId": "CYJY@INTEGER(2019690000,2019690999)", //入库单号
     "incomingTime": '@DATE("yyyy-MM-dd HH:mm:ss")', // 入库时间
-    "incomingType": "@PICK('收货入库','过货入库')",
+    "incomingType": "1",
     "isDeleted": 0,
-    "measuring": "@PICK('磅计','抄码')",
+    "measuring": "1",
     "remark": "",
     "updatedBy": "",
     "updatedTime": "",
@@ -85,8 +85,8 @@ const InventoryTableList = {
     "numUnit": "支", // 数量单位
     "totalWeightInventory": 6, // 库存重量
     "weightUnit": "吨", // 重量单位
-    "measuringTypeEnum": "@PICK('磅计','抄码')", // 计量方式
-    "wareHousingTypeEnum": "@PICK('收货入库','过货入库')", //入库类型
+    "measuringTypeEnum": {code: "1", text: "理算"}, // 计量方式
+    "wareHousingTypeEnum": {code: "1", text: "过货入库"}, //入库类型
     "incomingDays": 0 //入库天数
 }
 
