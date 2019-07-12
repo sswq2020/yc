@@ -5,7 +5,8 @@
                   @change="handleChange"
                   placeholder="请选择省市区"
                   :value="value"
-                  size="small">
+                  size="small"
+                  :clearable="clearable">
         </el-cascader>
     </div>
 </template>

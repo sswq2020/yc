@@ -30,8 +30,8 @@
       <el-form-item label="联系电话" prop="contactTel" maxlength="30">
         <el-input v-model="form.contactTel"  placeholder="请输入"></el-input>
       </el-form-item>
-      <el-form-item label="仓管人员" prop="storeAdminId">
-        <el-select v-model="form.storeAdminId" placeholder="请选择" multiple >
+      <el-form-item label="仓管人员" prop="storeAdminList">
+        <el-select v-model="form.storeAdminList" placeholder="请选择" multiple >
           <el-option v-for="item in Object.keys(storeAdminData)" :key="item" :label="storeAdminData[item]" :value="item"></el-option>
         </el-select>
       </el-form-item>
@@ -60,7 +60,7 @@ const defaultForm = {
   storeType: '',
   leader: '',
   contactTel: '',
-  storeAdminId: [],
+  storeAdminList: [],
 }
 
 const checkPhone = (rule, value, callback) => {
@@ -161,6 +161,9 @@ export default {
   watch: {
     visible(newV, oldV) {
       if (newV) {
+        if( JSON.stringify(this.storeAdminData) === '{}') {
+          this.getStoreAdmin();
+        }
         this.form = this.isEdit ? {...this.editObj} : {...defaultForm};
       } else {
         this.$refs.ruleForm.clearValidate();
@@ -168,7 +171,7 @@ export default {
     }
   },
   created() {
-    this.getStoreAdmin();
+    
   }
 };
 </script>

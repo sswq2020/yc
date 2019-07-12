@@ -14,7 +14,7 @@
         <label>交割库地址</label>
         <div class="form-control">
           <AreaCascader 
-            :value="listParams.address" 
+            :value="address" 
             :clearable="true"
             @selection="selectArea"
           />
@@ -64,7 +64,7 @@
       <el-table-column label="操作" fixed="right" width="120px" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
-          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.state == '0' ? '禁用' : '激活'}}</el-button>
+          <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.publicStatusEnum.code == '0' ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
     </HLtable>
@@ -124,7 +124,7 @@ export default {
           width: 180
         },
         {
-          prop: "storeType",
+          prop: "storeTypeText",
           label: "交割库类型",
           width: 180
         },
@@ -161,8 +161,8 @@ export default {
       isEdit: false,
       isEditLoading: false,
       editObj: {},
-      addressList: [],
-      typeList: []
+      typeList: [],
+      address: []
     }
   },
   computed: {
@@ -181,8 +181,9 @@ export default {
           this.listData.list = res.data.list.map(item => {
             return {
               ...item,
-              addressText: `${item.storeAddressProvince}${item.storeAddressCity}${item.storeAddressCounty}`,
-              stateText: item.state == '0' ? '正常' : '禁用'
+              addressText: `${item.storeAddressProvince}${item.storeAddressCity}${item.storeAddressCounty}${item.storeAddressStreet}`,
+              storeTypeText: item.storeTypeEnum.text,
+              stateText: item.publicStatusEnum.text
             }
           });
           break;
@@ -197,7 +198,8 @@ export default {
     },
     reset() {
       this.listParams = {...defaultListParams};
-      this,getList();
+      this.address = [];
+      this.getList();
     },
     changePageSize(pageSize) {
       this.listParams.pageSize = pageSize;
@@ -221,6 +223,7 @@ export default {
       this.isEdit = true;
       this.editObj = {
         ...obj,
+        address: [obj.storeAddressProvince, obj.storeAddressCity, obj.storeAddressCounty],
         storeCapacity: parseInt(obj.storeCapacity, 10)
       };
       console.log(obj);
