@@ -748,6 +748,34 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  质押单
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/pledgeinfo/bill',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "bankName": "中国银行", //质权方名称
+                        "cargoId": "1",
+                        "cargoName": "@CNAME()", // 开始时间
+                        "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+                        "id": "11213",
+                        "inventoryTotalNums": 98, // 库存数量
+                        "inventoryTotalWeight": 86, // 库存总重量
+                        "pledgeCargo": "@CNAME()",  // 质押方
+                        "pledgeCode": "67216312", // 质押单号
+                        "pledgeNums": 76, // 质押数量
+                        "pledgeType": "0", // 质押类型
+                        "pledgeWeight": 976, //质押重量
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
         // #region  解押明细列表
         {
             isMock: IS_MOCK,
@@ -770,6 +798,34 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region  解押单
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/releaseinfo/bill',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "bankName": "中国银行", //质权方名称
+                        "cargoId": "1",
+                        "cargoName": "@CNAME()", // 货主
+                        "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")', // 开始时间
+                        "id": "11213",
+                        "inventoryTotalNums": 98, // 库存数量
+                        "inventoryTotalWeight": 86, // 库存总重量
+                        "pledgeCargo": "@CNAME()",  // 质押方
+                        "releaseCode": "67216312", // 解押单号
+                        "releaseNums": 76, // 解押数量
+                        "releaseWeight": 976, //解押重量
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
 
         // #endregion
 

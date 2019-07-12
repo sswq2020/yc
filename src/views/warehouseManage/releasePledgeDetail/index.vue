@@ -74,6 +74,16 @@
         </template>
       </el-table-column>
     </heltable>
+        <tickets
+      :visible="visible"
+      :cancelCb="()=>{this.visible = false}"
+      :contentId="contentId"
+      title="解押单"
+    >
+       <template>
+         <releasePledgeticket :id="contentId" :data="bill"></releasePledgeticket>
+       </template>
+    </tickets>
   </div>
 </template>
 
@@ -87,7 +97,8 @@ import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
-
+import tickets from "@/components/tickets";
+import releasePledgeticket from "./releasePledgeticket";
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
 const EXTRA_PARAMS_KEYS = ['releaseStartTime', 'releaseEndTime'];
 
@@ -149,7 +160,9 @@ export default {
   mixins: [baseMixin],
   components: {
     heltable,
-    hlBreadcrumb
+    hlBreadcrumb,
+    tickets,
+    releasePledgeticket
   },
   data() {
     return {
@@ -160,6 +173,9 @@ export default {
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
+      visible: false,
+      contentId:"customers",
+      bill:[],
     };
   },
   computed: {
@@ -200,8 +216,17 @@ export default {
           break;
       }
     },
-    detail(item) {
-      console.log(item);
+    async detail(item) {
+      const res = await this.$api.ReleaseinfoBill(item.id);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.bill = [res.data]
+          this.visible = true
+          break;
+        default:
+          this.$messageError(`${res.errMsg},无法获取解押单`);
+          break;
+      }      
     },
     init() {
       setTimeout(() => {
