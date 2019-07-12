@@ -90,8 +90,8 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="计量方式" prop="measuring">
-                <el-input :value="item.measuring" disabled="disabled"></el-input>
+              <el-form-item label="计量方式" prop="measuringText">
+                <el-input :value="item.measuringText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
@@ -281,6 +281,7 @@ export default {
           }
           res.data = res.data.slice().map(item => {
             return Object.assign({}, item, {
+              measuringText:item.measuringTypeEnum.text,
               supposedRemovalNum: null,
               supposedRemovalWeight: null
             });

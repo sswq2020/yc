@@ -299,12 +299,12 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "measuring",
+    prop: "measuringText",
     label: "计量方式",
     width: "180"
   },
   {
-    prop: "incomingType",
+    prop: "incomingTypeText",
     label: "入库类型",
     width: "180"
   },
@@ -319,6 +319,19 @@ const defaulttableHeader = [
     width: "180"
   }
 ];
+
+const rowAdapter = (list) => {
+    if (!list) {
+        return []
+    }
+    if (list.length > 0) {
+        list = list.map((row) => {
+            return row = { ...row,measuringText:row.measuringTypeEnum.text,incomingTypeText:row.wareHousingTypeEnum.text}
+        })
+    }
+    return list
+}
+
 export default {
   name: "inventoryTable",
   mixins: [baseMixin],
@@ -443,7 +456,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData = res.data;
+          this.listData ={...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
           this.listData = { ...defaultListData };

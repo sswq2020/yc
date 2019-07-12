@@ -70,15 +70,19 @@
 
       <el-table-column label="操作" fixed="right" width="60px" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
+          <el-button type="text" @click="detail(listData.list[scope.$index])">质押单</el-button>
         </template>
       </el-table-column>
     </heltable>
-    <tickets 
+    <tickets
       :visible="visible"
       :cancelCb="()=>{this.visible = false}"
-      :confirmCb="print"
-      title="质押单">
+      :contentId="contentId"
+      title="质押单"
+    >
+       <template>
+         <pledgeticket :id="contentId" :data="bill"></pledgeticket>
+       </template>
     </tickets>
   </div>
 </template>
@@ -93,10 +97,11 @@ import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
-import tickets from "./tickets";
+import tickets from "@/components/tickets";
+import pledgeticket from "./pledgeticket";
 
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
-const EXTRA_PARAMS_KEYS = ['pledgeStartTime', 'pledgeEndTime'];
+const EXTRA_PARAMS_KEYS = ["pledgeStartTime", "pledgeEndTime"];
 
 const defaultFormData = {
   cargoId: null,
@@ -157,7 +162,8 @@ export default {
   components: {
     heltable,
     hlBreadcrumb,
-    tickets
+    tickets,
+    pledgeticket
   },
   data() {
     return {
@@ -168,7 +174,9 @@ export default {
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
-      visible:false
+      visible: false,
+      contentId:"customers",
+      bill:[],
     };
   },
   computed: {
@@ -176,8 +184,12 @@ export default {
   },
   methods: {
     _filter() {
-      const {timeRange} = this.form;
-      const _reqParams_ = requestParamsByTimeRange(this.form, timeRange, ...EXTRA_PARAMS_KEYS);
+      const { timeRange } = this.form;
+      const _reqParams_ = requestParamsByTimeRange(
+        this.form,
+        timeRange,
+        ...EXTRA_PARAMS_KEYS
+      );
       return _.clone(Object.assign({}, _reqParams_, this.listParams));
     },
     clearListParams() {
@@ -209,12 +221,17 @@ export default {
           break;
       }
     },
-    detail(item) {
-      this.visible = true;
-      console.log(item);
-    },
-    print(){
-
+    async detail(item) {
+      const res = await this.$api.PledgeinfoBill(item.id);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.bill = [res.data]
+          this.visible = true
+          break;
+        default:
+          this.$messageError(`${res.errMsg},无法获取质押单`);
+          break;
+      }      
     },
     init() {
       setTimeout(() => {

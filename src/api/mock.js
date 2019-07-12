@@ -5,7 +5,7 @@ const hostList = {
     default: ""
 };
 
-const IS_MOCK = true;
+const IS_MOCK = false;
 const storageURL = ""
 
 const dict = { 'SUCCESS': "000000" }
@@ -57,9 +57,9 @@ const InventoryTableList = {
     "disableWeightInventory": 0,
     "incomingId": "CYJY@INTEGER(2019690000,2019690999)", //入库单号
     "incomingTime": '@DATE("yyyy-MM-dd HH:mm:ss")', // 入库时间
-    "incomingType": "@PICK('收货入库','过货入库')",
+    "incomingType": "1",
     "isDeleted": 0,
-    "measuring": "@PICK('磅计','抄码')",
+    "measuring": "1",
     "remark": "",
     "updatedBy": "",
     "updatedTime": "",
@@ -85,8 +85,8 @@ const InventoryTableList = {
     "numUnit": "支", // 数量单位
     "totalWeightInventory": 6, // 库存重量
     "weightUnit": "吨", // 重量单位
-    "measuringTypeEnum": "@PICK('磅计','抄码')", // 计量方式
-    "wareHousingTypeEnum": "@PICK('收货入库','过货入库')", //入库类型
+    "measuringTypeEnum": {code: "1", text: "理算"}, // 计量方式
+    "wareHousingTypeEnum": {code: "1", text: "过货入库"}, //入库类型
     "incomingDays": 0 //入库天数
 }
 
@@ -748,6 +748,34 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  质押单
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/pledgeinfo/bill',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "bankName": "中国银行", //质权方名称
+                        "cargoId": "1",
+                        "cargoName": "@CNAME()", // 开始时间
+                        "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+                        "id": "11213",
+                        "inventoryTotalNums": 98, // 库存数量
+                        "inventoryTotalWeight": 86, // 库存总重量
+                        "pledgeCargo": "@CNAME()",  // 质押方
+                        "pledgeCode": "67216312", // 质押单号
+                        "pledgeNums": 76, // 质押数量
+                        "pledgeType": "0", // 质押类型
+                        "pledgeWeight": 976, //质押重量
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
         // #region  解押明细列表
         {
             isMock: IS_MOCK,
@@ -770,6 +798,34 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region  解押单
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/releaseinfo/bill',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "bankName": "中国银行", //质权方名称
+                        "cargoId": "1",
+                        "cargoName": "@CNAME()", // 货主
+                        "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")', // 开始时间
+                        "id": "11213",
+                        "inventoryTotalNums": 98, // 库存数量
+                        "inventoryTotalWeight": 86, // 库存总重量
+                        "pledgeCargo": "@CNAME()",  // 质押方
+                        "releaseCode": "67216312", // 解押单号
+                        "releaseNums": 76, // 解押数量
+                        "releaseWeight": 976, //解押重量
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
 
         // #endregion
 

@@ -306,8 +306,7 @@ export default {
     },
     // 文件上传
     upload(params) {
-        // return fetch(`${uploadUrl}/dfs/open/files/upload`, params)
-        return fetch(`/dfs/open/files/upload`, params)
+        return fetch('/dfs/open/files/upload', params)
     },
     // 修改头像
     resetAvatar(params) {
@@ -856,11 +855,27 @@ export default {
     },    
     /**
      * @author sswq
+     * @param {string} pledgeId
+     * @description 质押单
+     * */       
+    PledgeinfoBill(pledgeId){
+        return fetch(storageURL + '/web/yc/pledgeinfo/bill',{pledgeId}, 'get')   
+    },
+    /**
+     * @author sswq
      * @description 解押明细列表
      * */    
     getReleasePledgeDetailList(params){
         return fetch(storageURL + '/web/yc/releaseinfo/detail', params)         
-    },      
+    },
+    /**
+     * @author sswq
+     * @param {string} releaseId
+     * @description 解押单
+     * */       
+    ReleaseinfoBill(releaseId){
+        return fetch(storageURL + '/web/yc/releaseinfo/bill',{releaseId}, 'get')   
+    },
     // #endregion
 
     // #region  字典项
