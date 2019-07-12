@@ -21,7 +21,7 @@
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="解押数量" prop="releaseNums" rules="validatenum(form.inventoryTotalNums)">
+              <el-form-item label="解押数量" prop="releaseNums" :rules="validatenum(form.inventoryTotalNums)">
                 <el-input v-model.number="form.releaseNums"></el-input>
               </el-form-item>
             </el-col>
@@ -178,6 +178,16 @@ export default {
             break;
           default:
             this.$messageError(res.errMsg);
+            break;
+        }
+        const res_ = await this.$api.getPledgeCargoinfo(this.releasePledgeData.cargoId);
+        switch (res_.code) {
+          case Dict.SUCCESS:
+            this.form.bankId = res_.data.bankId
+            this.form.bankName = res_.data.bankName
+            break;
+          default:
+            this.$messageError(res_.errMsg);
             break;
         }
         this.form = _.clone(

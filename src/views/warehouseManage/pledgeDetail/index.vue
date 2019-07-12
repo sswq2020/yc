@@ -151,7 +151,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "pledgeTime",
+    prop: "createdTime",
     label: "质押日期",
     width: "180"
   }
