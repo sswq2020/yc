@@ -92,7 +92,7 @@
 import { mapGetters } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
 import { requestParamsByTimeRange } from "@/common/util.js";
-// import { judgeAuth } from "@/util/util.js";
+import { normalTime } from "@/util/util.js";
 import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
@@ -121,7 +121,7 @@ const defaultListData = {
 };
 const defaulttableHeader = [
   {
-    prop: "cargoId",
+    prop: "cargoName",
     label: "货主",
     width: "180"
   },
@@ -151,11 +151,23 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "createdTime",
+    prop: "createdTimeStr",
     label: "质押日期",
     width: "180"
   }
 ];
+
+const rowAdapter = (list) => {
+    if (!list) {
+        return []
+    }
+    if (list.length > 0) {
+        list = list.map((row) => {
+            return row = { ...row,createdTimeStr:normalTime(row.createdTime)}
+        })
+    }
+    return list
+}
 export default {
   name: "pledgeDetail",
   mixins: [baseMixin],
@@ -213,10 +225,9 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData = res.data;
+          this.listData ={...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
-          this.listData = { ...defaultListData };
           this.$messageError(res.errMsg);
           break;
       }

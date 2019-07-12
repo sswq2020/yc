@@ -20,8 +20,8 @@
       <td>{{item.pledgeWeight || ""}}</td>
       <td>{{item.pledgeSum || ""}}</td>
       <td>{{item.LoanSum || ""}}</td>
-      <td>{{item.createdTime || ""}}</td>
-      <td>{{item.updatedTime || ""}}</td>
+      <td>{{item.createdTime&&normalTime(item.createdTime)|| ""}}</td>
+      <td>{{item.endTime || ""}}</td>
     </tr>
 
   </table>
@@ -29,6 +29,7 @@
 
 <script>
 import Dict from "@/util/dict.js";
+import { normalTime } from "@/util/util.js";
 export default {
   name: "pledgeticket",
   props:{
@@ -46,7 +47,8 @@ export default {
   },
   data(){
     return {
-      Dict
+      Dict,
+      normalTime
     }
   }
 };
