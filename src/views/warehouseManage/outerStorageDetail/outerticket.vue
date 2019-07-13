@@ -68,10 +68,10 @@
 
     <tr>
       <th colspan="12" height="300px">
-        <div style="display:flex;justify-content:space-between">
-          <div>制单人:</div>
-          <div>理货员(章):</div>
-          <div>客户或代表(章):</div>
+        <div style="display:flex">
+          <div style="flex:2;text-align:left">制单人:</div>
+          <div style="flex:2;text-align:left">理货员(章):</div>
+          <div style="flex:1;text-align:left">客户或代表(章):</div>
         </div>
       </th>
     </tr>

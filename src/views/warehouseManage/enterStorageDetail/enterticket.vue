@@ -1,5 +1,5 @@
 <template>
-  <table :id="id" style="border-collapse: collapse;">
+  <table :id="id" style="border-collapse: collapse;" v-if="data&&data.length">
     <tr>
       <td colspan="11">
           <div style="display:flex;justify-content:space-between">
@@ -35,24 +35,24 @@
       <th>计量</th>
       <th>备注</th>
     </tr>
-    <tr class="alt">
-      <td>品名</td>
-      <td>材质</td>
-      <td>规格</td>
-      <td>炉号</td>
-      <td>产地</td>
-      <td>区桩位</td>
-      <td>数量</td>
-      <td>单位</td>
-      <td>重量</td>
-      <td>计量</td>
-      <td>备注</td>
+    <tr class="alt" v-for="(item,index) in data" :key="index">
+      <td>{{item.productName || "--"}}</td>
+      <td>{{item.materialName || "--"}}</td>
+      <td>{{item.specificationsName || "--"}}</td>
+      <td>--</td>
+      <td>{{item.originPlaceName || "--"}}</td>
+      <td>{{item.pilePosition || "--"}}</td>
+      <td>{{item.num || "--"}}</td>
+      <td>{{item.weightUnit || "--"}}</td>
+      <td>{{item.weight || "--"}}</td>
+      <td>{{item.measuringTypeEnum.text || "--"}}</td>
+      <td>{{item.remark || "--"}}</td>
     </tr>
     <tr class="alt">
-      <td colspan="6">合计:</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2,633.62</td>
+      <td colspan="6">合计:{{data[0].summation || "--"}}</td>
+      <td>--</td>
+      <td>--</td>
+      <td>--</td>
       <td colspan="2"></td>
     </tr>
     <tr class="alt">
@@ -60,10 +60,10 @@
     </tr>
     <tr>
       <th colspan="12" height="300px">
-        <div style="display:flex;justify-content:space-between">
-          <div>制单人:曾问</div>
-          <div>理货员(章)</div>
-          <div>客户或代表(章)</div>
+        <div style="display:flex">
+          <div style="flex:2;text-align:left">制单人:</div>
+          <div style="flex:2;text-align:left">理货员(章):</div>
+          <div style="flex:1;text-align:left">客户或代表(章):</div>
         </div>
       </th>
     </tr>
@@ -79,7 +79,14 @@ export default {
     id: {
       type: String,
       required: true
-    }
+    },
+    data:{
+     type: Array,
+      // 对象或数组默认值必须从一个工厂函数获取
+      default: function () {
+        return []
+      }        
+    }   
   },
   data() {
     return {

@@ -126,7 +126,7 @@
       :contentId="contentId"
       title="入库单">
        <template>
-         <enterticket :id="contentId"></enterticket>
+         <enterticket :id="contentId" :data="bill"></enterticket>
        </template>
     </tickets>
   </div>
@@ -311,9 +311,18 @@ export default {
           break;
       }
     },
-    detail(item) {
-      this.visible = true;
-      console.log(item);
+    async detail(item) {
+      const {id} = item
+      const res = await this.$api.getStockRegisterBill({id});
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.bill = [res.data]
+          this.visible = true
+          break;
+        default:
+          this.$messageError(`${res.mesg},无法获取入库单`);
+          break;
+      }      
     },
     print() {},
     init() {

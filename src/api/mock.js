@@ -751,6 +751,32 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  入库单
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/stockRegister/get',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        ...InventoryTableList,
+                        "num": 23,
+                        "weight": 243,
+                        "registerId": "SH1905060002",
+                        "registerTime":'@DATE("yyyy-MM-dd HH:mm:ss")',
+                        "summation":87,
+                        "remark":"备注",
+                        "productTypeCode":"34234"
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
+
+
         // #region  过户明细列表
         {
             isMock: IS_MOCK,
