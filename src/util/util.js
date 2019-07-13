@@ -132,5 +132,8 @@ export const deleteProps = (obj, ...keys) => {
 */
 
 export const normalTime = (time) => {
+    if(!time) {
+        return ""
+    }
     return time.slice(0,-11);
 }
