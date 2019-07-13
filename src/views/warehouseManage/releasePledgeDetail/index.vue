@@ -212,7 +212,7 @@ export default {
           break;
         default:
           this.listData = { ...defaultListData };
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },
@@ -224,7 +224,7 @@ export default {
           this.visible = true
           break;
         default:
-          this.$messageError(`${res.errMsg},无法获取解押单`);
+          this.$messageError(`${res.mesg},无法获取解押单`);
           break;
       }      
     },

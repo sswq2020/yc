@@ -249,7 +249,7 @@ export default {
           this.back();
           break;
         default:
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },     
@@ -264,7 +264,7 @@ export default {
           break;
         default:
           this.max = null;
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },    
@@ -295,7 +295,7 @@ export default {
           );
           break;
         default:
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     }
