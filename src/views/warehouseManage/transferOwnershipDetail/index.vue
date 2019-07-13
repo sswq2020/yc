@@ -120,6 +120,16 @@
         </template>
       </el-table-column>
     </heltable>
+
+    <tickets
+      :visible="visible"
+      :cancelCb="()=>{this.visible = false}"
+      :contentId="contentId"
+      title="过户单">
+       <template>
+         <transferticket :id="contentId"></transferticket>
+       </template>
+    </tickets>
   </div>
 </template>
 
@@ -132,6 +142,8 @@ import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import tickets from "@/components/tickets";
+import transferticket from "./transferticket";
 
 
 const defaultFormData = {
@@ -261,6 +273,8 @@ export default {
   components: {
     heltable,
     hlBreadcrumb,
+    tickets,
+    transferticket
   },
   data() {
     return {
@@ -271,7 +285,9 @@ export default {
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
-      visible:false
+      visible:false,
+      contentId:"customers",
+      bill:[],
     };
   },
   computed: {
@@ -312,7 +328,6 @@ export default {
     },
     detail(item) {
       this.visible = true;
-      console.log(item);
     },
     print(){
 
