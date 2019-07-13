@@ -775,8 +775,6 @@ const mockRouterMap = {
         },
         // #endregion 
 
-
-
         // #region  过户明细列表
         {
             isMock: IS_MOCK,
@@ -799,6 +797,31 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region  过户单
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/inventory/transfer/bill',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        ...TransferDetailList,
+                        "num": 23,
+                        "weight": 243,
+                        "registerId": "SH1905060002",
+                        "registerTime":'@DATE("yyyy-MM-dd HH:mm:ss")',
+                        "summation":87,
+                        "remark":"备注",
+                        "chineseWeights":"" // 中文重量
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
 
         // #region  质押明细列表
         {

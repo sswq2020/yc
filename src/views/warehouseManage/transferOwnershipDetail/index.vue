@@ -127,7 +127,7 @@
       :contentId="contentId"
       title="过户单">
        <template>
-         <transferticket :id="contentId"></transferticket>
+         <transferticket :id="contentId" :data="bill"></transferticket>
        </template>
     </tickets>
   </div>
@@ -326,8 +326,18 @@ export default {
           break;
       }
     },
-    detail(item) {
-      this.visible = true;
+    async detail(item) {
+      const {id} = item;
+      const res = await this.$api.getTransferBill({transferId:id});
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.bill = [res.data]
+          this.visible = true
+          break;
+        default:
+          this.$messageError(`${res.mesg},无法获取过户单`);
+          break;
+      }      
     },
     print(){
 
