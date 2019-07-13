@@ -838,7 +838,14 @@ export default {
      * */     
     getStockRemovalDetailList(params){
         return fetch(storageURL + '/web/yc/base/stockRemovalDetail/page', params)         
-    },  
+    }, 
+    /**
+     * @author sswq
+     * @description 出库单
+     * */     
+    getStockRemovalBill(params){
+        return fetch(storageURL + '/web/yc/base/stockRemoval/get', params)         
+    },
     /**
      * @author sswq
      * @description 入库明细列表
@@ -848,11 +855,25 @@ export default {
     },  
     /**
      * @author sswq
+     * @description 入库单
+     * */     
+    getStockRegisterBill(params){
+        return fetch(storageURL + '/web/yc/base/stockRegister/get', params,'get')         
+    },
+    /**
+     * @author sswq
      * @description 过户明细列表
      * */     
     getTransferDetailList(params){
         return fetch(storageURL + '/web/yc/inventory/transfer/detail', params)         
     },   
+    /**
+     * @author sswq
+     * @description 过户单
+     * */     
+    getTransferBill(params){
+        return fetch(storageURL + '/web/yc/inventory/transfer/bill', params,'get')         
+    },
     /**
      * @author sswq
      * @description 质押明细列表

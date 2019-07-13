@@ -5,7 +5,7 @@ const hostList = {
     default: ""
 };
 
-const IS_MOCK = false;
+const IS_MOCK = true;
 const storageURL = ""
 
 const dict = { 'SUCCESS': "000000" }
@@ -85,8 +85,8 @@ const InventoryTableList = {
     "numUnit": "支", // 数量单位
     "totalWeightInventory": 6, // 库存重量
     "weightUnit": "吨", // 重量单位
-    "measuringTypeEnum": {code: "1", text: "理算"}, // 计量方式
-    "wareHousingTypeEnum": {code: "1", text: "过货入库"}, //入库类型
+    "measuringTypeEnum": { code: "1", text: "理算" }, // 计量方式
+    "wareHousingTypeEnum": { code: "1", text: "过货入库" }, //入库类型
     "incomingDays": 0 //入库天数
 }
 
@@ -133,9 +133,9 @@ const StockRemovalDetailList = {
     "applyRemovalTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
     "supposedRemovalNum": 65,
     "supposedRemovalWeight": 84,
-    "consignee":'@CNAME()', 
-    'pickUpPassword':12323,
-    'outsideType':'库存发货'
+    "consignee": '@CNAME()',
+    'pickUpPassword': 12323,
+    'outsideType': '库存发货'
 }
 
 
@@ -230,6 +230,17 @@ const ReleasePledgeDetailList = {
     "releaseTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
     "updatedBy": "admin",
     "updatedTime": '@DATE("yyyy-MM-dd HH:mm:ss")'
+}
+
+const stockRemovalBill = {
+    ...InventoryTableList,
+    "removalId|+1": "@INTEGER(1,2019690999)", // 出库单号
+    "actualRemovalNum": 65,
+    "actualRemovalWeight": 99,
+    "applyRemovalTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "consignee": '@CNAME()',
+    'pickUpPassword': 12323,
+    'outsideType': '库存发货'
 }
 
 
@@ -616,9 +627,6 @@ const mockRouterMap = {
         },
         // #endregion 
 
-
-
-
         // #region  获取质押总量
         {
             isMock: IS_MOCK,
@@ -693,6 +701,26 @@ const mockRouterMap = {
                             "totalCount": 1000,
                             "totalPage": 1000 / params.pageSize
                         }
+                    },
+
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  出库单
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/stockRemoval/get',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "createdBy": "",
+                        "createdTime": "",
+                        "summation": "",
+                        "list|1-2": [stockRemovalBill]
                     },
 
                 };
@@ -1002,47 +1030,47 @@ const mockRouterMap = {
                             "entryCode": "YcDeliveryStoreType",
                             "entryName": "交割库类型",
                             "items": [
-                              {
-                                "disabled": false,
-                                "id": "0",
-                                "orderBy": 0,
-                                "selected": 0,
-                                "text": "室内库"
-                              },
-                              {
-                                "disabled": false,
-                                "id": "1",
-                                "orderBy": 1,
-                                "selected": 0,
-                                "text": "室外库"
-                              }
+                                {
+                                    "disabled": false,
+                                    "id": "0",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "室内库"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "1",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "室外库"
+                                }
                             ]
-                          },
-                          {
+                        },
+                        {
                             "entryCode": "YcProductType",
                             "entryName": "品名大类",
                             "items": [
-                              {
-                                "disabled": false,
-                                "id": "00",
-                                "orderBy": 0,
-                                "selected": 0,
-                                "text": "钢材"
-                              },
-                              {
-                                "disabled": false,
-                                "id": "01",
-                                "orderBy": 1,
-                                "selected": 0,
-                                "text": "石油"
-                              },
-                              {
-                                "disabled": false,
-                                "id": "02",
-                                "orderBy": 2,
-                                "selected": 0,
-                                "text": "木材"
-                              }
+                                {
+                                    "disabled": false,
+                                    "id": "00",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "钢材"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "01",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "石油"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "02",
+                                    "orderBy": 2,
+                                    "selected": 0,
+                                    "text": "木材"
+                                }
                             ]
                         }
                     ]
