@@ -797,8 +797,8 @@ export default {
      * @author sswq
      * @description 解押管理页面专门获取质押信息
      * */    
-    getPledgeCargoinfo(params){
-        return fetch(storageURL + '/web/yc/pledgeinfo/cargo/info', params,'get')         
+    getPledgeCargoinfo(cargoId){
+        return fetch(storageURL + '/web/yc/pledgeinfo/cargo/info', {cargoId},'get')         
     },
     /**
      * @author sswq

@@ -120,6 +120,15 @@
         </template>
       </el-table-column>
     </heltable>
+    <tickets
+      :visible="visible"
+      :cancelCb="()=>{this.visible = false}"
+      :contentId="contentId"
+      title="入库单">
+       <template>
+         <enterticket :id="contentId"></enterticket>
+       </template>
+    </tickets>
   </div>
 </template>
 
@@ -132,6 +141,8 @@ import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import tickets from "@/components/tickets";
+import enterticket from "./enterticket";
 
 const defaultFormData = {
   cargoId: null,
@@ -245,7 +256,9 @@ export default {
   mixins: [baseMixin],
   components: {
     heltable,
-    hlBreadcrumb
+    hlBreadcrumb,
+    tickets,
+    enterticket
   },
   data() {
     return {
@@ -256,7 +269,10 @@ export default {
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
-      visible: false
+      visible: false,
+      contentId:"customers",
+      bill:[],
+
     };
   },
   computed: {
