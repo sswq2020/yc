@@ -151,7 +151,7 @@ export default {
           this.back();
           break;
         default:
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },
@@ -177,7 +177,7 @@ export default {
             this.max = res.data;
             break;
           default:
-            this.$messageError(res.errMsg);
+            this.$messageError(res.mesg);
             break;
         }
         const res_ = await this.$api.getPledgeCargoinfo(this.releasePledgeData.cargoId);
@@ -187,7 +187,7 @@ export default {
             this.form.bankName = res_.data.bankName
             break;
           default:
-            this.$messageError(res_.errMsg);
+            this.$messageError(res_.mesg);
             break;
         }
         this.form = _.clone(

@@ -228,7 +228,7 @@ export default {
           this.listData ={...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },
@@ -240,7 +240,7 @@ export default {
           this.visible = true
           break;
         default:
-          this.$messageError(`${res.errMsg},无法获取质押单`);
+          this.$messageError(`${res.mesg},无法获取质押单`);
           break;
       }      
     },

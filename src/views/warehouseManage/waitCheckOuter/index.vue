@@ -211,7 +211,7 @@ export default {
           break;
         default:
           this.listData = { ...defaultListData };
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },

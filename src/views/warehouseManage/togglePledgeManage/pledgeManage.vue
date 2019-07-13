@@ -190,7 +190,7 @@ export default {
           this.back();
           break;
         default:
-          this.$messageError(res.errMsg);
+          this.$messageError(res.mesg);
           break;
       }
     },
@@ -216,7 +216,7 @@ export default {
             this.max = res.data;
             break;
           default:
-            this.$messageError(res.errMsg);
+            this.$messageError(res.mesg);
             break;
         }
         this.form = _.clone(
