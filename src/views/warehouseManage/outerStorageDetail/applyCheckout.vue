@@ -130,7 +130,7 @@
             <el-col :offset="6" :md="6" :sm="12" :xs="24">
               <span
                 style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;"
-              >最大申请量:{{max}}</span>
+              >最大申请重量:{{max}}</span>
             </el-col>
           </el-row>
         </div>
@@ -186,7 +186,7 @@ export default {
         {
           type: "number",
           required: true,
-          message: "请输入过户重量",
+          message: "请输入申请重量",
           trigger: "blur"
         },
         {
