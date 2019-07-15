@@ -161,7 +161,7 @@ export default {
   methods: {
     back() {
       this.$router.push({
-        path: "/web/yc/base/stockRemoval/page"
+        path: "/web/yc/storage/stockRemoval/page"
       });
     },
     validateweight(weight, max = null) {

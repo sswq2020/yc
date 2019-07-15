@@ -396,7 +396,7 @@ export default {
                 this.setCheckout([{stockId:id}]);
                 this.$router.push({
                   path:
-                    "/web/yc/base/stockRemovalDetail/page/applyCheckOut"
+                    "/web/yc/storage/stockRemovalDetail/page/applyCheckOut"
                 });
               } else {
                 this.$messageError("当前存在数据无余量，不可过户");

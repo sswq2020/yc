@@ -219,7 +219,7 @@ export default {
       const { removalId } = item;
       this.setRetrieval(removalId);
       this.$router.push({
-        path: "/web/yc/base/stockRemoval/page/CheckOuter"
+        path: "/web/yc/storage/stockRemoval/page/CheckOuter"
       });
     },
     init() {

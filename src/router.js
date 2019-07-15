@@ -139,32 +139,32 @@ let commonRoutes = {
             component: InventoryDetail
         },
         {
-            path: '/web/yc/base/stockRegister/page',
+            path: '/web/yc/storage/stockRegister/page',
             name: 'waitCheckEnter',
             component: WaitCheckEnter
         },  
         {
-            path: '/web/yc/base/stockRegister/page/checkEnter',
+            path: '/web/yc/storage/stockRegister/page/checkEnter',
             name: 'checkEnter',
             component: CheckEnter
         },  
         {
-            path: '/web/yc/base/stockRemoval/page',
+            path: '/web/yc/storage/stockRemoval/page',
             name: 'waitCheckOuter',
             component: WaitCheckOuter
         },  
         {
-            path: '/web/yc/base/stockRemoval/page/CheckOuter',
+            path: '/web/yc/storage/stockRemoval/page/CheckOuter',
             name: 'checkOuter',
             component: CheckOuter
         },  
         {
-            path: '/web/yc/base/stockRemovalDetail/page',
+            path: '/web/yc/storage/stockRemovalDetail/page',
             name: 'outerStorageDetail',
             component: OuterStorageDetail
         },
         {
-            path: '/web/yc/base/stockRemovalDetail/page/applyCheckOut',
+            path: '/web/yc/storage/stockRemovalDetail/page/applyCheckOut',
             name: 'applyCheckOut',
             component: ApplyCheckOut
         },        
