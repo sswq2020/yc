@@ -526,13 +526,13 @@ export default {
     },
     GoEnterRegister() {
       this.$router.push({
-        path: "/web/yc/base/stockRegisterDetail/page/register"
+        path: "/web/yc/storage/stockRegisterDetail/page/register"
       });
     },
     detail(item) {
       this.setFindDetail(item);
       this.$router.push({
-        path: "/web/yc/base/stockInventory/page/inventoryDetail"
+        path: "/web/yc/storage/stockInventory/page/inventoryDetail"
       });
     },
     init() {

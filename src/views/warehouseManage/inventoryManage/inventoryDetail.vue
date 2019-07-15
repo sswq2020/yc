@@ -277,7 +277,7 @@ export default {
     ...mapMutations("inventoryManage", ["setTransferOwnership", "setCheckout"]),
     back() {
       this.$router.push({
-        path: "/web/yc/base/stockInventory/page"
+        path: "/web/yc/storage/stockInventory/page"
       });
     },
     _filter() {

@@ -119,22 +119,22 @@ let commonRoutes = {
         },  
         // #region  仓储信息      
         {
-            path: '/web/yc/base/stockRegisterDetail/page',
+            path: '/web/yc/storage/stockRegisterDetail/page',
             name: 'enterStorageDetail',
             component: EnterStorageDetail
         }, 
         {
-            path: '/web/yc/base/stockRegisterDetail/page/register',
+            path: '/web/yc/storage/stockRegisterDetail/page/register',
             name: 'enterStorageRegister',
             component: EnterStorageRegister
         },        
         {
-            path: '/web/yc/base/stockInventory/page',
+            path: '/web/yc/storage/stockInventory/page',
             name: 'inventoryTable',
             component: InventoryTable
         },
         {
-            path: '/web/yc/base/stockInventory/page/inventoryDetail',
+            path: '/web/yc/storage/stockInventory/page/inventoryDetail',
             name: 'inventoryDetail',
             component: InventoryDetail
         },
