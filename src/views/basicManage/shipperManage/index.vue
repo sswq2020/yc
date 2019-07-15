@@ -130,7 +130,7 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "货主管理"],
+      breadTitle: ["基础信息", "货主管理"], // 面包屑title
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
       listData: { // 返回list的数据结构
@@ -158,6 +158,10 @@ export default {
   computed: {...mapState('modal',['visible'])},
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    /**
+     * @author: xh
+     * @description: 获取货主管理列表
+     */
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getShipperManageList(this.listParams);
@@ -177,6 +181,10 @@ export default {
           break;
       }
     },
+    /**
+     * @author: xh
+     * @description: 弹窗确定回调事件
+     */
     async modalConfirm(obj) {
       const serve = this.isEdit ? "updateShipper" : "createShipper";
       const response = await this.$api[serve]({...obj});
@@ -207,6 +215,10 @@ export default {
       this.listParams.pageSize = pageSize;
       this.getList();
     },
+    /**
+     * @author: xh
+     * @description: 禁用或者激活
+     */
     forbiddenOrActiveItem(obj) {
       let that = this;
       const { id, state, version, cargoName } = obj;
@@ -249,31 +261,6 @@ export default {
       this.shipperObj = null;
       this.SET_MODAL_VISIBLE(true);
     },
-    needfixed(fixed) {
-      if (!fixed) {
-        return false;
-      } else {
-        return fixed;
-      }
-    },
-    needwidth(width) {
-      if (!width) {
-        return;
-      } else {
-        return width;
-      }
-    },
-    init() {
-      setTimeout(() => {
-        this.perm();
-        this.getList();
-      }, 100);
-      this.perm();
-    },
-    perm() {
-      // this.datasync = judgeAuth("finance:tradedetail:datasync");
-      // this.batchexport = judgeAuth("finance:tradedetail:export");
-    }
   },
   created() {
     this.init();

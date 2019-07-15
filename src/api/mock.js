@@ -1070,7 +1070,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'get',
-            router: '/dict/item/valid/options/get',
+            router: '/baseserve/dict/item/valid/options/get',
             result() {
                 return {
                     ...body,

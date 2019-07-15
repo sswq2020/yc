@@ -919,7 +919,7 @@ export default {
      * @description 获取字典项数据列表
      * */
     getValidList(params) {
-        return fetch('/dict/item/valid/options/get', params, 'get')
+        return fetch('/baseserve/dict/item/valid/options/get', params, 'get')
     },
     /**
      * @author xh

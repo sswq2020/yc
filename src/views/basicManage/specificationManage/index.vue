@@ -70,7 +70,7 @@ import specificationFormModal from "./specificationFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  specificationsName: '',
+  specificationsName: '', // 规格名称
 };
 export default {
   name: "specificationManage",
@@ -81,9 +81,9 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "规格管理"],
+      breadTitle: ["基础信息", "规格管理"], // 面包屑title
       isListDataLoading: false,
-      tableHeader: [
+      tableHeader: [ // 表头
         {
           prop: "specificationsName",
           label: "规格名称",
@@ -105,13 +105,13 @@ export default {
           width: 180
         },
       ],
-      listData: {
+      listData: { // 列表数据
         paginator: {
           totalCount: 0,
         },
         list: []
       },
-      listParams: {
+      listParams: { // 列表请求参数
         ...defaultListParams
       },
       isEdit: false,
@@ -121,6 +121,10 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    /**
+     * @author: xh
+     * @description: 获取规格管理列表
+     */
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getSpecList(this.listParams);
@@ -165,6 +169,10 @@ export default {
       };
       this.SET_MODAL_VISIBLE(true);
     },
+    /**
+     * @author: xh
+     * @description: 禁用或者激活
+     */
     forbiddenOrActiveItem(obj) {
       let that = this;
       const { id, specificationsStatusCode,  specificationsName} = obj;
@@ -188,6 +196,10 @@ export default {
         }
       });
     },
+    /**
+     * @author: xh
+     * @description: 弹窗确定回调事件
+     */
     async modalConfirm(obj) {
       const serve = this.isEdit ? "updateSpec" : "addSpec";
       const response = await this.$api[serve]({ ...obj });

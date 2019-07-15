@@ -16,13 +16,17 @@
 import { mapState, mapMutations } from 'vuex';
 import { mobileValidation, phoneValidation } from '@/util/reg.js';
 const defaultForm = {
-  telPhone: null,
-  cargoName: null,
-  socialCreditCode: null,
-  bizContact: null,
-  contactTel: null
+  telPhone: null, // 手机号码
+  cargoName: null, // 货主名称
+  socialCreditCode: null, // 社会信用统一代码
+  bizContact: null, // 联系人
+  contactTel: null, // 联系电话
 };
 
+/**
+ * @author: xh
+ * @description: 手机号码校验
+ */
 const checkMobile = (rule, value, callback) => {
   if(!value) {
     callback(new Error('请输入手机号码'));
@@ -33,6 +37,10 @@ const checkMobile = (rule, value, callback) => {
   }
 };
 
+/**
+ * @author: xh
+ * @description: 联系电话校验
+ */
 const checkPhone = (rule, value, callback) => {
   if(!value) {
     callback(new Error('请输入联系电话'));

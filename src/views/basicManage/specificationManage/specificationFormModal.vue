@@ -18,8 +18,8 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  specificationsName: '',
-  specificationsRemark: '',
+  specificationsName: '', // 规格名称
+  specificationsRemark: '', // 规格备注
 }
 export default {
   name: "specificationFormModal",

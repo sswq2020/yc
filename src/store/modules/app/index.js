@@ -7,8 +7,8 @@ const store = {
         role:null,
         userId:null,
         username:null,
-        productTypeCodeData: {},
-        deliveryStoreTypeData: {},
+        productTypeCodeData: {}, // 品名大类
+        deliveryStoreTypeData: {}, // 交割库类型
     },
     getters: {
       role: state => state.role,

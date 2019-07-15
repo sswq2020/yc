@@ -125,6 +125,10 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    /**
+     * @author: xh
+     * @description: 获取仓管人员列表
+     */
     async getStoreAdmin() {
       const res = await this.$api.getStoreAdminData();
       switch (res.code) {
@@ -136,6 +140,10 @@ export default {
           break;
       }
     },
+    /**
+     * @author: xh
+     * @description: 根据下拉选择的地址设置省市区
+     */
     selectArea(value) {
       this.form.address = value;
       this.form.storeAddressProvince = value[0] || '';
@@ -165,6 +173,7 @@ export default {
   watch: {
     visible(newV, oldV) {
       if (newV) {
+        // 防止重复调接口
         if( JSON.stringify(this.storeAdminData) === '{}') {
           this.getStoreAdmin();
         }

@@ -27,6 +27,10 @@ const modal = {
     },
   },
   actions: {
+    /**
+     * @author: xh
+     * @description: 获取下拉数据列表
+     */
     async getDropDownData({commit}) {
       const res = await api.getDropDownList();
       switch (res.code) {
