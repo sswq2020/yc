@@ -33,7 +33,7 @@
               <el-form-item label="入库类型" prop="incomingType">
                 <el-select v-model="form.incomingType" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in YcDeliveryStoreTypeList"
+                    v-for="(item,index) in YcIncomingTypeList"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
