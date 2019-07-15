@@ -137,7 +137,7 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="重量单位" prop="numUnit">
+              <el-form-item label="数量单位" prop="numUnit">
                 <el-select v-model="form.numUnit" placeholder="请选择" size="small">
                   <el-option
                     v-for="(item,index) in YcNumUnitList"
