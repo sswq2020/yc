@@ -5,7 +5,7 @@ import { _toArray_ } from './util'
 const _DICT_SERVE_ = [
     "YcNumUnit",
     "YcWeightUnit",
-    "YcDeliveryStoreType",
+    "YcIncomingType",
     "YcMeasuringType"
 ]
 
@@ -78,7 +78,7 @@ export const dictMixin = {
         return {
             YcNumUnitList: [],
             YcWeightUnitList: [],
-            YcDeliveryStoreTypeList: [],
+            YcIncomingTypeList: [],
             YcMeasuringTypeList: []
         }
     },
@@ -86,8 +86,8 @@ export const dictMixin = {
         async _getValidList() {
             let that = this
             const res = await api.getValidList({
-                entryCode: _DICT_SERVE_.join(),
-                tenantId: 'root'
+                entryCodes: _DICT_SERVE_.join(),
+                tenantId: 'hlyc'
             })
             switch (res.code) {
                 case Dict.SUCCESS:
