@@ -330,7 +330,7 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               measuringText:row.measuringTypeEnum.text,
-              incomingTypeText:row.wareHousingTypeEnum.text,
+              incomingTypeText:row.incomingTypeEnum.text,
               incomingTimeStr:normalTime(row.incomingTime)}
         })
     }
