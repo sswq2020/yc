@@ -521,7 +521,7 @@ export default {
       this.batchCheckOutVisible = false;
       this.setCheckout(this.stockIds);
       this.$router.push({
-        path: "/web/yc/base/stockRemovalDetail/page/applyCheckOut"
+        path: "/web/yc/storage/stockRemovalDetail/page/applyCheckOut"
       });
     },
     GoEnterRegister() {
