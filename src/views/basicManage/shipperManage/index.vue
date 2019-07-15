@@ -263,7 +263,7 @@ export default {
     },
   },
   created() {
-    this.init();
+    this.getList();
   }
 };
 </script>
