@@ -667,7 +667,7 @@ export default {
      * @description 入库登记
      * */
     addStockRegister(params){
-        return fetch(storageURL + '/web/yc/base/stockRegister/add', params)          
+        return fetch(storageURL + '/web/yc/storage/stockRegister/add', params)          
     },
     /**
      * @author sswq
@@ -675,7 +675,7 @@ export default {
      * @description 查询库存表列表
      * */
     getInventoryTable(params){
-        return fetch(storageURL + '/web/yc/base/stockInventory/page', params)          
+        return fetch(storageURL + '/web/yc/storage/stockInventory/page', params)          
     },
     /**
      * @author sswq
@@ -683,7 +683,7 @@ export default {
      * @description 查询库存明细分页
      * */
     getInventoryDetail(params){
-        return fetch(storageURL + '/web/yc/base/stockInventoryDetail/page', params)          
+        return fetch(storageURL + '/web/yc/storage/stockInventoryDetail/page', params)          
     },   
     /**
      * @author sswq
@@ -739,14 +739,14 @@ export default {
      * @description 取消出库
      * */
     cancelcheckout(params){
-        return fetch(storageURL + '/web/yc/base/stockInventoryDetail/cancelRemoval', params)          
+        return fetch(storageURL + '/web/yc/storage/stockInventoryDetail/cancelRemoval', params)          
     },
     /**
      * @author sswq
      * @description 待验收出库列表
      * */    
     getStockRemovalList(params){
-        return fetch(storageURL + '/web/yc/base/stockRemoval/page', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemoval/page', params)         
     },    
     /**
      * @author sswq
@@ -754,7 +754,7 @@ export default {
      * @description 待验收出库选中某一仓库,根据申请removalId，给出详细的列表信息
      * */    
     detailRetrieval(params){
-        return fetch(storageURL + '/web/yc/base/stockRemoval/list', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemoval/list', params)         
     },            
     /**
      * @author sswq
@@ -762,7 +762,7 @@ export default {
      * @description 验收出库
      * */    
     DoRemovalCheck(params){
-        return fetch(storageURL + '/web/yc/base/stockRemoval/removal', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemoval/removal', params)         
     }, 
     /**
      * @author sswq
@@ -770,21 +770,21 @@ export default {
      * @description 出库申请
      * */    
     DoCheckOutApply(params){
-        return fetch(storageURL + '/web/yc/base/stockRemoval/apply', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemoval/apply', params)         
     }, 
     /**
      * @author sswq
      * @description 待验收入库列表
      * */    
     getStockRegisterList(params){
-        return fetch(storageURL + '/web/yc/base/stockRegister/page', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRegister/page', params)         
     },
     /**
      * @author sswq
      * @description 验收入库
      * */    
     examine(params){
-        return fetch(storageURL + '/web/yc/base/stockRegister/examine', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRegister/examine', params)         
     },
     /**
      * @author sswq
@@ -837,28 +837,28 @@ export default {
      * @description 出库明细列表
      * */     
     getStockRemovalDetailList(params){
-        return fetch(storageURL + '/web/yc/base/stockRemovalDetail/page', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemovalDetail/page', params)         
     }, 
     /**
      * @author sswq
      * @description 出库单
      * */     
     getStockRemovalBill(params){
-        return fetch(storageURL + '/web/yc/base/stockRemoval/get', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemoval/get', params)         
     },
     /**
      * @author sswq
      * @description 入库明细列表
      * */     
     getStockRegisterDetailList(params){
-        return fetch(storageURL + '/web/yc/base/stockRegisterDetail/page', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRegisterDetail/page', params)         
     },  
     /**
      * @author sswq
      * @description 入库单
      * */     
     getStockRegisterBill(params){
-        return fetch(storageURL + '/web/yc/base/stockRegister/get', params,'get')         
+        return fetch(storageURL + '/web/yc/storage/stockRegister/get', params,'get')         
     },
     /**
      * @author sswq
