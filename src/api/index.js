@@ -844,7 +844,7 @@ export default {
      * @description 出库单
      * */     
     getStockRemovalBill(params){
-        return fetch(storageURL + '/web/yc/storage/stockRemoval/get', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemovalDetail/get', params)         
     },
     /**
      * @author sswq
@@ -858,7 +858,7 @@ export default {
      * @description 入库单
      * */     
     getStockRegisterBill(params){
-        return fetch(storageURL + '/web/yc/storage/stockRegister/get', params,'get')         
+        return fetch(storageURL + '/web/yc/storage/stockRegisterDetail/get', params,'get')         
     },
     /**
      * @author sswq
