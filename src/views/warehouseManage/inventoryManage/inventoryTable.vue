@@ -207,6 +207,7 @@
 import { mapGetters, mapMutations } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
 // import { judgeAuth } from "@/util/util.js";
+import { normalTime } from "@/util/util.js";
 import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
@@ -314,7 +315,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "incomingTime",
+    prop: "incomingTimeStr",
     label: "入库时间",
     width: "180"
   }
@@ -326,7 +327,11 @@ const rowAdapter = (list) => {
     }
     if (list.length > 0) {
         list = list.map((row) => {
-            return row = { ...row,measuringText:row.measuringTypeEnum.text,incomingTypeText:row.wareHousingTypeEnum.text}
+            return row = { 
+              ...row,
+              measuringText:row.measuringTypeEnum.text,
+              incomingTypeText:row.wareHousingTypeEnum.text,
+              incomingTimeStr:normalTime(row.incomingTime)}
         })
     }
     return list
