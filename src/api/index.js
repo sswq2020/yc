@@ -415,6 +415,13 @@ export default {
     },
     /**
      * @author xh
+     * @description 品名下拉列表
+     * */
+    getProductNameData() {
+        return fetch(storageURL + '/web/yc/base/productName/select', '', 'get')
+    },
+    /**
+     * @author xh
      * @description 交割库分页查询
      * */
     getDeliveryStoreList(params) {

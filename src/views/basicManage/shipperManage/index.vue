@@ -67,6 +67,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import moment from 'moment';
 import _ from "lodash";
 import { judgeAuth } from "@/util/util.js";
 import Dict from "@/util/dict.js";
@@ -107,7 +108,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "createdTime",
+    prop: "createdTimeText",
     label: "创建时间",
     width: "180"
   },
@@ -172,6 +173,7 @@ export default {
           this.listData.list = res.data.list.map(item => {
             return {
               ...item,
+              createdTimeText: item.createdTime ? moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss") : '',
               stateText: item.state == '0' ? '正常' : '禁用'
             }
           });

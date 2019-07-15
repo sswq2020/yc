@@ -62,6 +62,7 @@
 
 <script>
 import { mapMutations  } from 'vuex';
+import moment from 'moment';
 import Dict from "@/util/dict.js";
 import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
@@ -95,7 +96,7 @@ export default {
           width: 300
         },
         {
-          prop: "createdTime",
+          prop: "createdTimeText",
           label: "录入时间",
           width: 180
         },
@@ -132,6 +133,12 @@ export default {
       switch (res.code) {
         case Dict.SUCCESS:
           this.listData = res.data;
+          this.listData.list = res.data.list.map(item => {
+            return {
+              ...item,
+              createdTimeText: item.createdTime ? moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss") : '',
+            }
+          });
           break;
         default:
           this.$messageError(res.mesg);

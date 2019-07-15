@@ -80,6 +80,7 @@
 
 <script>
 import { mapMutations, mapActions, mapState  } from 'vuex';
+import moment from 'moment';
 import Dict from "@/util/dict.js";
 import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
@@ -139,7 +140,7 @@ export default {
           width: 180
         },
         {
-          prop: "createdTime",
+          prop: "createdTimeText",
           label: "创建时间",
           width: 180
         },
@@ -184,6 +185,7 @@ export default {
           this.listData.list = res.data.list.map(item => {
             return {
               ...item,
+              createdTimeText: item.createdTime ? moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss") : '',
               addressText: `${item.storeAddressProvince}${item.storeAddressCity}${item.storeAddressCounty}${item.storeAddressStreet}`,
               storeTypeText: item.storeTypeEnum.text,
               stateText: item.publicStatusEnum.text

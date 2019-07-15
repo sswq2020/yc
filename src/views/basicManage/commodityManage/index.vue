@@ -13,7 +13,7 @@
       <div class="form-item">
         <label>大类</label>
         <div class="form-control">
-          <el-select v-model="listParams.productTypeCode" placeholder="请选择"  @change="selectProduct">
+          <el-select v-model="listParams.productTypeCode" placeholder="请选择" >
             <el-option v-for="item in Object.keys(productTypeCodeData)" :key="item" :label="productTypeCodeData[item]" :value="item"></el-option>
           </el-select>
         </div>
@@ -77,6 +77,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
+import moment from 'moment';
 import Dict from "@/util/dict.js";
 import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
@@ -126,7 +127,7 @@ export default {
           label: "产地",
         },
         {
-          prop: "createdTime",
+          prop: "createdTimeText",
           label: "录入时间",
         },
         {
@@ -164,6 +165,12 @@ export default {
       switch (res.code) {
         case Dict.SUCCESS:
           this.listData = res.data;
+          this.listData.list = res.data.list.map(item => {
+            return {
+              ...item,
+              createdTimeText: item.createdTime ? moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss") : '',
+            }
+          });
           break;
         default:
           this.$messageError(res.mesg);
@@ -172,14 +179,13 @@ export default {
     },
     /**
      * @author: xh
-     * @description: 下拉选择大类时查询品名
+     * @description: 品名下拉列表
      */
-    async selectProduct(value) {
-      const res = await this.$api.selectProductNames({productTypeCode: value});
+    async getProductNameDropdownData() {
+        const res = await this.$api.getProductNameData();
       switch (res.code) {
         case Dict.SUCCESS:
           this.productNameData = res.data;
-          this.listParams.productNameId = '';
           break;
         default:
           this.$messageError(res.mesg);
@@ -192,7 +198,6 @@ export default {
     },
     reset() {
       this.listParams = {...defaultListParams};
-      this.productNameData = {};
       this.getList();
     },
     changePageSize(pageSize) {
@@ -260,6 +265,7 @@ export default {
     }
   },
   created() {
+    this.getProductNameDropdownData(); 
     this.setYcData(); // 获取字典项
     this.getList();
   }
