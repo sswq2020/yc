@@ -18,33 +18,33 @@
 import { mapState, mapMutations  } from 'vuex';
 import Dict from "@/util/dict.js";
 const defaultForm = {
-  productTypeCode: '',
-  productName: '',
-  productNameId: '',
-  materialId: '',
-  materialName: '',
-  specificationsId: '',
-  specificationsName: '',
-  originPlaceId: '',
-  originPlaceName: '',
+  productTypeCode: '', // 品名大类
+  productName: '', // 品名
+  productNameId: '', // 品名Id
+  materialId: '', // 材质Id
+  materialName: '', // materialName
+  specificationsId: '', // 规格Id
+  specificationsName: '', // 规格名称
+  originPlaceId: '', // 产地Id
+  originPlaceName: '', // 产地名称
 };
 
 export default {
   name: "commodityFormModal",
   props: {
-    isEdit: {
+    isEdit: { 
       type: Boolean,
       default: false
     },
-    loading: {
+    loading: { 
       type: Boolean,
       default: false
     },
-    confirmCb: {
+    confirmCb: { // 确认之后的回调
       type: Function,
       default: () => {}
     },
-    editObj:{
+    editObj: { // 编辑对象
       type: Object,
       default: () => {}
     }
@@ -101,6 +101,10 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    /**
+     * @author xh
+     * @description 获取初始化下拉列表
+     * */
     async getInitData() {
       const apiUrl = this.isEdit ? 'updateGoodsInit' : 'addGoodsInit';
       const params = this.isEdit ? {id: this.form.id} : {}
@@ -120,8 +124,13 @@ export default {
           break;
       }
     },
+    /**
+     * @author xh
+     * @description 下拉选择事件
+     * */
     async select(value, prop) {
-      if (prop == 'productTypeCode') { // 选择的是大类
+      if (prop == 'productTypeCode') { 
+        // 根据大类获取品名列表
         const res = await this.$api.selectProductNames({productTypeCode: value});
         switch (res.code) {
           case Dict.SUCCESS:
@@ -134,6 +143,7 @@ export default {
             break;
         }
       } else {
+        // 根据选择的值(id)设置对应的name eg: productNameId选择的是'123',就将productName设置成'123'对应的中文
         let text = '';
         for(let i = 0, len = this.formItem.length; i < len; i++) {
           if (this.formItem[i].prop === prop) {

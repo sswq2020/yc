@@ -86,8 +86,8 @@ const defaultListParams = {
   page: 1,
   pageSize: 20,
   goodCode: '',
-  productTypeCode: '',
-  productNameId: ''
+  productTypeCode: '', // 品名大类Code
+  productNameId: '' // 品名Id
 };
 export default {
   name: "commodityManage",
@@ -98,9 +98,9 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "物资管理"],
+      breadTitle: ["基础信息", "物资管理"], // 面包屑title
       isListDataLoading: false,
-      tableHeader: [
+      tableHeader: [ // 表头
         {
           prop: "goodCode",
           label: "物资代码",
@@ -134,25 +134,29 @@ export default {
           label: "状态",
         },
       ],
-      listData: {
-        paginator: {
+      listData: { // 列表数据
+        paginator: { 
           totalCount: 0,
         },
         list: []
       },
-      listParams: {
+      listParams: { // 列表请求参数
         ...defaultListParams
       },
       isEdit: false,
       isEditLoading: false,
       editObj: {},
-      productNameData: {}
+      productNameData: {} // 品名下拉数据
     }
   },
   computed: mapState('app', ['productTypeCodeData']),
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     ...mapActions('app', ['setYcData']),
+     /**
+     * @author xh
+     * @description 获取物资管理列表
+     * */
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getGoodsList(this.listParams);
@@ -166,6 +170,10 @@ export default {
           break;
       }
     },
+    /**
+     * @author: xh
+     * @description: 下拉选择大类时查询品名
+     */
     async selectProduct(value) {
       const res = await this.$api.selectProductNames({productTypeCode: value});
       switch (res.code) {
@@ -202,10 +210,13 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      this.editObj = {...obj};
-      console.log(this.editObj);
+      this.editObj = {...obj}; // 将此条数据带到弹窗编辑中
       this.SET_MODAL_VISIBLE(true);
     },
+    /**
+     * @author: xh
+     * @description: 禁用或者激活
+     */
     forbiddenOrActiveItem(obj) {
       let that = this;
       const { id, goodsStatusCode, goodCode, productName } = obj;
@@ -229,6 +240,10 @@ export default {
         }
       });
     },
+    /**
+     * @author: xh
+     * @description: 弹窗确定回调事件
+     */
     async modalConfirm(obj) {
       const serve = this.isEdit ? "updateGoods" : "addGoods";
       const response = await this.$api[serve]({ ...obj });
@@ -245,7 +260,7 @@ export default {
     }
   },
   created() {
-    this.setYcData();
+    this.setYcData(); // 获取字典项
     this.getList();
   }
 };
