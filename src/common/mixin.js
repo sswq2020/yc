@@ -86,7 +86,7 @@ export const dictMixin = {
         async _getValidList() {
             let that = this
             const res = await api.getValidList({
-                entryCode: _DICT_SERVE_.join(),
+                entryCodes: _DICT_SERVE_.join(),
                 tenantId: 'hlyc'
             })
             switch (res.code) {
