@@ -154,7 +154,7 @@
           <div class="head">仓库信息</div>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="交易仓库">
+              <el-form-item label="交易仓库" prop="deliveryStoreId">
                 <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
                   <el-option
                     v-for="(item,index) in deliveryStoreList"
@@ -262,6 +262,78 @@ export default {
       deliveryStoreList: []
     };
   },
+  computed:{
+    productName(){
+      const index = this.productNameList.findIndex((item) => {
+        return item.value = this.form.productNameId;
+      })
+      if(index > -1) {
+        return this.productNameList[index].label
+      } else {
+        return null
+      }
+    },
+    materialName(){
+      const index = this.materialList.findIndex((item) => {
+        return item.value = this.form.materialId;
+      })
+      if(index > -1) {
+        return this.materialList[index].label
+      } else {
+        return null
+      }
+    },
+    specificationsName(){
+      const index = this.specificationsList.findIndex((item) => {
+        return item.value = this.form.specificationsId;
+      })
+      if(index > -1) {
+        return this.specificationsList[index].label
+      } else {
+        return null
+      }
+    },
+    originPlaceName(){
+      const index = this.originPlaceList.findIndex((item) => {
+        return item.value = this.form.originPlaceId;
+      })
+      if(index > -1) {
+        return this.originPlaceList[index].label
+      } else {
+        return null
+      }
+    },
+    cargoName(){
+      const index = this.cargoList.findIndex((item) => {
+        return item.value = this.form.cargoId;
+      })
+      if(index > -1) {
+        return this.cargoList[index].label
+      } else {
+        return null
+      }
+    },
+    deliveryStore(){
+      const index = this.deliveryStoreList.findIndex((item) => {
+        return item.value = this.form.deliveryStoreId;
+      })
+      if(index > -1) {
+        return this.deliveryStoreList[index].label
+      } else {
+        return null
+      }
+    },
+    pilePosition(){
+      const index = this.pilePositionList.findIndex((item) => {
+        return item.value = this.form.pilePositionId;
+      })
+      if(index > -1) {
+        return this.pilePositionList[index].label
+      } else {
+        return null
+      }
+    },
+  },
   methods: {
     back() {
       this.$router.push({
@@ -282,9 +354,22 @@ export default {
           break;
       }
     },
+    _filter(){
+      this.form = Object.assign({},
+      this.form,
+       {productName:this.productName},
+       {materialName:this.materialName},
+       {specificationsName:this.specificationsName},
+       {originPlaceName:this.originPlaceName},
+       {cargoName:this.cargoName},
+       {deliveryStore:this.deliveryStore},
+       {pilePosition:this.pilePosition}
+      )
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this._filter();
           this._addStockRegister_();
         } else {
           return false;
@@ -375,7 +460,7 @@ export default {
             this_.getMaterials(newV);
          }
       },
-      immediate: true,
+      // immediate: true,
      },
     'form.materialId':{
       handler(newV,oldV) {
@@ -386,7 +471,7 @@ export default {
             this_.getSpecs(this.form.productNameId,newV);
          }
       },
-      immediate: true,
+      // immediate: true,
      },
     'form.specificationsId':{
       handler(newV,oldV) {
@@ -397,7 +482,7 @@ export default {
             this_.getOriginPlaces(this.form.productNameId,this.form.materialId,newV);
          }
       },
-      immediate: true,
+      // immediate: true,
      },
   }   
 };
