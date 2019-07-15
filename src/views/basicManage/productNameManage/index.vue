@@ -67,7 +67,6 @@
     <ProductNameFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
-      :productTypeCodeData="productTypeCodeData"
       :loading="isEditLoading"
       :confirmCb="modalConfirm"
     />

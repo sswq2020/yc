@@ -3,7 +3,7 @@
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
         <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'">
-          <el-option v-for="optionItem in Object.keys(item.optionData)" :key="optionItem" :label="item.optionData[optionItem]" :value="optionItem"></el-option>
+          <el-option v-for="optionItem in Object.keys(productTypeCodeData)" :key="optionItem" :label="productTypeCodeData[optionItem]" :value="optionItem"></el-option>
         </el-select>
         <el-input v-model="form[item.prop]" maxlength="20"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
       </el-form-item>
@@ -41,10 +41,6 @@ export default {
       type: Object,
       default: () => {}
     },
-    productTypeCodeData: {
-      type: Object,
-      default: () => {}
-    }
     
   },
   data() {
@@ -55,7 +51,6 @@ export default {
           label: '大类',
           prop: 'productTypeCode',
           type: 'select',
-          optionData: {}
         },
         {
           label: '品名代码',
@@ -77,6 +72,7 @@ export default {
   },
   computed: {
     ...mapState('modal', ['visible']),
+    ...mapState('app', ['productTypeCodeData']),
     title() {
       return this.isEdit ? "编辑品名" : "新增品名";
     }
@@ -106,9 +102,6 @@ export default {
         this.$refs.ruleForm.clearValidate();
       }
     },
-    productTypeCodeList(newV, oldV) {
-      this.formItem[0].optionData = newV;
-    }
   }
 };
 </script>
