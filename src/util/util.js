@@ -129,11 +129,12 @@ export const deleteProps = (obj, ...keys) => {
 /** 
  * @description 处理后端奇葩的时间字符串
  * @param {String} time 时间字符串
+ * @param {Number} num 
 */
 
-export const normalTime = (time) => {
+export const normalTime = (time,num=-2) => {
     if(!time) {
         return ""
     }
-    return time.slice(0,-11);
+    return time.slice(0,num);
 }
