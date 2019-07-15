@@ -15,8 +15,8 @@
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="入库日期" prop="incomingTime">
-              <el-input :value="form.incomingTime" :disabled="disabled"></el-input>
+            <el-form-item label="入库日期" prop="incomingTimeStr">
+              <el-input :value="form.incomingTimeStr" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
@@ -171,6 +171,7 @@ import hlBreadcrumb from "@/components/hl-breadcrumb";
 const defaultForm = {
   incomingId: "",
   incomingTime: "",
+  incomingTimeStr:"",
   cargoName: "",
   deliveryStore: "",
   pilePosition: "",
