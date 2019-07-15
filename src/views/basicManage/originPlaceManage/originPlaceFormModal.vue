@@ -18,8 +18,8 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  originPlaceName: '',
-  originPlaceRemark: '',
+  originPlaceName: '', // 产地名称
+  originPlaceRemark: '', //  产地备注
 }
 export default {
   name: "OriginPlaceFormModal",

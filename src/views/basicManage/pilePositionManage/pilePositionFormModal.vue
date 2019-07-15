@@ -18,11 +18,11 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  storeId: '',
-  deliveryStore: '',
-  reservoirArea: '',
-  cargoArea: '',
-  positionName: '',
+  storeId: '', // 仓库
+  deliveryStore: '', // 仓库名称
+  reservoirArea: '', // 库区
+  cargoArea: '', // 货区
+  positionName: '', // 仓位名称
 }
 export default {
   name: "pilePositionManage",
@@ -89,6 +89,10 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    /**
+     * @author: xh
+     * @description: 根据选择的仓库id设置对应的仓库名称
+     */
     handleChange(val) {
       this.form.deliveryStore = this.dropDownData.deliveryStoreMap[val];
     },

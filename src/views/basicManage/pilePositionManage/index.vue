@@ -90,10 +90,10 @@ import PilePositionFormModal from "./pilePositionFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  cargoArea: '',
-  positionName: '',
-  reservoirArea: '',
-  storeId: '',
+  cargoArea: '', // 货区
+  positionName: '', // 仓位名称
+  reservoirArea: '', // 库区
+  storeId: '', // 仓库
 };
 export default {
   name: "pilePositionManage",
@@ -104,9 +104,9 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "区桩位管理"],
+      breadTitle: ["基础信息", "区桩位管理"], // 面包屑title
       isListDataLoading: false,
-      tableHeader: [
+      tableHeader: [ // 表头
         {
           prop: "deliveryStore",
           label: "仓库",
@@ -138,13 +138,13 @@ export default {
           width: 180
         },
       ],
-      listData: {
+      listData: { // 列表数据
         paginator: {
           totalCount: 0,
         },
         list: []
       },
-      listParams: {
+      listParams: { // 列表请求参数
         ...defaultListParams
       },
       isEdit: false,
@@ -159,6 +159,10 @@ export default {
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     ...mapActions('modal', ['getDropDownData']),
+    /**
+     * @author: xh
+     * @description: 获取区桩位管理列表
+     */
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getPilePositionsList(this.listParams);
@@ -198,6 +202,10 @@ export default {
       this.editObj = obj;
       this.SET_MODAL_VISIBLE(true);
     },
+     /**
+     * @author: xh
+     * @description: 禁用或者激活
+     */
     forbiddenOrActiveItem(obj) {
       let that = this;
       const { id, pilePositionStatusCode, reservoirArea, cargoArea, positionName } = obj;
@@ -221,6 +229,10 @@ export default {
         }
       });
     },
+    /**
+     * @author: xh
+     * @description: 弹窗确定回调事件
+     */
     async modalConfirm(obj) {
       const serve = this.isEdit ? "updatePilePositions" : "addPilePositions";
       const response = await this.$api[serve]({ ...obj });
@@ -237,7 +249,7 @@ export default {
     }
   },
   created() {
-    this.getDropDownData();
+    this.getDropDownData(); // 获取下拉数据
     this.getList();
   }
 };

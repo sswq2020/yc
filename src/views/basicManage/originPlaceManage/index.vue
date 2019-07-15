@@ -70,7 +70,7 @@ import OriginPlaceFormModal from "./originPlaceFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  originPlaceName: '',
+  originPlaceName: '', // 产地名称
 };
 export default {
   name: "originPlaceManage",
@@ -81,9 +81,9 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "产地管理"],
+      breadTitle: ["基础信息", "产地管理"], // 面包屑title
       isListDataLoading: false,
-      tableHeader: [
+      tableHeader: [ // 表头
         {
           prop: "originPlaceName",
           label: "产地名称",
@@ -105,13 +105,13 @@ export default {
           width: 180
         },
       ],
-      listData: {
+      listData: { // 列表数据
         paginator: {
           totalCount: 0,
         },
         list: []
       },
-      listParams: {
+      listParams: { // 列表请求参数
         ...defaultListParams
       },
       isEdit: false,
@@ -121,6 +121,10 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    /**
+     * @author: xh
+     * @description: 获取产地管理列表
+     */
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getOriginPlaceList(this.listParams);
@@ -165,6 +169,10 @@ export default {
       };
       this.SET_MODAL_VISIBLE(true);
     },
+    /**
+     * @author: xh
+     * @description: 禁用或者激活
+     */
     forbiddenOrActiveItem(obj) {
       let that = this;
       const { id, originPlaceStatusCode, originPlaceName } = obj;
@@ -188,6 +196,10 @@ export default {
         }
       });
     },
+    /**
+     * @author: xh
+     * @description: 弹窗确定回调事件
+     */
     async modalConfirm(obj) {
       const serve = this.isEdit ? "updateOriginPlace" : "addOriginPlace";
       const response = await this.$api[serve]({ ...obj });

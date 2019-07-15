@@ -70,7 +70,7 @@ import MaterialFormModal from "./materialFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  materialName: '',
+  materialName: '', // 材质名称
 };
 export default {
   name: "materialManage",
@@ -81,9 +81,9 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "材质管理"],
+      breadTitle: ["基础信息", "材质管理"], // 面包屑title
       isListDataLoading: false,
-      tableHeader: [
+      tableHeader: [ // 表头
         {
           prop: "materialName",
           label: "材质名称",
@@ -105,13 +105,13 @@ export default {
           width: 180
         },
       ],
-      listData: {
+      listData: { // 列表数据
         paginator: {
           totalCount: 0,
         },
         list: []
       },
-      listParams: {
+      listParams: { // 列表请求参数
         ...defaultListParams
       },
       isEdit: false,
@@ -121,6 +121,10 @@ export default {
   },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    /**
+     * @author xh
+     * @description 获取材质管理列表
+     * */
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getMaterialsList(this.listParams);
@@ -165,6 +169,10 @@ export default {
       };
       this.SET_MODAL_VISIBLE(true);
     },
+    /**
+     * @author: xh
+     * @description: 禁用或者激活
+     */
     forbiddenOrActiveItem(obj) {
       let that = this;
       const { id, materialStatusCode, materialName } = obj;
@@ -188,6 +196,10 @@ export default {
         }
       });
     },
+    /**
+     * @author: xh
+     * @description: 弹窗确定回调事件
+     */
     async modalConfirm(obj) {
       const serve = this.isEdit ? "updateMaterial" : "addMaterial";
       const response = await this.$api[serve]({ ...obj });

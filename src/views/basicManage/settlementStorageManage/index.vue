@@ -89,11 +89,11 @@ import SettlementFormModal from "./settlementFormModal.vue";
 const defaultListParams = {
   page: 1,
   pageSize: 20,
-  deliveryStore: '',
-  storeAddressProvince: '',
-  storeAddressCity: '',
-  storeAddressCounty: '',
-  storeType: ''
+  deliveryStore: '', // 交割库名称
+  storeAddressProvince: '', // 省
+  storeAddressCity: '', // 市
+  storeAddressCounty: '', // 区
+  storeType: '' // 交割库类型
 };
 export default {
   name: "settlementStorageManage",
@@ -105,9 +105,9 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "交割库管理"],
+      breadTitle: ["基础信息", "交割库管理"], // 面包屑title
       isListDataLoading: false,
-      tableHeader: [
+      tableHeader: [ // 表头
         {
           prop: "deliveryStore",
           label: "交割库名称",
@@ -149,20 +149,19 @@ export default {
           width: 180
         },
       ],
-      listData: {
+      listData: { // 列表数据
         paginator: {
           totalCount: 0,
         },
         list: []
       },
-      listParams: {
+      listParams: { // 列表请求参数
         ...defaultListParams
       },
       isEdit: false,
       isEditLoading: false,
       editObj: {},
-      typeList: [],
-      address: []
+      address: [], // 地址列表 - ['省', '市', '区']
     }
   },
   computed: {
@@ -171,6 +170,10 @@ export default {
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
     ...mapActions('app', ['setYcData']),
+    /**
+     * @author: xh
+     * @description: 获取交割库管理列表
+     */
     async getList() {
       this.isListDataLoading = true;
       const res = await this.$api.getDeliveryStoreList(this.listParams);
@@ -226,9 +229,12 @@ export default {
         address: [obj.storeAddressProvince, obj.storeAddressCity, obj.storeAddressCounty],
         storeCapacity: parseInt(obj.storeCapacity, 10)
       };
-      console.log(obj);
       this.SET_MODAL_VISIBLE(true);
     },
+    /**
+     * @author: xh
+     * @description: 禁用或者激活
+     */
     forbiddenOrActiveItem(obj) {
       let that = this;
       const { id, state, deliveryStore } = obj;
@@ -252,6 +258,10 @@ export default {
         }
       });
     },
+    /**
+     * @author: xh
+     * @description: 弹窗确定回调事件
+     */
     async modalConfirm(obj) {
       const serve = this.isEdit ? "updateDeliveryStore" : "addDeliveryStore";
       const response = await this.$api[serve]({ ...obj });
@@ -268,7 +278,7 @@ export default {
     }
   },
   created() {
-    this.setYcData();
+    this.setYcData(); // 获取字典项数据
     this.getList();
   }
 };

@@ -43,7 +43,7 @@ const store = {
           YcDeliveryStoreType: 'SET_YC_DELIVERY_STORE'
         }; 
         const res = await api.getValidList({
-          entryCode: Object.keys(dictionaryData).join(),
+          entryCodes: Object.keys(dictionaryData).join(),
           tenantId: 'hlyc'
         });
         switch (res.code) {

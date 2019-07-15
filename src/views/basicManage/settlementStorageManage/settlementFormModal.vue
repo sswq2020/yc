@@ -50,19 +50,23 @@ import AreaCascader from "@/components/areaCascader";
 import { phoneValidation } from '@/util/reg.js';
 import Dict from "@/util/dict.js";
 const defaultForm = {
-  deliveryStore: '',
-  address: [],
-  storeAddressProvince: '',
-  storeAddressCity: '',
-  storeAddressCounty: '',
-  storeAddressStreet: '',
-  storeCapacity: 0,
-  storeType: '',
-  leader: '',
-  contactTel: '',
-  storeAdminList: [],
+  deliveryStore: '', // 交割库名称
+  address: [], // 省市区列表
+  storeAddressProvince: '', // 省
+  storeAddressCity: '', // 市
+  storeAddressCounty: '', // 区
+  storeAddressStreet: '', // 具体地址
+  storeCapacity: 0, // 交割库容量
+  storeType: '', // 交割库类型
+  leader: '', // 负责人
+  contactTel: '', // 联系电话
+  storeAdminList: [], // 仓管人员
 }
 
+/**
+ * @author: xh
+ * @description: 联系电话验证
+ */
 const checkPhone = (rule, value, callback) => {
   if(!value) {
     callback(new Error('请输入负责人联系电话'));

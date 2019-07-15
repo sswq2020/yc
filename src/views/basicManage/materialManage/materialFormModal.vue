@@ -18,8 +18,8 @@
 <script>
 import { mapState, mapMutations  } from 'vuex';
 const defaultForm = {
-  materialName: '',
-  materialRemark: '',
+  materialName: '', // 材质名称
+  materialRemark: '', // 材质备注
 }
 export default {
   name: "materialFormModal",
