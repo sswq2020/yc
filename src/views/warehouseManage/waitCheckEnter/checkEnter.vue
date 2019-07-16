@@ -76,7 +76,7 @@
               :prop="'needShowData.' + index + '.num'"
               :rules="validatenum(item.supposedNum)"
               >
-                <el-input v-model="item.num"></el-input>
+                <el-input v-model.number="item.num"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">

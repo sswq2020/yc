@@ -448,7 +448,7 @@ export default {
           break;
       }
     },
-    /** 下拉货主和交易仓库*/
+    /** 下拉货主*/
     async _getAllBaseInfo() {
       let _this = this;
       const response = await this.$api.getAllBaseInfo();
@@ -456,7 +456,7 @@ export default {
         case Dict.SUCCESS:
           Object.keys(response.data).forEach(item => {
             if (item === "cargoMap") {
-              _this[item.slice(0, -3) + "List"] = _toArray_(
+              _this.cargoList = _toArray_(
                 response.data[item]
               );
             }
