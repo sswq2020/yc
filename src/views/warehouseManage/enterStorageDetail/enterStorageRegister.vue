@@ -154,7 +154,7 @@
           <div class="head">仓库信息</div>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="交易仓库">
+              <el-form-item label="交易仓库" prop="deliveryStoreId">
                 <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
                   <el-option
                     v-for="(item,index) in deliveryStoreList"
@@ -193,7 +193,8 @@
 <script>
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
-import { baseMixin, dictMixin } from "@/common/mixin.js";
+import { dictMixin } from "@/common/mixin.js";
+import { _toArray_ } from "@/common/util";
 const defualtFormParams = {
   registerTime: new Date(), // 登记日期
   cargoId: null, // 货主id
@@ -242,7 +243,7 @@ const RULES = {
 
 export default {
   name: "enterStorageRegister",
-  mixins: [baseMixin, dictMixin],
+  mixins: [dictMixin],
   components: {
     hlBreadcrumb
   },
@@ -251,8 +252,87 @@ export default {
       loading: false,
       breadTitle: ["仓储管理", "库存表", "入库登记"],
       form: { ...defualtFormParams },
-      rules: RULES
+      rules: RULES,
+      productNameList: [],
+      materialList: [],
+      specificationsList: [],
+      originPlaceList: [],
+      pilePositionList: [],
+      cargoList: [],
+      deliveryStoreList: []
     };
+  },
+  computed:{
+    productName(){
+      const index = this.productNameList.findIndex((item) => {
+        return item.value = this.form.productNameId;
+      })
+      if(index > -1) {
+        return this.productNameList[index].label
+      } else {
+        return null
+      }
+    },
+    materialName(){
+      const index = this.materialList.findIndex((item) => {
+        return item.value = this.form.materialId;
+      })
+      if(index > -1) {
+        return this.materialList[index].label
+      } else {
+        return null
+      }
+    },
+    specificationsName(){
+      const index = this.specificationsList.findIndex((item) => {
+        return item.value = this.form.specificationsId;
+      })
+      if(index > -1) {
+        return this.specificationsList[index].label
+      } else {
+        return null
+      }
+    },
+    originPlaceName(){
+      const index = this.originPlaceList.findIndex((item) => {
+        return item.value = this.form.originPlaceId;
+      })
+      if(index > -1) {
+        return this.originPlaceList[index].label
+      } else {
+        return null
+      }
+    },
+    cargoName(){
+      const index = this.cargoList.findIndex((item) => {
+        return item.value = this.form.cargoId;
+      })
+      if(index > -1) {
+        return this.cargoList[index].label
+      } else {
+        return null
+      }
+    },
+    deliveryStore(){
+      const index = this.deliveryStoreList.findIndex((item) => {
+        return item.value = this.form.deliveryStoreId;
+      })
+      if(index > -1) {
+        return this.deliveryStoreList[index].label
+      } else {
+        return null
+      }
+    },
+    pilePosition(){
+      const index = this.pilePositionList.findIndex((item) => {
+        return item.value = this.form.pilePositionId;
+      })
+      if(index > -1) {
+        return this.pilePositionList[index].label
+      } else {
+        return null
+      }
+    },
   },
   methods: {
     back() {
@@ -260,7 +340,7 @@ export default {
         path: "/web/yc/storage/stockInventory/page"
       });
     },
-    async _addStockRegister_(){
+    async _addStockRegister_() {
       this.loading = true;
       const res = await this.$api.addStockRegister(this.form);
       this.loading = false;
@@ -272,18 +352,139 @@ export default {
         default:
           this.$messageError(res.mesg);
           break;
-      }      
+      }
+    },
+    _filter(){
+      this.form = Object.assign({},
+      this.form,
+       {productName:this.productName},
+       {materialName:this.materialName},
+       {specificationsName:this.specificationsName},
+       {originPlaceName:this.originPlaceName},
+       {cargoName:this.cargoName},
+       {deliveryStore:this.deliveryStore},
+       {pilePosition:this.pilePosition}
+      )
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-           this._addStockRegister_();
+          this._filter();
+          this._addStockRegister_();
         } else {
           return false;
         }
       });
+    },
+    /** 下拉品名*/
+    async getSelectProducts() {
+      const res = await this.$api.getProductNameData();
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.productNameList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    /** 下拉材质*/
+    async getMaterials(productNameId) {
+      const res = await this.$api.getMaterialsData({productNameId});
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.materialList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    /** 下拉规格*/
+    async getSpecs(productNameId,materialId) {
+      const res = await this.$api.getSpecsData({productNameId,materialId});
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.specificationsList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    /** 下拉产地*/
+    async getOriginPlaces(productNameId,materialId,specificationsId) {
+      const res = await this.$api.getOriginPlacesData({productNameId,materialId,specificationsId});
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.originPlaceList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    async _getAllBaseInfo() {
+      let _this = this;
+      const response = await this.$api.getAllBaseInfo();
+      switch (response.code) {
+        case Dict.SUCCESS:
+          Object.keys(response.data).forEach(item => {
+            if (
+              item === "cargoMap" ||
+              item === "deliveryStoreMap" ||
+              item === "pilePositionMap"
+            ) {
+              _this[item.slice(0, -3) + "List"] = _toArray_(
+                response.data[item]
+              );
+            }
+          });
+          break;
+        default:
+          break;
+      }
     }
-  }
+  },
+  created() {
+    this.getSelectProducts();
+    this._getAllBaseInfo();
+  },
+  watch:{
+    'form.productNameId':{
+      handler(newV,oldV) {
+        let this_ = this;
+         if(newV !== oldV) {
+            this_.materialList = [];
+            this_.form.materialId = null;
+            this_.getMaterials(newV);
+         }
+      },
+      // immediate: true,
+     },
+    'form.materialId':{
+      handler(newV,oldV) {
+        let this_ = this;
+         if(newV !== oldV) {
+            this_.specificationsList = [];
+            this_.form.specificationsId = null;
+            this_.getSpecs(this.form.productNameId,newV);
+         }
+      },
+      // immediate: true,
+     },
+    'form.specificationsId':{
+      handler(newV,oldV) {
+        let this_ = this;
+         if(newV !== oldV) {
+            this_.originPlaceList =  [];
+            this_.form.originPlaceId = null;
+            this_.getOriginPlaces(this.form.productNameId,this.form.materialId,newV);
+         }
+      },
+      // immediate: true,
+     },
+  }   
 };
 </script>
 >

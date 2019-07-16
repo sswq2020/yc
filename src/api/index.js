@@ -421,6 +421,27 @@ export default {
         return fetch(storageURL + '/web/yc/base/productName/select', '', 'get')
     },
     /**
+     * @author sswq
+     * @description 材质下拉列表
+     * */
+    getMaterialsData(params) {
+        return fetch(storageURL + '/web/yc/base/goods/selectMaterials', params, 'get')
+    },
+    /**
+     * @author sswq
+     * @description 规格下拉列表
+     * */
+    getSpecsData(params) {
+        return fetch(storageURL + '/web/yc/base/goods/selectSpecs', params, 'get')
+    },
+    /**
+     * @author sswq
+     * @description 产地下拉列表
+     * */
+    getOriginPlacesData(params) {
+        return fetch(storageURL + '/web/yc/base/goods/selectOriginPlaces', params, 'get')
+    },
+    /**
      * @author xh
      * @description 交割库分页查询
      * */
