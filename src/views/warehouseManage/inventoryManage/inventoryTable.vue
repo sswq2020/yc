@@ -285,7 +285,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "numUnit",
+    prop: "numUnitText",
     label: "数量单位",
     width: "180"
   },
@@ -295,7 +295,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "weightUnit",
+    prop: "weightUnitText",
     label: "重量单位",
     width: "180"
   },
@@ -329,9 +329,12 @@ const rowAdapter = (list) => {
         list = list.map((row) => {
             return row = { 
               ...row,
-              measuringText:row.measuringTypeEnum.text,
-              incomingTypeText:row.incomingTypeEnum.text,
-              incomingTimeStr:normalTime(row.incomingTime)}
+              numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
+              weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
+              measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
+              incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
+              incomingTimeStr:normalTime(row.incomingTime)
+            }
         })
     }
     return list
