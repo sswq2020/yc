@@ -205,7 +205,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "numUnit",
+    prop: "numUnitText",
     label: "数量单位",
     width: "180"
   },
@@ -215,16 +215,35 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "weightUnit",
+    prop: "weightUnitText",
     label: "重量单位",
     width: "180"
   },
   {
-    prop: "measuring",
+    prop: "measuringText",
     label: "计量方式",
     width: "180"
   }
 ];
+
+const rowAdapter = (list) => {
+    if (!list) {
+        return []
+    }
+    if (list.length > 0) {
+        list = list.map((row) => {
+            return row = { 
+              ...row,
+              numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
+              weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
+              measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-"
+            }
+        })
+    }
+    return list
+}
+
+
 export default {
   name: "waitCheckEnter",
   mixins: [baseMixin],
@@ -297,7 +316,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData = res.data;
+          this.listData ={...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
           this.listData = { ...defaultListData };
