@@ -468,7 +468,10 @@ export default {
          if(newV !== oldV) {
             this_.specificationsList = [];
             this_.form.specificationsId = null;
-            this_.getSpecs(this.form.productNameId,newV);
+            if(newV){
+               this_.getSpecs(this.form.productNameId,newV);
+            }
+
          }
       },
       // immediate: true,
@@ -479,7 +482,10 @@ export default {
          if(newV !== oldV) {
             this_.originPlaceList =  [];
             this_.form.originPlaceId = null;
-            this_.getOriginPlaces(this.form.productNameId,this.form.materialId,newV);
+            if(newV) {
+               this_.getOriginPlaces(this.form.productNameId,this.form.materialId,newV);
+            }
+            
          }
       },
       // immediate: true,
