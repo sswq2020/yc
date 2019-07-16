@@ -424,6 +424,19 @@ export default {
           break;
       }
     },
+    /** 下拉区桩位*/
+    async getPilePositions(deliveryStoreId) {
+      const res = await this.$api.getPilePositionsData(deliveryStoreId);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.pilePositionList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    /** 下拉货主和交易仓库*/
     async _getAllBaseInfo() {
       let _this = this;
       const response = await this.$api.getAllBaseInfo();
@@ -432,8 +445,7 @@ export default {
           Object.keys(response.data).forEach(item => {
             if (
               item === "cargoMap" ||
-              item === "deliveryStoreMap" ||
-              item === "pilePositionMap"
+              item === "deliveryStoreMap"
             ) {
               _this[item.slice(0, -3) + "List"] = _toArray_(
                 response.data[item]
@@ -453,43 +465,46 @@ export default {
   watch:{
     'form.productNameId':{
       handler(newV,oldV) {
-        let this_ = this;
          if(newV !== oldV) {
-            this_.materialList = [];
-            this_.form.materialId = null;
-            this_.getMaterials(newV);
+            this.materialList = [];
+            this.form.materialId = null;
+            this.getMaterials(newV);
          }
       },
-      // immediate: true,
      },
     'form.materialId':{
       handler(newV,oldV) {
-        let this_ = this;
          if(newV !== oldV) {
-            this_.specificationsList = [];
-            this_.form.specificationsId = null;
+            this.specificationsList = [];
+            this.form.specificationsId = null;
             if(newV){
-               this_.getSpecs(this.form.productNameId,newV);
+               this.getSpecs(this.form.productNameId,newV);
             }
-
          }
-      },
-      // immediate: true,
+      }
      },
     'form.specificationsId':{
       handler(newV,oldV) {
-        let this_ = this;
          if(newV !== oldV) {
-            this_.originPlaceList =  [];
-            this_.form.originPlaceId = null;
+            this.originPlaceList =  [];
+            this.form.originPlaceId = null;
             if(newV) {
-               this_.getOriginPlaces(this.form.productNameId,this.form.materialId,newV);
-            }
-            
+               this.getOriginPlaces(this.form.productNameId,this.form.materialId,newV);
+            }            
          }
-      },
-      // immediate: true,
+      }
      },
+    'form.deliveryStoreId':{
+      handler(newV,oldV) {
+         if(newV !== oldV) {
+            this.pilePositionList =  [];
+            this.form.pilePositionId = null;
+            this.getPilePositions(newV);           
+         }
+      }
+    }
+
+
   }   
 };
 </script>

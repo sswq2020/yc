@@ -422,24 +422,31 @@ export default {
     },
     /**
      * @author sswq
-     * @description 材质下拉列表
+     * @description 材质下拉列表(根据品名id)
      * */
     getMaterialsData(params) {
         return fetch(storageURL + '/web/yc/base/goods/selectMaterials', params, 'get')
     },
     /**
      * @author sswq
-     * @description 规格下拉列表
+     * @description 规格下拉列表(根据品名id,材质id)
      * */
     getSpecsData(params) {
         return fetch(storageURL + '/web/yc/base/goods/selectSpecs', params, 'get')
     },
     /**
      * @author sswq
-     * @description 产地下拉列表
+     * @description 产地下拉列表(根据品名id,材质id,规格id)
      * */
     getOriginPlacesData(params) {
         return fetch(storageURL + '/web/yc/base/goods/selectOriginPlaces', params, 'get')
+    },
+    /**
+     * @author sswq
+     * @description 区装位下拉列表(根据仓库id)
+     * */
+    getPilePositionsData(stockId) {
+        return fetch(storageURL + '/web/yc/base/pilePosition/stockId/select', {stockId}, 'get')
     },
     /**
      * @author xh
