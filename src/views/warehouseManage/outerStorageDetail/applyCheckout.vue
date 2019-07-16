@@ -234,7 +234,16 @@ export default {
           pickUpPassword
       } = this.form;
       const params = this.form.needShowData.map((item) => {
-        return Object.assign({},{ consignee,pickUpPassword},item
+        return Object.assign(
+        {},
+        {consignee,pickUpPassword},
+        item,
+        {id:null},
+        {stockInventoryId:item.id},
+        {incomingTypeEnum:null},
+        {weightUnitTypeEnum:null},
+        {numUnitTypeEnum:null},
+        {measuringTypeEnum:null},
         );
       });
       return params;
