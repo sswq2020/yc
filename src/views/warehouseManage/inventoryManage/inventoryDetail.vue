@@ -83,13 +83,13 @@
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="数量单位" prop="numUnit">
-              <el-input :value="form.numUnit" :disabled="disabled"></el-input>
+            <el-form-item label="数量单位" prop="numUnitText">
+              <el-input :value="form.numUnitText" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="重量单位" prop="weightUnit">
-              <el-input :value="form.weightUnit" :disabled="disabled"></el-input>
+            <el-form-item label="重量单位" prop="weightUnitText">
+              <el-input :value="form.weightUnitText" :disabled="disabled"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -183,8 +183,8 @@ const defaultForm = {
   totalNumInventory: "",
   totalWeightInventory: "",
   measuringText:"",
-  numUnit:"",
-  weightUnit:""
+  numUnitText:"",
+  weightUnitText:""
 };
 const defaultListParams = {
   pageSize: 5,
@@ -204,7 +204,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "numUnit",
+    prop: "numUnitText",
     label: "数量单位",
     width: "180"
   },
@@ -214,7 +214,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "weightUnit",
+    prop: "weightUnitText",
     label: "重量单位",
     width: "180"
   },
@@ -241,7 +241,12 @@ const rowAdapter = (list) => {
     }
     if (list.length > 0) {
         list = list.map((row) => {
-            return row = { ...row, stateText: Dict.INVENTORY_STATUS[row.state] }
+            return row = { 
+              ...row,
+             stateText: Dict.INVENTORY_STATUS[row.state],
+             numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
+             weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-", 
+             }
         })
     }
     return list
