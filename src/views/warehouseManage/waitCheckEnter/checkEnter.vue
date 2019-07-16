@@ -51,20 +51,20 @@
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="数量单位" prop="numUnit">
-                <el-input :value="item.numUnit" disabled="disabled"></el-input>
+              <el-form-item label="数量单位" prop="numUnitText">
+                <el-input :value="item.numUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="重量单位" prop="weightUnit">
-                <el-input :value="item.weightUnit" disabled="disabled"></el-input>
+              <el-form-item label="重量单位" prop="weightUnitText">
+                <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="计量方式" prop="measuring">
-                <el-input :value="item.measuring" disabled="disabled"></el-input>
+              <el-form-item label="计量方式" prop="measuringText">
+                <el-input :value="item.measuringText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -76,7 +76,7 @@
               :prop="'needShowData.' + index + '.num'"
               :rules="validatenum(item.supposedNum)"
               >
-                <el-input v-model="item.num"></el-input>
+                <el-input v-model.number="item.num"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
@@ -182,9 +182,21 @@ export default {
         }
       ];
     },
-   async _examine_(){
+  _serialize_() {
+      const params = this.form.needShowData.map((item) => {
+        return Object.assign(
+        {},
+        item,
+        {weightUnitTypeEnum:null},
+        {numUnitTypeEnum:null},
+        {measuringTypeEnum:null},
+        );
+      });
+      return params;
+    }, 
+   async _examine_(params){
       this.loading = true;
-      const res = await this.$api.examine(this.form.needShowData);
+      const res = await this.$api.examine(params);
       this.loading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -199,7 +211,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this._examine_();
+          const params = this._serialize_();
+          this._examine_(params);
         } else {
           console.log("error submit!!");
           return false;
@@ -211,7 +224,16 @@ export default {
         this.back();
       } else {
         this.form.needShowData = this.inspection.slice().map(item => {
-          return Object.assign({}, item, { num: null, weight: null });
+          return Object.assign(
+            {},
+            item,
+            { num: null, weight: null },
+            {
+              measuringText:item.measuringTypeEnum && item.measuringTypeEnum.text || "-",
+              numUnitText:item.numUnitTypeEnum && item.numUnitTypeEnum.text || "-",
+              weightUnitText:item.weightUnitTypeEnum && item.weightUnitTypeEnum.text || "-",
+            }
+            );
         });
       }
     }

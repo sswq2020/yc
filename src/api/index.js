@@ -443,10 +443,17 @@ export default {
     },
     /**
      * @author sswq
+     * @description 仓库下拉列表(专门为入库登记设计)
+     * */
+    getdeliveryStoresData() {
+        return fetch(storageURL + '/web/yc/base/pilePosition/selectStockIds', '', 'get')
+    },
+    /**
+     * @author sswq
      * @description 区装位下拉列表(根据仓库id)
      * */
     getPilePositionsData(stockId) {
-        return fetch(storageURL + '/web/yc/base/pilePosition/stockId/select', {stockId}, 'get')
+        return fetch(storageURL + '/web/yc/base/pilePosition/select', {stockId}, 'get')
     },
     /**
      * @author xh

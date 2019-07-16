@@ -109,13 +109,13 @@
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="数量单位" prop="numUnit">
-                <el-input :value="item.numUnit" disabled="disabled"></el-input>
+              <el-form-item label="数量单位" prop="numUnitText">
+                <el-input :value="item.numUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="重量单位" prop="weightUnit">
-                <el-input :value="item.weightUnit" disabled="disabled"></el-input>
+              <el-form-item label="重量单位" prop="weightUnitText">
+                <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -326,7 +326,9 @@ export default {
           }
           res.data = res.data.slice().map(item => {
             return Object.assign({}, item, {
-              measuringText:item.measuringTypeEnum.text,
+              measuringText:item.measuringTypeEnum && item.measuringTypeEnum.text || "-",
+              numUnitText:item.numUnitTypeEnum && item.numUnitTypeEnum.text || "-",
+              weightUnitText:item.weightUnitTypeEnum && item.weightUnitTypeEnum.text || "-",
               transferNums: null,
               transferWeights: null
             });

@@ -436,18 +436,27 @@ export default {
           break;
       }
     },
-    /** 下拉货主和交易仓库*/
+    /**下拉仓库*/
+    async getdeliveryStores() {
+      const res = await this.$api.getdeliveryStoresData();
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.deliveryStoreList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    /** 下拉货主*/
     async _getAllBaseInfo() {
       let _this = this;
       const response = await this.$api.getAllBaseInfo();
       switch (response.code) {
         case Dict.SUCCESS:
           Object.keys(response.data).forEach(item => {
-            if (
-              item === "cargoMap" ||
-              item === "deliveryStoreMap"
-            ) {
-              _this[item.slice(0, -3) + "List"] = _toArray_(
+            if (item === "cargoMap") {
+              _this.cargoList = _toArray_(
                 response.data[item]
               );
             }
@@ -461,6 +470,7 @@ export default {
   created() {
     this.getSelectProducts();
     this._getAllBaseInfo();
+    this.getdeliveryStores();
   },
   watch:{
     'form.productNameId':{
