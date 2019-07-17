@@ -209,18 +209,18 @@ export default {
     validateweight(weight, max = null) {
       return [
         {
-          type: "number",
           required: true,
           message: "请输入过户重量",
           trigger: "blur"
         },
+        { 
+          pattern: /^\d+(\.\d{1,3})?$/,
+          message: '正整数可以包含3位小数'
+        },        
         {
           validator(rule, value, callback) {
             if (max) {
               weight = max;
-            }
-            if(!number3) {
-              callback(new Error('正整数可以包含3位小数'))
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));
