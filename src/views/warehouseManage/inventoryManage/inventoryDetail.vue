@@ -384,7 +384,7 @@ export default {
     },
     CheckOut(item) {
       let that = this;
-      const { id } = item;
+      const { stockInventoryId } = item;
       that.$confirm(`确定要出库申请`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -393,12 +393,12 @@ export default {
         .then(async () => {
           const res = await that.$api.getTransferAvailable({
             cargoId: this.form.cargoId,
-            stockId: id
+            stockId: stockInventoryId
           });
           switch (res.code) {
             case Dict.SUCCESS:
               if (res.data) {
-                this.setCheckout([{stockId:id}]);
+                this.setCheckout([{stockId:stockInventoryId}]);
                 this.$router.push({
                   path:
                     "/web/yc/storage/stockRemovalDetail/page/applyCheckOut"
@@ -415,7 +415,7 @@ export default {
     },
     TransferOwner(item) {
       let that = this;
-      const { id } = item;
+      const { stockInventoryId } = item;
       that.$confirm(`确定要过户`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -424,12 +424,12 @@ export default {
         .then(async () => {
           const res = await that.$api.getTransferAvailable({
             cargoId: this.form.cargoId,
-            stockId: id
+            stockId: stockInventoryId
           });
           switch (res.code) {
             case Dict.SUCCESS:
               if (res.data) {
-              this.setTransferOwnership([{stockId:id}]);
+              this.setTransferOwnership([{stockId:stockInventoryId}]);
               this.$router.push({
                 path: "/web/settlement/pageList/transferOwnershipManage"
               });
