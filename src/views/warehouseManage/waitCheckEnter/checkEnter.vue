@@ -100,11 +100,11 @@
                 <el-input :value="item.pilePosition" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <!-- <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="层数" prop="piles">
                 <el-input :value="item.piles" disabled="disabled"></el-input>
               </el-form-item>
-            </el-col>
+            </el-col> -->
           </el-row>
         </div>
         <div class="bottom">
