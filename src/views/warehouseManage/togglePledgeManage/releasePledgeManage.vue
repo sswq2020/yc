@@ -111,11 +111,14 @@ export default {
     validateweight(weight, max = null) {
       return [
         {
-          type: "number",
           required: true,
           message: "请输入解押重量",
           trigger: "blur"
         },
+        { 
+          pattern: /^\d+(\.\d{1,3})?$/,
+          message: '正整数可以包含3位小数'
+        },        
         {
           validator(rule, value, callback) {
             if (max) {
