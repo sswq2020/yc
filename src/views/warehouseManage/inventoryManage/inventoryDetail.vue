@@ -198,26 +198,26 @@ const defaultListData = {
   list: []
 };
 const defaulttableHeader = [
-  {
-    prop: "totalNumInventory",
-    label: "库存数量",
-    width: "180"
-  },
-  {
-    prop: "numUnitText",
-    label: "数量单位",
-    width: "180"
-  },
-  {
-    prop: "totalWeightInventory",
-    label: "库存重量",
-    width: "180"
-  },
-  {
-    prop: "weightUnitText",
-    label: "重量单位",
-    width: "180"
-  },
+  // {
+  //   prop: "totalNumInventory",
+  //   label: "库存数量",
+  //   width: "180"
+  // },
+  // {
+  //   prop: "numUnitText",
+  //   label: "数量单位",
+  //   width: "180"
+  // },
+  // {
+  //   prop: "totalWeightInventory",
+  //   label: "库存重量",
+  //   width: "180"
+  // },
+  // {
+  //   prop: "weightUnitText",
+  //   label: "重量单位",
+  //   width: "180"
+  // },
   {
     prop: "operateNum",
     label: "操作数量",
