@@ -181,7 +181,9 @@ export default {
         const res = await this.$api.getPledgeNum(this.releasePledgeData.cargoId);
         switch (res.code) {
           case Dict.SUCCESS:
-            this.max = res.data;
+            if(res.data) {
+               this.max = Number(res.data);
+            }
             break;
           default:
             this.$messageError(res.mesg);

@@ -264,7 +264,8 @@ const rowAdapter = (list) => {
               numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
-              incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-"
+              incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
+              incomingTime:row.incomingTime || "-"
             }
         })
     }

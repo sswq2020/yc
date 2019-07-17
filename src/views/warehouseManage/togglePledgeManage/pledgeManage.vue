@@ -104,7 +104,6 @@ import _ from "lodash";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
 import { DICT_SELECT_ARR } from "@/common/util";
-import {number3} from "@/util/validate.js";
 import { bankMixin } from "@/common/mixin.js";
 const TypeDatas = DICT_SELECT_ARR(Dict.PLEDGE_BUSINESS_TYPE);
 const defualtFormParams = {
@@ -217,7 +216,9 @@ export default {
         const res = await this.$api.getAvailableNum(this.pledgeData.cargoId);
         switch (res.code) {
           case Dict.SUCCESS:
-            this.max = res.data;
+            if(res.data) {
+               this.max = Number(res.data);
+            }
             break;
           default:
             this.$messageError(res.mesg);
