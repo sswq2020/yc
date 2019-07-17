@@ -335,8 +335,8 @@ const rowAdapter = (list) => {
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
               incomingTimeStr:normalTime(row.incomingTime),
-              totalNumInventoryText:`${row.totalNumInventory}(${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"})`,
-              totalWeightInventoryText:`${row.totalWeightInventory}(${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"})`,
+              totalNumInventoryText:`${row.totalNumInventory}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              totalWeightInventoryText:`${row.totalWeightInventory}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }
         })
     }
