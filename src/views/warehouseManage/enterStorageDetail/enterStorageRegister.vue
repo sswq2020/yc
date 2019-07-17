@@ -11,7 +11,7 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="日期" prop="registerTime">
+              <el-form-item  class="form-input" label="日期" prop="registerTime">
                 <el-date-picker v-model="form.registerTime" type="date" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
@@ -111,8 +111,8 @@
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="应收数量" prop="supposedNum">
-                <el-input v-model.number="form.supposedNum"></el-input>
+              <el-form-item  class="form-input" label="应收数量" prop="supposedNum">
+                <el-input v-model.number="form.supposedNum" ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -130,7 +130,7 @@
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="应收重量" prop="supposedWeight">
+              <el-form-item  class="form-input" label="应收重量" prop="supposedWeight">
                 <el-input v-model.number="form.supposedWeight"></el-input>
               </el-form-item>
             </el-col>
@@ -520,6 +520,12 @@ export default {
       font-size: 18px;
       font-weight: 700;
     }
+  }
+  .form-input {
+    .el-input {
+      width: 215px !important;
+    }
+    
   }
 }
 </style>
