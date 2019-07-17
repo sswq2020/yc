@@ -138,6 +138,7 @@ import { mapGetters } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
 // import { judgeAuth } from "@/util/util.js";
 import _ from "lodash";
+import { normalTime } from "@/util/util.js";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
@@ -171,7 +172,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "applyRemovalTime",
+    prop: "actualRemovalTimeText",
     label: "实提日期",
     width: "180"
   },
@@ -212,35 +213,35 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "supposedRemovalNum",
+    prop: "supposedRemovalNumText",
     label: "开单数量",
     width: "180"
   },
   {
-    prop: "actualRemovalNum",
+    prop: "actualRemovalNumText",
     label: "实提数量",
     width: "180"
   },  
+  // {
+  //   prop: "numUnit",
+  //   label: "数量单位",
+  //   width: "180"
+  // },
   {
-    prop: "numUnit",
-    label: "数量单位",
-    width: "180"
-  },
-  {
-    prop: "supposedRemovalWeight",
+    prop: "supposedRemovalWeightText",
     label: "开单重量",
     width: "180"
   },
   {
-    prop: "supposedRemovalWeight",
+    prop: "actualRemovalWeightText",
     label: "实提重量",
     width: "180"
   },
-  {
-    prop: "weightUnit",
-    label: "重量单位",
-    width: "180"
-  },
+  // {
+  //   prop: "weightUnit",
+  //   label: "重量单位",
+  //   width: "180"
+  // },
   {
     prop: "measuring",
     label: "计量方式",
@@ -272,6 +273,32 @@ const defaulttableHeader = [
     width: "180"
   }  
 ];
+
+const rowAdapter = (list) => {
+    if (!list) {
+        return []
+    }
+    if (list.length > 0) {
+        list = list.map((row) => {
+            return row = { 
+              ...row,
+              piles:row.piles || "-",
+              numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
+              weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
+              measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
+              incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
+              actualRemovalTimeText:normalTime(row.actualRemovalTime),
+              supposedRemovalNumText:`${row.supposedRemovalNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              actualRemovalNumText:`${row.actualRemovalNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              supposedRemovalWeightText:`${row.supposedRemovalWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              actualRemovalWeightText:`${row.actualRemovalWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+            }
+        })
+    }
+    return list
+}
+
+
 export default {
   name: "outStorageDetail",
   mixins: [baseMixin],

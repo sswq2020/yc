@@ -169,10 +169,10 @@ export default {
       let that = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          const Index = that.bankList.findIndex(item => {
-            return item.label === that.form.bankName;
-          });
-          that.form.bankId = that.bankList[Index].value;
+          // const Index = that.bankList.findIndex(item => {
+          //   return item.label === that.form.bankName;
+          // });
+          // that.form.bankId = that.bankList[Index].value;
           that._doReleasePledge_(that.form);
         } else {
           return false;
