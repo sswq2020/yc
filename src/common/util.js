@@ -36,6 +36,19 @@ export function requestParamsByTimeRange(Params,timeRange=[],s,e){
     return obj    
 }
 
+export function requestParamsByTimeRangeOrigin(Params,timeRange=[],s,e){
+    let obj =_.cloneDeep(Params);
+    if (timeRange && timeRange.length === 2) {
+        obj[s] = timeRange[0]
+        obj[e] = timeRange[1]
+    }else{
+        obj[s] = null;
+        obj[e] = null;
+    }
+    return obj    
+}
+
+
 export function requestParamsByStatus(Params,arr=[],key='status'){
     let obj =_.cloneDeep(Params);
     obj[key] = arr.map((item)=>{return Number(item)})

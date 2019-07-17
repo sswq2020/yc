@@ -165,15 +165,23 @@ export default {
           break;
       }
     },
+    _serialize_() {
+      const params =  Object.assign({},
+        this.form,
+        {releaseWeight:Number(this.form.releaseWeight)},
+        );
+      return params;
+    },  
     submitForm(formName) {
       let that = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          const Index = that.bankList.findIndex(item => {
-            return item.label === that.form.bankName;
-          });
-          that.form.bankId = that.bankList[Index].value;
-          that._doReleasePledge_(that.form);
+          // const Index = that.bankList.findIndex(item => {
+          //   return item.label === that.form.bankName;
+          // });
+          // that.form.bankId = that.bankList[Index].value;
+          const params = this._serialize_();
+          that._doReleasePledge_(params);
         } else {
           return false;
         }
