@@ -28,7 +28,7 @@
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item 
                 label="解押重量" prop="releaseWeight" :rules="validateweight(form.reserveweight)">
-                <el-input v-model.number="form.releaseWeight"></el-input>
+                <el-input v-model="form.releaseWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -70,6 +70,7 @@ import _ from "lodash";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
 import { bankMixin } from "@/common/mixin.js";
+import {number3} from "@/util/validate.js";
 const defualtFormParams = {
   bankId: null, // 质权方id(银行id)
   bankName: null, // 银行名称
@@ -119,6 +120,9 @@ export default {
           validator(rule, value, callback) {
             if (max) {
               weight = max;
+            }
+            if(!number3) {
+              callback(new Error('正整数可以包含3位小数'))
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));

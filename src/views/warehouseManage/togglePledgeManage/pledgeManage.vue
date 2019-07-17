@@ -62,7 +62,7 @@
                 prop="pledgeWeight"
                 :rules="validateweight(form.inventoryTotalWeight,max)"
               >
-                <el-input v-model.number="form.pledgeWeight"></el-input>
+                <el-input v-model="form.pledgeWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -104,6 +104,7 @@ import _ from "lodash";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
 import { DICT_SELECT_ARR } from "@/common/util";
+import {number3} from "@/util/validate.js";
 import { bankMixin } from "@/common/mixin.js";
 const TypeDatas = DICT_SELECT_ARR(Dict.PLEDGE_BUSINESS_TYPE);
 const defualtFormParams = {
@@ -158,6 +159,9 @@ export default {
           validator(rule, value, callback) {
             if (max) {
               weight = max;
+            }
+            if(!number3) {
+              callback(new Error('正整数可以包含3位小数'))
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));

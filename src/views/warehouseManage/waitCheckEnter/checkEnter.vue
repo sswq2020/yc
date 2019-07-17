@@ -85,7 +85,7 @@
                 :prop="'needShowData.' + index + '.weight'"
                 :rules="validateweight(item.supposedWeight)"
               >
-                <el-input v-model.number="item.weight"></el-input>
+                <el-input v-model="item.weight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -122,6 +122,7 @@
 import { mapState } from "vuex";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
+import {number3} from "@/util/validate.js";
 export default {
   name: "checkEnter",
   components: {
@@ -158,6 +159,9 @@ export default {
           validator(rule, value, callback) {
             if (max) {
               weight = max;
+            }
+            if(!number3) {
+              callback(new Error('正整数可以包含3位小数'))
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));

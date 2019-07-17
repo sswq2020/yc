@@ -23,6 +23,14 @@ export const phoneCheck = (str)=>{
 
 }
 
+/**正整数可以包含3位小数**/
+export const number3 = (str) =>{
+    let reg = /^\d+(\.\d{1,3})?$/
+    return reg.test(str)
+}   
+
+
+
 export const initValidate = (options)=>{
     let checkFn = Object.create(null);
 
