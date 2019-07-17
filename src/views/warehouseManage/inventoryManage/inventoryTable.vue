@@ -329,6 +329,7 @@ const rowAdapter = (list) => {
         list = list.map((row) => {
             return row = { 
               ...row,
+              piles:row.piles || "-",
               numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
