@@ -122,7 +122,7 @@
                 :prop="'needShowData.' + index + '.supposedRemovalWeight'"
                 :rules="validateweight(item.availableWeightInventory,max)"
               >
-                <el-input v-model.number="item.supposedRemovalWeight"></el-input>
+                <el-input v-model="item.supposedRemovalWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -149,6 +149,7 @@
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
+import {number3} from "@/util/validate.js";
 const defualtFormParams = {
   consignee: null,
   cargoName: null,
@@ -193,6 +194,9 @@ export default {
           validator(rule, value, callback) {
             if (max) {
               weight = max;
+            }
+            if(!number3) {
+              callback(new Error('正整数可以包含3位小数'))
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));

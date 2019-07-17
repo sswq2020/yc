@@ -136,7 +136,7 @@
                 :prop="'needShowData.' + index + '.transferWeights'"
                 :rules="validateweight(item.availableWeightInventory,max)"
               >
-                <el-input v-model.number="item.transferWeights"></el-input>
+                <el-input v-model="item.transferWeights"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -169,6 +169,7 @@ import { mapState } from "vuex";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
 import { baseMixin } from "@/common/mixin.js";
+import {number3} from "@/util/validate.js";
 import { DICT_SELECT_ARR } from "@/common/util";
 const TypeDatas = DICT_SELECT_ARR(Dict.TRANSFER_OWNERSHIP_BUSINESS_TYPE);
 const defualtFormParams = {
@@ -217,6 +218,9 @@ export default {
           validator(rule, value, callback) {
             if (max) {
               weight = max;
+            }
+            if(!number3) {
+              callback(new Error('正整数可以包含3位小数'))
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));
