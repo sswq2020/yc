@@ -120,7 +120,7 @@ const defaultListData = {
 };
 const defaulttableHeader = [
   {
-    prop: "cargoId",
+    prop: "pledgeCargo",
     label: "货主",
     width: "180"
   },

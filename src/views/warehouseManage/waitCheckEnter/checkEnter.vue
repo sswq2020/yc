@@ -85,7 +85,7 @@
                 :prop="'needShowData.' + index + '.weight'"
                 :rules="validateweight(item.supposedWeight)"
               >
-                <el-input v-model.number="item.weight"></el-input>
+                <el-input v-model="item.weight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -100,11 +100,11 @@
                 <el-input :value="item.pilePosition" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <!-- <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="层数" prop="piles">
                 <el-input :value="item.piles" disabled="disabled"></el-input>
               </el-form-item>
-            </el-col>
+            </el-col> -->
           </el-row>
         </div>
         <div class="bottom">
@@ -122,6 +122,7 @@
 import { mapState } from "vuex";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
+import {number3} from "@/util/validate.js";
 export default {
   name: "checkEnter",
   components: {
@@ -149,10 +150,13 @@ export default {
     validateweight(weight, max = null) {
       return [
         {
-          type: "number",
           required: true,
           message: "请输入实收重量",
           trigger: "blur"
+        },
+        { 
+          pattern: /^\d+(\.\d{1,3})?$/,
+          message: '正整数可以包含3位小数'
         },
         {
           validator(rule, value, callback) {

@@ -62,7 +62,7 @@
                 prop="pledgeWeight"
                 :rules="validateweight(form.inventoryTotalWeight,max)"
               >
-                <el-input v-model.number="form.pledgeWeight"></el-input>
+                <el-input v-model="form.pledgeWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -149,10 +149,13 @@ export default {
     validateweight(weight, max = null) {
       return [
         {
-          type: "number",
           required: true,
           message: "请输入质押重量",
           trigger: "blur"
+        },
+        { 
+          pattern: /^\d+(\.\d{1,3})?$/,
+          message: '正整数可以包含3位小数'
         },
         {
           validator(rule, value, callback) {
@@ -213,7 +216,9 @@ export default {
         const res = await this.$api.getAvailableNum(this.pledgeData.cargoId);
         switch (res.code) {
           case Dict.SUCCESS:
-            this.max = res.data;
+            if(res.data) {
+               this.max = Number(res.data);
+            }
             break;
           default:
             this.$messageError(res.mesg);

@@ -131,7 +131,7 @@
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="应收重量" prop="supposedWeight">
-                <el-input v-model.number="form.supposedWeight"></el-input>
+                <el-input v-model="form.supposedWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -236,7 +236,8 @@ const RULES = {
   measuring: [{ required: true, message: "请选择计量方式", trigger: "blur" }],
   supposedNum: [{ required: true, message: "请输入应收数量", trigger: "blur" }],
   supposedWeight: [
-    { required: true, message: "请输入应收重量", trigger: "blur" }
+    { required: true, message: "请输入应收重量", trigger: "blur" },
+    {  pattern: /^\d+(\.\d{1,3})?$/, message: '正整数可以包含3位小数'  },
   ],
   weightUnit: [{ required: true, message: "请选择数量单位", trigger: "blur" }],
   numUnit: [{ required: true, message: "请选择重量单位", trigger: "blur" }]

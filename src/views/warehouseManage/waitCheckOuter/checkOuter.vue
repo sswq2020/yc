@@ -69,30 +69,30 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="应收数量" prop="supposedRemovalNum">
+              <el-form-item label="应出数量" prop="supposedRemovalNum">
                 <el-input :value="item.supposedRemovalNum" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="应收重量" prop="supposedRemovalWeight">
+              <el-form-item label="应出重量" prop="supposedRemovalWeight">
                 <el-input :value="item.supposedRemovalWeight" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="数量单位" prop="numUnit">
-                <el-input :value="item.numUnit" disabled="disabled"></el-input>
+              <el-form-item label="数量单位" prop="numUnitText">
+                <el-input :value="item.numUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="重量单位" prop="weightUnit">
-                <el-input :value="item.weightUnit" disabled="disabled"></el-input>
+              <el-form-item label="重量单位" prop="weightUnitText">
+                <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="计量方式" prop="measuring">
-                <el-input :value="item.measuring" disabled="disabled"></el-input>
+              <el-form-item label="计量方式" prop="measuringText">
+                <el-input :value="item.measuringText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -113,7 +113,7 @@
                 :prop="'needShowData.' + index + '.actualRemovalWeight'"
                 :rules="validateweight(item.supposedRemovalWeight)"
               >
-                <el-input v-model.number="item.actualRemovalWeight"></el-input>
+                <el-input v-model="item.actualRemovalWeight"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -167,10 +167,13 @@ export default {
     validateweight(weight, max = null) {
       return [
         {
-          type: "number",
           required: true,
-          message: "请输入过户重量",
+          message: "请输入实提重量",
           trigger: "blur"
+        },
+        { 
+          pattern: /^\d+(\.\d{1,3})?$/,
+          message: '正整数可以包含3位小数'
         },
         {
           validator(rule, value, callback) {
@@ -207,7 +210,10 @@ export default {
       const params = this.form.needShowData.map((item) => {
         return Object.assign(
           {pickUpPassword},
-          item
+          item,
+        {weightUnitTypeEnum:null},
+        {numUnitTypeEnum:null},
+        {measuringTypeEnum:null},
         );
       });
       return params;
@@ -243,6 +249,9 @@ export default {
         case Dict.SUCCESS:
           res.data = res.data.slice().map(item => {
             return Object.assign({}, item, {
+              measuringText:item.measuringTypeEnum && item.measuringTypeEnum.text || "-",
+              numUnitText:item.numUnitTypeEnum && item.numUnitTypeEnum.text || "-",
+              weightUnitText:item.weightUnitTypeEnum && item.weightUnitTypeEnum.text || "-",
               actualRemovalNum: null,
               actualRemovalWeight: null
             });

@@ -224,7 +224,7 @@ const defaultFormData = {
 };
 const defaultListParams = {
   pageSize: 20,
-  currentPage: 1
+  page: 1
 };
 const defaultListData = {
   paginator: {
@@ -329,6 +329,7 @@ const rowAdapter = (list) => {
         list = list.map((row) => {
             return row = { 
               ...row,
+              piles:row.piles || "-",
               numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
@@ -449,8 +450,8 @@ export default {
       this.listData = { ...defaultListData };
       this.getListData();
     },
-    changePage(currentPage) {
-      this.listParams.currentPage = currentPage;
+    changePage(page) {
+      this.listParams.page = page;
       this.getListData();
     },
     getListDataBylistParams() {
