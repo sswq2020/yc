@@ -21,13 +21,13 @@
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="解押数量" prop="releaseNums" :rules="validatenum(form.inventoryTotalNums)">
+              <el-form-item label="解押数量" prop="releaseNums" :rules="validatenum(form.inventoryTotalNums,this.maxnum)">
                 <el-input v-model.number="form.releaseNums"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item 
-                label="解押重量" prop="releaseWeight" :rules="validateweight(form.reserveweight)">
+                label="解押重量" prop="releaseWeight" :rules="validateweight(form.reserveweight,this.maxweight)">
                 <el-input v-model="form.releaseWeight"></el-input>
               </el-form-item>
             </el-col>
@@ -69,7 +69,6 @@ import { mapState } from "vuex";
 import _ from "lodash";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
-import { bankMixin } from "@/common/mixin.js";
 import {number3} from "@/util/validate.js";
 const defualtFormParams = {
   bankId: null, // 质权方id(银行id)
@@ -86,7 +85,6 @@ const defualtFormParams = {
 
 export default {
   name: "releasePledgeManage",
-  mixins: [bankMixin],
   components: {
     hlBreadcrumb
   },
@@ -96,7 +94,9 @@ export default {
       disabled: true,
       form: {
         ...defualtFormParams
-      }
+      },
+      maxweight:null,
+      maxnum:null
     };
   },
   computed: {
@@ -135,12 +135,15 @@ export default {
         }
       ];
     },
-    validatenum(num) {
+    validatenum(num, max = null) {
       return [
         {
           validator(rule, value, callback) {
             if (!value) {
               callback();
+            }
+            if (max) {
+              num = max;
             }
             if (value > num) {
               callback(new Error(`不能大于${num}`));
@@ -182,7 +185,8 @@ export default {
         switch (res.code) {
           case Dict.SUCCESS:
             if(res.data) {
-               this.max = Number(res.data);
+               this.maxweight = Number(res.data.totalPledgeWeight);
+               this.maxnum = Number(res.data.totalPledgeNums);
             }
             break;
           default:
