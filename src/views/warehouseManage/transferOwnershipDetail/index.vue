@@ -217,35 +217,35 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "transferNums",
+    prop: "transferNumsText",
     label: "过户数量",
     width: "180"
   },
   {
-    prop: "realTransferNums",
+    prop: "realTransferNumsText",
     label: "实际过户数量",
     width: "180"
   },
+  // {
+  //   prop: "numUnitText",
+  //   label: "数量单位",
+  //   width: "180"
+  // },
   {
-    prop: "numUnit",
-    label: "数量单位",
-    width: "180"
-  },
-  {
-    prop: "transferWeights",
+    prop: "transferWeightsText",
     label: "过户重量",
     width: "180"
   },
   {
-    prop: "realTransferWeights",
+    prop: "realTransferWeightsText",
     label: "实际过户重量",
     width: "180"
   },
-  {
-    prop: "weightUnitText",
-    label: "重量单位",
-    width: "180"
-  },
+  // {
+  //   prop: "weightUnitText",
+  //   label: "重量单位",
+  //   width: "180"
+  // },
   {
     prop: "measuringText",
     label: "计量方式",
@@ -280,7 +280,11 @@ const rowAdapter = (list) => {
               numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
-              incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-"
+              incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
+              transferNumsText:`${row.transferNums}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              realTransferNumsText:`${row.realTransferNums}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              transferWeightsText:`${row.transferWeights}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              realTransferWeightsText:`${row.realTransferWeights}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }
         })
     }
