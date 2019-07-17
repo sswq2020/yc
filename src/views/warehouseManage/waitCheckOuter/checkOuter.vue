@@ -69,13 +69,13 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="库存数量" prop="totalNumInventory">
-                <el-input :value="item.totalNumInventory" disabled="disabled"></el-input>
+              <el-form-item label="应出数量" prop="supposedRemovalNum">
+                <el-input :value="item.supposedRemovalNum" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="库存重量" prop="totalWeightInventory">
-                <el-input :value="item.totalWeightInventory" disabled="disabled"></el-input>
+              <el-form-item label="应出重量" prop="supposedRemovalWeight">
+                <el-input :value="item.supposedRemovalWeight" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
@@ -168,7 +168,7 @@ export default {
       return [
         {
           required: true,
-          message: "请输入过户重量",
+          message: "请输入实提重量",
           trigger: "blur"
         },
         { 
