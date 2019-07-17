@@ -165,6 +165,13 @@ export default {
           break;
       }
     },
+    _serialize_() {
+      const params =  Object.assign({},
+        this.form,
+        {releaseWeight:Number(this.form.releaseWeight)},
+        );
+      return params;
+    },  
     submitForm(formName) {
       let that = this;
       this.$refs[formName].validate(valid => {
@@ -173,7 +180,8 @@ export default {
           //   return item.label === that.form.bankName;
           // });
           // that.form.bankId = that.bankList[Index].value;
-          that._doReleasePledge_(that.form);
+          const params = this._serialize_();
+          that._doReleasePledge_(params);
         } else {
           return false;
         }

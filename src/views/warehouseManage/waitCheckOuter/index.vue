@@ -89,7 +89,7 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
-import { requestParamsByTimeRange } from "@/common/util.js";
+import { requestParamsByTimeRangeOrigin } from "@/common/util.js";
 // import { judgeAuth } from "@/util/util.js";
 import _ from "lodash";
 import Dict from "@/util/dict.js";
@@ -179,7 +179,7 @@ export default {
     },
     _filter() {
       const { timeRange } = this.form;
-      const _reqParams_ = requestParamsByTimeRange(
+      const _reqParams_ = requestParamsByTimeRangeOrigin(
         this.form,
         timeRange,
         ...EXTRA_PARAMS_KEYS
