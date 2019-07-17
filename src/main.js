@@ -8,6 +8,7 @@ import Hletong from 'hletong-ui'
 import 'hletong-ui/lib/hletong-ui.css'
 import './static/reset.css';
 import './static/common.css';
+import './static/new_common.css';
 import {router} from './router';
 import api from '@/api';
 import store from "./store";

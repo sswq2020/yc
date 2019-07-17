@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
+  <el-dialog :title="title" :visible="visible" width="600px"  @close="cancle()">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item label="交割库名称" prop="deliveryStore">
         <el-input v-model="form.deliveryStore" maxlength="20"  placeholder="请输入"></el-input>
@@ -17,7 +17,7 @@
         </el-form-item>
       </div>
       <el-form-item label="交割库容量" prop="storeCapacity">
-        <InputNumber v-model="form.storeCapacity"  :precision="3" :max="10"  placeholder="请输入"/>
+        <InputNumber v-model="form.storeCapacity"  :precision="3" :max="9999999999"  placeholder="请输入"/>
       </el-form-item>
       <el-form-item label="交割库类型" prop="storeType">
         <el-select v-model="form.storeType" placeholder="请选择">
@@ -161,6 +161,8 @@ export default {
             ...that.form
           };
           delete parmas.address;
+          delete parmas.publicStatusEnum;
+          delete parmas.storeTypeEnum;
           console.log(parmas);
           that.confirmCb(parmas);
         } else {

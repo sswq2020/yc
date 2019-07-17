@@ -32,7 +32,7 @@
       :multiple="true"
     >
       <el-table-column
-        align="center"
+        align="left"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -43,7 +43,7 @@
           <span>{{listData.list[scope.$index][item.prop]}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="120px" align="center">
+      <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
           <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.materialStatusCode == "0" ? '禁用' : '激活'}}</el-button>

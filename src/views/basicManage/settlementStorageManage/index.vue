@@ -50,7 +50,7 @@
       :multiple="true"
     >
       <el-table-column
-        align="center"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -61,7 +61,7 @@
           <span>{{listData.list[scope.$index][item.prop]}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="120px" align="center">
+      <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="editItem(listData.list[scope.$index])">编辑</el-button>
           <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.publicStatusEnum.code == '0' ? '禁用' : '激活'}}</el-button>
@@ -112,31 +112,37 @@ export default {
         {
           prop: "deliveryStore",
           label: "交割库名称",
+          align: 'left',
           width: 180
         },
         {
           prop: "addressText",
           label: "交割库地址",
+          align: 'left',
           width: 300
         },
         {
           prop: "storeCapacity",
           label: "交割库库容量",
+          align: 'right',
           width: 180
         },
         {
           prop: "storeTypeText",
           label: "交割库类型",
+          align: 'left',
           width: 180
         },
         {
           prop: "leader",
           label: "负责人",
+          align: 'left',
           width: 180
         },
         {
           prop: "contactTel",
           label: "联系电话",
+          align: 'left',
           width: 180
         },
         {
@@ -147,6 +153,7 @@ export default {
         {
           prop: "stateText",
           label: "状态",
+          align: 'left',
           width: 180
         },
       ],

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :show-close="false" :title="title" :visible="visible" width="600px">
+  <el-dialog :title="title" :visible="visible" width="600px"  @close="cancle()">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item label="规格名称" prop="specificationsName">
         <el-input v-model="form.specificationsName" maxlength="10"  placeholder="请输入"></el-input>
