@@ -65,7 +65,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        align="left"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -77,7 +77,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="180px" align="center">
+      <el-table-column label="操作" fixed="right" width="180px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="Retrieval(listData.list[scope.$index])">出库</el-button>
         </template>
@@ -101,8 +101,8 @@ import hlBreadcrumb from "@/components/hl-breadcrumb";
 const EXTRA_PARAMS_KEYS = ["start", "end"];
 
 const defaultFormData = {
-  cargoId: "",
-  deliveryStoreId: "",
+  cargoId: null,
+  deliveryStoreId: null,
   timeRange: []
 };
 const defaultListParams = {

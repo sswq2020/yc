@@ -145,7 +145,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        align="left"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -157,7 +157,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
+      <el-table-column label="操作" fixed="right" width="100px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
