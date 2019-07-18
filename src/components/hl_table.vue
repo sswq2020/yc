@@ -48,7 +48,7 @@
 
 <script>
 import $ from "jquery";
-import { _debounce } from "@/common/util";
+import _ from 'lodash'
 import { setTimeout } from 'timers';
 export default {
   name: "hl-table",
@@ -161,9 +161,9 @@ export default {
        this.computedTableHeight();
     },100)
 
-    $(window).bind("resize", _debounce(() => {
+    $(window).bind("resize", _.throttle(() => {
       this.computedTableHeight();
-    }, 100));
+    }, 400));
   },
   destroyed () {
     $(window).off("resize");
