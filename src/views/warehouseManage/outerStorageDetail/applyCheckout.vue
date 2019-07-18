@@ -48,16 +48,16 @@
                 <el-input :value="item.pilePosition" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="层数" prop="piles">
-                <el-input :value="item.piles" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
           </el-row>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="品名" prop="productName">
                 <el-input :value="item.productName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item label="层数" prop="piles">
+                <el-input :value="item.piles" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
@@ -70,8 +70,6 @@
                 <el-input :value="item.specificationsName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="产地" prop="originPlaceName">
                 <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
@@ -87,8 +85,6 @@
                 <el-input :value="item.totalWeightInventory" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="计量方式" prop="measuringText">
                 <el-input :value="item.measuringText" disabled="disabled"></el-input>
@@ -149,7 +145,6 @@
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
-import {number3} from "@/util/validate.js";
 const defualtFormParams = {
   consignee: null,
   cargoName: null,
