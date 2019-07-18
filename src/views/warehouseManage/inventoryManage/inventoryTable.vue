@@ -521,7 +521,7 @@ export default {
     async batchCheckOut() {
       if(this.IsNoSurplus){
           const str = this.IndexNoSurplus.join();
-          this.$messageError(`选中的第${str}数据无余量，不可c出库申请`);
+          this.$messageError(`选中的第${str}数据无余量，不可出库申请`);
           return;
       }
       this.batchCheckOutVisible = false;
