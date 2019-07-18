@@ -243,12 +243,12 @@ const defaulttableHeader = [
   //   width: "180"
   // },
   {
-    prop: "measuring",
+    prop: "measuringText",
     label: "计量方式",
     width: "180"
   },
   {
-    prop: "incomingType",
+    prop: "incomingTypeText",
     label: "入库类型",
     width: "180"
   },
@@ -258,7 +258,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "outsideType",
+    prop: "outsideTypeText",
     label: "性质",
     width: "180"
   },
@@ -287,11 +287,12 @@ const rowAdapter = (list) => {
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
+              outsideTypeText:row.outsideTypeEnum&&row.outsideTypeEnum.text || "-",
               actualRemovalTimeText:normalTime(row.actualRemovalTime),
-              supposedRemovalNumText:`${row.supposedRemovalNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              actualRemovalNumText:`${row.actualRemovalNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              supposedRemovalWeightText:`${row.supposedRemovalWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
-              actualRemovalWeightText:`${row.actualRemovalWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              supposedRemovalNumText:`${row.supposedRemovalNum || 0}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              actualRemovalNumText:`${row.actualRemovalNum || 0}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              supposedRemovalWeightText:`${row.supposedRemovalWeight || 0}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              actualRemovalWeightText:`${row.actualRemovalWeight || 0}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }
         })
     }
@@ -350,16 +351,16 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData = res.data;
+          this.listData ={...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
-          this.listData = { ...defaultListData };
           this.$messageError(res.mesg);
           break;
       }
     },
     async detail(item) {
-      const res = await this.$api.getStockRemovalBill(item);
+      const {removalId} = item;
+      const res = await this.$api.getStockRemovalBill({removalId});
       switch (res.code) {
         case Dict.SUCCESS:
           this.bill = res.data
