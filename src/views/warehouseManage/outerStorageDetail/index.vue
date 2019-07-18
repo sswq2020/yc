@@ -213,12 +213,12 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "supposedRemovalNumText",
+    prop: "supposedRemovalNum",
     label: "开单数量",
     width: "180"
   },
   {
-    prop: "actualRemovalNumText",
+    prop: "actualRemovalNum",
     label: "实提数量",
     width: "180"
   },  
@@ -228,12 +228,12 @@ const defaulttableHeader = [
   //   width: "180"
   // },
   {
-    prop: "supposedRemovalWeightText",
+    prop: "supposedRemovalWeight",
     label: "开单重量",
     width: "180"
   },
   {
-    prop: "actualRemovalWeightText",
+    prop: "actualRemovalWeight",
     label: "实提重量",
     width: "180"
   },
@@ -243,12 +243,12 @@ const defaulttableHeader = [
   //   width: "180"
   // },
   {
-    prop: "measuring",
+    prop: "measuringText",
     label: "计量方式",
     width: "180"
   },
   {
-    prop: "incomingType",
+    prop: "incomingTypeText",
     label: "入库类型",
     width: "180"
   },
@@ -258,7 +258,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "outsideType",
+    prop: "outsideTypeText",
     label: "性质",
     width: "180"
   },
@@ -283,15 +283,16 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               piles:row.piles || "-",
-              numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
-              weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
-              measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
-              incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
+              // numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
+              // weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
+              // measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
+              // incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
+              // outsideTypeText:row.outsideTypeEnum&&row.outsideTypeEnum.text || "-",
               actualRemovalTimeText:normalTime(row.actualRemovalTime),
-              supposedRemovalNumText:`${row.supposedRemovalNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              actualRemovalNumText:`${row.actualRemovalNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              supposedRemovalWeightText:`${row.supposedRemovalWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
-              actualRemovalWeightText:`${row.actualRemovalWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              // supposedRemovalNumText:`${row.supposedRemovalNum || 0}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              // actualRemovalNumText:`${row.actualRemovalNum || 0}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              // supposedRemovalWeightText:`${row.supposedRemovalWeight || 0}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              // actualRemovalWeightText:`${row.actualRemovalWeight || 0}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }
         })
     }
@@ -353,13 +354,26 @@ export default {
           this.listData = res.data;
           break;
         default:
-          this.listData = { ...defaultListData };
+          this.listData ={...res.data, list: rowAdapter(res.data.list) };
           this.$messageError(res.mesg);
           break;
       }
     },
+    _serialize_(item) {
+      const params =  Object.assign(
+        {},
+        item,
+        {incomingTypeEnum:null},
+        {weightUnitTypeEnum:null},
+        {numUnitTypeEnum:null},
+        {measuringTypeEnum:null},
+        {outsideTypeEnum:null}
+        );
+      return params;
+    },  
     async detail(item) {
-      const res = await this.$api.getStockRemovalBill(item);
+      const params = this._serialize_(item);
+      const res = await this.$api.getStockRemovalBill(params);
       switch (res.code) {
         case Dict.SUCCESS:
           this.bill = res.data

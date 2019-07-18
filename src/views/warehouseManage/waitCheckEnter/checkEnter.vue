@@ -6,63 +6,57 @@
         <div class="form-block" v-for="(item,index) in form.needShowData" :key="item.id">
           <div class="head">登记信息</div>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="登记日期" prop="registerTime">
                 <el-input :value="item.registerTime" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="货主" prop="cargoName">
                 <el-input :value="item.cargoName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="品名" prop="productName">
                 <el-input :value="item.productName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="材质" prop="materialName">
                 <el-input :value="item.materialName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="产地" prop="originPlaceName">
                 <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="规格" prop="specificationsName">
                 <el-input :value="item.specificationsName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="应收数量" prop="supposedNum">
                 <el-input :value="item.supposedNum" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="应收重量" prop="supposedWeight">
                 <el-input :value="item.supposedWeight" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="数量单位" prop="numUnitText">
                 <el-input :value="item.numUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="重量单位" prop="weightUnitText">
                 <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="计量方式" prop="measuringText">
                 <el-input :value="item.measuringText" disabled="disabled"></el-input>
               </el-form-item>
@@ -70,7 +64,7 @@
           </el-row>
           <div class="head">验收信息</div>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item 
               label="实收数量"
               :prop="'needShowData.' + index + '.num'"
@@ -79,7 +73,7 @@
                 <el-input v-model.number="item.num"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="实收重量"
                 :prop="'needShowData.' + index + '.weight'"
@@ -90,12 +84,12 @@
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="交易仓库" prop="deliveryStore">
                 <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="区桩位" prop="pilePosition">
                 <el-input :value="item.pilePosition" disabled="disabled"></el-input>
               </el-form-item>
@@ -122,7 +116,6 @@
 import { mapState } from "vuex";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
-import {number3} from "@/util/validate.js";
 export default {
   name: "checkEnter",
   components: {
