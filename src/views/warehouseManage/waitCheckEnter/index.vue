@@ -111,7 +111,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        align="left"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
