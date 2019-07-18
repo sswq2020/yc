@@ -102,7 +102,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        align="left"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -114,7 +114,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
+      <el-table-column label="操作" fixed="right" width="80px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
@@ -226,11 +226,6 @@ const defaulttableHeader = [
     label: "实际过户数量",
     width: "180"
   },
-  // {
-  //   prop: "numUnitText",
-  //   label: "数量单位",
-  //   width: "180"
-  // },
   {
     prop: "transferWeightsText",
     label: "过户重量",
@@ -241,11 +236,6 @@ const defaulttableHeader = [
     label: "实际过户重量",
     width: "180"
   },
-  // {
-  //   prop: "weightUnitText",
-  //   label: "重量单位",
-  //   width: "180"
-  // },
   {
     prop: "measuringText",
     label: "计量方式",
@@ -262,7 +252,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "transferType",
+    prop: "transferTypeText",
     label: "业务类型",
     width: "180"
   }
@@ -277,14 +267,10 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               piles:row.piles || "-",
-              numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
-              weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
-              measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
-              incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
-              transferNumsText:`${row.transferNums}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              realTransferNumsText:`${row.realTransferNums}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              transferWeightsText:`${row.transferWeights}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
-              realTransferWeightsText:`${row.realTransferWeights}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              transferNumsText:`${row.transferNums}${row.numUnitText}`,
+              realTransferNumsText:`${row.realTransferNums}${row.numUnitText}`,
+              transferWeightsText:`${row.transferWeights}${row.weightUnitText}`,
+              realTransferWeightsText:`${row.realTransferWeights}${row.weightUnitText}`,
             }
         })
     }

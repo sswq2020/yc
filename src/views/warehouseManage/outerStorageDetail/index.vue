@@ -102,7 +102,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -114,7 +114,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
+      <el-table-column label="操作" fixed="right" width="80px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
@@ -190,7 +190,8 @@ const defaulttableHeader = [
   {
     prop: "piles",
     label: "层数",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "productName",
@@ -243,22 +244,23 @@ const defaulttableHeader = [
   //   width: "180"
   // },
   {
-    prop: "measuring",
+    prop: "measuringText",
     label: "计量方式",
     width: "180"
   },
   {
-    prop: "incomingType",
+    prop: "incomingTypeText",
     label: "入库类型",
     width: "180"
   },
   {
     prop: "incomingId",
     label: "入库单号",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
-    prop: "outsideType",
+    prop: "outsideTypeText",
     label: "性质",
     width: "180"
   },
@@ -270,7 +272,8 @@ const defaulttableHeader = [
   {
     prop: "pickUpPassword",
     label: "提货密码",
-    width: "180"
+    width: "180",
+    align:"right"
   }  
 ];
 
@@ -287,11 +290,12 @@ const rowAdapter = (list) => {
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
+              outsideTypeText:row.outsideTypeEnum&&row.outsideTypeEnum.text || "-",
               actualRemovalTimeText:normalTime(row.actualRemovalTime),
-              supposedRemovalNumText:`${row.supposedRemovalNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              actualRemovalNumText:`${row.actualRemovalNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              supposedRemovalWeightText:`${row.supposedRemovalWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
-              actualRemovalWeightText:`${row.actualRemovalWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              supposedRemovalNumText:`${row.supposedRemovalNum || 0}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              actualRemovalNumText:`${row.actualRemovalNum || 0}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              supposedRemovalWeightText:`${row.supposedRemovalWeight || 0}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              actualRemovalWeightText:`${row.actualRemovalWeight || 0}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }
         })
     }
@@ -350,16 +354,16 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData = res.data;
+          this.listData ={...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
-          this.listData = { ...defaultListData };
           this.$messageError(res.mesg);
           break;
       }
     },
     async detail(item) {
-      const res = await this.$api.getStockRemovalBill(item);
+      const {removalId} = item;
+      const res = await this.$api.getStockRemovalBill({removalId});
       switch (res.code) {
         case Dict.SUCCESS:
           this.bill = res.data

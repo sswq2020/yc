@@ -56,7 +56,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -68,7 +68,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
+      <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">质押单</el-button>
         </template>
@@ -92,7 +92,6 @@
 import { mapGetters } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
 import { requestParamsByTimeRange } from "@/common/util.js";
-import { normalTime } from "@/util/util.js";
 import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
@@ -128,22 +127,26 @@ const defaulttableHeader = [
   {
     prop: "inventoryTotalNums",
     label: "库存数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "inventoryTotalWeight",
     label: "库存重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "pledgeNums",
     label: "质押数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "pledgeWeight",
     label: "质押重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "pledgeCode",
@@ -151,23 +154,12 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "createdTimeStr",
+    prop: "createdTime",
     label: "质押日期",
     width: "180"
   }
 ];
 
-const rowAdapter = (list) => {
-    if (!list) {
-        return []
-    }
-    if (list.length > 0) {
-        list = list.map((row) => {
-            return row = { ...row,createdTimeStr:normalTime(row.createdTime)}
-        })
-    }
-    return list
-}
 export default {
   name: "pledgeDetail",
   mixins: [baseMixin],
@@ -225,7 +217,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData ={...res.data, list: rowAdapter(res.data.list) };
+          this.listData =res.data;
           break;
         default:
           this.$messageError(res.mesg);

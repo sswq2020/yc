@@ -145,7 +145,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -157,7 +157,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
+      <el-table-column label="操作" fixed="right" width="100px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
@@ -242,7 +242,8 @@ const defaulttableHeader = [
   {
     prop: "incomingDays",
     label: "入库天数",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "cargoName",
@@ -257,7 +258,8 @@ const defaulttableHeader = [
   {
     prop: "piles",
     label: "层数",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "productName",
@@ -521,7 +523,7 @@ export default {
     async batchCheckOut() {
       if(this.IsNoSurplus){
           const str = this.IndexNoSurplus.join();
-          this.$messageError(`选中的第${str}数据无余量，不可c出库申请`);
+          this.$messageError(`选中的第${str}数据无余量，不可出库申请`);
           return;
       }
       this.batchCheckOutVisible = false;

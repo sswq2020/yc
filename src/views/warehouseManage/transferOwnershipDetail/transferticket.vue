@@ -3,21 +3,21 @@
     <tr>
       <td colspan="10">
           <div style="display:flex;justify-content:flex-end ">
-          <div>NO.SH1905050001</div>
+          <div>NO.{{data[0]&&data[0].incomingId || "-"}}</div>
         </div>
       </td>
     </tr>
     <tr>
       <th>调入货主</th>
-      <th colspan="3">{{data[0].originalShipperName}}</th>
+      <th colspan="3">{{data[0].originalShipperName || "-"}}</th>
       <th>日期</th>
-      <th>2019-04-26</th>
+      <th>{{data[0].transferTime || "-"}}</th>
       <th></th>
       <th colspan="3"></th>
     </tr>
     <tr>
       <th>调出货主</th>
-      <th colspan="3">{{data[0].newShipperName}}</th>
+      <th colspan="3">{{data[0].newShipperName || "-"}}</th>
       <th>提单号</th>
       <th></th>
       <th></th>
@@ -43,15 +43,15 @@
       <td>{{item.specificationsName || ""}}</td>
       <td>{{item.materialName || ""}}</td>
       <td>{{item.originPlaceName || ""}}</td>
-      <td>{{item.transferNums || ""}}</td>
-      <td>{{item.transferWeights || ""}}</td>
+      <td>{{item.realTransferNums || ""}}</td>
+      <td>{{item.realTransferWeights || ""}}</td>
       <td>{{item.remark || ""}}</td>
     </tr>
     <tr class="alt">
       <td colspan="6">合计:{{data[0].chineseWeights || "--"}}</td>
       <td></td>
-      <td>0</td>
-      <td>1057.62</td>
+      <td></td>
+      <td></td>
       <td></td>
     </tr>
     <tr>

@@ -102,7 +102,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -114,7 +114,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
+      <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
@@ -188,7 +188,8 @@ const defaulttableHeader = [
   {
     prop: "piles",
     label: "层数",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "productName",
@@ -246,7 +247,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "registerId",
+    prop: "oldIncomingIdText",
     label: "原始单号",
     width: "180"
   }
@@ -267,7 +268,8 @@ const rowAdapter = (list) => {
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
               numText:`${row.num}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
               weightText:`${row.weight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
-              incomingTime:row.incomingTime || "-"
+              incomingTime:row.incomingTime || "-",
+              oldIncomingIdText:row.oldIncomingId || "-"
             }
         })
     }
