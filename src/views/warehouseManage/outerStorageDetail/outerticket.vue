@@ -3,26 +3,26 @@
     <tr>
       <td colspan="12">
           <div style="display:flex;justify-content:space-between">
-          <div>制单日期:2019-05-05</div>
-          <div>NO.SH1905050001</div>
+          <div>制单日期:{{data[0]&&data[0].createdTime || "-"}}</div>
+          <div>NO.{{data[0]&&data[0].incomingId || "-"}}</div>
         </div>
       </td>
     </tr>
     <tr>
       <th>提货单位</th>
-      <th colspan="3">123123</th>
+      <th colspan="3"></th>
       <th>提单号</th>
-      <th colspan="3">213213</th>
+      <th colspan="3"></th>
       <th>提货车船号</th>
-      <th colspan="3">213213</th>
+      <th colspan="3"></th>
     </tr>
     <tr>
       <th>原始单据号</th>
-      <th colspan="3">123123</th>
+      <th colspan="3"></th>
       <th>结算方式</th>
-      <th colspan="3">213213</th>
+      <th colspan="3"></th>
       <th>证件号</th>
-      <th colspan="3">213213</th>
+      <th colspan="3"></th>
     </tr>
     <tr>
       <th>区桩位</th>
@@ -45,7 +45,7 @@
       <td>{{item.productName || "--"}}</td>
       <td>{{item.materialName || "--"}}</td>
       <td>{{item.specificationsName || "--"}}</td>
-      <td>--</td>
+      <td>{{item.numUnitTypeEnum.text || "--"}}</td>
       <td>{{item.totalNumInventory || "--"}}</td>
       <td>{{item.actualRemovalWeight || "--"}}</td>
       <td>{{item.measuringTypeEnum.text || "--"}}</td>
