@@ -200,25 +200,25 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "supposedNum",
+    prop: "supposedNumText",
     label: "应收数量",
     width: "180"
   },
+  // {
+  //   prop: "numUnitText",
+  //   label: "数量单位",
+  //   width: "180"
+  // },
   {
-    prop: "numUnitText",
-    label: "数量单位",
-    width: "180"
-  },
-  {
-    prop: "supposedWeight",
+    prop: "supposedWeightText",
     label: "应收重量",
     width: "180"
   },
-  {
-    prop: "weightUnitText",
-    label: "重量单位",
-    width: "180"
-  },
+  // {
+  //   prop: "weightUnitText",
+  //   label: "重量单位",
+  //   width: "180"
+  // },
   {
     prop: "measuringText",
     label: "计量方式",
@@ -236,7 +236,9 @@ const rowAdapter = (list) => {
               ...row,
               numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
-              measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-"
+              measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
+              supposedNumText:`${row.supposedNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              supposedWeightText:`${row.supposedWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }
         })
     }

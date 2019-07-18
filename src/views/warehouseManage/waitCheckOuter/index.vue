@@ -89,9 +89,10 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import { baseMixin } from "@/common/mixin.js";
-import { requestParamsByTimeRange } from "@/common/util.js";
+import { requestParamsByTimeRangeOrigin } from "@/common/util.js";
 // import { judgeAuth } from "@/util/util.js";
 import _ from "lodash";
+import { normalTime } from "@/util/util.js";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
@@ -137,11 +138,29 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "applyRemovalTime",
+    prop: "applyRemovalTimeText",
     label: "出库申请时间",
     width: "180"
   }
 ];
+
+const rowAdapter = (list) => {
+    if (!list) {
+        return []
+    }
+    if (list.length > 0) {
+        list = list.map((row) => {
+            return row = { 
+              ...row,
+              applyRemovalTimeText:normalTime(row.applyRemovalTime),
+              
+            }
+        })
+    }
+    return list
+}
+
+
 export default {
   name: "waitCheckEnter",
   mixins: [baseMixin],
@@ -179,7 +198,7 @@ export default {
     },
     _filter() {
       const { timeRange } = this.form;
-      const _reqParams_ = requestParamsByTimeRange(
+      const _reqParams_ = requestParamsByTimeRangeOrigin(
         this.form,
         timeRange,
         ...EXTRA_PARAMS_KEYS
@@ -207,7 +226,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData = res.data;
+          this.listData ={...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
           this.listData = { ...defaultListData };

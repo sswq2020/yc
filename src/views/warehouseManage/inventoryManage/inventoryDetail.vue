@@ -188,7 +188,7 @@ const defaultForm = {
 };
 const defaultListParams = {
   pageSize: 5,
-  currentPage: 1
+  page: 1
 };
 const defaultListData = {
   paginator: {
@@ -296,8 +296,8 @@ export default {
       this.listData = { ...defaultListData };
       this.getListData();
     },
-    changePage(currentPage) {
-      this.listParams.currentPage = currentPage;
+    changePage(page) {
+      this.listParams.page = page;
       this.getListData();
     },
     authCheckout(item) {
