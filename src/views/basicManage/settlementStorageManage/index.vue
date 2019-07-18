@@ -192,6 +192,7 @@ export default {
           this.listData.list = res.data.list.map(item => {
             return {
               ...item,
+              storeCapacity: item.storeCapacity ? item.storeCapacity : 0,
               createdTimeText: item.createdTime ? moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss") : '',
               addressText: `${item.storeAddressProvince}${item.storeAddressCity}${item.storeAddressCounty}${item.storeAddressStreet}`,
               storeTypeText: item.storeTypeEnum.text,
