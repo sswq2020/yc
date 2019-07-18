@@ -56,7 +56,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="left"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -127,22 +127,26 @@ const defaulttableHeader = [
   {
     prop: "inventoryTotalNums",
     label: "库存数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "inventoryTotalWeight",
     label: "库存重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "releaseNums",
     label: "解押数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "releaseWeight",
     label: "解押重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "releaseCode",

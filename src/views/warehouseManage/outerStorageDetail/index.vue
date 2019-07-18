@@ -102,7 +102,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="left"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -114,7 +114,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="120px" align="left">
+      <el-table-column label="操作" fixed="right" width="80px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
@@ -190,7 +190,8 @@ const defaulttableHeader = [
   {
     prop: "piles",
     label: "层数",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "productName",
@@ -255,7 +256,8 @@ const defaulttableHeader = [
   {
     prop: "incomingId",
     label: "入库单号",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "outsideTypeText",
@@ -270,7 +272,8 @@ const defaulttableHeader = [
   {
     prop: "pickUpPassword",
     label: "提货密码",
-    width: "180"
+    width: "180",
+    align:"right"
   }  
 ];
 

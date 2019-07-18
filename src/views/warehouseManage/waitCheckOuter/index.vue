@@ -65,7 +65,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="left"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -130,12 +130,14 @@ const defaulttableHeader = [
   {
     prop: "supposedRemovalNum",
     label: "申请出库数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "supposedRemovalWeight",
     label: "申请出库重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "applyRemovalTimeText",

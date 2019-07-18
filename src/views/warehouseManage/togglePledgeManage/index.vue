@@ -37,7 +37,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="left"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -93,22 +93,26 @@ const defaulttableHeader = [
   {
     prop: "inventoryTotalNums",
     label: "库存数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "inventoryTotalWeight",
     label: "库存重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "totalPledgeNums",
     label: "质押数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "totalPledgeWeight",
     label: "质押重量",
-    width: "180"
+    width: "180",
+    align:"right"
   }  
 ];
 export default {
