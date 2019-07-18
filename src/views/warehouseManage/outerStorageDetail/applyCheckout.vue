@@ -222,7 +222,6 @@ export default {
           const params = this._serialize_();
           this._doCheckOutApply_(params);
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
