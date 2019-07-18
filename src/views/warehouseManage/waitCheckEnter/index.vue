@@ -145,12 +145,12 @@ import hlBreadcrumb from "@/components/hl-breadcrumb";
 import transitiondialog from "@/components/transitiondialog";
 
 const defaultFormData = {
-  cargoId: "",
-  deliveryStoreId: "",
-  productNameId: "",
-  materialId: "",
-  specificationsId: "",
-  originPlaceId: ""
+  cargoId: null,
+  deliveryStoreId: null,
+  productNameId: null,
+  materialId: null,
+  specificationsId: null,
+  originPlaceId: null
 };
 const defaultListParams = {
   pageSize: 20,

@@ -101,8 +101,8 @@ import hlBreadcrumb from "@/components/hl-breadcrumb";
 const EXTRA_PARAMS_KEYS = ["start", "end"];
 
 const defaultFormData = {
-  cargoId: "",
-  deliveryStoreId: "",
+  cargoId: null,
+  deliveryStoreId: null,
   timeRange: []
 };
 const defaultListParams = {
