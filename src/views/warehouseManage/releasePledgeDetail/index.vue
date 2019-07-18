@@ -150,7 +150,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "releaseTime",
+    prop: "createdTime",
     label: "解押日期",
     width: "180"
   }
