@@ -10,12 +10,12 @@
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="货主" prop="cargoName">
                 <el-input :value="form.cargoName" :disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="提货人"
                 prop="consignee"
@@ -24,7 +24,7 @@
                 <el-input v-model="form.consignee"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="提货密码"
                 prop="pickUpPassword"
@@ -38,68 +38,68 @@
         <div class="form-block" v-for="(item,index) in form.needShowData" :key="item.id">
           <div class="head">库存信息</div>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="交易仓库" prop="deliveryStore">
                 <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="区桩位" prop="pilePosition">
                 <el-input :value="item.pilePosition" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="层数" prop="piles">
                 <el-input :value="item.piles" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="品名" prop="productName">
                 <el-input :value="item.productName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="材质" prop="materialName">
                 <el-input :value="item.materialName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="规格" prop="specificationsName">
                 <el-input :value="item.specificationsName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="产地" prop="originPlaceName">
                 <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="库存数量" prop="totalNumInventory">
                 <el-input :value="item.totalNumInventory" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="库存重量" prop="totalWeightInventory">
                 <el-input :value="item.totalWeightInventory" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="计量方式" prop="measuringText">
                 <el-input :value="item.measuringText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="数量单位" prop="numUnitText">
                 <el-input :value="item.numUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item label="重量单位" prop="weightUnitText">
                 <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
               </el-form-item>
@@ -107,7 +107,7 @@
           </el-row>
           <div class="head">出库信息</div>
           <el-row :gutter="50">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="申请数量"
                 :prop="'needShowData.' + index + '.supposedRemovalNum'"
@@ -116,7 +116,7 @@
                 <el-input v-model.number="item.supposedRemovalNum"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="申请重量"
                 :prop="'needShowData.' + index + '.supposedRemovalWeight'"
@@ -127,7 +127,7 @@
             </el-col>
           </el-row>
           <el-row :gutter="50" v-if="form.needShowData&&form.needShowData.length===1">
-            <el-col :offset="6" :md="6" :sm="12" :xs="24">
+            <el-col :offset="12" :md="12" :sm="12" :xs="24">
               <span
                 style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;"
               >最大申请重量:{{max}}</span>
