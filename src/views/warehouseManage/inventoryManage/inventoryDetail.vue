@@ -116,7 +116,7 @@
         :loading="isListDataLoading"
       >
         <el-table-column
-          align="center"
+          :align="item.align || 'left'"
           :prop="item.prop"
           :label="item.label"
           :key="item.id"
@@ -128,7 +128,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="操作" fixed="right" width="180px" align="center">
+        <el-table-column label="操作" fixed="right" width="180px" align="left">
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -221,12 +221,14 @@ const defaulttableHeader = [
   {
     prop: "operateNum",
     label: "操作数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "operateWeight",
     label: "操作重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "stateText",

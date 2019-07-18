@@ -65,7 +65,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="left"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -77,7 +77,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="180px" align="left">
+      <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="Retrieval(listData.list[scope.$index])">出库</el-button>
         </template>
@@ -130,12 +130,14 @@ const defaulttableHeader = [
   {
     prop: "supposedRemovalNum",
     label: "申请出库数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "supposedRemovalWeight",
     label: "申请出库重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "applyRemovalTimeText",

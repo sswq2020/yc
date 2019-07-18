@@ -37,7 +37,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -49,7 +49,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="120px" align="center">
+      <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
           <el-button type="text"  v-if="listData.list[scope.$index].inventoryAvailableWeight > 0"  @click="GoPledge(listData.list[scope.$index])">质押</el-button>
           <el-button type="text"  v-if="listData.list[scope.$index].totalPledgeWeight > 0" @click="GoReleasePledge(listData.list[scope.$index])">解押</el-button>
@@ -93,22 +93,26 @@ const defaulttableHeader = [
   {
     prop: "inventoryTotalNums",
     label: "库存数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "inventoryTotalWeight",
     label: "库存重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "totalPledgeNums",
     label: "质押数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "totalPledgeWeight",
     label: "质押重量",
-    width: "180"
+    width: "180",
+    align:"right"
   }  
 ];
 export default {

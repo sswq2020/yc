@@ -56,7 +56,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -68,7 +68,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="60px" align="center">
+      <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">质押单</el-button>
         </template>
@@ -127,22 +127,26 @@ const defaulttableHeader = [
   {
     prop: "inventoryTotalNums",
     label: "库存数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "inventoryTotalWeight",
     label: "库存重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "pledgeNums",
     label: "质押数量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "pledgeWeight",
     label: "质押重量",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "pledgeCode",

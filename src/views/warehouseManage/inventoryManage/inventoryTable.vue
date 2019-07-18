@@ -145,7 +145,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="left"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -242,7 +242,8 @@ const defaulttableHeader = [
   {
     prop: "incomingDays",
     label: "入库天数",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "cargoName",
@@ -257,7 +258,8 @@ const defaulttableHeader = [
   {
     prop: "piles",
     label: "层数",
-    width: "180"
+    width: "180",
+    align:"right"
   },
   {
     prop: "productName",
