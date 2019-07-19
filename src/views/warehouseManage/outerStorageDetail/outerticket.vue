@@ -3,8 +3,8 @@
     <tr>
       <td colspan="12">
           <div style="display:flex;justify-content:space-between">
-          <div>制单日期:{{data[0]&&data[0].createdTime || "-"}}</div>
-          <div>NO.{{data[0]&&data[0].incomingId || "-"}}</div>
+          <div>制单日期:{{data.list&&data.list[0].createdTime || "-"}}</div>
+          <div>NO.{{data.list&&data.list[0].incomingId || "-"}}</div>
         </div>
       </td>
     </tr>

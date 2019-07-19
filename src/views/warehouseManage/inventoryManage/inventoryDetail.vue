@@ -457,7 +457,7 @@ export default {
           switch (res.code) {
             case Dict.SUCCESS:
               that.$messageSuccess(`取消出库成功`);
-              that.getList();
+              that.getListData();
               break;
             default:
               that.$messageError(`取消出库失败,${res.mesg}`);

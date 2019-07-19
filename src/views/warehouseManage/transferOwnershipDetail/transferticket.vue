@@ -36,7 +36,7 @@
       <th>备注</th>
     </tr>
     <tr class="alt"  v-for="(item,index) in data" :key="index">
-      <td>{{item.transferType || ""}}</td>
+      <td>{{item.transferTypeText || ""}}</td>
       <td>{{item.pilePosition || ""}}</td>
       <td>--</td>
       <td>{{item.productName || ""}}</td>
