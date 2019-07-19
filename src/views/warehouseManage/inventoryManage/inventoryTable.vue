@@ -12,7 +12,7 @@
         class="hlB_buts"
         size="small"
         icon="el-icon-bank-card"
-        :disabled="!equalShipperItems"
+        :disabled="!equalShipperAndStoreItems"
         @click="()=>{this.batchCheckOutVisible = true}"
       >出库申请</el-button>
       <el-button
@@ -386,11 +386,17 @@ export default {
   },
   computed: {
     ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
-    /**选中的必须是同一个货主才能出库和过户*/
+    /**选中的必须是同一个货主才能过户,不限制仓库*/
     equalShipperItems() {
       let arr = this.selectedItems.map(item => item.cargoId);
       return new Set(arr).size === 1;
     },
+    /**选中的必须是同一个货主和同一仓库才能出库*/
+    equalShipperAndStoreItems() {
+      let arr = this.selectedItems.map(item => item.deliveryStoreId);
+      const flag = new Set(arr).size === 1;
+      return this.equalShipperItems && flag
+    },    
     /**简单的判断是没有余量*/
     IsNoSurplus() {
       return this.selectedItems.some(item=>{
