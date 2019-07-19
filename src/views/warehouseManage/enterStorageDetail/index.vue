@@ -116,7 +116,7 @@
 
       <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
-          <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
+          <el-button type="text" @click="detail(listData.list[scope.$index])">入库单</el-button>
         </template>
       </el-table-column>
     </heltable>
