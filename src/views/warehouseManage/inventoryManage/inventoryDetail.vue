@@ -399,14 +399,14 @@ export default {
           });
           switch (res.code) {
             case Dict.SUCCESS:
-              if (res.data) {
+              if (res.data && Number(res.data)) {
                 this.setCheckout([{stockId:stockInventoryId}]);
                 this.$router.push({
                   path:
                     "/web/yc/storage/stockRemovalDetail/page/applyCheckOut"
                 });
               } else {
-                this.$messageError("当前存在数据无余量，不可过户");
+                this.$messageError("当前存在数据无余量，不可出库申请");
               }
               break;
             default:
@@ -430,7 +430,7 @@ export default {
           });
           switch (res.code) {
             case Dict.SUCCESS:
-              if (res.data) {
+              if (res.data && Number(res.data)) {
               this.setTransferOwnership([{stockId:stockInventoryId}]);
               this.$router.push({
                 path: "/web/settlement/pageList/transferOwnershipManage"
