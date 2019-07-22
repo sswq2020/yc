@@ -3,7 +3,7 @@
     <tr>
       <td colspan="11">
           <div style="display:flex;justify-content:space-between">
-          <div>入单日期:{{data[0]&&data[0].incomingTime || "-"}}</div>
+          <div>入单日期:{{data[0]&&normalTime(data[0].incomingTime)}}</div>
           <div>NO.{{data[0]&&data[0].incomingId || "-"}}</div>
         </div>
       </td>
