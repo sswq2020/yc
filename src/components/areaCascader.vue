@@ -6,7 +6,8 @@
                   placeholder="请选择省市区"
                   :value="value"
                   size="small"
-                  :clearable="clearable">
+                  :clearable="clearable"
+                  :props="{ checkStrictly: false }">
         </el-cascader>
     </div>
 </template>
