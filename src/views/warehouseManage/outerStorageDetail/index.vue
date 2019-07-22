@@ -113,7 +113,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" fixed="right" width="80px" align="left">
+      <el-table-column label="操作" fixed="right" width="100px" align="left">
         <template slot-scope="scope">
           <el-button type="text" @click="detail(listData.list[scope.$index])">出库单</el-button>
         </template>
