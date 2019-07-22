@@ -60,7 +60,6 @@
       :pageSize="listParams.pageSize"
       :pageSizes="[20]"
       :data="listData.list"
-      :multiple="true"
       @selection-change="selectChange"
       :loading="isListDataLoading"
     >

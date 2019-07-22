@@ -19,7 +19,8 @@
               <el-form-item
                 label="提货人"
                 prop="consignee"
-                :rules="{ required: true, message: '请输入提货人', trigger: 'blur' }"
+                :rules="[{ required: true, message: '请输入提货人', trigger: 'blur' },
+                        {  max: 10, message: '最多10位',trigger: 'blur'}]"
               >
                 <el-input v-model="form.consignee"></el-input>
               </el-form-item>
@@ -28,7 +29,8 @@
               <el-form-item
                 label="提货密码"
                 prop="pickUpPassword"
-                :rules="{ required: true, message: '请输入提货密码', trigger: 'blur' }"
+                :rules="[{ required: true, message: '请输入提货密码', trigger: 'blur' },
+                        { pattern: /^\d{6}$/,message: '必须是6位纯数字'}]"
               >
                 <el-input v-model.number="form.pickUpPassword"></el-input>
               </el-form-item>
@@ -183,6 +185,10 @@ export default {
           required: true,
           message: "请输入申请重量",
           trigger: "blur"
+        },
+        {  max: 10, 
+           message: '最多10位',
+           trigger: 'blur'
         },
         { 
           pattern: /^\d+(\.\d{1,3})?$/,
