@@ -47,7 +47,6 @@
       :pageSize="listParams.pageSize"
       :data="listData.list"
       :loading="isListDataLoading"
-      :multiple="true"
     >
       <el-table-column
         :align="item.align || 'left'"

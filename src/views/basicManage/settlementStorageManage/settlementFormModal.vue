@@ -17,7 +17,7 @@
         </el-form-item>
       </div>
       <el-form-item label="交割库容量" prop="storeCapacity">
-        <InputNumber v-model="form.storeCapacity"  :precision="3" :max="9999999999"  placeholder="请输入"/>
+        <InputNumber v-model="form.storeCapacity"  :precision="3" :max="999999.999"  placeholder="请输入"/>
       </el-form-item>
       <el-form-item label="交割库类型" prop="storeType">
         <el-select v-model="form.storeType" placeholder="请选择">
