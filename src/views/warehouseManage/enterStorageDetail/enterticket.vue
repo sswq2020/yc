@@ -19,7 +19,7 @@
       <th colspan="2">{{data[0]&&data[0].oldIncomingId || "-"}}</th>
       <th>操作过程</th>
       <th></th>
-      <th>收货号</th>
+      <th>收货单号</th>
       <th colspan="5"></th>
     </tr>
     <tr>
