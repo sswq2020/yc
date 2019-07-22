@@ -153,6 +153,10 @@ export default {
           message: "请输入质押重量",
           trigger: "blur"
         },
+        {  max: 10, 
+           message: '最多10位',
+           trigger: 'blur'
+        },
         { 
           pattern: /^\d+(\.\d{1,3})?$/,
           message: '正整数可以包含3位小数'
