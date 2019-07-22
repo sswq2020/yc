@@ -46,7 +46,7 @@
       <td>{{item.materialName || "--"}}</td>
       <td>{{item.specificationsName || "--"}}</td>
       <td>{{item.numUnitTypeEnum.text || "--"}}</td>
-      <td>{{item.totalNumInventory || "--"}}</td>
+      <td>{{item.actualRemovalNum || "--"}}</td>
       <td>{{item.actualRemovalWeight || "--"}}</td>
       <td>{{item.measuringTypeEnum.text || "--"}}</td>
       <td>--</td>
@@ -63,14 +63,14 @@
       <td colspan="12" height="50px"></td>
     </tr>
     <tr class="alt">
-      <td colspan="12">出库说明:出库请单面点清数量,离库后概不负责。</td>
+      <td colspan="12">出库说明:出库请当面点清数量,离库后概不负责。</td>
     </tr>
 
     <tr>
       <th colspan="12" height="300px">
         <div style="display:flex">
           <div style="flex:2;text-align:left">开单人:</div>
-          <div style="flex:2;text-align:left">发货员(章):</div>
+          <div style="flex:2;text-align:left">发货员:</div>
           <div style="flex:1;text-align:left">提货人:</div>
         </div>
       </th>

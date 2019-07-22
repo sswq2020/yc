@@ -234,7 +234,11 @@ const RULES = {
     { required: true, message: "请选择区桩位", trigger: "blur" }
   ],
   measuring: [{ required: true, message: "请选择计量方式", trigger: "blur" }],
-  supposedNum: [{ required: true, message: "请输入应收数量", trigger: "blur" }],
+  supposedNum: [
+    { required: true, message: "请输入应收数量", trigger: "blur" },
+    { max: 10, message: '最多10位', trigger: 'blur' },
+    { pattern: /^\d$/,message: '必须是正整数'},    
+    ],
   supposedWeight: [
     { required: true, message: "请输入应收重量", trigger: "blur" },
     {max: 10, message: '最多10位', trigger: 'blur' },

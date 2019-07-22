@@ -98,7 +98,6 @@
       :pageSize="listParams.pageSize"
       :pageSizes="[20]"
       :data="listData.list"
-      :multiple="true"
       :loading="isListDataLoading"
     >
       <el-table-column
