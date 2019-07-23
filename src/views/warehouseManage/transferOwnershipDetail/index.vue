@@ -266,7 +266,7 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               piles:row.piles || "-",
-              transferNumsText:`${row.transferNums}${row.numUnitText}`,
+              transferNumsText:`${row.transferNums || "-"}${row.numUnitText}`,
               realTransferNumsText:`${row.realTransferNums}${row.numUnitText}`,
               transferWeightsText:`${row.transferWeights}${row.weightUnitText}`,
               realTransferWeightsText:`${row.realTransferWeights}${row.weightUnitText}`,
