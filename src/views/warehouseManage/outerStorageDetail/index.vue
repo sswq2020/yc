@@ -92,11 +92,11 @@
     </div>
     <heltable
       ref="tb"
+      @sizeChange="changePageSize"
       @pageChange="changePage"
       :total="listData.paginator.totalCount"
       :currentPage="listParams.page"
       :pageSize="listParams.pageSize"
-      :pageSizes="[20]"
       :data="listData.list"
       :loading="isListDataLoading"
     >
@@ -341,6 +341,10 @@ export default {
     changePage(page) {
       this.listParams.page = page;
       this.getListData();
+    },
+    changePageSize(pageSize) {
+      this.listParams = { ...defaultListParams, pageSize:pageSize };
+      this.getListData();      
     },
     getListDataBylistParams() {
       this.listParams = { ...defaultListParams };
