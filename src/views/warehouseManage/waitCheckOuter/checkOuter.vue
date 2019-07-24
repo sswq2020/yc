@@ -171,8 +171,8 @@ export default {
            trigger: 'blur'
         },
         { 
-          pattern: /^\d+(\.\d{1,3})?$/,
-          message: '正整数可以包含3位小数'
+          pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,3})?$/,
+          message: '正数可以包含3位小数'
         },
         {
           validator(rule, value, callback) {

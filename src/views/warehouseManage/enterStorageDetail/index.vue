@@ -266,7 +266,7 @@ const rowAdapter = (list) => {
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
-              numText:`${row.num}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              numText:`${row.num || "-"}${(row.num&&row.numUnitTypeEnum)&&row.numUnitTypeEnum.text || ""}`,
               weightText:`${row.weight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
               incomingTimeStr:normalTime(row.incomingTime),
               oldIncomingIdText:row.oldIncomingId || "-"

@@ -291,8 +291,8 @@ const rowAdapter = (list) => {
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
               outsideTypeText:row.outsideTypeEnum&&row.outsideTypeEnum.text || "-",
               actualRemovalTimeText:normalTime(row.actualRemovalTime),
-              supposedRemovalNumText:`${row.supposedRemovalNum || 0}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
-              actualRemovalNumText:`${row.actualRemovalNum || 0}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              supposedRemovalNumText:`${row.supposedRemovalNum || "-"}${(row.numUnitTypeEnum&&row.supposedRemovalNum)&&row.numUnitTypeEnum.text || ""}`,
+              actualRemovalNumText:`${row.actualRemovalNum || "-"}${(row.numUnitTypeEnum&&row.actualRemovalNum)&&row.numUnitTypeEnum.text || ""}`,
               supposedRemovalWeightText:`${row.supposedRemovalWeight || 0}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
               actualRemovalWeightText:`${row.actualRemovalWeight || 0}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }

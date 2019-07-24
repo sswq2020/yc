@@ -237,7 +237,7 @@ const rowAdapter = (list) => {
               numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
-              supposedNumText:`${row.supposedNum}${row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-"}`,
+              supposedNumText:`${row.supposedNum || "-"}${(row.numUnitTypeEnum&&row.supposedNum)&&row.numUnitTypeEnum.text || ""}`,
               supposedWeightText:`${row.supposedWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }
         })

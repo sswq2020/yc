@@ -120,8 +120,8 @@ export default {
            trigger: 'blur'
         },
         { 
-          pattern: /^\d+(\.\d{1,3})?$/,
-          message: '正整数可以包含3位小数'
+          pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,3})?$/,
+          message: '正数可以包含3位小数'
         },        
         {
           validator(rule, value, callback) {
@@ -129,7 +129,7 @@ export default {
               weight = max;
             }
             if(!number3) {
-              callback(new Error('正整数可以包含3位小数'))
+              callback(new Error('正数可以包含3位小数'))
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));

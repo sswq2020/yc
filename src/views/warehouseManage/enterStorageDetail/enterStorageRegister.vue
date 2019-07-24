@@ -241,7 +241,7 @@ const RULES = {
   supposedWeight: [
     { required: true, message: "请输入应收重量", trigger: "blur" },
     {max: 10, message: '最多10位', trigger: 'blur' },
-    {  pattern: /^\d+(\.\d{1,3})?$/, message: '正整数可以包含3位小数'  },
+    {  pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,3})?$/, message: '正数可以包含3位小数'  },
   ],
   weightUnit: [{ required: true, message: "请选择数量单位", trigger: "blur" }],
   numUnit: [{ required: true, message: "请选择重量单位", trigger: "blur" }]
