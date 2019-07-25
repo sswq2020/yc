@@ -20,13 +20,13 @@
   min-width: 64px;
   height: 32px;
   font-size: 14px;
-  padding: 9px 10px;
+  padding: 0 10px;
 }
 .el-button--medium {
   min-width: 80px;
   height: 32px;
   font-size: 14px;
-  padding: 10px;
+  padding: 0 10px;
 }
 .el-button--small span, .el-button--medium span {
  display: inline-block;
