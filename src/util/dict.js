@@ -57,7 +57,18 @@ DICT.STORAGE_TYPE = {
  [DICT.STORAGE_TYPE_OIL]:"石油",
 } 
 
+/**钢材*/
+DICT.PRODUCT_STELL = '00'
+/**石油*/
+DICT.PRODUCT_OIL = '01'
+/**木材*/
+DICT.PRODUCT_WOOD = '02'
 
-
+/**商品大类*/
+DICT.PRODUCT_CATEGORY = {
+    [DICT.PRODUCT_STELL]:"钢材",
+    [DICT.PRODUCT_OIL]:"石油",
+    [DICT.PRODUCT_WOOD]:"木材",
+}
 
 export default DICT;
