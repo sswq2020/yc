@@ -76,6 +76,7 @@ export const bankMixin = {
 export const dictMixin = {
     data() {
         return {
+            HywEmissionStandardList: [],
             YcNumUnitList: [],
             YcWeightUnitList: [],
             YcIncomingTypeList: [],

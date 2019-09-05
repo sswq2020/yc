@@ -5,7 +5,7 @@ const hostList = {
     default: ""
 };
 
-const IS_MOCK = false;
+const IS_MOCK = true;
 const storageURL = ""
 
 const dict = { 'SUCCESS': "000000" }
@@ -1121,7 +1121,27 @@ const mockRouterMap = {
                                     "text": "木材"
                                 }
                             ]
-                        }
+                        },
+                        {
+                            "entryCode": "HywEmissionStandard",
+                            "entryName": "排放标准",
+                            "items": [
+                                {
+                                    "disabled": false,
+                                    "id": "0",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "排放标准1"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "1",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "排放标准2"
+                                }
+                            ]
+                        },
                     ]
                 };
             }
