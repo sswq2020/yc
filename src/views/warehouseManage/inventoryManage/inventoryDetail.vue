@@ -21,6 +21,36 @@
           <el-col :md="6" :sm="12" :xs="24">
             <el-form-item label="交易仓库:" prop="deliveryStore">{{form.deliveryStore}}</el-form-item>
           </el-col>
+        </el-row>
+
+        <!--石油参数开始-->
+        <el-row v-if="productType===Dict.PRODUCT_OIL">
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="油罐编号:" prop="oilTankNo">{{form.oilTankNo}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="品类:" prop="productClass">{{form.productClass}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="牌号:" prop="productBrand">{{form.productBrand}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="排放标准:" prop="emissionStandard">{{form.emissionStandard}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="密度:" prop="density">{{form.density}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="型号:" prop="model">{{form.model}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="生产商:" prop="manuFacturer">{{form.Manufacturer}}</el-form-item>
+          </el-col>
+        </el-row>
+        <!--石油参数结束-->
+
+        <!--钢木参数开始-->
+        <el-row v-if="productType!==Dict.PRODUCT_OIL">
           <el-col :md="6" :sm="12" :xs="24">
             <el-form-item label="区桩位:" prop="pilePosition">{{form.pilePosition}}</el-form-item>
           </el-col>
@@ -39,6 +69,10 @@
           <el-col :md="6" :sm="12" :xs="24">
             <el-form-item label="产地:" prop="originPlaceName">{{form.originPlaceName}}</el-form-item>
           </el-col>
+        </el-row>
+        <!--钢木参数结束-->
+
+        <el-row>
           <el-col :md="6" :sm="12" :xs="24">
             <el-form-item label="库存数量:" prop="totalNumInventory">{{form.totalNumInventory}}</el-form-item>
           </el-col>
@@ -146,7 +180,16 @@ const defaultForm = {
   totalWeightInventory: "",
   measuringText: "",
   numUnitText: "",
-  weightUnitText: ""
+  weightUnitText: "",
+
+  /**石油类型的*/
+  oilTankNo: "",
+  productClass: "",
+  productBrand: "",
+  emissionStandard: "",
+  density: "",
+  model: "",
+  manuFacturer: ""
 };
 const defaultListParams = {
   pageSize: 5,
@@ -160,26 +203,6 @@ const defaultListData = {
   list: []
 };
 const defaulttableHeader = [
-  // {
-  //   prop: "totalNumInventory",
-  //   label: "库存数量",
-  //   width: "180"
-  // },
-  // {
-  //   prop: "numUnitText",
-  //   label: "数量单位",
-  //   width: "180"
-  // },
-  // {
-  //   prop: "totalWeightInventory",
-  //   label: "库存重量",
-  //   width: "180"
-  // },
-  // {
-  //   prop: "weightUnitText",
-  //   label: "重量单位",
-  //   width: "180"
-  // },
   {
     prop: "operateNum",
     label: "操作数量",
@@ -235,12 +258,13 @@ export default {
       // #endgion
       /**表格相关*/
       tableHeader: defaulttableHeader,
-      showOverflowTooltip: true
+      showOverflowTooltip: true,
+      Dict: Dict
     };
   },
   computed: {
     ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
-    ...mapState("inventoryManage", ["findDetail"])
+    ...mapState("inventoryManage", ["findDetail", "productType"])
   },
   methods: {
     ...mapMutations("inventoryManage", ["setTransferOwnership", "setCheckout"]),
