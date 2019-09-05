@@ -8,89 +8,51 @@
             <div class="head">库存信息</div>
           </el-col>
         </el-row>
-        <el-row :gutter="50">
+        <el-row>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="入库单号" prop="incomingId">
-              <el-input :value="form.incomingId" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="入库单号:" prop="incomingId">{{form.incomingId}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="入库日期" prop="incomingTimeStr">
-              <el-input :value="form.incomingTimeStr" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="入库日期:" prop="incomingTimeStr">{{form.incomingTimeStr}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="货主" prop="cargoName">
-              <el-input :value="form.cargoName" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="交易仓库" prop="deliveryStore">
-              <el-input :value="form.deliveryStore" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="货主:" prop="cargoName">{{form.cargoName}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="区桩位" prop="pilePosition">
-              <el-input :value="form.pilePosition" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="交易仓库:" prop="deliveryStore">{{form.deliveryStore}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="层数" prop="piles">
-              <el-input :value="form.piles" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="品名" prop="productName">
-              <el-input :value="form.productName" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="区桩位:" prop="pilePosition">{{form.pilePosition}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="材质" prop="materialName">
-              <el-input :value="form.materialName" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="层数:" prop="piles">{{form.piles}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="规格" prop="specificationsName">
-              <el-input :value="form.specificationsName" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="产地" prop="originPlaceName">
-              <el-input :value="form.originPlaceName" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="品名:" prop="productName">{{form.productName}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="库存数量" prop="totalNumInventory">
-              <el-input :value="form.totalNumInventory" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="材质:" prop="materialName">{{form.materialName}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="库存重量" prop="totalWeightInventory">
-              <el-input :value="form.totalWeightInventory" :disabled="disabled"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="50">
-          <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="计量方式" prop="measuringText">
-              <el-input :value="form.measuringText" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="规格:" prop="specificationsName">{{form.specificationsName}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="数量单位" prop="numUnitText">
-              <el-input :value="form.numUnitText" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="产地:" prop="originPlaceName">{{form.originPlaceName}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="重量单位" prop="weightUnitText">
-              <el-input :value="form.weightUnitText" :disabled="disabled"></el-input>
-            </el-form-item>
+            <el-form-item label="库存数量:" prop="totalNumInventory">{{form.totalNumInventory}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="库存重量:" prop="totalWeightInventory">{{form.totalWeightInventory}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="计量方式:" prop="measuringText">{{form.measuringText}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="数量单位:" prop="numUnitText">{{form.numUnitText}}</el-form-item>
+          </el-col>
+          <el-col :md="6" :sm="12" :xs="24">
+            <el-form-item label="重量单位:" prop="weightUnitText">{{form.weightUnitText}}</el-form-item>
           </el-col>
         </el-row>
       </el-form>
@@ -171,7 +133,7 @@ import hlBreadcrumb from "@/components/hl-breadcrumb";
 const defaultForm = {
   incomingId: "",
   incomingTime: "",
-  incomingTimeStr:"",
+  incomingTimeStr: "",
   cargoName: "",
   deliveryStore: "",
   pilePosition: "",
@@ -182,9 +144,9 @@ const defaultForm = {
   originPlaceName: "",
   totalNumInventory: "",
   totalWeightInventory: "",
-  measuringText:"",
-  numUnitText:"",
-  weightUnitText:""
+  measuringText: "",
+  numUnitText: "",
+  weightUnitText: ""
 };
 const defaultListParams = {
   pageSize: 5,
@@ -222,13 +184,13 @@ const defaulttableHeader = [
     prop: "operateNum",
     label: "操作数量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "operateWeight",
     label: "操作重量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "stateText",
@@ -237,23 +199,23 @@ const defaulttableHeader = [
   }
 ];
 
-const rowAdapter = (list) => {
-    if (!list) {
-        return []
-    }
-    if (list.length > 0) {
-        list = list.map((row) => {
-            return row = { 
-              ...row,
-             stateText: Dict.INVENTORY_STATUS[row.state],
-             numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
-             weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-", 
-             }
-        })
-    }
-    return list
-}
-
+const rowAdapter = list => {
+  if (!list) {
+    return [];
+  }
+  if (list.length > 0) {
+    list = list.map(row => {
+      return (row = {
+        ...row,
+        stateText: Dict.INVENTORY_STATUS[row.state],
+        numUnitText: (row.numUnitTypeEnum && row.numUnitTypeEnum.text) || "-",
+        weightUnitText:
+          (row.weightUnitTypeEnum && row.weightUnitTypeEnum.text) || "-"
+      });
+    });
+  }
+  return list;
+};
 
 export default {
   name: "inventoryDetail",
@@ -291,7 +253,7 @@ export default {
       // if (this.IS_SHIPPER) {
       //   this.findDetail.userId = this.userId;
       // }
-      return _.clone(Object.assign({},this.form, this.listParams));
+      return _.clone(Object.assign({}, this.form, this.listParams));
     },
     clearListParams() {
       this.listParams = { ...defaultListParams };
@@ -344,8 +306,9 @@ export default {
     },
     Frozen(item) {
       let that = this;
-      const {stockInventoryId} = item;
-      that.$confirm(`确定要冻结`, "提示", {
+      const { stockInventoryId } = item;
+      that
+        .$confirm(`确定要冻结`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -365,8 +328,9 @@ export default {
     },
     UnFrozen(item) {
       let that = this;
-      const {stockInventoryId} = item;
-      that.$confirm(`确定要解冻`, "提示", {
+      const { stockInventoryId } = item;
+      that
+        .$confirm(`确定要解冻`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -387,7 +351,8 @@ export default {
     CheckOut(item) {
       let that = this;
       const { stockInventoryId } = item;
-      that.$confirm(`确定要出库申请`, "提示", {
+      that
+        .$confirm(`确定要出库申请`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -400,10 +365,9 @@ export default {
           switch (res.code) {
             case Dict.SUCCESS:
               if (res.data && Number(res.data)) {
-                this.setCheckout([{stockId:stockInventoryId}]);
+                this.setCheckout([{ stockId: stockInventoryId }]);
                 this.$router.push({
-                  path:
-                    "/web/yc/storage/stockRemovalDetail/page/applyCheckOut"
+                  path: "/web/yc/storage/stockRemovalDetail/page/applyCheckOut"
                 });
               } else {
                 this.$messageError("当前存在数据无余量，不可出库申请");
@@ -418,7 +382,8 @@ export default {
     TransferOwner(item) {
       let that = this;
       const { stockInventoryId } = item;
-      that.$confirm(`确定要过户`, "提示", {
+      that
+        .$confirm(`确定要过户`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -431,10 +396,10 @@ export default {
           switch (res.code) {
             case Dict.SUCCESS:
               if (res.data && Number(res.data)) {
-              this.setTransferOwnership([{stockId:stockInventoryId}]);
-              this.$router.push({
-                path: "/web/settlement/pageList/transferOwnershipManage"
-              });
+                this.setTransferOwnership([{ stockId: stockInventoryId }]);
+                this.$router.push({
+                  path: "/web/settlement/pageList/transferOwnershipManage"
+                });
               } else {
                 this.$messageError("当前存在数据无余量，不可过户");
               }
@@ -447,7 +412,8 @@ export default {
     },
     CancelCheckout(item) {
       let that = this;
-      that.$confirm(`确定要取消出库`, "提示", {
+      that
+        .$confirm(`确定要取消出库`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -469,7 +435,9 @@ export default {
       if (!this.findDetail) {
         this.back();
       } else {
-        this.form = Object.assign({}, this.form, this.findDetail,{stockInventoryId:this.findDetail.id});
+        this.form = Object.assign({}, this.form, this.findDetail, {
+          stockInventoryId: this.findDetail.id
+        });
         this.clearListParams();
       }
     }
