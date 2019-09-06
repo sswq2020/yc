@@ -716,31 +716,11 @@ export default {
   watch: {
     storageclass(newV, oldV) {
       if (newV !== oldV) {
-        if (newV === Dict.PRODUCT_OIL) {
-          this.form = {
-            ...this.form,
-            oiltankId: null,
-            firstCatalogId: null,
-            trademarkId: null,
-            emissionStandard: null
-          };
-        } else {
-          this.form = {
-            ...this.form,
-            // cargoId: null,
-            // deliveryStoreId: null,
-            productNameId: null,
-            materialId: null,
-            specificationsId: null,
-            originPlaceId: null
-          };
-        }
         this.clear()
         /**如果新旧值都是钢木,不要再请求*/
-        if((newV === Dict.PRODUCT_STELL&& oldV===Dict.PRODUCT_WOOD) || (oldV === Dict.PRODUCT_STELL&& newV===Dict.PRODUCT_WOOD)) {
-          return 
+        if(newV === Dict.PRODUCT_OIL || oldV===Dict.PRODUCT_OIL) {
+          this._getAllBaseInfo(newV)
         }
-        this._getAllBaseInfo(newV)
       }
     },
     "form.deliveryStoreId": {
