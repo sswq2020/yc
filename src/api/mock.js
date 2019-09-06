@@ -244,14 +244,33 @@ const stockRemovalBill = {
 }
 
 
-const cargoMap = { "1": "小红", "2": "熊安明", "c8254b4eb6154d9d91992acdf0df248a": "1", "fba7fb0eabc64ee882233e85d9b62d26": "kkkkkyinkai", "95105a94a7c5487c93616d505958c850": "test1" }
-const specificationsMap = { "5d9992cab42840138a35b585e637b5e1": "25mm*20mm*30mm", "8810851ea47c414db9129f14aba557ed": "1", "b609063bb007469ab52cccc5f930c685": "11", "cc1926c4da1448739ddd8a0d3e1f82eb": "30*20*30" }
-const materialMap = { "8293674dcc74426e97983b85f5bfd305": "ABC1" }
-const productNameMap = { "0b8b112b5eb34d8b824c6cb5dcb5a686": "粗石油222", "b2fd07bb44d94647a7731f6cac488f62": "粗石油222", "ce78797629a448c89f2e0330de4c1ce1": "H型钢" }
-const originPlaceMap = { "bc5ecc7158f44eccae90cada6e986165": "测试1" }
-const deliveryStoreMap = { "bc5ecc7158f44eccae90cada6e986165": "仓库1", "bc5ecc7158f44ecc56": "仓库2" }
-const pilePositionMap = { "bc5ecc7158f44eccae90cada6e986165": "区桩A", "bc5ecc7158f44ecc56": "区桩B" }
-
+const cargoList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "@CNAME()",
+    "sonSearchList": []
+}
+const specificationsList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "@INTEGER(1,20)mm*@INTEGER(1,20)mm*30mm",
+    "sonSearchList": []
+}
+const materialList = { "8293674dcc74426e97983b85f5bfd305": "ABC1" }
+const originPlaceList = { "bc5ecc7158f44eccae90cada6e986165": "测试1" }
+const productNameList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "@PICK('粗石油','H型钢')@INTEGER(1,222)",
+    "sonSearchList": []
+}
+const pilePositionList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "区桩@PICK('A','B','C','D','E')",
+    "sonSearchList": []
+}
+const emissionStandardList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "('国六','国五')",
+    "sonSearchList": []
+}
 const MockRole = {
     role: "@PICK('1','2')"  // 货主 1,仓管员 2
 }
@@ -368,7 +387,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/web/yc/base/stockInventoryDetail/page',
+            router: storageURL + '/web/yc/storage/stockInventoryDetail/page',
             result(params) {
                 return {
                     ...body,
@@ -764,10 +783,10 @@ const mockRouterMap = {
                         "num": 23,
                         "weight": 243,
                         "registerId": "SH1905060002",
-                        "registerTime":'@DATE("yyyy-MM-dd HH:mm:ss")',
-                        "summation":87,
-                        "remark":"备注",
-                        "productTypeCode":"34234"
+                        "registerTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+                        "summation": 87,
+                        "remark": "备注",
+                        "productTypeCode": "34234"
                     },
 
                 };
@@ -811,10 +830,10 @@ const mockRouterMap = {
                         "num": 23,
                         "weight": 243,
                         "registerId": "SH1905060002",
-                        "registerTime":'@DATE("yyyy-MM-dd HH:mm:ss")',
-                        "summation":87,
-                        "remark":"备注",
-                        "chineseWeights":"" // 中文重量
+                        "registerTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+                        "summation": 87,
+                        "remark": "备注",
+                        "chineseWeights": "" // 中文重量
                     },
 
                 };
@@ -1000,17 +1019,51 @@ const mockRouterMap = {
             isMock: IS_MOCK,
             methods: 'get',
             router: '/web/yc/inventory/transfer/base',
-            result() {
+            result(productType) {
                 return {
                     ...body,
                     data: {
-                        "cargoMap": cargoMap,
-                        "specificationsMap": specificationsMap,
-                        "materialMap": materialMap,
-                        "productNameMap": productNameMap,
-                        "originPlaceMap": originPlaceMap,
-                        "deliveryStoreMap": deliveryStoreMap,
-                        "pilePositionMap": pilePositionMap
+                        "cargoList|3": [cargoList],
+                        "specificationsList|3": [specificationsList],
+                        "originPlaceList": [originPlaceList],
+                        "productNameList|3": [productNameList],
+                        "pilePositionList|3": [pilePositionList],
+                        "emissionStandardList|2": [emissionStandardList],
+                        "materialList": [materialList],
+                        "firstCatalogList": [{
+                            "id": "5",
+                            "text": '汽油',
+                            "sonSearchList": [
+                                { 'id': '51', 'text': "92" },
+                                { 'id': '52', 'text': '95' }
+                            ]
+                        },
+                        {
+                            "id": "6",
+                            "text": '柴油',
+                            "sonSearchList": [
+                                { 'id': '61', 'text': "-10" },
+                                { 'id': '62', 'text': '-20' }
+                            ]
+                        }
+                        ],
+                        "deliveryStoreList": [{
+                            "id": "2",
+                            "text": '仓库一',
+                            "sonSearchList": [
+                                { 'id': '21', 'text': "1号罐" },
+                                { 'id': '22', 'text': '2号罐' }
+                            ]
+                        },
+                        {
+                            "id": "3",
+                            "text": '仓库二',
+                            "sonSearchList": [
+                                { 'id': '31', 'text': '3号罐' },
+                                { 'id': '32', 'text': '4号罐' }
+                            ]
+                        }
+                        ],
                     }
                 };
             }
