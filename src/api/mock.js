@@ -254,8 +254,8 @@ const specificationsList = {
     "text": "@INTEGER(1,20)mm*@INTEGER(1,20)mm*30mm",
     "sonSearchList": []
 }
-const materialList = { "8293674dcc74426e97983b85f5bfd305": "ABC1" }
-const originPlaceList = { "bc5ecc7158f44eccae90cada6e986165": "测试1" }
+const materialList = { id:"8293674dcc74426e97983b85f5bfd305", text:"ABC1",sonSearchList:[] }
+const originPlaceList = { id:"bc5ecc7158f44eccae90cada6e986165", text:"测试1", sonSearchList:[]}
 const productNameList = {
     "id|+1": "@INTEGER(1,2019690999)",
     "text": "@PICK('粗石油','H型钢')@INTEGER(1,222)",
