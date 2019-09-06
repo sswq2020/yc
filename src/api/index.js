@@ -953,8 +953,8 @@ export default {
      * @author sswq
      * @description 查询所有基础信息下拉数据源
      * */
-    getAllBaseInfo() {
-        return fetch(storageURL + '/web/yc/inventory/transfer/base', '', 'get')
+    getAllBaseInfo(productType) {
+        return fetch(storageURL + '/web/yc/inventory/transfer/base', {productType}, 'get')
     },
     /**
      * @author xh
