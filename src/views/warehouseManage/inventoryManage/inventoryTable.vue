@@ -42,6 +42,19 @@
     </hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
+        <label>商品大类</label>
+        <div class="form-control">
+          <el-select v-model="storageclass" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in typeProductDatas"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
           <el-select v-model="form.cargoId" placeholder="请选择" size="small">
@@ -70,7 +83,60 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item">
+      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+        <label>油罐编号</label>
+        <div class="form-control">
+          <el-select v-model="form.productNameId" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in oiltankList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+        <label>品类</label>
+        <div class="form-control">
+          <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in firstCatalogList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+        <label>牌号</label>
+        <div class="form-control">
+          <el-select v-model="form.trademarkId" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in trademarkList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+        <label>排放标准</label>
+        <div class="form-control">
+          <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in HywEmissionStandardList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+
+      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
         <label>品名</label>
         <div class="form-control">
           <el-select v-model="form.productNameId" placeholder="请选择" size="small">
@@ -83,7 +149,7 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item">
+      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
         <label>材质</label>
         <div class="form-control">
           <el-select v-model="form.materialId" placeholder="请选择" size="small">
@@ -96,7 +162,7 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item">
+      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
         <label>规格</label>
         <div class="form-control">
           <el-select v-model="form.specificationsId" placeholder="请选择" size="small">
@@ -109,7 +175,7 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item">
+      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
         <label>产地</label>
         <div class="form-control">
           <el-select v-model="form.originPlaceId" placeholder="请选择" size="small">
@@ -205,14 +271,15 @@
 <script>
 // import NP from "number-precision";
 import { mapGetters, mapMutations } from "vuex";
-import { baseMixin } from "@/common/mixin.js";
-// import { judgeAuth } from "@/util/util.js";
-import { normalTime } from "@/util/util.js";
+import { baseMixin, dictMixin } from "common/mixin.js";
+import {findIndexByValue} from "common/util.js"
+// import { judgeAuth } from "util/util.js";
+import { normalTime } from "util/util.js";
 import _ from "lodash";
-import Dict from "@/util/dict.js";
-import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
-import transitiondialog from "@/components/transitiondialog";
+import Dict from "util/dict.js";
+import heltable from "components/hl_table";
+import hlBreadcrumb from "components/hl-breadcrumb";
+import transitiondialog from "components/transitiondialog";
 
 const defaultFormData = {
   cargoId: null,
@@ -220,7 +287,12 @@ const defaultFormData = {
   productNameId: null,
   materialId: null,
   specificationsId: null,
-  originPlaceId: null
+  originPlaceId: null,
+
+  oiltankId: null,
+  firstCatalogId: null,
+  trademarkId: null,
+  emissionStandard: null
 };
 const defaultListParams = {
   pageSize: 20,
@@ -233,7 +305,7 @@ const defaultListData = {
   },
   list: []
 };
-const defaulttableHeader = [
+const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
     label: "仓库",
@@ -243,7 +315,7 @@ const defaulttableHeader = [
     prop: "incomingDays",
     label: "入库天数",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "cargoName",
@@ -259,7 +331,7 @@ const defaulttableHeader = [
     prop: "piles",
     label: "层数",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "productName",
@@ -286,21 +358,90 @@ const defaulttableHeader = [
     label: "库存数量",
     width: "180"
   },
-  // {
-  //   prop: "numUnitText",
-  //   label: "数量单位",
-  //   width: "180"
-  // },
   {
     prop: "totalWeightInventoryText",
     label: "库存重量",
     width: "180"
   },
-  // {
-  //   prop: "weightUnitText",
-  //   label: "重量单位",
-  //   width: "180"
-  // },
+  {
+    prop: "measuringText",
+    label: "计量方式",
+    width: "180"
+  },
+  {
+    prop: "incomingTypeText",
+    label: "入库类型",
+    width: "180"
+  },
+  {
+    prop: "incomingId",
+    label: "入库单号",
+    width: "180"
+  },
+  {
+    prop: "incomingTimeStr",
+    label: "入库时间",
+    width: "180"
+  }
+];
+
+const defaultOILtableHeader = [
+  {
+    prop: "deliveryStore",
+    label: "仓库",
+    width: "180"
+  },
+  {
+    prop: "incomingDays",
+    label: "入库天数",
+    width: "180",
+    align: "right"
+  },
+  {
+    prop: "cargoName",
+    label: "货主",
+    width: "180"
+  },
+  {
+    prop: "oiltank",
+    label: "油罐编号",
+    width: "180"
+  },
+  {
+    prop: "firstCatalog",
+    label: "品类",
+    width: "180"
+  },
+  {
+    prop: "trademark",
+    label: "牌号",
+    width: "180"
+  },
+  {
+    prop: "emissionStandard",
+    label: "排放标准",
+    width: "180"
+  },
+  {
+    prop: "density",
+    label: "密度",
+    width: "180"
+  },
+  {
+    prop: "manufacturer",
+    label: "生产商",
+    width: "180"
+  },
+  {
+    prop: "totalNumInventoryText",
+    label: "库存数量",
+    width: "180"
+  },
+  {
+    prop: "totalWeightInventoryText",
+    label: "库存重量",
+    width: "180"
+  },
   {
     prop: "measuringText",
     label: "计量方式",
@@ -347,7 +488,7 @@ const rowAdapter = (list) => {
 
 export default {
   name: "inventoryTable",
-  mixins: [baseMixin],
+  mixins: [baseMixin, dictMixin],
   components: {
     heltable,
     hlBreadcrumb,
@@ -376,12 +517,11 @@ export default {
       form: { ...defaultFormData }, // 查询参数
       listData: { ...defaultListData }, // 返回list的数据结构
       // #endgion
-      /**表格相关*/
-      tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
       /*多选的row*/
       selectedItems: [],
-      titles: ["批量出库登记", "批量过户", "批量冻结", "批量解冻"]
+      titles: ["批量出库登记", "批量过户", "批量冻结", "批量解冻"],
+      Dict: Dict,
     };
   },
   computed: {
@@ -437,13 +577,20 @@ export default {
           stockInventoryId: item.id
         };
       });
+    },
+    /**根据storageclass改变tableHeader*/
+    tableHeader() {
+      return this.storageclass === Dict.PRODUCT_OIL
+        ? defaultOILtableHeader.slice()
+        : defaultSWtableHeader.slice();
     }
   },
   methods: {
     ...mapMutations("inventoryManage", [
       "setTransferOwnership",
       "setCheckout",
-      "setFindDetail"
+      "setFindDetail",
+      "setProductType"
     ]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
@@ -453,6 +600,11 @@ export default {
         this.form.cargoId = this.userId;
       }
       return _.clone(Object.assign({}, this.form, this.listParams));
+    },
+    clear() {
+      this.form = { ...defaultFormData };
+      this.listParams = { ...defaultListParams };
+      this.listData = { ...defaultListData };
     },
     clearListParams() {
       this.form = { ...defaultFormData };
@@ -475,7 +627,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData ={...res.data, list: rowAdapter(res.data.list) };
+          this.listData = { ...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
           this.listData = { ...defaultListData };
@@ -494,7 +646,6 @@ export default {
         this.$router.push({
           path: "/web/settlement/pageList/transferOwnershipManage"
         });
-
     },
     async batchFrozen() {
       this.isbatchFrozenLoading = true;
@@ -544,6 +695,7 @@ export default {
       });
     },
     detail(item) {
+      this.setProductType(this.storageclass);
       this.setFindDetail(item);
       this.$router.push({
         path: "/web/yc/storage/stockInventory/page/inventoryDetail"
@@ -560,6 +712,63 @@ export default {
   },
   mounted() {
     this.init();
+  },
+  watch: {
+    storageclass(newV, oldV) {
+      if (newV !== oldV) {
+        if (newV === Dict.PRODUCT_OIL) {
+          this.form = {
+            ...this.form,
+            oiltankId: null,
+            firstCatalogId: null,
+            trademarkId: null,
+            emissionStandard: null
+          };
+        } else {
+          this.form = {
+            ...this.form,
+            // cargoId: null,
+            // deliveryStoreId: null,
+            productNameId: null,
+            materialId: null,
+            specificationsId: null,
+            originPlaceId: null
+          };
+        }
+        this.clear()
+        /**如果新旧值都是钢木,不要再请求*/
+        if((newV === Dict.PRODUCT_STELL&& oldV===Dict.PRODUCT_WOOD) || (oldV === Dict.PRODUCT_STELL&& newV===Dict.PRODUCT_WOOD)) {
+          return 
+        }
+        this._getAllBaseInfo(newV)
+      }
+    },
+    "form.deliveryStoreId": {
+      handler(newV, oldV) {
+        if (newV !== oldV) {
+          this.form.productNameId = null;
+          if (newV && this.storageclass=== Dict.PRODUCT_OIL) {
+            setTimeout(() => {
+              const index = findIndexByValue(this.deliveryStoreList,newV)
+              this.oiltankList = this.deliveryStoreList[index].child;
+            }, 20);
+          }
+        }
+      }
+    },
+    "form.firstCatalogId": {
+      handler(newV, oldV) {
+        if (newV !== oldV) {
+          this.form.trademarkId = null;
+          if (newV && this.storageclass=== Dict.PRODUCT_OIL) {
+            setTimeout(() => {
+              const index = findIndexByValue(this.firstCatalogList,newV)
+              this.trademarkList = this.firstCatalogList[index].child;
+            }, 20);
+          }
+        }
+      }
+    }
   }
 };
 </script>
