@@ -111,7 +111,7 @@ export const _toNeedArray_ = (arr) => {
 * @returns {Array}
 * */
 export const handleFilterSelf = (arr) => {
-    if(!Array.isArray(arr)){
+    if (!Array.isArray(arr)) {
         return []
     }
     return arr.map(item => {
@@ -133,4 +133,13 @@ export const handleFilterSelf = (arr) => {
     });
 
 
+}
+
+export const findIndexByValue = (arr, prop) => {
+    if (!Array.isArray(arr)) {
+        return -1
+    }
+    return arr.findIndex((item) => {
+        return item.value === prop
+    })
 }
