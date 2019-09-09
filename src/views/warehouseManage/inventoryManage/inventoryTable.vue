@@ -521,9 +521,7 @@ export default {
       /*多选的row*/
       selectedItems: [],
       titles: ["批量出库登记", "批量过户", "批量冻结", "批量解冻"],
-      Dict: Dict,
-      /**商品大类默认石油*/
-      storageclass: Dict.PRODUCT_OIL
+      Dict: Dict
     };
   },
   computed: {
