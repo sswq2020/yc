@@ -270,7 +270,7 @@
 
 <script>
 // import NP from "number-precision";
-import { mapGetters, mapMutations } from "vuex";
+import { mapState,mapGetters, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin.js";
 import {findIndexByValue} from "common/util.js"
 // import { judgeAuth } from "util/util.js";
@@ -522,10 +522,13 @@ export default {
       selectedItems: [],
       titles: ["批量出库登记", "批量过户", "批量冻结", "批量解冻"],
       Dict: Dict,
+      /**商品大类默认石油*/
+      storageclass: Dict.PRODUCT_OIL
     };
   },
   computed: {
     ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    ...mapState("inventoryManage", ["productType"]),
     /**选中的必须是同一个货主才能过户,不限制仓库*/
     equalShipperItems() {
       let arr = this.selectedItems.map(item => item.cargoId);
@@ -599,7 +602,7 @@ export default {
       if (this.IS_SHIPPER) {
         this.form.cargoId = this.userId;
       }
-      return _.clone(Object.assign({}, this.form, this.listParams));
+      return _.clone(Object.assign({}, this.form, this.listParams,this.storageclass));
     },
     clear() {
       this.form = { ...defaultFormData };
@@ -711,7 +714,11 @@ export default {
     perm() {}
   },
   mounted() {
-    this.init();
+    this.storageclass = this.productType;
+    this._getAllBaseInfo(this.storageclass).then(()=>{
+       this.init();
+    })
+    
   },
   watch: {
     storageclass(newV, oldV) {

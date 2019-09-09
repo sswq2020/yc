@@ -31,8 +31,7 @@ export const baseMixin = {
 
             /**商品大类数据源*/ 
             typeProductDatas: TypeProductDatas,
-            /**商品大类默认石油*/
-             storageclass: Dict.PRODUCT_OIL,
+
         }
     },
     methods: {
@@ -48,9 +47,6 @@ export const baseMixin = {
                     break;
             }
         }
-    },
-    created() {
-        this._getAllBaseInfo(this.storageclass)
     }
 }
 
