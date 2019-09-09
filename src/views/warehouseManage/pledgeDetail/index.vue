@@ -180,7 +180,8 @@ export default {
       showOverflowTooltip: true,
       visible: false,
       contentId: "customers",
-      bill: []
+      bill: [],
+      cargoList:[]
     };
   },
   computed: {
