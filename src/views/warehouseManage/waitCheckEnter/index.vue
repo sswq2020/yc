@@ -204,9 +204,9 @@
 </template>
 
 <script>
-import { mapState,mapGetters, mapMutations } from "vuex";
-import { baseMixin,dictMixin } from "common/mixin.js";
-import {findIndexByValue} from "common/util.js"
+import { mapState, mapGetters, mapMutations } from "vuex";
+import { baseMixin, dictMixin } from "common/mixin.js";
+import { findIndexByValue } from "common/util.js";
 // import { judgeAuth } from "@/util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
@@ -342,7 +342,7 @@ const defaultOILtableHeader = [
     label: "生产商",
     width: "180"
   },
-    {
+  {
     prop: "supposedNumText",
     label: "应收数量",
     width: "180"
@@ -379,7 +379,7 @@ const rowAdapter = (list) => {
 
 export default {
   name: "waitCheckEnter",
-  mixins: [baseMixin,dictMixin],
+  mixins: [baseMixin, dictMixin],
   components: {
     heltable,
     hlBreadcrumb,
@@ -432,13 +432,15 @@ export default {
       this.selectedItems = selection.slice();
     },
     _filter() {
-      return _.clone(Object.assign({}, this.form, this.listParams,this.storageclass));
+      return _.clone(
+        Object.assign({}, this.form, this.listParams, this.storageclass)
+      );
     },
     clear() {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-    },    
+    },
     clearListParams() {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
@@ -460,7 +462,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData ={...res.data, list: rowAdapter(res.data.list) };
+          this.listData = { ...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
           this.listData = { ...defaultListData };
@@ -476,7 +478,7 @@ export default {
     },
     init() {
       setTimeout(() => {
-        this.clearListParams()
+        this.clearListParams();
         this.perm();
       }, 20);
       this.perm();
@@ -485,17 +487,17 @@ export default {
   },
   mounted() {
     this.storageclass = this.productType;
-    this._getAllBaseInfo(this.storageclass).then(()=>{
-       this.init();
-    })
+    this._getAllBaseInfo(this.storageclass).then(() => {
+      this.init();
+    });
   },
-    watch: {
+  watch: {
     storageclass(newV, oldV) {
       if (newV !== oldV) {
-        this.clear()
+        this.clear();
         /**如果新旧值都是钢木,不要再请求*/
-        if(newV === Dict.PRODUCT_OIL || oldV===Dict.PRODUCT_OIL) {
-          this._getAllBaseInfo(newV)
+        if (newV === Dict.PRODUCT_OIL || oldV === Dict.PRODUCT_OIL) {
+          this._getAllBaseInfo(newV);
         }
       }
     },
@@ -503,9 +505,9 @@ export default {
       handler(newV, oldV) {
         if (newV !== oldV) {
           this.form.productNameId = null;
-          if (newV && this.storageclass=== Dict.PRODUCT_OIL) {
+          if (newV && this.storageclass === Dict.PRODUCT_OIL) {
             setTimeout(() => {
-              const index = findIndexByValue(this.deliveryStoreList,newV)
+              const index = findIndexByValue(this.deliveryStoreList, newV);
               this.oiltankList = this.deliveryStoreList[index].child;
             }, 20);
           }
@@ -516,9 +518,9 @@ export default {
       handler(newV, oldV) {
         if (newV !== oldV) {
           this.form.trademarkId = null;
-          if (newV && this.storageclass=== Dict.PRODUCT_OIL) {
+          if (newV && this.storageclass === Dict.PRODUCT_OIL) {
             setTimeout(() => {
-              const index = findIndexByValue(this.firstCatalogList,newV)
+              const index = findIndexByValue(this.firstCatalogList, newV);
               this.trademarkList = this.firstCatalogList[index].child;
             }, 20);
           }
