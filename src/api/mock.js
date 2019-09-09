@@ -85,6 +85,7 @@ const InventoryTableList = {
     "numUnit": "支", // 数量单位
     "totalWeightInventory": 6, // 库存重量
     "weightUnit": "吨", // 重量单位
+    "numUnitTypeEnum":{ code: "1", text: "件" }, // 数量单位
     "measuringTypeEnum": { code: "1", text: "理算" }, // 计量方式
     "wareHousingTypeEnum": { code: "1", text: "过货入库" }, //入库类型
     "incomingDays": 0 //入库天数
