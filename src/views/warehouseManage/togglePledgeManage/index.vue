@@ -4,7 +4,7 @@
     <div class="search-box">
       <div class="form-item">
         <label>货主名称</label>
-        <div class="form-control">
+        <div class="form-control" v-if="!IS_SHIPPER">
           <el-select v-model="form.cargoId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
@@ -13,6 +13,9 @@
               :value="item.value"
             ></el-option>
           </el-select>
+        </div>
+        <div class="form-control" v-if="IS_SHIPPER">
+          <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -62,12 +65,12 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import { baseMixin } from "@/common/mixin.js";
-// import { judgeAuth } from "@/util/util.js";
+// import { judgeAuth } from "util/util.js";
 import _ from "lodash";
-import Dict from "@/util/dict.js";
-import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
+import Dict from "util/dict.js";
+import { handleFilterSelf } from "common/util.js";
+import heltable from "components/hl_table";
+import hlBreadcrumb from "components/hl-breadcrumb";
 
 const defaultFormData = {
   cargoId: null,
@@ -116,7 +119,6 @@ const defaulttableHeader = [
 ];
 export default {
   name: "togglePledgeManage",
-  mixins: [baseMixin],
   components: {
     heltable,
     hlBreadcrumb
@@ -129,7 +131,8 @@ export default {
       form: { ...defaultFormData }, // 查询参数
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: defaulttableHeader,
-      showOverflowTooltip: true
+      showOverflowTooltip: true,
+      cargoList:[]
     };
   },
   computed: {
@@ -144,6 +147,9 @@ export default {
   methods: {
     ...mapMutations("togglePledgeManage", ["setPledgeData","setReleasePledgeData"]),
     _filter() {
+      if (this.IS_SHIPPER) {
+        this.form.cargoId = this.userId;
+      }
       return _.clone(Object.assign({}, this.form, this.listParams));
     },
     clearListParams() {
@@ -179,6 +185,17 @@ export default {
           break;
       }
     },
+    async _getCargoList() {
+      const res = await this.$api.getCargoList();
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.cargoList = handleFilterSelf(res.data);
+          break;
+        default:
+          this.$messageError(`${res.mesg}`);
+          break;
+      }
+    },    
     GoPledge(item) {
       this.setPledgeData(item);
       this.$router.push({
@@ -201,7 +218,9 @@ export default {
     perm() {}
   },
   mounted() {
-    this.init();
+    this._getCargoList().then(() => {
+      this.init();
+    });
   }
 };
 </script>
