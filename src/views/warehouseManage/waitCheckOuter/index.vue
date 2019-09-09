@@ -3,8 +3,21 @@
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="search-box">
       <div class="form-item">
-        <label>货主名称</label>
+        <label>商品大类</label>
         <div class="form-control">
+          <el-select v-model="storageclass" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in typeProductDatas"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item">
+        <label>货主</label>
+        <div class="form-control" v-if="!IS_SHIPPER">
           <el-select v-model="form.cargoId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
@@ -13,6 +26,9 @@
               :value="item.value"
             ></el-option>
           </el-select>
+        </div>
+        <div class="form-control" v-if="IS_SHIPPER">
+          <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -87,14 +103,14 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import { baseMixin } from "@/common/mixin.js";
-import { requestParamsByTimeRangeOrigin } from "@/common/util.js";
-// import { judgeAuth } from "@/util/util.js";
+import { baseMixin,mapState } from "common/mixin.js";
+import { requestParamsByTimeRangeOrigin } from "common/util.js";
+// import { judgeAuth } from "util/util.js";
 import _ from "lodash";
-import { normalTime } from "@/util/util.js";
-import Dict from "@/util/dict.js";
-import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
+import { normalTime } from "util/util.js";
+import Dict from "util/dict.js";
+import heltable from "components/hl_table";
+import hlBreadcrumb from "components/hl-breadcrumb";
 
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
 const EXTRA_PARAMS_KEYS = ["start", "end"];
@@ -130,13 +146,13 @@ const defaulttableHeader = [
     prop: "supposedRemovalNum",
     label: "申请出库数量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "supposedRemovalWeight",
     label: "申请出库重量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "applyRemovalTimeText",
@@ -145,22 +161,20 @@ const defaulttableHeader = [
   }
 ];
 
-const rowAdapter = (list) => {
-    if (!list) {
-        return []
-    }
-    if (list.length > 0) {
-        list = list.map((row) => {
-            return row = { 
-              ...row,
-              applyRemovalTimeText:normalTime(row.applyRemovalTime),
-              
-            }
-        })
-    }
-    return list
-}
-
+const rowAdapter = list => {
+  if (!list) {
+    return [];
+  }
+  if (list.length > 0) {
+    list = list.map(row => {
+      return (row = {
+        ...row,
+        applyRemovalTimeText: normalTime(row.applyRemovalTime)
+      });
+    });
+  }
+  return list;
+};
 
 export default {
   name: "waitCheckEnter",
@@ -190,21 +204,34 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"])
+    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    ...mapState("waitCheckOuter", ["productType"]),
   },
   methods: {
-    ...mapMutations("waitCheckOuter", ["setRetrieval"]),
+    ...mapMutations("waitCheckOuter", ["setRetrieval","setProductType"]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
     },
     _filter() {
       const { timeRange } = this.form;
+      if (this.IS_SHIPPER) {
+        this.form.cargoId = this.userId;
+      }
       const _reqParams_ = requestParamsByTimeRangeOrigin(
         this.form,
         timeRange,
         ...EXTRA_PARAMS_KEYS
       );
-      return _.clone(Object.assign({}, _reqParams_, this.listParams));
+      return _.clone(
+        Object.assign({}, _reqParams_, this.listParams, {
+          storageclass: this.storageclass
+        })
+      );
+    },
+    clear() {
+      this.form = { ...defaultFormData };
+      this.listParams = { ...defaultListParams };
+      this.listData = { ...defaultListData };
     },
     clearListParams() {
       this.form = { ...defaultFormData };
@@ -217,8 +244,8 @@ export default {
       this.getListData();
     },
     changePageSize(pageSize) {
-      this.listParams = { ...defaultListParams, pageSize:pageSize };
-      this.getListData();      
+      this.listParams = { ...defaultListParams, pageSize: pageSize };
+      this.getListData();
     },
     getListDataBylistParams() {
       this.listParams = { ...defaultListParams };
@@ -231,7 +258,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData ={...res.data, list: rowAdapter(res.data.list) };
+          this.listData = { ...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
           this.listData = { ...defaultListData };
@@ -256,7 +283,17 @@ export default {
     perm() {}
   },
   mounted() {
-    this.init();
+    this.storageclass = this.productType;
+    this._getAllBaseInfo(this.storageclass).then(() => {
+      this.init();
+    });
+  },
+  watch: {
+    storageclass(newV, oldV) {
+      if (newV !== oldV) {
+        this.clear();
+      }
+    }
   }
 };
 </script>
