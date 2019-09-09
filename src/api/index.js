@@ -946,6 +946,14 @@ export default {
     ReleaseinfoBill(releaseId){
         return fetch(storageURL + '/web/yc/releaseinfo/bill',{releaseId}, 'get')   
     },
+    /**
+     * @author sswq
+     * @param {string} 
+     * @description 货主检索条件
+     * */ 
+    getCargoList(){
+        return fetch(storageURL + '/web/yc/search/cargo','', 'get')   
+    },
     // #endregion
 
     // #region  字典项

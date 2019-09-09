@@ -944,6 +944,19 @@ const mockRouterMap = {
         },
         // #endregion 
 
+        // #region  货主检索条件
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/search/cargo',
+            result() {
+                return {
+                    ...body,
+                    "data|5-6": [cargoList],
+                };
+            }
+        },
+        // #endregion 
 
         // #endregion
 
