@@ -4,7 +4,7 @@
     <div class="search-box">
       <div class="form-item">
         <label>货主名称</label>
-        <div class="form-control">
+        <div class="form-control" v-if="!IS_SHIPPER">
           <el-select v-model="form.cargoId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
@@ -13,6 +13,9 @@
               :value="item.value"
             ></el-option>
           </el-select>
+        </div>
+        <div class="form-control" v-if="IS_SHIPPER">
+          <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -79,9 +82,9 @@
       :contentId="contentId"
       title="质押单"
     >
-       <template>
-         <pledgeticket :id="contentId" :data="bill"></pledgeticket>
-       </template>
+      <template>
+        <pledgeticket :id="contentId" :data="bill"></pledgeticket>
+      </template>
     </tickets>
   </div>
 </template>
@@ -89,13 +92,12 @@
 <script>
 // import NP from "number-precision";
 import { mapGetters } from "vuex";
-import { baseMixin } from "@/common/mixin.js";
-import { requestParamsByTimeRange } from "@/common/util.js";
+import { requestParamsByTimeRange, handleFilterSelf } from "common/util.js";
 import _ from "lodash";
-import Dict from "@/util/dict.js";
-import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
-import tickets from "@/components/tickets";
+import Dict from "util/dict.js";
+import heltable from "components/hl_table";
+import hlBreadcrumb from "components/hl-breadcrumb";
+import tickets from "components/tickets";
 import pledgeticket from "./pledgeticket";
 
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
@@ -127,25 +129,25 @@ const defaulttableHeader = [
     prop: "inventoryTotalNums",
     label: "库存数量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "inventoryTotalWeight",
     label: "库存重量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "pledgeNums",
     label: "质押数量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "pledgeWeight",
     label: "质押重量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "pledgeCode",
@@ -161,7 +163,6 @@ const defaulttableHeader = [
 
 export default {
   name: "pledgeDetail",
-  mixins: [baseMixin],
   components: {
     heltable,
     hlBreadcrumb,
@@ -178,8 +179,8 @@ export default {
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
       visible: false,
-      contentId:"customers",
-      bill:[],
+      contentId: "customers",
+      bill: []
     };
   },
   computed: {
@@ -188,6 +189,9 @@ export default {
   methods: {
     _filter() {
       const { timeRange } = this.form;
+      if (this.IS_SHIPPER) {
+        this.form.cargoId = this.userId;
+      }
       const _reqParams_ = requestParamsByTimeRange(
         this.form,
         timeRange,
@@ -206,8 +210,8 @@ export default {
       this.getListData();
     },
     changePageSize(pageSize) {
-      this.listParams = { ...defaultListParams, pageSize:pageSize };
-      this.getListData();      
+      this.listParams = { ...defaultListParams, pageSize: pageSize };
+      this.getListData();
     },
     getListDataBylistParams() {
       this.listParams = { ...defaultListParams };
@@ -220,7 +224,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData =res.data;
+          this.listData = res.data;
           break;
         default:
           this.$messageError(res.mesg);
@@ -231,13 +235,24 @@ export default {
       const res = await this.$api.PledgeinfoBill(item.id);
       switch (res.code) {
         case Dict.SUCCESS:
-          this.bill = [res.data]
-          this.visible = true
+          this.bill = [res.data];
+          this.visible = true;
           break;
         default:
           this.$messageError(`${res.mesg},无法获取质押单`);
           break;
-      }      
+      }
+    },
+    async _getCargoList() {
+      const res = await this.$api.getCargoList();
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.cargoList = handleFilterSelf(res.data);
+          break;
+        default:
+          this.$messageError(`${res.mesg}`);
+          break;
+      }
     },
     init() {
       setTimeout(() => {
@@ -249,7 +264,9 @@ export default {
     perm() {}
   },
   mounted() {
-    this.init();
+    this._getCargoList().then(() => {
+      this.init();
+    });
   }
 };
 </script>
