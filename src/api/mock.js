@@ -476,7 +476,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/web/yc/base/stockRemoval/list',
+            router: storageURL + '/web/yc/storage/stockRemoval/list',
             result() {
                 return {
                     ...body,
