@@ -102,8 +102,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
-import { baseMixin,mapState } from "common/mixin.js";
+import { mapState,mapGetters, mapMutations } from "vuex";
+import { baseMixin} from "common/mixin.js";
 import { requestParamsByTimeRangeOrigin } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
 import _ from "lodash";
