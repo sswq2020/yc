@@ -195,7 +195,7 @@
       :contentId="contentId"
       title="过户单">
        <template>
-         <transferticket :id="contentId" :data="bill"></transferticket>
+         <transferticket :id="contentId" :data="bill" :productType="storageclass"></transferticket>
        </template>
     </tickets>
   </div>
