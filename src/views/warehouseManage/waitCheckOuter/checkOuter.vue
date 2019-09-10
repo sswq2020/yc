@@ -11,18 +11,18 @@
           </el-row>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="cargoName">
-                <el-input :value="form.cargoName" :disabled="disabled"></el-input>
+              <el-form-item label="货主:" prop="cargoName">
+                {{form.cargoName}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="提货人" prop="consignee">
-                <el-input :value="form.consignee" :disabled="disabled"></el-input>
+              <el-form-item label="提货人:" prop="consignee">
+                {{form.consignee || "-"}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
-                label="提货密码"
+                label="提货密码:"
                 prop="pickUpPassword"
                 :rules="[{ required: true, message: '请输入提货密码', trigger: 'blur' },
                 { pattern: /^\d{6}$/,message: '必须是6位纯数字'}]"
@@ -36,58 +36,95 @@
           <div class="head">库存信息</div>
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="交易仓库" prop="deliveryStore">
-                <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
+              <el-form-item label="交易仓库:" prop="deliveryStore">
+                {{item.deliveryStore}}
+              </el-form-item>
+            </el-col>
+            <!--钢木开始-->
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="区桩位:" prop="pilePosition">
+                {{item.pilePosition}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="品名:" prop="productName">
+                {{item.productName}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="材质:" prop="materialName">
+                {{item.materialName}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="产地:" prop="originPlaceName">
+                {{item.originPlaceName}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="规格:" prop="specificationsName">
+                {{item.specificationsName}}
+              </el-form-item>
+            </el-col>
+            <!--钢木结束-->
+
+            <!--石油开始-->
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="品类:" prop="firstCatalog">
+                {{item.firstCatalog}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="牌号:" prop="trademark">
+                {{item.trademark}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="排放标准:" prop="emissionStandard">
+                {{item.emissionStandard}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="密度(kg/m³):" prop="density">
+                {{item.density}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="型号:" prop="models">
+                {{item.models}}
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="生产商:" prop="manufacturer">
+                {{item.manufacturer}}
+              </el-form-item>
+            </el-col>
+            <!--石油结束-->
+
+
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item label="应出数量:" prop="supposedRemovalNum">
+                {{item.supposedRemovalNum}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="cargoName">
-                <el-input :value="item.cargoName" disabled="disabled"></el-input>
+              <el-form-item label="应出重量:" prop="supposedRemovalWeight">
+                {{item.supposedRemovalWeight}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="品名" prop="productName">
-                <el-input :value="item.productName" disabled="disabled"></el-input>
+              <el-form-item label="数量单位:" prop="numUnitText">
+                {{item.numUnitText}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="材质" prop="materialName">
-                <el-input :value="item.materialName" disabled="disabled"></el-input>
+              <el-form-item label="重量单位:" prop="weightUnitText">
+                {{item.weightUnitText}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="产地" prop="originPlaceName">
-                <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="规格" prop="specificationsName">
-                <el-input :value="item.specificationsName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="应出数量" prop="supposedRemovalNum">
-                <el-input :value="item.supposedRemovalNum" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="应出重量" prop="supposedRemovalWeight">
-                <el-input :value="item.supposedRemovalWeight" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="数量单位" prop="numUnitText">
-                <el-input :value="item.numUnitText" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="重量单位" prop="weightUnitText">
-                <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="计量方式" prop="measuringText">
-                <el-input :value="item.measuringText" disabled="disabled"></el-input>
+              <el-form-item label="计量方式:" prop="measuringText">
+                {{item.measuringText}}
               </el-form-item>
             </el-col>
           </el-row>
@@ -95,7 +132,7 @@
           <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
-                label="实提数量"
+                label="实提数量:"
                 :prop="'needShowData.' + index + '.actualRemovalNum'"
                 :rules="validatenum(item.supposedRemovalNum)"
               >
@@ -104,7 +141,7 @@
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
-                label="实提重量"
+                label="实提重量:"
                 :prop="'needShowData.' + index + '.actualRemovalWeight'"
                 :rules="validateweight(item.supposedRemovalWeight)"
               >
@@ -147,11 +184,12 @@ export default {
       form: {
         needShowData: [],
         ...defualtFormParams
-      }
+      },
+      Dict:Dict
     };
   },
   computed: {
-    ...mapState("waitCheckOuter", ["retrieval"])
+    ...mapState("waitCheckOuter", ["retrieval","productType"])
   },
   methods: {
     back() {

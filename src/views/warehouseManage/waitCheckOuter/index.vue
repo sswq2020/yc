@@ -268,6 +268,7 @@ export default {
     },
     Retrieval(item) {
       const { removalId } = item;
+      this.setProductType(this.storageclass);
       this.setRetrieval(removalId);
       this.$router.push({
         path: "/web/yc/storage/stockRemoval/page/CheckOuter"
