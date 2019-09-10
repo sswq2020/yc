@@ -195,7 +195,7 @@
       title="出库单"
     >
       <template>
-        <outerticket :id="contentId" :data="bill"></outerticket>
+        <outerticket :id="contentId" :data="bill" :productType="storageclass"></outerticket>
       </template>
     </tickets>
   </div>

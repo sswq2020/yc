@@ -1,7 +1,7 @@
 <template>
   <table :id="id" style="border-collapse: collapse;" v-if="data.list&&data.list.length">
     <tr>
-      <td colspan="12">
+      <td :colspan="productType === Dict.PRODUCT_OIL ? 13: 12">
           <div style="display:flex;justify-content:space-between">
           <div>制单日期:{{data.list&&data.list[0].createdTime || "-"}}</div>
           <div>NO.{{data.list&&data.list[0].incomingId || "-"}}</div>
@@ -10,7 +10,7 @@
     </tr>
     <tr>
       <th>提货单位</th>
-      <th colspan="3"></th>
+      <th :colspan="productType === Dict.PRODUCT_OIL ? 4: 3"></th>
       <th>提单号</th>
       <th colspan="3"></th>
       <th>提货车船号</th>
@@ -18,19 +18,27 @@
     </tr>
     <tr>
       <th>原始单据号</th>
-      <th colspan="3"></th>
+      <th :colspan="productType === Dict.PRODUCT_OIL ? 4: 3"></th>
       <th>结算方式</th>
       <th colspan="3"></th>
       <th>证件号</th>
       <th colspan="3"></th>
     </tr>
     <tr>
-      <th>区桩位</th>
-      <th>炉号</th>
-      <th>产地</th>
-      <th>品名</th>
-      <th>材质</th>
-      <th>规格</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">区桩位</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">炉号</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">产地</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">品名</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">材质</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">规格</th>
+
+      <th v-if="productType===Dict.PRODUCT_OIL">油罐编号</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">品类</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">牌号</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">排放标准</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">密度</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">型号</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">生产商</th>      
       <th>单位</th>
       <th>数量</th>
       <th>重量</th>
@@ -39,12 +47,22 @@
       <th>备注</th>
     </tr>
     <tr class="alt" v-for="(item,index) in data.list" :key="index">
-      <td>{{item.pilePosition || "--"}}</td>
-      <td>--</td>
-      <td>{{item.originPlaceName || "--"}}</td>
-      <td>{{item.productName || "--"}}</td>
-      <td>{{item.materialName || "--"}}</td>
-      <td>{{item.specificationsName || "--"}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.pilePosition || "--"}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">--</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.originPlaceName || "--"}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.productName || "--"}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.materialName || "--"}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.specificationsName || "--"}}</td>
+
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.oiltank || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.firstCatalog || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.trademark || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.emissionStandard || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.models || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.density || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.manufacturer || "--"}}</td>
+
+
       <td>{{item.numUnitTypeEnum.text || "--"}}</td>
       <td>{{item.actualRemovalNum || "--"}}</td>
       <td>{{item.actualRemovalWeight || "--"}}</td>
@@ -53,21 +71,20 @@
       <td>--</td>
     </tr>
     <tr class="alt">
-      <td colspan="6">合计:{{data.summation}}</td>
+      <td :colspan="productType === Dict.PRODUCT_OIL ? 7: 6">合计:{{data.summation}}</td>
       <td>--</td>
       <td>--</td>
       <td>--</td>
       <td colspan="3"></td>
     </tr>
     <tr class="alt">
-      <td colspan="12" height="50px"></td>
+      <td :colspan="productType === Dict.PRODUCT_OIL ? 13: 11" height="50px"></td>
     </tr>
     <tr class="alt">
-      <td colspan="12">出库说明:出库请当面点清数量,离库后概不负责。</td>
+      <td :colspan="productType === Dict.PRODUCT_OIL ? 13: 11">出库说明:出库请当面点清数量,离库后概不负责。</td>
     </tr>
-
     <tr>
-      <th colspan="12" height="300px">
+      <th :colspan="productType === Dict.PRODUCT_OIL ? 13: 11" height="300px">
         <div style="display:flex">
           <div style="flex:2;text-align:left">开单人:</div>
           <div style="flex:2;text-align:left">发货员:</div>
@@ -96,7 +113,11 @@ export default {
           list:[]
         }
       }        
-    }  
+    },
+    productType:{
+      type: String,
+      default:Dict.PRODUCT_OIL
+    }     
   },
   data() {
     return {
