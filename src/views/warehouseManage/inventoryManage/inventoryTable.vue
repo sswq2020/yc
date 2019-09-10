@@ -648,6 +648,7 @@ export default {
           return;
       }
         this.batchTransferOwnershipVisible = false;
+        this.setProductType(this.storageclass)
         this.setTransferOwnership(this.stockIds);
         this.$router.push({
           path: "/web/settlement/pageList/transferOwnershipManage"
