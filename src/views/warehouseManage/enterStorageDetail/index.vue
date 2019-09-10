@@ -195,7 +195,7 @@
       title="入库单"
     >
       <template>
-        <enterticket :id="contentId" :data="bill"></enterticket>
+        <enterticket :id="contentId" :data="bill" :productType="storageclass"></enterticket>
       </template>
     </tickets>
   </div>
