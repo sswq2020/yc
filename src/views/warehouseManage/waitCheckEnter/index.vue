@@ -427,7 +427,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("waitCheckEnter", ["setInspection"]),
+    ...mapMutations("waitCheckEnter", ["setInspection","setProductType"]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
     },
@@ -471,6 +471,7 @@ export default {
       }
     },
     batchInspection() {
+      this.setProductType(this.storageclass)
       this.setInspection(this.selectedItems);
       this.$router.push({
         path: "/web/yc/storage/stockRegister/page/checkEnter"
