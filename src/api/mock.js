@@ -50,7 +50,7 @@ const shipperManageList = {
 const InventoryTableList = {
     "id|+1": "@INTEGER(1,2019690999)",
     "availableNumInventory": 0,
-    "availableWeightInventory": 0,
+    "availableWeightInventory": 12,
     "createdBy": "",
     "createdTime": "",
     "disableNumInventory": 0,
@@ -88,7 +88,14 @@ const InventoryTableList = {
     "numUnitTypeEnum":{ code: "1", text: "件" }, // 数量单位
     "measuringTypeEnum": { code: "1", text: "理算" }, // 计量方式
     "wareHousingTypeEnum": { code: "1", text: "过货入库" }, //入库类型
-    "incomingDays": 0 //入库天数
+    "incomingDays": 0, //入库天数
+    "oiltank":"@PICK('1','2')号罐", // 油罐编号
+    "firstCatalog":"@PICK('汽油','柴油')", // 品类
+    "trademark": "@PICK('0','92','95')", // 牌号
+    "emissionStandard": "@PICK('国五','国六')",// 排放标准
+    "models": 213213,// 型号
+    "density":"100", //密度
+    "manufacturer":"江苏镇江沙钢" // 生产商
 }
 
 const InventoryDetailList = {

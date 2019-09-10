@@ -423,6 +423,11 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
+    prop: "models",
+    label: "型号",
+    width: "180"
+  },
+  {
     prop: "density",
     label: "密度",
     width: "180"
@@ -685,6 +690,7 @@ export default {
           return;
       }
       this.batchCheckOutVisible = false;
+      this.setProductType(this.storageclass)
       this.setCheckout(this.stockIds);
       this.$router.push({
         path: "/web/yc/storage/stockRemovalDetail/page/applyCheckOut"
