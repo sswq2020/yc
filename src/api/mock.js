@@ -283,6 +283,36 @@ const MockRole = {
     role: "@PICK('1','2')"  // 货主 1,仓管员 2
 }
 
+const oilQualityInfoList = {
+    "id|+1": "@INTEGER(1,2019690999)",    
+    "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "sellState": "@PICK('0','1')",
+    "productNumber": "@INTEGER(1,2019690999)",
+    "density": "34",
+    "emissionStandard": "0",
+    "emissionStandardEnum": { text: "惠龙排放标准1" },
+    "fileId": "324234",
+    "firstCatalogId": "@INTEGER(1,2019690999)",   
+    "firstCatalogName":  "@CTITLE(2,4)",
+    "manufacturerId": "@INTEGER(1,2019690999)",   
+    "manufacturerName": "@CTITLE(2,4)公司",
+    "picUrl": "",
+    "secondCatalogId": "@INTEGER(1,2019690999)",   
+    "secondCatalogName": "@CTITLE(2,4)",
+    "sellStateEnum": "",
+    "parameterList": [
+        {
+            "classifyId": 0,
+            "id": 0,
+            "paraName": "",
+            "paraType": "",
+            "paraValue": "",
+            "sort": 0
+        }
+    ],    
+}
+
+
 const mockRouterMap = {
     [hostList.default]: [
         // #region 基础信息
@@ -349,6 +379,97 @@ const mockRouterMap = {
             }
         },
         // #endregion    
+
+        // #region  货主检索条件
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/search/cargo',
+            result() {
+                return {
+                    ...body,
+                    "data|5-6": [cargoList],
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  交割库下拉(专门为入库登记设计)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/deliveryStoreManage/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "bc5ecc7158f44eccae90cada6e986165": "仓库1",
+                        "bc5ecc7158f44ecc56": "仓库2"
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  油罐下拉(专门为入库登记设计,与交割库联动)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/oilTank/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "778": "1号罐",
+                        "212": "2号罐",
+                        "333": "6号罐",
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  区装位下拉列表(根据仓库id,专门为入库登记设计)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/pilePosition/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "1212": "区装位1",
+                        "3333": "区装位2"
+                    }
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  油品信息分页查询
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/product/product/pageForSale',
+            result(params) {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            'list|10-20': [oilQualityInfoList],
+                            "paginator": {
+                                "currentPage": params.page,
+                                "pageSize": params.pageSize,
+                                "totalCount": 1000,
+                                "totalPage": 1000 / params.pageSize
+                            }
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
 
         // #endregion
 
@@ -946,72 +1067,6 @@ const mockRouterMap = {
                         "releaseWeight": 976, //解押重量
                     },
 
-                };
-            }
-        },
-        // #endregion 
-
-        // #region  货主检索条件
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: storageURL + '/web/yc/search/cargo',
-            result() {
-                return {
-                    ...body,
-                    "data|5-6": [cargoList],
-                };
-            }
-        },
-        // #endregion 
-
-        // #region  交割库下拉(专门为入库登记设计)
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: storageURL + '/web/yc/base/deliveryStoreManage/select',
-            result() {
-                return {
-                    ...body,
-                    data: {
-                        "bc5ecc7158f44eccae90cada6e986165": "仓库1",
-                        "bc5ecc7158f44ecc56": "仓库2"
-                    },
-                };
-            }
-        },
-        // #endregion 
-
-        // #region  油罐下拉(专门为入库登记设计,与交割库联动)
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: storageURL + '/web/yc/base/oilTank/select',
-            result() {
-                return {
-                    ...body,
-                    data: {
-                        "778": "1号罐",
-                        "212": "2号罐",
-                        "333": "6号罐",
-                    },
-                };
-            }
-        },
-        // #endregion 
-
-        // #region  区装位下拉列表(根据仓库id,专门为入库登记设计)
-        {
-            isMock: IS_MOCK,
-            methods: 'get',
-            router: storageURL + '/web/yc/base/pilePosition/select',
-            result() {
-                return {
-                    ...body,
-                    data: {
-                        "1212": "区装位1",
-                        "3333": "区装位2"
-                    }
                 };
             }
         },

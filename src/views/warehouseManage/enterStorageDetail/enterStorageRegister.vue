@@ -137,8 +137,6 @@
                 <el-input v-model.number="form.supposedNum"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50">
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="重量单位"
@@ -169,8 +167,7 @@
                 <el-input v-model="form.supposedWeight"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50">
+
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="数量单位"
@@ -185,6 +182,16 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="12" :xs="24">
+              <el-form-item
+                label="油品信息"
+                prop="oilInfoId"
+                :rules="[{ required: true, message: '必选一项', trigger:'blur'}]"
+              >
+                <oilQualityInfoglass></oilQualityInfoglass>
+                <el-input type="hidden" :value="form.oilInfoId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -206,6 +213,7 @@ import hlBreadcrumb from "components/hl-breadcrumb";
 import Dict from "util/dict.js";
 import { dictMixin } from "common/mixin.js";
 import { _toArray_, handleFilterSelf } from "common/util";
+import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
 import _ from "lodash";
 const defualtFormParams = {
   registerTime: new Date(), // 登记日期
@@ -225,7 +233,8 @@ export default {
   name: "enterStorageRegister",
   mixins: [dictMixin],
   components: {
-    hlBreadcrumb
+    hlBreadcrumb,
+    oilQualityInfoglass
   },
   data() {
     return {
@@ -281,9 +290,19 @@ export default {
           {},
           this.form,
           { cargoName: this._findName(this.cargoList, this.form.cargoId) },
-          { deliveryStore: this._findName(this.deliveryStoreList,this.form.deliveryStoreId)}, 
-          { pilePosition: this._findName(this.pilePositionList,this.form.pilePositionId)},
-          { oiltank: this._findName(this.oiltankList,this.form.oiltankId)},          
+          {
+            deliveryStore: this._findName(
+              this.deliveryStoreList,
+              this.form.deliveryStoreId
+            )
+          },
+          {
+            pilePosition: this._findName(
+              this.pilePositionList,
+              this.form.pilePositionId
+            )
+          },
+          { oiltank: this._findName(this.oiltankList, this.form.oiltankId) }
         )
       );
       return params;

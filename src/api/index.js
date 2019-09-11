@@ -714,6 +714,13 @@ export default {
     getDropDownList() {
         return fetch(storageURL + '/web/yc/inventory/transfer/base', '', 'get')
     },
+    /**
+     * @author sswq
+     * @description 油品信息分页查询
+     * */
+    getOilQualityInfoList(params) {
+        return fetch(storageURL + '/web/yc/product/product/pageForSale', params)
+    },
     // #endregion
 
     // #region 仓储管理
