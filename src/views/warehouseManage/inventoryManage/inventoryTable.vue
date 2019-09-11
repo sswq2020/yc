@@ -86,7 +86,7 @@
       <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
         <label>油罐编号</label>
         <div class="form-control">
-          <el-select v-model="form.productNameId" placeholder="请选择" size="small">
+          <el-select v-model="form.oiltankId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in oiltankList"
               :key="index"
@@ -698,6 +698,7 @@ export default {
       });
     },
     GoEnterRegister() {
+      this.setProductType(this.storageclass);
       this.$router.push({
         path: "/web/yc/storage/stockRegisterDetail/page/register"
       });
