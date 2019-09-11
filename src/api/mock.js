@@ -85,17 +85,17 @@ const InventoryTableList = {
     "numUnit": "支", // 数量单位
     "totalWeightInventory": 6, // 库存重量
     "weightUnit": "吨", // 重量单位
-    "numUnitTypeEnum":{ code: "1", text: "件" }, // 数量单位
+    "numUnitTypeEnum": { code: "1", text: "件" }, // 数量单位
     "measuringTypeEnum": { code: "1", text: "理算" }, // 计量方式
     "wareHousingTypeEnum": { code: "1", text: "过货入库" }, //入库类型
     "incomingDays": 0, //入库天数
-    "oiltank":"@PICK('1','2')号罐", // 油罐编号
-    "firstCatalog":"@PICK('汽油','柴油')", // 品类
+    "oiltank": "@PICK('1','2')号罐", // 油罐编号
+    "firstCatalog": "@PICK('汽油','柴油')", // 品类
     "trademark": "@PICK('0','92','95')", // 牌号
     "emissionStandard": "@PICK('国五','国六')",// 排放标准
     "models": 213213,// 型号
-    "density":"100", //密度
-    "manufacturer":"江苏镇江沙钢" // 生产商
+    "density": "100", //密度
+    "manufacturer": "江苏镇江沙钢" // 生产商
 }
 
 const InventoryDetailList = {
@@ -262,8 +262,8 @@ const specificationsList = {
     "text": "@INTEGER(1,20)mm*@INTEGER(1,20)mm*30mm",
     "sonSearchList": []
 }
-const materialList = { id:"8293674dcc74426e97983b85f5bfd305", text:"ABC1",sonSearchList:[] }
-const originPlaceList = { id:"bc5ecc7158f44eccae90cada6e986165", text:"测试1", sonSearchList:[]}
+const materialList = { id: "8293674dcc74426e97983b85f5bfd305", text: "ABC1", sonSearchList: [] }
+const originPlaceList = { id: "bc5ecc7158f44eccae90cada6e986165", text: "测试1", sonSearchList: [] }
 const productNameList = {
     "id|+1": "@INTEGER(1,2019690999)",
     "text": "@PICK('粗石油','H型钢')@INTEGER(1,222)",
@@ -960,6 +960,58 @@ const mockRouterMap = {
                 return {
                     ...body,
                     "data|5-6": [cargoList],
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  交割库下拉(专门为入库登记设计)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/deliveryStoreManage/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "bc5ecc7158f44eccae90cada6e986165": "仓库1",
+                        "bc5ecc7158f44ecc56": "仓库2"
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  油罐下拉(专门为入库登记设计,与交割库联动)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/oilTank/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "778": "1号罐",
+                        "212": "2号罐",
+                        "333": "6号罐",
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  区装位下拉列表(根据仓库id,专门为入库登记设计)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/pilePosition/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "1212": "区装位1",
+                        "3333": "区装位2"
+                    }
                 };
             }
         },

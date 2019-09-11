@@ -443,14 +443,14 @@ export default {
     },
     /**
      * @author sswq
-     * @description 仓库下拉列表(专门为入库登记设计)
+     * @description 仓库下拉列表
      * */
     getdeliveryStoresData() {
         return fetch(storageURL + '/web/yc/base/pilePosition/selectStockIds', '', 'get')
     },
     /**
      * @author sswq
-     * @description 区装位下拉列表(根据仓库id)
+     * @description 区装位下拉列表(根据仓库id,专门为入库登记设计)
      * */
     getPilePositionsData(stockId) {
         return fetch(storageURL + '/web/yc/base/pilePosition/select', {stockId}, 'get')
@@ -461,6 +461,20 @@ export default {
      * */
     getDeliveryStoreList(params) {
         return fetch(storageURL + '/web/yc/base/deliveryStoreManage/pageDeliveryStore', params)
+    },
+    /**
+     * @author sswq
+     * @description 交割库下拉(专门为入库登记设计)
+     * */
+    getDeliveryStoreSelect(deliverySaveType) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/select', {deliverySaveType},'get')
+    },
+    /**
+     * @author sswq
+     * @description 油罐下拉(专门为入库登记设计,与交割库联动)
+     * */
+    getOilTankSelect(stockId) {
+        return fetch(storageURL + '/web/yc/base/oilTank/select', {stockId},'get')
     },
     /**
      * @author xh
