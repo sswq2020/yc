@@ -73,7 +73,7 @@
       <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
         <label>牌号</label>
         <div class="form-control">
-          <el-select v-model="form.trademarkId" placeholder="请选择" size="small">
+          <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in trademarkList"
               :key="index"
@@ -225,7 +225,7 @@ const defaultFormData = {
 
   oiltankId: null,
   firstCatalogId: null,
-  trademarkId: null,
+  secondCatalogId: null,
   emissionStandard: null
 };
 const defaultListParams = {
@@ -628,7 +628,7 @@ export default {
     "form.firstCatalogId": {
       handler(newV, oldV) {
         if (newV !== oldV) {
-          this.form.trademarkId = null;
+          this.form.secondCatalogId = null;
           if (newV && this.storageclass === Dict.PRODUCT_OIL) {
             setTimeout(() => {
               const index = findIndexByValue(this.firstCatalogList, newV);
