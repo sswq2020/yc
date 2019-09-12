@@ -1,6 +1,6 @@
 <template>
   <div class="oilQualityInfoglass">
-    <el-input placeholder="请选择油品信息" :readonly="true">
+    <el-input placeholder="请选择油品信息" :value="value"   :readonly="true">
       <el-button slot="append" icon="el-icon-search" @click="open"></el-button>
     </el-input>
     <el-dialog
@@ -181,7 +181,8 @@ export default {
       form: { ...defaultFormData }, // 查询参数
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: [...defaultAuditResultTableHeader],
-      currentRow: null //选中的那一行数据
+      currentRow: null, //选中的那一行数据
+      value:null
     };
   },
   methods: {
@@ -231,7 +232,8 @@ export default {
         this.$messageError("必须选中一行才能确认");
         return;
       }
-      this.$emit("companySelect", this.currentRow);
+      this.value = this.currentRow.firstCatalogName;
+      this.$emit("oilQualityInfoSelect", this.currentRow);
       this.cancel();
     },
     handleCurrentChange(row) {
