@@ -184,14 +184,25 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油品信息"
                 prop="oilInfoId"
                 :rules="[{ required: true, message: '必选一项', trigger:'blur'}]"
               >
-                <oilQualityInfoglass></oilQualityInfoglass>
+                <oilQualityInfoglass @oilQualityInfoSelect="acceptOilQuality"></oilQualityInfoglass>
                 <el-input type="hidden" :value="form.oilInfoId" style="display:inline;height:0"></el-input>
+              </el-form-item>
+            </el-col>
+
+            <el-col :md="12" :sm="12" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
+              <el-form-item
+                label="物资信息"
+                prop="commodityId"
+                :rules="[{ required: true, message: '必选一项', trigger:'blur'}]"
+              >
+                <commodityglass @commoditySelect="acceptCommodity"></commodityglass>
+                <el-input type="hidden" :value="form.commodityId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -214,6 +225,7 @@ import Dict from "util/dict.js";
 import { dictMixin } from "common/mixin.js";
 import { _toArray_, handleFilterSelf } from "common/util";
 import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
+import commodityglass from "views/basicManage/commodityManage/commodityglass.vue";
 import _ from "lodash";
 const defualtFormParams = {
   registerTime: new Date(), // 登记日期
@@ -226,7 +238,9 @@ const defualtFormParams = {
   supposedNum: null, // 应收数量
   supposedWeight: null, // 应收重量
   weightUnit: null, // 数量单位
-  numUnit: null // 重量单位
+  numUnit: null, // 重量单位
+  oilInfoId: null, // 油品信息传递过来的id
+  commodityId: null // 物资信息传递过来的id
 };
 
 export default {
@@ -234,7 +248,8 @@ export default {
   mixins: [dictMixin],
   components: {
     hlBreadcrumb,
-    oilQualityInfoglass
+    oilQualityInfoglass,
+    commodityglass
   },
   data() {
     return {
@@ -247,7 +262,9 @@ export default {
       loading: false,
       breadTitle: ["仓储管理", "库存表", "入库登记"],
       form: { ...defualtFormParams },
-      Dict: Dict
+      Dict: Dict,
+      oilInfoObj: null,
+      commodityObj: null
     };
   },
   computed: {
@@ -368,6 +385,16 @@ export default {
           this.$messageError(res.mesg);
           break;
       }
+    },
+    /**接收油品信息传递的对象*/
+    acceptOilQuality(obj) {
+      this.form.oilInfoId = obj.id;
+      this.oilInfoObj = obj;
+    },
+    /**接收物资信息传递的对象*/
+    acceptCommodity(obj) {
+      this.form.commodityId = obj.id;
+      this.commodityObj = obj;
     }
   },
   created() {
