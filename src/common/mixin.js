@@ -5,6 +5,7 @@ import { DICT_SELECT_ARR } from "common/util";
 const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
 
 const _DICT_SERVE_ = [
+    "HywEmissionStandard",
     "YcNumUnit",
     "YcWeightUnit",
     "YcIncomingType",
