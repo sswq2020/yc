@@ -8,6 +8,8 @@ const ProductNameManage = () => import('@/views/basicManage/productNameManage/in
 const SettlementStorageManage = () => import('@/views/basicManage/settlementStorageManage/index')
 const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 const SpecificationManage = () => import('@/views/basicManage/specificationManage/index')
+/**品类管理*/
+const CategoryManage = () => import('@/views/basicManage/categoryManage/index')
 /**生产商管理*/
 const ManufactureManage = () => import('@/views/basicManage/manufactureManage/index')
 
@@ -119,7 +121,11 @@ let commonRoutes = {
             name: 'print',
             component: () => import('@/views/basicManage/print/index')
         },  
-
+        {
+            path: '/web/yc/base/categoryManage/list',
+            name: 'categoryManage',
+            component: CategoryManage
+        },          
         {
             path: '/web/yc/base/manufactureManage/list',
             name: 'manufactureManage',
