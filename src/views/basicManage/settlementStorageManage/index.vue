@@ -133,6 +133,12 @@ export default {
           width: 180
         },
         {
+          prop: "saveTypeText",
+          label: "存储类型",
+          align: 'left',
+          width: 180
+        },
+        {
           prop: "leader",
           label: "负责人",
           align: 'left',
@@ -195,6 +201,7 @@ export default {
               createdTimeText: item.createdTime ? moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss") : '',
               addressText: `${item.storeAddressProvince}${item.storeAddressCity}${item.storeAddressCounty}${item.storeAddressStreet}`,
               storeTypeText: item.storeTypeEnum.text,
+              saveTypeText:item.saveTypeEnum.text,
               stateText: item.publicStatusEnum.text
             }
           });

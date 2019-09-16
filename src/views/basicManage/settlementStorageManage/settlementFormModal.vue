@@ -24,6 +24,15 @@
           <el-option v-for="item in Object.keys(deliveryStoreTypeData)" :key="item" :label="deliveryStoreTypeData[item]" :value="item"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="存储类型" prop="saveType">
+        <el-select v-model="form.saveType" placeholder="请选择">
+           <el-option v-for="(item,index) in TypeSaveDatas"
+              :key="index"
+              :label="item.label"
+              :value="item.value">
+            </el-option>  
+        </el-select>
+      </el-form-item>
       <el-form-item label="负责人" prop="leader">
         <el-input v-model="form.leader" maxlength="10"  placeholder="请输入"></el-input>
       </el-form-item>
@@ -48,6 +57,9 @@ import { mapState, mapMutations  } from 'vuex';
 import InputNumber from '@/components/inputNumber.vue';
 import AreaCascader from "@/components/areaCascader";
 import { phoneValidation } from '@/util/reg.js';
+import { DICT_SELECT_ARR } from "common/util";
+const TypeSaveDatas = DICT_SELECT_ARR(Dict.STORAGE_TYPE);
+
 import Dict from "@/util/dict.js";
 const defaultForm = {
   deliveryStore: '', // 交割库名称
@@ -58,6 +70,7 @@ const defaultForm = {
   storeAddressStreet: '', // 具体地址
   storeCapacity: 0, // 交割库容量
   storeType: '', // 交割库类型
+  saveType:'',// 存储类型
   leader: '', // 负责人
   contactTel: '', // 联系电话
   storeAdminList: [], // 仓管人员
@@ -104,12 +117,14 @@ export default {
   data() {
     return {
       form:{...defaultForm},
+      TypeSaveDatas:TypeSaveDatas,
       rules: {
         deliveryStore: [{ required: true, message: "请输入交割库名称", trigger: "blur" }],
         address: [{ required: true, message: "请选择交割库地址", trigger: "blur" }],
         storeAddressStreet: [{ required: true, message: "请输入交割库详细地址", trigger: "blur" }],
         storeCapacity: [{ required: true, message: "请输入交割库容量", trigger: "blur" }],
         storeType: [{ required: true, message: "请选择交割库类型", trigger: "blur" }],
+        saveType: [{ required: true, message: "请选择存储类型", trigger: "blur" }],
         leader: [{ required: true, message: "请输入负责人姓名", trigger: "blur" }],
         contactTel: [{ required: true, validator: checkPhone,  trigger: "blur" }],
       },
@@ -163,6 +178,7 @@ export default {
           delete parmas.address;
           delete parmas.publicStatusEnum;
           delete parmas.storeTypeEnum;
+          delete parmas.saveTypeEnum;
           console.log(parmas);
           that.confirmCb(parmas);
         } else {
