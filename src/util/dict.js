@@ -1,4 +1,4 @@
-const DICT = {};
+const DICT = Object.create(null);
 /** 成功 */
 DICT.SUCCESS = '000000';
 /** 导入 */
