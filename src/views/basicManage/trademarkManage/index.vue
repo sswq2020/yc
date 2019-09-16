@@ -71,6 +71,7 @@
       :isEdit="isEdit"
       :confirmCb="modalConfirm"
       :trademarkObj="trademarkObj"
+      :list="selectList"
     ></trademarkformModal>
   </div>
 </template>
@@ -258,10 +259,11 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      const { id, brandName } = obj;
+      const { id, brandName,categoryId } = obj;
       this.trademarkObj = {
         id,
-        brandName
+        brandName,
+        categoryId
       };
       this.SET_MODAL_VISIBLE(true);
     },
