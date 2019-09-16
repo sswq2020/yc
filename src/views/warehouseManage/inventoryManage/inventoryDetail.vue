@@ -32,7 +32,7 @@
             <el-form-item label="品类:" prop="productClass">{{form.productClass}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="牌号:" prop="productBrand">{{form.productBrand}}</el-form-item>
+            <el-form-item label="牌号:" prop="trademark">{{form.trademark}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
             <el-form-item label="排放标准:" prop="emissionStandard">{{form.emissionStandard}}</el-form-item>
@@ -185,7 +185,7 @@ const defaultForm = {
   /**石油类型的*/
   oilTankNo: "",
   productClass: "",
-  productBrand: "",
+  trademark: "",
   emissionStandard: "",
   density: "",
   model: "",
