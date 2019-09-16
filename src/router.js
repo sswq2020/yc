@@ -8,6 +8,9 @@ const ProductNameManage = () => import('@/views/basicManage/productNameManage/in
 const SettlementStorageManage = () => import('@/views/basicManage/settlementStorageManage/index')
 const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 const SpecificationManage = () => import('@/views/basicManage/specificationManage/index')
+
+/**油罐管理*/
+const OilTankManage = () => import('@/views/basicManage/oilTankManage/index')
 /**牌号管理*/
 const TrademarkManage = () => import('@/views/basicManage/trademarkManage/index')
 /**品类管理*/
@@ -138,7 +141,11 @@ let commonRoutes = {
             name: 'trademarkManage',
             component: TrademarkManage
         },  
-
+        {
+            path: '/web/yc/base/oilTankManage/list',
+            name: 'oilTankManage',
+            component: OilTankManage
+        },  
         // #region  仓储信息      
         {
             path: '/web/yc/storage/stockRegisterDetail/page',
