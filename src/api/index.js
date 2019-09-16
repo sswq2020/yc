@@ -721,6 +721,13 @@ export default {
     getOilQualityInfoList(params) {
         return fetch(storageURL + '/web/yc/product/product/pageForSale', params)
     },
+    /**
+     * @author sswq
+     * @description 品类下拉列表
+     * */
+    getCategorySelectList(params) {
+        return fetch(storageURL + '/web/yc/base/category/select', params)
+    },
     // #endregion
 
     // #region 仓储管理

@@ -284,7 +284,7 @@ const MockRole = {
 }
 
 const oilQualityInfoList = {
-    "id|+1": "@INTEGER(1,2019690999)",    
+    "id|+1": "@INTEGER(1,2019690999)",
     "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
     "sellState": "@PICK('0','1')",
     "productNumber": "@INTEGER(1,2019690999)",
@@ -292,12 +292,12 @@ const oilQualityInfoList = {
     "emissionStandard": "0",
     "emissionStandardEnum": { text: "惠龙排放标准1" },
     "fileId": "324234",
-    "firstCatalogId": "@INTEGER(1,2019690999)",   
-    "firstCatalogName":  "@CTITLE(2,4)",
-    "manufacturerId": "@INTEGER(1,2019690999)",   
+    "firstCatalogId": "@INTEGER(1,2019690999)",
+    "firstCatalogName": "@CTITLE(2,4)",
+    "manufacturerId": "@INTEGER(1,2019690999)",
     "manufacturerName": "@CTITLE(2,4)公司",
     "picUrl": "",
-    "secondCatalogId": "@INTEGER(1,2019690999)",   
+    "secondCatalogId": "@INTEGER(1,2019690999)",
     "secondCatalogName": "@CTITLE(2,4)",
     "sellStateEnum": "",
     "parameterList": [
@@ -309,7 +309,7 @@ const oilQualityInfoList = {
             "paraValue": "",
             "sort": 0
         }
-    ],    
+    ],
 }
 
 
@@ -463,6 +463,26 @@ const mockRouterMap = {
                                 "totalCount": 1000,
                                 "totalPage": 1000 / params.pageSize
                             }
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  品类下拉列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/category/select',
+            result() {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            '787822':"汽油",
+                            '787866':"柴油",
+                            '787888':"润滑油",                           
                         },
                     },
                 };
