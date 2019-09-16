@@ -2,14 +2,12 @@ import { MessageBox } from 'element-ui';
 import _ from 'lodash'
 
 export const _toArray_ = obj => {
-    let arr = []
-    for (let key in obj) {
-        arr.push({
+    return Object.keys(obj).map((key)=>{
+        return {
             value: key,
             label: obj[key]
-        })
-    }
-    return arr
+        }
+    })
 }
 
 export function _debounce(func, delay) {
