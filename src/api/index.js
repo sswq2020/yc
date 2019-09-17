@@ -723,13 +723,6 @@ export default {
     },
     /**
      * @author sswq
-     * @description 品类下拉列表
-     * */
-    getCategorySelectList(params) {
-        return fetch(storageURL + '/web/yc/base/category/select', params)
-    },
-    /**
-     * @author sswq
      * @description 生产商列表查询
      * */
     getProducersList(params) {
@@ -797,6 +790,48 @@ export default {
      * */
     updateBrand(params) {
         return fetch(storageURL + '/web/yc/base/brand/update', params)
+    },
+    /**
+     * @author sswq
+     * @description 品类下拉列表
+     * */
+    getCategorySelectList(params) {
+        return fetch(storageURL + '/web/yc/base/category/select', params)
+    },
+    /**
+     * @author sswq
+     * @description 品类列表查询
+     * */
+    getCategoryList(params) {
+        return fetch(storageURL + '/web/yc/base/category/listCategorys', params)
+    },
+     /**
+     * @author sswq
+     * @description 禁用品类
+     * */
+    disableCategory(params) {
+        return fetch(storageURL + '/web/yc/base/category/disable', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活品类
+     * */
+    activeCategory(params) {
+        return fetch(storageURL + '/web/yc/base/category/active', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增品类
+     * */
+    addCategory(params) {
+        return fetch(storageURL + '/web/yc/base/category/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑品类
+     * */
+    updateCategory(params) {
+        return fetch(storageURL + '/web/yc/base/category/update', params)
     },
     // #endregion
 

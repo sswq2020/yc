@@ -1,8 +1,8 @@
 <template>
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="品类名称:" prop="mock1">
-        <el-input v-model="form.mock1"></el-input>
+      <el-form-item label="品类名称:" prop="categoryName">
+        <el-input v-model="form.categoryName"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -15,7 +15,7 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 const defaultForm = {
-  mock1: null // 品类名称
+  categoryName: null // 品类名称
 };
 
 export default {
@@ -42,7 +42,7 @@ export default {
     return {
       form: { ...defaultForm },
       rules: {
-        mock1: [{ required: true, message: '请输入品类', trigger: 'blur' },
+        categoryName: [{ required: true, message: '请输入品类', trigger: 'blur' },
                     { max: 10, message: '最多10个字符', trigger: 'blur' }],
       }
     };
@@ -78,9 +78,6 @@ export default {
         this.$refs.ruleForm.clearValidate();
       }
     }
-  },
-  mounted() {
-    console.log(this.visible);
   }
 };
 </script>
