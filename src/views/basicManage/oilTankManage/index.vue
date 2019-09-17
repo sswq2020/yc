@@ -198,7 +198,7 @@ export default {
     },
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.getOilTankList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -223,7 +223,7 @@ export default {
       }
     },
     async modalConfirm(obj) {
-      const serve = this.isEdit ? "updateShipper" : "createShipper";
+      const serve = this.isEdit ? "updateOilTank" : "addOilTank";
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:
@@ -242,7 +242,7 @@ export default {
       const operationText =
         oilTankStateCode === Dict.STATE_NORMAL ? "禁用" : "激活";
       const serve =
-        oilTankStateCode === Dict.STATE_NORMAL ? "disableCargo" : "activeCargo";
+        oilTankStateCode === Dict.STATE_NORMAL ? "disableOilTank" : "activeOilTank";
       that
         .$confirm(`确定要${operationText}油罐${oilTankCode}?`, "提示", {
           confirmButtonText: "确定",

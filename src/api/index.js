@@ -833,6 +833,41 @@ export default {
     updateCategory(params) {
         return fetch(storageURL + '/web/yc/base/category/update', params)
     },
+    /**
+     * @author sswq
+     * @description 油罐列表查询
+     * */
+    getOilTankList(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/listOilTanks', params)
+    },
+     /**
+     * @author sswq
+     * @description 禁用油罐
+     * */
+    disableOilTank(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/disable', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活油罐
+     * */
+    activeOilTank(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/active', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增油罐
+     * */
+    addOilTank(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑油罐
+     * */
+    updateOilTank(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/update', params)
+    },
     // #endregion
 
     // #region 仓储管理
