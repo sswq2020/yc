@@ -716,13 +716,6 @@ export default {
     },
     /**
      * @author sswq
-     * @description 油品信息分页查询
-     * */
-    getOilQualityInfoList(params) {
-        return fetch(storageURL + '/web/yc/product/product/pageForSale', params)
-    },
-    /**
-     * @author sswq
      * @description 生产商列表查询
      * */
     getProducersList(params) {
@@ -867,6 +860,34 @@ export default {
      * */
     updateOilTank(params) {
         return fetch(storageURL + '/web/yc/base/oilTank/update', params)
+    },
+    /**
+     * @author sswq
+     * @description 油品信息分页查询
+     * */
+    getOilQualityInfoList(params) {
+        return fetch(storageURL + '/web/yc/product/product/pageForSale', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活禁用油品信息
+     * */
+    switchOilQualityInfoState(params) {
+        return fetch(storageURL + '/web/yc/product/product/switchState', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增油品信息
+     * */
+    addOilQualityInfo(params) {
+        return fetch(storageURL + '/web/yc/product/product/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑油品信息
+     * */
+    updateOilQualityInfo(params) {
+        return fetch(storageURL + '/web/yc/product/product/update', params)
     },
     // #endregion
 
