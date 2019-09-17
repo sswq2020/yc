@@ -9,6 +9,8 @@ const SettlementStorageManage = () => import('@/views/basicManage/settlementStor
 const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 const SpecificationManage = () => import('@/views/basicManage/specificationManage/index')
 
+/**油品信息*/
+const OilQualityInfo = () => import('@/views/basicManage/oilQualityInfo/index')
 /**油罐管理*/
 const OilTankManage = () => import('@/views/basicManage/oilTankManage/index')
 /**牌号管理*/
@@ -130,6 +132,11 @@ let commonRoutes = {
             path: '/web/yc/base/categoryManage/list',
             name: 'categoryManage',
             component: CategoryManage
+        },  
+        {
+            path: '/web/yc/base/OilQualityInfo/list',
+            name: 'oilQualityInfo',
+            component: OilQualityInfo
         },          
         {
             path: '/web/yc/base/manufactureManage/list',
