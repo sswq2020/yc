@@ -61,7 +61,7 @@
           <el-button
             type="text"
             @click="forbiddenOrActiveItem(listData.list[scope.$index])"
-          >{{ scope.row.state == '0' ? '禁用' : '激活' }}</el-button>
+          >{{ scope.row.brandStateCode == Dict.STATE_NORMAL ? '禁用' : '激活' }}</el-button>
         </template>
       </el-table-column>
     </heltable>
@@ -150,6 +150,7 @@ export default {
   data() {
     return {
       breadTitle: ["基础信息", "牌号管理"], // 面包屑title
+      Dict:Dict,
       selectList: [],
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
@@ -192,7 +193,7 @@ export default {
     },
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.getBrandsList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -216,7 +217,7 @@ export default {
       }
     },
     async modalConfirm(obj) {
-      const serve = this.isEdit ? "updateShipper" : "createShipper";
+      const serve = this.isEdit ? "updateBrand" : "addBrand";
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:
@@ -231,9 +232,9 @@ export default {
     },
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, state, brandName, categoryName } = obj;
-      const operationText = state == "0" ? "禁用" : "激活";
-      const serve = state == "0" ? "disableCargo" : "activeCargo";
+      const { id, brandStateCode, brandName, categoryName } = obj;
+      const operationText = brandStateCode == Dict.STATE_NORMAL ? "禁用" : "激活";
+      const serve = brandStateCode == Dict.STATE_NORMAL ? "disableBrand" : "activeBrand";
       that
         .$confirm(
           `确定要确定要${operationText}${categoryName}-${brandName}?`,

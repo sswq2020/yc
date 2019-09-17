@@ -763,6 +763,41 @@ export default {
     updateProducer(params) {
         return fetch(storageURL + '/web/yc/base/producer/update', params)
     },
+    /**
+     * @author sswq
+     * @description 牌号列表查询
+     * */
+    getBrandsList(params) {
+        return fetch(storageURL + '/web/yc/base/brand/listBrands', params)
+    },
+     /**
+     * @author sswq
+     * @description 禁用牌号
+     * */
+    disableBrand(params) {
+        return fetch(storageURL + '/web/yc/base/brand/disable', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活牌号
+     * */
+    activeBrand(params) {
+        return fetch(storageURL + '/web/yc/base/brand/active', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增牌号
+     * */
+    addBrand(params) {
+        return fetch(storageURL + '/web/yc/base/brand/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑牌号
+     * */
+    updateBrand(params) {
+        return fetch(storageURL + '/web/yc/base/brand/update', params)
+    },
     // #endregion
 
     // #region 仓储管理
