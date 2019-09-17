@@ -728,6 +728,41 @@ export default {
     getCategorySelectList(params) {
         return fetch(storageURL + '/web/yc/base/category/select', params)
     },
+    /**
+     * @author sswq
+     * @description 生产商列表查询
+     * */
+    getProducersList(params) {
+        return fetch(storageURL + '/web/yc/base/producer/listProducers', params)
+    },
+     /**
+     * @author sswq
+     * @description 禁用生产商
+     * */
+    disableProducer(params) {
+        return fetch(storageURL + '/web/yc/base/producer/disable', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活生产商
+     * */
+    activeProducer(params) {
+        return fetch(storageURL + '/web/yc/base/producer/active', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增生产商
+     * */
+    addProducer(params) {
+        return fetch(storageURL + '/web/yc/base/producer/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑生产商
+     * */
+    updateProducer(params) {
+        return fetch(storageURL + '/web/yc/base/producer/update', params)
+    },
     // #endregion
 
     // #region 仓储管理

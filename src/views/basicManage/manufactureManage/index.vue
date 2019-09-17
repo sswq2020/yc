@@ -7,7 +7,7 @@
       <div class="form-item">
         <label>生产商名称</label>
         <div class="form-control">
-          <el-input v-model="listParams.mock1" placeholder="请输入" size="small"></el-input>
+          <el-input v-model="listParams.producerName" placeholder="请输入" size="small"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -48,7 +48,7 @@
           <el-button
             type="text"
             @click="forbiddenOrActiveItem(listData.list[scope.$index])"
-          >{{ scope.row.state == '0' ? '禁用' : '激活' }}</el-button>
+          >{{ scope.row.producerStateCode === Dict.STATE_NORMAL ? '禁用' : '激活' }}</el-button>
         </template>
       </el-table-column>
     </heltable>
@@ -74,26 +74,26 @@ import manufactureformModal from "./manufactureformModal.vue";
 const defaultListParams = {
   pageSize: 20,
   page: 1,
-  mock1: null
+  producerName: null
 };
 const defaulttableHeader = [
   {
-    prop: "mock1",
+    prop: "producerName",
     label: "生产商名称",
     width: "180"
   },
   {
-    prop: "mock2",
+    prop: "remark",
     label: "备注",
     width: "180"
   },
   {
-    prop: "mock3",
+    prop: "createdTimeText",
     label: "录入时间",
     width: "180"
   },
   {
-    prop: "stateText",
+    prop: "producerStateText",
     label: "状态",
     width: "180"
   }
@@ -117,8 +117,7 @@ const rowAdapter = list => {
         ...row,
         createdTimeText: row.createdTime
           ? moment(row.createdTime).format("YYYY-MM-DD HH:mm:ss")
-          : "",
-        stateText: row.state == "0" ? "正常" : "禁用"
+          : ""
       });
     });
   }
@@ -135,6 +134,7 @@ export default {
   data() {
     return {
       breadTitle: ["基础信息", "生产商管理"], // 面包屑title
+      Dict:Dict,
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
       listData: { ...defaultListData },
@@ -176,7 +176,7 @@ export default {
     },
     async getList() {
       this.isListDataLoading = true;
-      const res = await this.$api.getShipperManageList(this.listParams);
+      const res = await this.$api.getProducersList(this.listParams);
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
@@ -189,7 +189,7 @@ export default {
       }
     },
     async modalConfirm(obj) {
-      const serve = this.isEdit ? "updateShipper" : "createShipper";
+      const serve = this.isEdit ? "updateProducer" : "addProducer";
       const response = await this.$api[serve]({ ...obj });
       switch (response.code) {
         case Dict.SUCCESS:
@@ -204,11 +204,11 @@ export default {
     },    
     forbiddenOrActiveItem(obj) {
       let that = this;
-      const { id, state, mock1 } = obj;
-      const operationText = state == "0" ? "禁用" : "激活";
-      const serve = state == "0" ? "disableCargo" : "activeCargo";
+      const { id, producerStateCode, producerName } = obj;
+      const operationText = producerStateCode === Dict.STATE_NORMAL ? "禁用" : "激活";
+      const serve = producerStateCode === Dict.STATE_NORMAL ? "disableProducer" : "activeProducer";
       that
-        .$confirm(`确定要确定要${operationText}生产商${mock1}?`, "提示", {
+        .$confirm(`确定要确定要${operationText}生产商${producerName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
@@ -228,11 +228,11 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      const { id, mock1, mock2 } = obj;
+      const { id, producerName, remark } = obj;
       this.manufactureObj = {
         id,
-        mock1,
-        mock2
+        producerName,
+        remark
       };
       this.SET_MODAL_VISIBLE(true);
     },

@@ -1,10 +1,10 @@
 <template>
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
-      <el-form-item label="生产商名称:" prop="mock1">
-        <el-input v-model="form.mock1"></el-input>
+      <el-form-item label="生产商名称:" prop="producerName">
+        <el-input v-model="form.producerName"></el-input>
       </el-form-item>
-      <el-form-item label="备注:" prop="mock2">
+      <el-form-item label="备注:" prop="remark">
         <el-input type="textarea" v-model="form.mokc2"></el-input>
       </el-form-item>
     </el-form>
@@ -18,8 +18,8 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 const defaultForm = {
-  mock1: null, // 生产商名称
-  mock2: null, // 备注
+  producerName: null, // 生产商名称
+  remark: null, // 备注
 };
 
 export default {
@@ -46,9 +46,9 @@ export default {
     return {
       form: { ...defaultForm },
       rules: {
-        mock1: [{ required: true, message: '请输入生产商', trigger: 'blur' },
+        producerName: [{ required: true, message: '请输入生产商', trigger: 'blur' },
                     { max: 50, message: '最多50个字符', trigger: 'blur' }],
-        mock2: [{ max: 500, message: '最多500个字符', trigger: 'blur'}]
+        remark: [{ max: 500, message: '最多500个字符', trigger: 'blur'}]
       }
     };
   },
