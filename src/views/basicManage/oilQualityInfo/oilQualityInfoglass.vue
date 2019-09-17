@@ -100,6 +100,7 @@
 </template>
 <script>
 import Dict from "util/dict.js";
+import moment from "moment";
 import { baseMixin, dictMixin } from "common/mixin.js";
 import { findIndexByValue } from "common/util.js";
 const defaultFormData = {
@@ -120,7 +121,7 @@ const defaultListData = {
   list: []
 };
 
-const defaultAuditResultTableHeader = [
+const defaulttableHeader = [
   {
     prop: "firstCatalogName",
     label: "品类名称",
@@ -150,7 +151,7 @@ const defaultAuditResultTableHeader = [
     label: "生产商"
   },
   {
-    prop: "createdTime",
+    prop: "createdTimeText",
     label: "录入时间"
   }
 ];
@@ -163,7 +164,10 @@ const rowAdapter = list => {
     list = list.map(row => {
       return (row = {
         ...row,
-        emissionStandardEnumText: row.emissionStandardEnum.text || "--" // 排放标准
+        emissionStandardEnumText: row.emissionStandardEnum.text || "--", // 排放标准
+        createdTimeText: row.createdTime
+          ? moment(row.createdTime).format("YYYY-MM-DD HH:mm:ss")
+          : ""
       });
     });
   }
@@ -180,7 +184,7 @@ export default {
       listParams: { ...defaultListParams }, // 页数
       form: { ...defaultFormData }, // 查询参数
       listData: { ...defaultListData }, // 返回list的数据结构
-      tableHeader: [...defaultAuditResultTableHeader],
+      tableHeader: [...defaulttableHeader],
       currentRow: null, //选中的那一行数据
       value:null
     };
