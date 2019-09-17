@@ -129,27 +129,27 @@ let commonRoutes = {
             component: () => import('@/views/basicManage/print/index')
         },  
         {
-            path: '/web/yc/base/categoryManage/list',
+            path: '/web/yc/base/category/listCategoryst',
             name: 'categoryManage',
             component: CategoryManage
         },  
         {
-            path: '/web/yc/base/OilQualityInfo/list',
+            path: '/web/yc/product/product/pageForSale',
             name: 'oilQualityInfo',
             component: OilQualityInfo
         },          
         {
-            path: '/web/yc/base/manufactureManage/list',
+            path: '/web/yc/base/producer/listProducers',
             name: 'manufactureManage',
             component: ManufactureManage
         },  
         {
-            path: '/web/yc/base/trademarkManage/list',
+            path: '/web/yc/base/brand/listBrands',
             name: 'trademarkManage',
             component: TrademarkManage
         },  
         {
-            path: '/web/yc/base/oilTankManage/list',
+            path: '/web/yc/base/oilTank/listOilTanks',
             name: 'oilTankManage',
             component: OilTankManage
         },  
