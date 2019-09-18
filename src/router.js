@@ -11,6 +11,8 @@ const SpecificationManage = () => import('@/views/basicManage/specificationManag
 
 /**油品信息*/
 const OilQualityInfo = () => import('@/views/basicManage/oilQualityInfo/index')
+/**油品信息新增编辑页面*/
+const OilQualityInfoForm = () => import('@/views/basicManage/oilQualityInfo/oilQualityInfoForm')
 /**油罐管理*/
 const OilTankManage = () => import('@/views/basicManage/oilTankManage/index')
 /**牌号管理*/
@@ -137,6 +139,11 @@ let commonRoutes = {
             path: '/web/yc/product/product/pageForSale',
             name: 'oilQualityInfo',
             component: OilQualityInfo
+        },      
+        {
+            path: '/web/yc/product/product/pageForSale/form',
+            name: 'oilQualityInfoForm',
+            component: OilQualityInfoForm
         },          
         {
             path: '/web/yc/base/producer/listProducers',
