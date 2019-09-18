@@ -18,10 +18,10 @@
               >
                 <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in firstClassList"
+                    v-for="(item,index) in firstCatalogList"
                     :key="index"
-                    :label="item.name"
-                    :value="item.id"
+                    :label="item.label"
+                    :value="item.value"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -34,10 +34,10 @@
               >
                 <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in secondClassList"
+                    v-for="(item,index) in trademarkList"
                     :key="index"
-                    :label="item.name"
-                    :value="item.id"
+                    :label="item.label"
+                    :value="item.value"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -52,8 +52,8 @@
                   <el-option
                     v-for="(item,index) in HywEmissionStandardList"
                     :key="index"
-                    :label="item.name"
-                    :value="item.id"
+                    :label="item.label"
+                    :value="item.value"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -84,10 +84,10 @@
               >
                 <el-select v-model="form.manufacturerId" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in HywManufacturerList"
+                    v-for="(item,index) in ManufacturerList"
                     :key="index"
-                    :label="item.name"
-                    :value="item.id"
+                    :label="item.label"
+                    :value="item.value"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -136,7 +136,7 @@
         </div>
         <div class="bottom">
           <el-form-item>
-            <el-button type="primary" :loading="loading"  @click="submitForm('form')">发布</el-button>
+            <el-button type="primary" :loading="loading" @click="submitForm('form')">{{isEdit ? "更新" : "新增"}}</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -146,12 +146,14 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import { classMixin, dictMixin } from "@/common/mixin.js";
+import { baseMixin, dictMixin } from "common/mixin.js";
+import { _toArray_ } from "common/util.js";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import ImageBox from "components/ImageBox";
 import ImageUpload from "components/ImageUpload";
 import Dict from "util/dict.js";
 import _ from "lodash";
+import { findIndexByValue } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
 
 const defualtFormParams = {
@@ -167,7 +169,7 @@ const defualtFormParams = {
 
 export default {
   name: "oilQualityInfoForm",
-  mixins: [classMixin, dictMixin],
+  mixins: [baseMixin, dictMixin],
   components: {
     hlBreadcrumb,
     ImageBox,
@@ -182,7 +184,8 @@ export default {
       paramsList: [],
       /**参数列表一般是由牌号决定，但是编辑页面一开始进入的时候是唯一的外部触发*/
       ExternalTrigger: false,
-      reservaSecondClassId: null
+      reservaSecondClassId: null,
+      ManufacturerList: []
     };
   },
   computed: {
@@ -207,7 +210,7 @@ export default {
       switch (res.code) {
         case Dict.SUCCESS:
           this.$messageSuccess("新增商品成功");
-          this.back()
+          this.back();
           break;
         default:
           this.$messageError(res.mesg);
@@ -221,7 +224,7 @@ export default {
       switch (res.code) {
         case Dict.SUCCESS:
           this.$messageSuccess("编辑商品成功");
-          this.back()
+          this.back();
           break;
         default:
           this.$messageError(res.mesg);
@@ -231,10 +234,10 @@ export default {
     _findName(arr = [], id) {
       let copy = _.clone(arr);
       const index = _.findIndex(copy, o => {
-        return o.id == id;
+        return o.value == id;
       });
       if (index > -1) {
-        return copy[index].name;
+        return copy[index].label;
       } else {
         return null;
       }
@@ -246,25 +249,31 @@ export default {
           this.form,
           {
             firstCatalogName: this._findName(
-              this.firstClassList,
+              this.firstCatalogList,
               this.form.firstCatalogId
             )
           },
           {
             secondCatalogName: this._findName(
-              this.secondClassList,
+              this.trademarkList,
               this.form.secondCatalogId
+            )
+          },
+          {
+            manufacturerName: this._findName(
+              this.ManufacturerList,
+              this.form.manufacturerId
             )
           },
           { url: this.url },
           {
             sellStateEnum: null,
-            emissionStandardEnum: null,
+            emissionStandardEnum: null
           }
         )
       );
-      if(params.hasOwnProperty('manufacturerId_')) {
-        delete params.manufacturerId_
+      if (params.hasOwnProperty("manufacturerId_")) {
+        delete params.manufacturerId_;
       }
       return params;
     },
@@ -328,31 +337,45 @@ export default {
           break;
       }
     },
-    perm() {
-
+    async _getProducerSelectList() {
+      const res = await this.$api.getProducerSelectList();
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.ManufacturerList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
     },
+    perm() {},
     init() {
       setTimeout(() => {
         this.perm();
-      }, 20)
-    },    
+      }, 20);
+    }
   },
   mounted() {
     if (this.isEdit) {
-      if(!this.oilQualityInfoId){
+      if (!this.oilQualityInfoId) {
         this.back();
       }
       this.ExternalTrigger = true;
-      this._getAllBaseInfo().then(() => {
-        this._getDetailCommodity(this.oilQualityInfoId);
-      })      
+      this._getAllBaseInfo(Dict.PRODUCT_OIL)
+        .then(() => {
+          this._getProducerSelectList();
+        })
+        .then(() => {
+          this._getDetailCommodity(this.oilQualityInfoId);
+        });
     } else {
-      this._getAllBaseInfo()
+      this._getAllBaseInfo(Dict.PRODUCT_OIL).then(() => {
+          this._getProducerSelectList();
+        });
     }
-    this.init()
+    this.init();
   },
-  created() {
-  },
+  created() {},
   beforeDestroy() {
     this.setIsEdit(false);
     this.setoilQualityInfoId(null);
@@ -362,10 +385,8 @@ export default {
       handler(newV, oldV) {
         if (newV !== oldV) {
           if (newV) {
-            const index = _.findIndex(this.firstClassList, o => {
-              return o.id == newV;
-            });
-            this.secondClassList = this.firstClassList[index].children;
+            const index = findIndexByValue(this.firstCatalogList, newV);
+            this.trademarkList = this.firstCatalogList[index].child;
             if (this.ExternalTrigger) {
               this.form.secondCatalogId = this.reservaSecondClassId;
             } else {
@@ -404,7 +425,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped lang="less">
 .form {

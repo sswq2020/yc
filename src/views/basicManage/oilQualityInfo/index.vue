@@ -89,7 +89,8 @@
 </template>
 
 <script>
-// import { mapState, mapMutations } from "vuex";
+import {mapMutations } from "vuex";
+import { baseMixin,dictMixin } from "common/mixin.js";
 import moment from "moment";
 // import { judgeAuth } from "@/util/util.js";
 import Dict from "util/dict.js";
@@ -98,8 +99,9 @@ import hlBreadcrumb from "components/hl-breadcrumb";
 import { findIndexByValue } from "common/util.js";
 
 const defaultFormData = {
-  brandName: null,
-  categoryId: null
+  firstCatalogId: null,
+  secondCatalogId: null,
+  emissionStandard:null
 };
 
 const defaultListParams = {
@@ -174,6 +176,7 @@ const rowAdapter = list => {
 
 export default {
   name: "oilQualityInfo",
+  mixins: [baseMixin, dictMixin],
   components: {
     heltable,
     hlBreadcrumb
@@ -204,6 +207,12 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("oilQualityInfo", ["setIsEdit", "setoilQualityInfoId"]),
+    GoForm(){
+         this.$router.push({
+        path: "/web/yc/product/product/pageForSale/form"
+      });
+    },
     clearListParams() {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
@@ -270,19 +279,15 @@ export default {
         });
     },
     editItem(obj) {
-      this.isEdit = true;
-      const { id, brandName, categoryId } = obj;
-      this.trademarkObj = {
-        id,
-        brandName,
-        categoryId
-      };
-      this.SET_MODAL_VISIBLE(true);
+       let {id} = obj;
+      this.setIsEdit(true);
+       this.setoilQualityInfoId(id)
+       this.GoForm()
     },
     add() {
-      this.isEdit = false;
-      this.trademarkObj = null;
-      this.SET_MODAL_VISIBLE(true);
+       this.setIsEdit(false);
+       this.setoilQualityInfoId(null)
+       this.GoForm()
     }
   },
   created() {
