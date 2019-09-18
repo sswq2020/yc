@@ -529,16 +529,17 @@ const mockRouterMap = {
                     data: {
                         id: params.id,
                         fileId: '121212',
-                        firstCatalogId: 1,
-                        secondCatalogId: 10,
+                        firstCatalogId: '5',
+                        secondCatalogId: '51',
                         emissionStandard: "0",
                         density: 'mock',
-                        serialNumber: 'mock',
+                        productNumber : 'mock',
                         addressProvince:"@PROVINCE()",
-                        manufacturerId: "0",
+                        manufacturerId: "213123123",
                         price: '23',
                         totalWeightInventory: "12",
                         sellState: "1",
+                        picUrl:"https://gss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2324433426,425917240&fm=173&app=25&f=JPEG?w=218&h=146&s=6A814187406328AE248498A7030040A1",
                         'parameterList|3-4': [paraValue]
                     }
                 };
@@ -561,6 +562,27 @@ const mockRouterMap = {
 
 
         // #endregion
+
+        // #region  生产商下拉列表
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/producer/select',
+            result() {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            '213123123':"生产商1",
+                            '213123156':"生产商2",
+                            '213123173':"生产商3"                         
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
 
         // #region 仓储信息
 

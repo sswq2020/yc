@@ -716,6 +716,13 @@ export default {
     },
     /**
      * @author sswq
+     * @description 生产商下拉列表
+     * */
+    getProducerSelectList() {
+        return fetch(storageURL + '/web/yc/base/producer/select', '', 'get')
+    },
+    /**
+     * @author sswq
      * @description 生产商列表查询
      * */
     getProducersList(params) {
