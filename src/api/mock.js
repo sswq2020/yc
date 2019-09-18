@@ -251,6 +251,18 @@ const stockRemovalBill = {
     'outsideType': '库存发货'
 }
 
+const paramsData =
+{
+    classifyId: "7",
+    "id": "@INTEGER(2,2019690999)",
+    paraName: "@CTITLE(2,4)"
+}
+
+const paraValue =
+{
+    ...paramsData,
+    paraValue: "@CTITLE(6,7)"
+}
 
 const cargoList = {
     "id|+1": "@INTEGER(1,2019690999)",
@@ -489,6 +501,47 @@ const mockRouterMap = {
             }
         },
         // #endregion 
+
+        // #region  商品详情页/编辑查询
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/open/product/product/get',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        id: params.id,
+                        fileId: '121212',
+                        firstCatalogId: 1,
+                        secondCatalogId: 10,
+                        emissionStandard: "0",
+                        density: 'mock',
+                        serialNumber: 'mock',
+                        addressProvince:"@PROVINCE()",
+                        manufacturerId: "0",
+                        price: '23',
+                        totalWeightInventory: "12",
+                        sellState: "1",
+                        'parameterList|3-4': [paraValue]
+                    }
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  牌号下动态加载的各个参数
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL +  '/web/yc/getParameterById',
+            result(params) {
+                return {
+                    ...body,
+                    'data|3-4': [{ ...paramsData, ...{ classifyId: params.id } }]
+                };
+            }
+        },
 
 
         // #endregion

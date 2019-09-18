@@ -786,6 +786,22 @@ export default {
     },
     /**
      * @author sswq
+     * @param params
+     * @description 牌号下动态加载的各个参数
+     * */
+    getParameterById(id) {
+        return fetch(storageURL + '/web/yc/getParameterById', { id }, 'get')
+    },
+    /**
+     * @author sswq
+     * @param params
+     * @description 商品详情页/编辑查询
+     * */
+    getDetailCommodity(id) {
+        return fetch(storageURL + '/web/yc/open/product/product/get', {id}, 'get')
+    },
+    /**
+     * @author sswq
      * @description 品类下拉列表
      * */
     getCategorySelectList(params) {
@@ -1146,6 +1162,13 @@ export default {
     // #endregion
 
     // #region  字典项
+    /**
+     * @author sswq
+     * @description 获取文件信息
+     * */
+    getFilesInfo(params) {
+        return fetch('/dfs/open/files/info/get', params, 'get')
+    },
     /**
      * @author sswq
      * @description 查询所有基础信息下拉数据源
