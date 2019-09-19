@@ -60,6 +60,22 @@ const PledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/pl
 const ReleasePledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/releasePledgeManage.vue')
 // #endregion 仓储管理
 
+
+// #region 会员管理
+/**交易会员管理列表*/
+const VipManage = () => import('views/vipManage/index.vue')
+/**新增会员表单模块*/
+const AddMemberForm = () => import('views/vipManage/addMemberForm.vue')
+/**者编辑会员表单模块*/
+const EditMemberForm = () => import('views/vipManage/editMemberForm.vue')
+// #endregion
+
+// #region 预警管理
+/**协议到期预警*/
+const DealDueforeWarn = () => import('views/foreWarnManage/dealDueforeWarn.vue')
+// #endregion
+
+
 Vue.use(Router)
 
 let globelRoutes = [
@@ -245,8 +261,40 @@ let commonRoutes = {
             path: '/web/settlement/pageList/transferOwnershipManage',
             name: 'transferOwnershipManage',
             component: TransferOwnershipManage
-        }
-        // #endregion           
+        },
+        // #endregion       
+        
+        
+        // #region  会员管理  
+        {
+            path: '/web/yc/member/page',
+            name: 'vipManage',
+            component: VipManage
+        },
+        {
+            path: '/web/yc/member/member/addmemberForm',
+            name: 'addMemberForm',
+            component: AddMemberForm
+        },      
+        {
+            path: '/web/yc/member/member/editmemberForm',
+            name: 'editMemberForm',
+            component: EditMemberForm
+        },
+        // #endregion     
+
+
+        // #region  预警管理      
+        {
+            path: '/web/yc/agreement/pageWarn',
+            name: 'dealDueforeWarn',
+            component: DealDueforeWarn
+        },
+        // #endregion      
+
+
+
+
     ]
 }
 

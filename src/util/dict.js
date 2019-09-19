@@ -78,4 +78,44 @@ DICT.PRODUCT_CATEGORY = {
     [DICT.PRODUCT_WOOD]:"木材",
 }
 
+
+/**会员状态禁用*/
+DICT.VIP_STATUS_FROZEN = 0
+/**会员状态正常*/
+DICT.VIP_STATUS_NORMAL = 1
+
+
+/**会员状态 */
+DICT.VIP_STATUS = {
+    [DICT.VIP_STATUS_NORMAL]: "正常",
+    [DICT.VIP_STATUS_FROZEN]: "禁用",
+}
+
+/**允许重复交易*/
+DICT.RETRADE_ABLE = "0"
+/**禁止重复交易*/
+DICT.RETRADE_DISABLE = "1"
+
+DICT.RETRADE_STATUS = {
+    [DICT.RETRADE_ABLE]:"允许",
+    [DICT.RETRADE_DISABLE]:"不允许"
+}
+
+/**线上协议 */
+DICT.AGREE_ONLINE = "0"
+/**线下协议 */
+DICT.AGREE_OFFLINE = "1"
+/**协议类型 */
+DICT.AGREE_TYPE = {
+    [DICT.AGREE_ONLINE]: "线上协议",
+    [DICT.AGREE_OFFLINE]: "线下协议",
+}
+
+
+
+
+
+
+
+
 export default DICT;

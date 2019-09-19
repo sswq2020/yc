@@ -4,6 +4,7 @@ import modal from "./modules/modal";
 import app from "./modules/app";
 import {inventoryManage,waitCheckEnter,waitCheckOuter,togglePledgeManage} from "./modules/warehouseManage";
 import {oilQualityInfo} from "./modules/basicManage";
+import {memberForm,agreement} from "./modules/vipManage";
 
 Vue.use(Vuex);
 
@@ -27,7 +28,9 @@ const store = new Vuex.Store({
     waitCheckEnter,
     waitCheckOuter,
     togglePledgeManage,
-    oilQualityInfo
+    oilQualityInfo,
+    memberForm,
+    agreement
   }
 });
 
