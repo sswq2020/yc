@@ -307,6 +307,55 @@ const emissionStandardList = {
     "text": "('国六','国五')",
     "sonSearchList": []
 }
+
+const pageMemberList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "phone": "@INTEGER(13012819898,18912819898)",
+    "name": "@CTITLE(7,9)公司",
+    "telNo": "@INTEGER(13012819898,18912819898)",
+    "address": '@PROVINCE()@CITY()@CTITLE(2,10)@INTEGER(1,100)号',
+    "grantTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "state": "@PICK('0','1')",  // 1正常 0禁止
+    "userId": "@INTEGER(1,2019690999)",  // 会员id
+}
+
+const EnterpriseList = {
+    "id|+1":"@INTEGER(1,2019690999)",
+    "extInfo": {
+        "address": '@PROVINCE()@CITY()@CTITLE(2,10)@INTEGER(1,100)号', // 地址
+        "bizIdNo": "@INTEGER(321102199108120001,321102200208120034)",  //业务联系人身份证号
+        "bizName": "@CNAME()", //业务联系人名称
+        "city": "@CITY()", // 所属市
+        "county": "@COUNTY()", // 所属区/县
+        "creditCode": "@INTEGER(321102199108120001,321102200208120034)", // 统一社会信用代码
+        "effectiveDt": '@DATE("yyyy-MM-dd")', //营业生效日期
+        "entType_": "@PICK('股份有限公司','有限责任公司')", // 企业类型Text
+        "expireDt": '@DATE("yyyy-MM-dd")', // //营业到期日期
+        "legalPersonName": "@CNAME()", // 法人姓名
+        "name": "@CNAME()", // 企业名称
+        "province": "@PROVINCE()", //所属省
+        "userId": "@INTEGER(1,2019690999)", //用户id
+        "isRetrade":"@PICK('0','1')" // 重复交易
+    }
+}
+
+const agreementList = {
+    "agreementName": "买方@CTITLE(2)协议", // 协议名称
+    "contractCompany": "惠龙易通",
+    "contractCompanyId":"0",
+    "dueTime": null, // 到期时间
+    "effectTime": new Date(), // 生效时间
+    "fileIdList":new Array(4).fill('984ffb1bcd4145e4951d47573f037415'), // 图片的fileId数组
+    "picUrlList":new Array(4).fill('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'), // 图片的fileId数组对应的URL
+    "id|+1":"@INTEGER(1,2019690999)", // 每一行的主键，但是新增的没有
+}
+
+const VIPInfoData = {
+    ...EnterpriseList.extInfo,
+    "agreementList|2-3":[agreementList]
+}
+
+
 const MockRole = {
     role: "@PICK('1','2')"  // 货主 1,仓管员 2
 }
@@ -1253,6 +1302,150 @@ const mockRouterMap = {
 
         // #endregion
 
+        // #region 会员管理
+
+        // #region  交易会员管理列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/member/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [pageMemberList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+                };
+            }
+        },
+        // #endregion
+
+        // #region  会员启用禁用
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/member/updateState',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #region  获取会员信息
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: '/web/yc/member/get',
+            result(params) {
+                return {
+                    ...body,
+                    data:{...VIPInfoData,userId:params.userId}                                          
+                };
+            }
+        },
+        // #endregion
+
+        // #region  新增会员
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/member/add',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #region  更新会员
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/member/update',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #endregion
+
+        // #region 预警管理
+
+        // #region  新增协议
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/agreement/add',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #region  更新协议
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/agreement/update',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #region  删除协议
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/agreement/delete',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion        
+
+        // #region  协议到期预警列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/agreement/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|3-4': [agreementList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+                };
+            }
+        },
+        // #endregion
+
+        // #endregion
+
         // #region  字典项
         {
             isMock: IS_MOCK,
@@ -1358,6 +1551,28 @@ const mockRouterMap = {
         },
         // #endregion     
 
+        // #region  企业用户分页查询
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/userinfo/enterprise/list/search',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10': [EnterpriseList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+                };
+            }
+        },
+        // #endregion
+
         // 数据字段项
         {
             isMock: IS_MOCK,
@@ -1415,7 +1630,7 @@ const mockRouterMap = {
                             ]
                         },
                         {
-                            "entryCode": "HywEmissionStandard",
+                            "entryCode": "ycEmissionStandard",
                             "entryName": "排放标准",
                             "items": [
                                 {

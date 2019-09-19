@@ -1168,6 +1168,93 @@ export default {
     },
     // #endregion
 
+    // #region 会员管理
+    /**
+     * @author sswq
+     * @param params
+     * @description 交易(货主)会员管理列表
+     * */
+    getVIPList(params) {
+        return fetch(storageURL + '/web/yc/member/page', params)
+    },
+    /**
+      * @author sswq
+      * @param params
+      * @description 会员启用禁用
+      * */
+    vipEnable(params) {
+        return fetch(storageURL + '/web/yc/member/updateState', params)
+    },
+    /**
+      * @author sswq
+      * @param params
+      * @description 获取会员信息(用于会员编辑前请求)
+      * */
+     getVIPInfo(params) {
+        return fetch(storageURL + '/web/yc/member/get', params,'get')
+    },
+    /**
+      * @author sswq
+      * @param params
+      * @description 新增会员
+      * */
+    AddVIP(params) {
+        return fetch(storageURL + '/web/yc/member/add', params)
+    },
+    /**
+      * @author sswq
+      * @param params
+      * @description 更新会员
+      * */
+    UpdateVIP(params) {
+        return fetch(storageURL + '/web/yc/member/update', params)
+    }, 
+    
+    /**
+      * @author sswq
+      * @param params
+      * @description 新增入会协议
+      * */
+     AddAgreement(params) {
+        return fetch(storageURL + '/web/yc/agreement/add', params)
+    },        
+    /**
+      * @author sswq
+      * @param params
+      * @description 编辑入会协议
+      * */
+     UpdateAgreement(params) {
+        return fetch(storageURL + '/web/yc/agreement/update', params)
+    },  
+    /**
+      * @author sswq
+      * @param params
+      * @description 删除入会协议
+      * */
+     DelAgreement(params) {
+        return fetch(storageURL + '/web/yc/agreement/delete', params)
+    }, 
+    // #endregion 
+
+    // #region 预警管理
+    /**
+     * @author sswq
+     * @param params
+     * @description 入会协议分页
+     * */
+    getAgreementList(params) {
+        return fetch(storageURL + '/web/yc/agreement/page', params)
+    },
+    /**
+     * @author sswq
+     * @param params
+     * @description 协议到期预警列表
+     * */
+    getDealDueForeWarnList(params) {
+        return fetch(storageURL + '/web/yc/agreement/pageWarn', params)
+    },
+    // #endregion 
+
     // #region  字典项
     /**
      * @author sswq
@@ -1196,6 +1283,13 @@ export default {
      * */
     getBankList(params) {
         return fetch(storageURL + '/web/yc/bank/info', params, 'get')
+    },
+    /**
+     * @author sswq
+     * @description 企业用户分页查询
+     * */
+    getEnterpriseList(params) {
+        return fetch('/userinfo/enterprise/list/search', params)
     },
     // #endregion
 
