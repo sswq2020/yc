@@ -312,6 +312,7 @@ const pageMemberList = {
     "id|+1": "@INTEGER(1,2019690999)",
     "phone": "@INTEGER(13012819898,18912819898)",
     "name": "@CTITLE(7,9)公司",
+    "username": "@CNAME(2,3)",
     "telNo": "@INTEGER(13012819898,18912819898)",
     "address": '@PROVINCE()@CITY()@CTITLE(2,10)@INTEGER(1,100)号',
     "grantTime": '@DATE("yyyy-MM-dd HH:mm:ss")',

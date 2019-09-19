@@ -239,7 +239,7 @@ export default {
       this.setIsEdit(false);
       this.setMemberId(null);
       this.$router.push({
-        path: "/web/hyw/member/member/addmemberForm"
+        path: "/web/yc/member/member/addmemberForm"
       });
     },
     edit(item) {
@@ -247,9 +247,6 @@ export default {
       this.setIsEdit(true);
       this.setMemberId(userId);
       this.visible = true;
-      // this.$router.push({
-      //   path: "/web/hyw/member/member/editmemberForm"
-      // });
     },
     init() {
       setTimeout(() => {
