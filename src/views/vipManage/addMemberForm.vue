@@ -10,7 +10,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :md="6" :sm="24" :xs="24">
+            <el-col :md="8" :sm="24" :xs="24">
               <el-form-item
                 label="所属公司:"
                 prop="userId"
@@ -51,7 +51,7 @@
           <el-row>
             <el-col :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="是否允许重复交易"
+                label="是否允许重复交易:"
                 prop="isRetrade"
                 :rules="[{ required: true, message: '必填' }]"
               >
@@ -319,12 +319,13 @@ export default {
       font-weight: 700;
     }
     .uploadDeal {
+      margin-top:10px;
       font-size: 12px;
       color: #909399;
-      height: 50px;
-      line-height: 50px;
+      height: 28px;
+      line-height: 28px;
       text-align: center;
-      border: 1px dashed #eee;
+      border: 2px dashed #eee;
       &:hover {
         color: #ff0000;
         cursor: pointer;
