@@ -21,32 +21,22 @@
               <span>{{agreementList[scope.$index][item.prop]}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="协议有效期" align="center" width="200">
+          <el-table-column label="协议有效期" align="center">
             <template slot-scope="scope">
               <span>{{agreementList[scope.$index].effectTimeText}}-{{agreementList[scope.$index].dueTimeText}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="协议图片">
+          <el-table-column label="协议图片" align="center">
             <template slot-scope="scope">
-              <div class="goods">
-                <div class="avatar">
-                  <img
-                    :key="index"
-                    v-for="(pic,index) in agreementList[scope.$index].picUrlList"
-                    width="65"
-                    height="64"
-                    :src="pic"
-                  />
-                </div>
-              </div>
+              <el-button
+                type="text"
+                @click="openImage(agreementList[scope.$index])"
+              >点击查看</el-button>
             </template>
           </el-table-column>
           <el-table-column label="操作" width="250px" align="center">
             <template slot-scope="scope">
-              <el-button
-                type="text"
-                @click="editDeal(agreementList[scope.$index],scope.$index)"
-              >编辑</el-button>
+              <el-button type="text" @click="editDeal(agreementList[scope.$index],scope.$index)">编辑</el-button>
               <el-button type="text" @click="del(agreementList[scope.$index])">删除</el-button>
             </template>
           </el-table-column>
@@ -66,15 +56,18 @@
       </div>
       <div class="bottom">
         <el-form-item>
-          <el-button  @click="GoMember">取消</el-button>
+          <el-button @click="GoMember">取消</el-button>
         </el-form-item>
       </div>
     </el-form>
     <agreedialog
-    :cancleCb="()=>{this.setAgreeDialogVisible(false)}"
-    :confirmCb="(agreeData)=>{this.addEdit(agreeData)}"
-    :loading="loading"
-      ></agreedialog>
+      :cancleCb="()=>{this.setAgreeDialogVisible(false)}"
+      :confirmCb="(agreeData)=>{this.addEdit(agreeData)}"
+      :loading="loading"
+    ></agreedialog>
+    <div class="images" style="display:none" v-viewer="{inline: false}">
+      <img v-for="(src,index) in images" :src="src" :key="index">
+    </div>
   </div>
 </template>
 
@@ -99,18 +92,16 @@ const defaultListData = {
 const defaulttableHeader = [
   {
     prop: "agreementName",
-    label: "协议名称",
-    width: "250"
+    label: "协议名称"
   },
   {
     prop: "contractCompany",
-    label: "签约公司",
-    width: "150"
+    label: "签约公司"
   }
 ];
 
 const defualtFormParams = {
-  isRetrade: Dict.RETRADE_DISABLE,
+  isRetrade: Dict.RETRADE_DISABLE
 };
 
 const rowAdapter = list => {
@@ -139,10 +130,11 @@ export default {
       loading: false,
       listParams: { ...defaultListParams }, // 页数
       listData: { ...defaultListData }, // 返回list的数据结构
-      form: { ...defualtFormParams},
-      agreementList:[],
+      form: { ...defualtFormParams },
+      agreementList: [],
       tableHeader: defaulttableHeader,
-      retradestatusList: RetradestatusList
+      retradestatusList: RetradestatusList,
+      images:[]
     };
   },
   components: {
@@ -154,22 +146,20 @@ export default {
       "setAgreeFormParams",
       "setAgreeDialogVisible"
     ]),
-    ...mapActions("agreement", [
-      "openAddAgreeDialog",
-      "openEditAgreeDialog"
-    ]),
+    ...mapActions("agreement", ["openAddAgreeDialog", "openEditAgreeDialog"]),
     GoMember() {
-      this.$emit('agreemtClose')
+      this.$emit("agreemtClose");
     },
     del(item) {
       let that = this;
       const { id } = item;
       const text = "删除入会协议";
       this.$confirm(`确定?${text}`, "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(async () => {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
           const res = await that.$api.DelAgreement({ id });
           switch (res.code) {
             case Dict.SUCCESS:
@@ -194,9 +184,12 @@ export default {
     editDeal(item) {
       const { picUrlList } = item;
       this.openEditAgreeDialog({ ...item, picLength: picUrlList.length });
-    },    
-    async _getAgreementList(userId){
-      const res = await this.$api.getAgreementList({...this.listParams,userId });
+    },
+    async _getAgreementList(userId) {
+      const res = await this.$api.getAgreementList({
+        ...this.listParams,
+        userId
+      });
       switch (res.code) {
         case Dict.SUCCESS:
           this.listData = res.data;
@@ -208,8 +201,8 @@ export default {
       }
     },
     async addEdit(agreeData) {
-      const text  = this.agreedialogEdit ? '更新':'新增';
-      const url = this.agreedialogEdit ? 'UpdateAgreement' : 'AddAgreement';
+      const text = this.agreedialogEdit ? "更新" : "新增";
+      const url = this.agreedialogEdit ? "UpdateAgreement" : "AddAgreement";
       this.loading = true;
       agreeData.userId = this.memberId;
       const res = await this.$api[url](agreeData);
@@ -225,32 +218,38 @@ export default {
         default:
           this.$messageError(res.mesg);
           break;
-      }      
-    }, 
-    changePage(page){
+      }
+    },
+    changePage(page) {
       this.listParams.page = page;
-      this._getAgreementList(this.memberId)
-
-    }   
+      this._getAgreementList(this.memberId);
+    },
+    openImage(item) {
+      this.images = item.picUrlList;
+      setTimeout(()=>{
+        const viewer = this.$el.querySelector('.images').$viewer
+        viewer.show()
+      },500)
+    }
   },
   computed: {
     ...mapState("memberForm", ["isEdit", "memberId"]),
-    ...mapState("agreement", ["agreedialogEdit"]),
+    ...mapState("agreement", ["agreedialogEdit"])
   },
   mounted() {
     if (!this.memberId || !this.isEdit) {
       this.GoMember();
       return;
     }
-      this._getAgreementList(this.memberId);
-    }
-  
+    this._getAgreementList(this.memberId);
+  }
 };
 </script>
 
 <style lang="less" scoped>
 .memberForm {
-  padding: 30px 15px 50px 15px;
+  padding: 15px;
+  background: white;
   .el-table thead {
     color: #909399;
     font-weight: 500;
@@ -264,33 +263,21 @@ export default {
       font-weight: 700;
     }
     .uploadDeal {
+      margin-top: 10px;
       font-size: 12px;
       color: #909399;
-      height: 50px;
-      line-height: 50px;
+      height: 28px;
+      line-height: 28px;
       text-align: center;
-      border: 1px dashed #eee;
+      border: 2px dashed #eee;
       &:hover {
         color: #ff0000;
         cursor: pointer;
       }
     }
   }
-  .goods {
-    position: relative;
-    padding: 9px 10px 11px 15px;
-    font-size: 0px;
-    .avatar {
-      display: inline-block;
-      vertical-align: top;
-      img {
-        border-radius: 2px;
-        margin-left: 5px;
-      }
-    }
-  }
-  .right{
-    text-align: right
+  .right {
+    text-align: right;
   }
 }
 </style>
