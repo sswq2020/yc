@@ -16,7 +16,7 @@
             <el-form-item label="入库日期:" prop="incomingTimeStr">{{form.incomingTimeStr}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="货主:" prop="cargoName">{{form.cargoName}}</el-form-item>
+            <el-form-item label="货主:" prop="name">{{form.name}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
             <el-form-item label="交易仓库:" prop="deliveryStore">{{form.deliveryStore}}</el-form-item>
@@ -26,13 +26,13 @@
         <!--石油参数开始-->
         <el-row v-if="productType===Dict.PRODUCT_OIL">
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="油罐编号:" prop="oilTankNo">{{form.oilTankNo}}</el-form-item>
+            <el-form-item label="油罐编号:" prop="oilTankCode">{{form.oilTankCode}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="品类:" prop="productClass">{{form.productClass}}</el-form-item>
+            <el-form-item label="品类:" prop="firstCatalogName">{{form.firstCatalogName}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="牌号:" prop="trademark">{{form.trademark}}</el-form-item>
+            <el-form-item label="牌号:" prop="secondCatalogName">{{form.secondCatalogName}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
             <el-form-item label="排放标准:" prop="emissionStandard">{{form.emissionStandard}}</el-form-item>
@@ -41,10 +41,10 @@
             <el-form-item label="密度:" prop="density">{{form.density}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="型号:" prop="model">{{form.model}}</el-form-item>
+            <el-form-item label="型号:" prop="productNumber">{{form.productNumber}}</el-form-item>
           </el-col>
           <el-col :md="6" :sm="12" :xs="24">
-            <el-form-item label="生产商:" prop="manuFacturer">{{form.Manufacturer}}</el-form-item>
+            <el-form-item label="生产商:" prop="producerName">{{form.producerName}}</el-form-item>
           </el-col>
         </el-row>
         <!--石油参数结束-->
@@ -168,7 +168,7 @@ const defaultForm = {
   incomingId: "",
   incomingTime: "",
   incomingTimeStr: "",
-  cargoName: "",
+  name: "",
   deliveryStore: "",
   pilePosition: "",
   piles: "",
@@ -183,13 +183,13 @@ const defaultForm = {
   weightUnitText: "",
 
   /**石油类型的*/
-  oilTankNo: "",
-  productClass: "",
-  trademark: "",
+  oilTankCode: "",
+  firstCatalogName: "",
+  secondCatalogName: "",
   emissionStandard: "",
   density: "",
-  model: "",
-  manuFacturer: ""
+  productNumber: "",
+  producerName: ""
 };
 const defaultListParams = {
   pageSize: 5,

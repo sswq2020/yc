@@ -91,12 +91,6 @@ const InventoryTableList = {
     "piles": '054', // 层数
     "productNameId": "",
     "productName": "H型钢", // 品名
-    "producerId": "",
-    "producerName": "生产商1", // 生产商
-    "firstCatalogId": "2", // 品类id
-    "firstCatalogName": "汽油",
-    "secondCatalogId":"",
-    "secondCatalogName":"@PICK('92','95')", // 牌号
     "materialId": "",
     "materialName": "Q235", // 材质
     "specificationsId": "",
@@ -113,11 +107,16 @@ const InventoryTableList = {
     "incomingDays": 0, //入库天数
     "oilTankCode": "@PICK('1','2')号罐", // 油罐编号
     "oilTankId": "@PICK('1','2')号罐", // 油罐Id
-    "firstCatalog": "@PICK('汽油','柴油')", // 品类
+    "firstCatalogId": "2", // 品类id
+    "firstCatalogName": "汽油",
+    "secondCatalogId":"",
+    "secondCatalogName":"@PICK('92','95')", // 牌号
     "trademark": "@PICK('0','92','95')", // 牌号
     "emissionStandard": "@PICK('国五','国六')",// 排放标准
     "productNumber": "型号1", // 型号
     "density": "100", //密度
+    "producerId": "",
+    "producerName": "生产商1", // 生产商
 }
 
 const InventoryDetailList = {
