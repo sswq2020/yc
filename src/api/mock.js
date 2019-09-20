@@ -84,13 +84,19 @@ const InventoryTableList = {
     "volumeWeightSold": 0,
     "deliveryStoreId": "",
     "deliveryStore": "@PICK('仓库一','仓库二')", // 仓库
-    "cargoId": "@PICK('1','2')",
-    "cargoName": "@PICK('货主1','货主2')", // 货主
+    "userId": "@PICK('1','2')",
+    "name": "@PICK('货主1','货主2')", // 货主
     "pilePositionId": "",
     "pilePosition": "A",// 区桩位
     "piles": '054', // 层数
     "productNameId": "",
     "productName": "H型钢", // 品名
+    "producerId": "",
+    "producerName": "生产商1", // 生产商
+    "firstCatalogId": "2", // 品类id
+    "firstCatalogName": "汽油",
+    "secondCatalogId":"",
+    "secondCatalogName":"@PICK('92','95')", // 牌号
     "materialId": "",
     "materialName": "Q235", // 材质
     "specificationsId": "",
@@ -105,13 +111,13 @@ const InventoryTableList = {
     "measuringTypeEnum": { code: "1", text: "理算" }, // 计量方式
     "wareHousingTypeEnum": { code: "1", text: "过货入库" }, //入库类型
     "incomingDays": 0, //入库天数
-    "oiltank": "@PICK('1','2')号罐", // 油罐编号
+    "oilTankCode": "@PICK('1','2')号罐", // 油罐编号
+    "oilTankId": "@PICK('1','2')号罐", // 油罐Id
     "firstCatalog": "@PICK('汽油','柴油')", // 品类
     "trademark": "@PICK('0','92','95')", // 牌号
     "emissionStandard": "@PICK('国五','国六')",// 排放标准
-    "models": 213213,// 型号
+    "productNumber": "型号1", // 型号
     "density": "100", //密度
-    "manufacturer": "江苏镇江沙钢" // 生产商
 }
 
 const InventoryDetailList = {
