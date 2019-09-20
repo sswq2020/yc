@@ -26,7 +26,7 @@
       <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+          <el-select v-model="form.userId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
               :key="index"
@@ -55,7 +55,7 @@
       <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
         <label>油罐编号</label>
         <div class="form-control">
-          <el-select v-model="form.oiltankId" placeholder="请选择" size="small">
+          <el-select v-model="form.oilTankId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in oiltankList"
               :key="index"
@@ -215,14 +215,14 @@ import hlBreadcrumb from "components/hl-breadcrumb";
 import transitiondialog from "components/transitiondialog";
 
 const defaultFormData = {
-  cargoId: null,
+  userId: null,
   deliveryStoreId: null,
   productNameId: null,
   materialId: null,
   specificationsId: null,
   originPlaceId: null,
 
-  oiltankId: null,
+  oilTankId: null,
   firstCatalogId: null,
   secondCatalogId: null,
   emissionStandard: null
@@ -308,22 +308,22 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "cargoName",
+    prop: "name",
     label: "货主",
     width: "180"
   },
   {
-    prop: "oiltank",
+    prop: "oilTankCode",
     label: "油罐编号",
     width: "180"
   },
   {
-    prop: "firstCatalog",
+    prop: "firstCatalogName",
     label: "品类",
     width: "180"
   },
   {
-    prop: "trademark",
+    prop: "secondCatalogName",
     label: "牌号",
     width: "180"
   },
@@ -333,12 +333,17 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
+    prop: "productNumber",
+    label: "型号",
+    width: "180"
+  },
+  {
     prop: "density",
     label: "密度",
     width: "180"
   },
   {
-    prop: "manufacturer",
+    prop: "producerName",
     label: "生产商",
     width: "180"
   },
@@ -410,7 +415,7 @@ export default {
     ...mapState("waitCheckEnter", ["productType"]),
     /**选中的必须是同一个货主才能出库和过户*/
     equalShipperItems() {
-      let arr = this.selectedItems.map(item => item.cargoId);
+      let arr = this.selectedItems.map(item => item.userId);
       return new Set(arr).size === 1;
     },
     /**请求参数估计只要id*/
