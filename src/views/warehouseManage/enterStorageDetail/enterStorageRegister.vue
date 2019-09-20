@@ -22,10 +22,10 @@
             <el-col :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="货主"
-                prop="cargoId"
+                prop="userId"
                 :rules="[{ required: true, message: '请输入货主', trigger: 'blur' }]"
               >
-                <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+                <el-select v-model="form.userId" placeholder="请选择" size="small">
                   <el-option
                     v-for="(item,index) in cargoList"
                     :key="index"
@@ -76,10 +76,10 @@
             <el-col :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油罐编号"
-                prop="oiltankId"
+                prop="oilTankId"
                 :rules="[{ required: true, message: '请选择油罐编号', trigger:'blur'}]"
               >
-                <el-select v-model="form.oiltankId" placeholder="请选择" size="small">
+                <el-select v-model="form.oilTankId" placeholder="请选择" size="small">
                   <el-option
                     v-for="(item,index) in oiltankList"
                     :key="index"
@@ -187,22 +187,22 @@
             <el-col :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油品信息"
-                prop="oilInfoId"
+                prop="productId"
                 :rules="[{ required: true, message: '必选一项', trigger:'blur'}]"
               >
                 <oilQualityInfoglass @oilQualityInfoSelect="acceptOilQuality"></oilQualityInfoglass>
-                <el-input type="hidden" :value="form.oilInfoId" style="display:inline;height:0"></el-input>
+                <el-input type="hidden" :value="form.productId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :md="12" :sm="12" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
               <el-form-item
                 label="物资信息"
-                prop="commodityId"
+                prop="goodsId"
                 :rules="[{ required: true, message: '必选一项', trigger:'blur'}]"
               >
                 <commodityglass @commoditySelect="acceptCommodity"></commodityglass>
-                <el-input type="hidden" :value="form.commodityId" style="display:inline;height:0"></el-input>
+                <el-input type="hidden" :value="form.goodsId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -229,18 +229,18 @@ import commodityglass from "views/basicManage/commodityManage/commodityglass.vue
 import _ from "lodash";
 const defualtFormParams = {
   registerTime: new Date(), // 登记日期
-  cargoId: null, // 货主id
+  userId: null, // 货主id
   incomingType: null, //入库类型
   deliveryStoreId: null, //交易仓库id
   pilePositionId: null, //区桩位id
-  oiltankId: null, // 油罐编号id
+  oilTankId: null, // 油罐编号id
   measuring: null, // 计量方式
   supposedNum: null, // 应收数量
   supposedWeight: null, // 应收重量
   weightUnit: null, // 数量单位
   numUnit: null, // 重量单位
-  oilInfoId: null, // 油品信息传递过来的id
-  commodityId: null // 物资信息传递过来的id
+  productId: null, // 油品信息传递过来的id
+  goodsId: null // 物资信息传递过来的id
 };
 
 export default {
@@ -306,7 +306,7 @@ export default {
         Object.assign(
           {},
           this.form,
-          { cargoName: this._findName(this.cargoList, this.form.cargoId) },
+          { productTypeCode:this.productType },
           {
             deliveryStore: this._findName(
               this.deliveryStoreList,
@@ -319,7 +319,7 @@ export default {
               this.form.pilePositionId
             )
           },
-          { oiltank: this._findName(this.oiltankList, this.form.oiltankId) }
+          { oilTankCode: this._findName(this.oiltankList, this.form.oilTankId) }
         )
       );
       return params;
@@ -388,12 +388,12 @@ export default {
     },
     /**接收油品信息传递的对象*/
     acceptOilQuality(obj) {
-      this.form.oilInfoId = obj.id;
+      this.form.productId = obj.id;
       this.oilInfoObj = obj;
     },
     /**接收物资信息传递的对象*/
     acceptCommodity(obj) {
-      this.form.commodityId = obj.id;
+      this.form.goodsId = obj.id;
       this.commodityObj = obj;
     }
   },
@@ -409,7 +409,7 @@ export default {
         if (newV !== oldV) {
           if (this.productType === Dict.PRODUCT_OIL) {
             this.oiltankList = [];
-            this.form.oiltankId = null;
+            this.form.oilTankId = null;
           } else {
             this.pilePositionList = [];
             this.form.pilePositionId = null;
