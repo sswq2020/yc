@@ -30,8 +30,8 @@
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="油罐编号:" prop="oiltank">
-                {{item.oiltank}}
+              <el-form-item label="油罐编号:" prop="oilTankCode">
+                {{item.oilTankCode}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24">
@@ -69,13 +69,13 @@
             </el-col>
             <!--石油开始-->
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="品类:" prop="firstCatalog">
-                {{item.firstCatalog}}
+              <el-form-item label="品类:" prop="firstCatalogName">
+                {{item.firstCatalogName}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="牌号:" prop="trademark">
-                {{item.trademark}}
+              <el-form-item label="牌号:" prop="secondCatalogName">
+                {{item.secondCatalogName}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
@@ -89,13 +89,13 @@
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="型号:" prop="models">
-                {{item.models}}
+              <el-form-item label="型号:" prop="productNumber">
+                {{item.productNumber}}
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="生产商:" prop="manufacturer">
-                {{item.manufacturer}}
+              <el-form-item label="生产商:" prop="producerName">
+                {{item.producerName}}
               </el-form-item>
             </el-col>
             <!--石油结束-->
@@ -238,6 +238,7 @@ export default {
         return Object.assign(
           {},
           item,
+          {productTypeCode:this.productType},
           { weightUnitTypeEnum: null },
           { numUnitTypeEnum: null },
           { measuringTypeEnum: null }
