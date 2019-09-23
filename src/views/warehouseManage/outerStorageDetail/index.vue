@@ -18,7 +18,7 @@
       <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+          <el-select v-model="form.userId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
               :key="index"
@@ -47,7 +47,7 @@
       <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
         <label>油罐编号</label>
         <div class="form-control">
-          <el-select v-model="form.oiltankId" placeholder="请选择" size="small">
+          <el-select v-model="form.oilTankId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in oiltankList"
               :key="index"
@@ -216,14 +216,14 @@ import tickets from "components/tickets";
 import outerticket from "./outerticket";
 
 const defaultFormData = {
-  cargoId: null,
+  userId: null,
   deliveryStoreId: null,
   productNameId: null,
   materialId: null,
   specificationsId: null,
   originPlaceId: null,
 
-  oiltankId: null,
+  oilTankId: null,
   firstCatalogId: null,
   secondCatalogId: null,
   emissionStandard: null
@@ -251,7 +251,7 @@ const defaultSWtableHeader = [
     width: "180"
   },
   {
-    prop: "cargoName",
+    prop: "name",
     label: "货主",
     width: "180"
   },
@@ -297,11 +297,6 @@ const defaultSWtableHeader = [
     label: "实提数量",
     width: "180"
   },
-  // {
-  //   prop: "numUnit",
-  //   label: "数量单位",
-  //   width: "180"
-  // },
   {
     prop: "supposedRemovalWeightText",
     label: "开单重量",
@@ -312,11 +307,6 @@ const defaultSWtableHeader = [
     label: "实提重量",
     width: "180"
   },
-  // {
-  //   prop: "weightUnit",
-  //   label: "重量单位",
-  //   width: "180"
-  // },
   {
     prop: "measuringText",
     label: "计量方式",
@@ -363,23 +353,23 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "cargoName",
+    prop: "name",
     label: "货主",
     width: "180"
   },
 
   {
-    prop: "oiltank",
+    prop: "oilTankCode",
     label: "油罐编号",
     width: "180"
   },
   {
-    prop: "firstCatalog",
+    prop: "firstCatalogName",
     label: "品类",
     width: "180"
   },
   {
-    prop: "trademark",
+    prop: "secondCatalogName",
     label: "牌号",
     width: "180"
   },
@@ -408,11 +398,6 @@ const defaultOILtableHeader = [
     label: "实提数量",
     width: "180"
   },
-  // {
-  //   prop: "numUnit",
-  //   label: "数量单位",
-  //   width: "180"
-  // },
   {
     prop: "supposedRemovalWeightText",
     label: "开单重量",
@@ -423,11 +408,6 @@ const defaultOILtableHeader = [
     label: "实提重量",
     width: "180"
   },
-  // {
-  //   prop: "weightUnit",
-  //   label: "重量单位",
-  //   width: "180"
-  // },
   {
     prop: "measuringText",
     label: "计量方式",
