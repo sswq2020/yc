@@ -264,11 +264,12 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      const { id, oilTankCode, deliveryStoreId } = obj;
+      const { id, oilTankCode, deliveryStoreId,oilTankVolume } = obj;
       this.oilTankObj = {
         id,
         oilTankCode,
-        deliveryStoreId
+        deliveryStoreId,
+        oilTankVolume
       };
       this.SET_MODAL_VISIBLE(true);
     },
