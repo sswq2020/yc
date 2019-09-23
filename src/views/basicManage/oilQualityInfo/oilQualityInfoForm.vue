@@ -147,6 +147,7 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin.js";
+import {findLabelByValue} from "common/util";
 import { _toArray_ } from "common/util.js";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import ImageBox from "components/ImageBox";
@@ -231,36 +232,25 @@ export default {
           break;
       }
     },
-    _findName(arr = [], id) {
-      let copy = _.clone(arr);
-      const index = _.findIndex(copy, o => {
-        return o.value == id;
-      });
-      if (index > -1) {
-        return copy[index].label;
-      } else {
-        return null;
-      }
-    },
     _filter() {
       let params = _.clone(
         Object.assign(
           {},
           this.form,
           {
-            firstCatalogName: this._findName(
+            firstCatalogName: findLabelByValue(
               this.firstCatalogList,
               this.form.firstCatalogId
             )
           },
           {
-            secondCatalogName: this._findName(
+            secondCatalogName: findLabelByValue(
               this.trademarkList,
               this.form.secondCatalogId
             )
           },
           {
-            manufacturerName: this._findName(
+            manufacturerName: findLabelByValue(
               this.ManufacturerList,
               this.form.manufacturerId
             )

@@ -201,11 +201,10 @@
 
 <script>
 import { mapState } from "vuex";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
-import Dict from "@/util/dict.js";
-import { baseMixin } from "@/common/mixin.js";
-import _ from "lodash";
-import { DICT_SELECT_ARR } from "@/common/util";
+import hlBreadcrumb from "components/hl-breadcrumb";
+import Dict from "util/dict.js";
+import { baseMixin } from "common/mixin.js";
+import { DICT_SELECT_ARR,findLabelByValue } from "common/util";
 const TypeDatas = DICT_SELECT_ARR(Dict.TRANSFER_OWNERSHIP_BUSINESS_TYPE);
 const defualtFormParams = {
   transferType: null,
@@ -309,19 +308,8 @@ export default {
           break;
       }
     },
-    _findName(arr = [], id) {
-      let copy = _.clone(arr);
-      const index = _.findIndex(copy, o => {
-        return o.value == id;
-      });
-      if (index > -1) {
-        return copy[index].label;
-      } else {
-        return null;
-      }
-    },
     _serialize_() {
-      const newShipperName = this._findName(
+      const newShipperName = findLabelByValue(
               this.cargoList,
               this.form.newShipperId
             )

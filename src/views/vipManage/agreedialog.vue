@@ -61,6 +61,7 @@
 <script>
 import _ from "lodash";
 import { mapState, mapMutations, mapActions } from "vuex";
+import {findLabelByValue} from "common/util";
 // import { dictMixin } from "@/common/mixin.js";
 // import Dict from "util/dict.js";
 // import { DICT_SELECT_ARR } from "common/util.js";
@@ -118,24 +119,13 @@ export default {
     cancle() {
       this.cancleCb();
     },
-    _findName(arr = [], id) {
-      let copy = _.clone(arr);
-      const index = _.findIndex(copy, o => {
-        return o.id == id;
-      });
-      if (index > -1) {
-        return copy[index].name;
-      } else {
-        return null;
-      }
-    },
     _filter() {
       const params = _.clone(
         Object.assign(
           {},
           this.agreeFormParams,
           {
-            contractCompany: this._findName(
+            contractCompany: findLabelByValue(
               this.HywContractCompanyList,
               this.agreeFormParams.contractCompanyId
             )

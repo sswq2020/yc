@@ -224,6 +224,7 @@ import hlBreadcrumb from "components/hl-breadcrumb";
 import Dict from "util/dict.js";
 import { dictMixin } from "common/mixin.js";
 import { _toArray_, handleFilterSelf } from "common/util";
+import {findLabelByValue} from "common/util";
 import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
 import commodityglass from "views/basicManage/commodityManage/commodityglass.vue";
 import _ from "lodash";
@@ -290,17 +291,6 @@ export default {
           break;
       }
     },
-    _findName(arr = [], id) {
-      let copy = _.clone(arr);
-      const index = _.findIndex(copy, o => {
-        return o.value == id;
-      });
-      if (index > -1) {
-        return copy[index].label;
-      } else {
-        return null;
-      }
-    },
     _filter() {
       const params = _.clone(
         Object.assign(
@@ -308,18 +298,18 @@ export default {
           this.form,
           { productTypeCode:this.productType },
           {
-            deliveryStore: this._findName(
+            deliveryStore: findLabelByValue(
               this.deliveryStoreList,
               this.form.deliveryStoreId
             )
           },
           {
-            pilePosition: this._findName(
+            pilePosition: findLabelByValue(
               this.pilePositionList,
               this.form.pilePositionId
             )
           },
-          { oilTankCode: this._findName(this.oiltankList, this.form.oilTankId) }
+          { oilTankCode: findLabelByValue(this.oiltankList, this.form.oilTankId) }
         )
       );
       return params;
