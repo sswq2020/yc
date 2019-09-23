@@ -145,16 +145,14 @@
 </template>
 
 <script>
+import _ from "lodash";
 import { mapState, mapMutations } from "vuex";
-import { baseMixin, dictMixin } from "common/mixin.js";
-import {findLabelByValue} from "common/util";
-import { _toArray_ } from "common/util.js";
+import { baseMixin, dictMixin } from "common/mixin";
+import {findLabelByValue,_toArray_} from "common/util";
+import Dict from "util/dict";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import ImageBox from "components/ImageBox";
 import ImageUpload from "components/ImageUpload";
-import Dict from "util/dict.js";
-import _ from "lodash";
-import { findIndexByValue } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
 
 const defualtFormParams = {

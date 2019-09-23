@@ -220,11 +220,10 @@
 
 <script>
 import { mapState } from "vuex";
+import { dictMixin } from "common/mixin";
+import { _toArray_, handleFilterSelf,findLabelByValue } from "common/util";
+import Dict from "util/dict";
 import hlBreadcrumb from "components/hl-breadcrumb";
-import Dict from "util/dict.js";
-import { dictMixin } from "common/mixin.js";
-import { _toArray_, handleFilterSelf } from "common/util";
-import {findLabelByValue} from "common/util";
 import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
 import commodityglass from "views/basicManage/commodityManage/commodityglass.vue";
 import _ from "lodash";
