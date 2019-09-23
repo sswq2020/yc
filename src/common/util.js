@@ -133,6 +133,9 @@ export const handleFilterSelf = (arr) => {
 
 }
 
+/* @description 根据value找到index
+* @returns {Number}
+* */
 export const findIndexByValue = (arr, prop) => {
     if (!Array.isArray(arr)) {
         return -1
@@ -140,4 +143,20 @@ export const findIndexByValue = (arr, prop) => {
     return arr.findIndex((item) => {
         return item.value === prop
     })
+}
+
+/* @description 根据value找到label
+* @returns {String}
+* */
+export const findLabelByValue = (arr,id) => {
+    if (!Array.isArray(arr)) {
+        return null
+    }
+    let copy = _.clone(arr);
+    const index = findIndexByValue(copy,id);
+    if (index > -1) {
+      return copy[index].label;
+    } else {
+      return null;
+    }
 }
