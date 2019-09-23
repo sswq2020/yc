@@ -24,8 +24,9 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import {findLabelByValue} from "common/util";
 const defaultForm = {
-  categoryId:null,
+  categoryId: null,
   brandName: null // 牌号名称
 };
 
@@ -85,7 +86,10 @@ export default {
       let that = this;
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          that.confirmCb({ ...that.form });
+          const params = Object.assign({}, that.form, {
+            categoryName: findLabelByValue(that.selectList, that.form.categoryId)
+          });
+          that.confirmCb(params);
         } else {
           return false;
         }
@@ -100,9 +104,6 @@ export default {
         this.$refs.ruleForm.clearValidate();
       }
     }
-  },
-  mounted() {
-    console.log(this.visible);
   }
 };
 </script>

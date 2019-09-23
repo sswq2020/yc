@@ -29,6 +29,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import {findLabelByValue} from "common/util";
 const defaultForm = {
   deliveryStoreId:null, //交割库id
   oilTankCode: null,
@@ -95,7 +96,10 @@ export default {
       let that = this;
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          that.confirmCb({ ...that.form });
+            const params = Object.assign({}, that.form, {
+            deliveryStore: findLabelByValue(that.selectList, that.form.deliveryStoreId)
+          });
+          that.confirmCb(params);
         } else {
           return false;
         }
@@ -110,9 +114,6 @@ export default {
         this.$refs.ruleForm.clearValidate();
       }
     }
-  },
-  mounted() {
-    console.log(this.visible);
   }
 };
 </script>
