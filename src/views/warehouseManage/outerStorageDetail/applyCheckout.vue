@@ -283,6 +283,7 @@ export default {
         {},
         {consignee,pickUpPassword},
         item,
+        {productTypeCode:this.productType},
         {id:null},
         {stockInventoryId:item.id},
         {incomingTypeEnum:null},
