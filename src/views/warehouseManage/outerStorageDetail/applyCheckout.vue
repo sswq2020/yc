@@ -48,18 +48,18 @@
 
             <!--石油开始-->
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="油罐编号" prop="oiltank">
-                <el-input :value="item.oiltank" disabled="disabled"></el-input>
+              <el-form-item label="油罐编号" prop="oilTankCode">
+                <el-input :value="item.oilTankCode" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="品类" prop="firstCatalog">
-                <el-input :value="item.firstCatalog" disabled="disabled"></el-input>
+              <el-form-item label="品类" prop="firstCatalogName">
+                <el-input :value="item.firstCatalogName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="牌号" prop="trademark">
-                <el-input :value="item.trademark" disabled="disabled"></el-input>
+              <el-form-item label="牌号" prop="secondCatalogName">
+                <el-input :value="item.secondCatalogName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
@@ -73,13 +73,13 @@
               </el-form-item>
             </el-col>
             <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="型号" prop="models">
-                <el-input :value="item.models" disabled="disabled"></el-input>
+              <el-form-item label="型号" prop="productNumber">
+                <el-input :value="item.productNumber" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
              <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="生产商" prop="manufacturer">
-                <el-input :value="item.manufacturer" disabled="disabled"></el-input>
+              <el-form-item label="生产商" prop="manufacturerName">
+                <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
              <!--石油结束-->
