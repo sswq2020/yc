@@ -147,7 +147,7 @@ let commonRoutes = {
             component: () => import('@/views/basicManage/print/index')
         },  
         {
-            path: '/web/yc/base/category/listCategoryst',
+            path: '/web/yc/base/category/listCategorys',
             name: 'categoryManage',
             component: CategoryManage
         },  
