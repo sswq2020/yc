@@ -354,17 +354,17 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "oiltank",
+    prop: "oilTankCode",
     label: "油罐编号",
     width: "180"
   },
   {
-    prop: "firstCatalog",
+    prop: "firstCatalogName",
     label: "品类",
     width: "180"
   },
   {
-    prop: "trademark",
+    prop: "secondCatalogName",
     label: "牌号",
     width: "180"
   },
