@@ -2,7 +2,7 @@
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item label="品类名称:" prop="categoryId">
-        <el-select v-model="form.categoryId" placeholder="请选择" size="small">
+        <el-select v-model="form.categoryId" placeholder="请选择" size="small" style="width:100%">
           <el-option
             v-for="(item,index) in selectList"
             :key="index"
@@ -12,7 +12,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="牌号名称:" prop="brandName">
-        <el-input v-model="form.brandName"></el-input>
+        <el-input v-model="form.brandName" size="small"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

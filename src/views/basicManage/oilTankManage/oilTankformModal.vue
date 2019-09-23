@@ -2,7 +2,7 @@
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item label="交割库名称:" prop="deliveryStoreId">
-        <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
+        <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small" style="width:100%">
           <el-option
             v-for="(item,index) in selectList"
             :key="index"
@@ -11,10 +11,10 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="油罐编号:" prop="oilTankCode">
+      <el-form-item label="油罐编号:" prop="oilTankCode" size="small">
         <el-input v-model="form.oilTankCode"></el-input>
       </el-form-item>
-      <el-form-item label="油罐容积(L):" prop="oilTankVolume">
+      <el-form-item label="油罐容积(L):" prop="oilTankVolume" size="small">
         <el-input v-model="form.oilTankVolume"></el-input>
       </el-form-item>
 

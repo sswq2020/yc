@@ -2,10 +2,10 @@
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item label="生产商名称:" prop="producerName">
-        <el-input v-model="form.producerName"></el-input>
+        <el-input v-model="form.producerName" size="small"></el-input>
       </el-form-item>
       <el-form-item label="备注:" prop="remark">
-        <el-input type="textarea" v-model="form.mokc2"></el-input>
+        <el-input type="textarea" v-model="form.mokc2" size="small"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
