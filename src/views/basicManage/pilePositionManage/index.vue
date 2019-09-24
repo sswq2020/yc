@@ -8,7 +8,12 @@
         <label>仓库</label>
         <div class="form-control">
           <el-select v-model="listParams.storeId" placeholder="请选择">
-            <el-option v-for="item in Object.keys(dropDownData.deliveryStoreMap)" :key="item" :label="dropDownData.deliveryStoreMap[item]" :value="item"></el-option>
+            <el-option
+              v-for="(item,index) in deliveryStoreList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </div>
       </div>
@@ -80,11 +85,12 @@
 </template>
 
 <script>
-import {  mapState, mapMutations, mapActions  } from 'vuex';
+import { mapMutations } from 'vuex';
 import moment from 'moment';
-import Dict from "@/util/dict.js";
-import HLBreadcrumb from "@/components/hl-breadcrumb";
-import HLtable from "@/components/hl_table";
+import Dict from "util/dict.js";
+import { _toArray_ } from "common/util.js";
+import HLBreadcrumb from "components/hl-breadcrumb";
+import HLtable from "components/hl_table";
 import PilePositionFormModal from "./pilePositionFormModal.vue";
 
 const defaultListParams = {
@@ -105,6 +111,7 @@ export default {
   data() {
     return {
       breadTitle: ["基础信息", "区桩位管理"], // 面包屑title
+      deliveryStoreList: [],
       isListDataLoading: false,
       tableHeader: [ // 表头
         {
@@ -153,12 +160,8 @@ export default {
       warehouseList: []
     }
   },
-  computed: {
-    ...mapState('modal', ['dropDownData'])
-  },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
-    ...mapActions('modal', ['getDropDownData']),
     /**
      * @author: xh
      * @description: 获取区桩位管理列表
@@ -208,6 +211,18 @@ export default {
       this.editObj = obj;
       this.SET_MODAL_VISIBLE(true);
     },
+    /**下拉仓库*/
+    async _getdeliveryStores() {
+      const res = await this.$api.getDeliveryStoreSelect(Dict.STORAGE_TYPE_OIL);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.deliveryStoreList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
      /**
      * @author: xh
      * @description: 禁用或者激活
@@ -255,8 +270,9 @@ export default {
     }
   },
   created() {
-    this.getDropDownData(); // 获取下拉数据
-    this.getList();
+    this._getdeliveryStores().then(()=>{
+      this.getList();
+    })
   }
 };
 </script>
