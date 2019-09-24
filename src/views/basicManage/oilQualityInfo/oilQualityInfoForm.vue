@@ -148,7 +148,7 @@
 import _ from "lodash";
 import { mapState, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin";
-import {findLabelByValue,_toArray_} from "common/util";
+import {findLabelByValue,findIndexByValue,_toArray_} from "common/util";
 import Dict from "util/dict";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import ImageBox from "components/ImageBox";
