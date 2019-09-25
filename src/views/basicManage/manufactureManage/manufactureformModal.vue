@@ -5,7 +5,7 @@
         <el-input v-model="form.producerName" size="small"></el-input>
       </el-form-item>
       <el-form-item label="备注:" prop="remark">
-        <el-input type="textarea" v-model="form.mokc2" size="small"></el-input>
+        <el-input type="textarea" v-model="form.remark" size="small"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
