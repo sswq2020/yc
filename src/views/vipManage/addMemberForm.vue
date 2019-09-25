@@ -1,18 +1,14 @@
 <template>
-  <div class="container single-page">
+  <div class="container single-page" style="position:relative">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
-    <div class="memberForm">
-      <el-form ref="form" :model="form" label-width="200px" size="small">
+    <div class="form">
+      <el-form ref="form" :model="form" label-width="140px" size="small">
         <div class="form-block">
-          <el-row>
-            <el-col :md="24" :sm="24" :xs="24">
-              <div class="head">公司信息</div>
-            </el-col>
-          </el-row>
+          <div class="head">公司信息</div>
           <el-row>
             <el-col :md="8" :sm="24" :xs="24">
               <el-form-item
-                label="所属公司:"
+                label="所属公司"
                 prop="userId"
                 :rules="[{ required: true, message: '必须选择一个公司'}]"
               >
@@ -20,38 +16,34 @@
                 <el-input type="hidden" :value="form.userId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
-            </el-row>
-            <el-row v-if="form.userId">
-            <el-col :md="12" :sm="24" :xs="24">
-              <el-form-item label="公司名称:">{{form.name}}</el-form-item>
+          </el-row>
+          <el-row v-if="form.userId">
+            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+              <el-form-item label="公司名称">{{form.name}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="24" :xs="24">
-              <el-form-item label="统一社会信用代码:">{{form.creditCode}}</el-form-item>
+            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+              <el-form-item label="统一社会信用代码">{{form.creditCode}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="24" :xs="24">
-              <el-form-item label="公司地址:">{{form.address}}</el-form-item>
+            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+              <el-form-item label="公司地址">{{form.address}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="24" :xs="24">
-              <el-form-item label="公司类型:">{{form.entType_}}</el-form-item>
+            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+              <el-form-item label="公司类型">{{form.entType_}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="24" :xs="24">
-              <el-form-item label="法人:">{{form.legalPersonName}}</el-form-item>
+            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+              <el-form-item label="法人">{{form.legalPersonName}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="24" :xs="24">
-              <el-form-item label="营业有效期:">{{form.effectiveDt}} - {{form.expireDt}}</el-form-item>
+            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+              <el-form-item label="营业有效期">{{form.effectiveDt}} - {{form.expireDt}}</el-form-item>
             </el-col>
           </el-row>
         </div>
         <div class="form-block">
-          <el-row>
-            <el-col :md="24" :sm="24" :xs="24">
-              <div class="head">权限中心</div>
-            </el-col>
-          </el-row>
+          <div class="head">权限中心</div>
           <el-row>
             <el-col :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="是否允许重复交易:"
+                label="是否允许重复交易"
                 prop="isRetrade"
                 :rules="[{ required: true, message: '必填' }]"
               >
@@ -66,11 +58,7 @@
           </el-row>
         </div>
         <div class="form-block">
-          <el-row>
-            <el-col :md="24" :sm="24" :xs="24">
-              <div class="head">入会协议</div>
-            </el-col>
-          </el-row>
+          <div class="head">入会协议</div>
           <el-table :data="form.agreementList" stripe border>
             <el-table-column
               :prop="item.prop"
@@ -119,12 +107,11 @@
             <i class="el-icon-plus"></i>上传协议
           </div>
         </div>
-        <div class="bottom">
-          <el-form-item>
-            <el-button type="primary" :loading="loading" @click="submitForm">确定</el-button>
-          </el-form-item>
-        </div>
       </el-form>
+    </div>
+    <div class="bottom">
+      <el-button type="primary" size="medium" :loading="loading" @click="submitForm">确定</el-button>
+      <el-button size="medium" @click="back">取消</el-button>
     </div>
     <agreedialog
       :cancleCb="()=>{this.setAgreeDialogVisible(false)}"
@@ -169,7 +156,6 @@ const defualtFormParams = {
   agreementList: []
 };
 
-
 const Adapter = obj => {
   return Object.assign({}, obj, {
     effectTimeText: moment(obj.effectTime).format("YYYY-MM-DD"),
@@ -206,7 +192,7 @@ export default {
       "openEditAgreeDialog",
       "clearAll"
     ]),
-    GoMember() {
+    back() {
       this.$router.push({
         path: "/web/hyw/member/page"
       });
@@ -259,7 +245,7 @@ export default {
     _filter() {
       let params = _.cloneDeep(this.form);
       params.agreementList = params.agreementList.map(item => {
-        return { ...item, userId: this.form.userId};
+        return { ...item, userId: this.form.userId };
       });
       return params;
     },
@@ -272,7 +258,7 @@ export default {
             return;
           }
           const params = this._filter();
-            this._addVIP_(params);
+          this._addVIP_(params);
         } else {
           return false;
         }
@@ -285,7 +271,7 @@ export default {
       switch (res.code) {
         case Dict.SUCCESS:
           this.$messageSuccess("新增成功");
-          this.GoMember();
+          this.back();
           break;
         default:
           this.$messageError(res.mesg);
@@ -303,20 +289,19 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-.memberForm {
-  padding: 30px 15px 50px 15px;
-  .el-table thead {
-    color: #909399;
-    font-weight: 500;
-    background: #eee;
-  }
+<style scoped lang="less">
+.form {
+  padding: 20px 15px 50px 20px;
   .form-block {
     padding-bottom: 20px;
     .head {
-      margin-bottom: 15px;
-      font-size: 18px;
-      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left: 20px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      color: #333333;
+      background: #f6f8fa;
     }
     .uploadDeal {
       margin-top:10px;
@@ -332,19 +317,21 @@ export default {
       }
     }
   }
-  .goods {
-    position: relative;
-    padding: 9px 10px 11px 15px;
-    font-size: 0px;
-    .avatar {
-      display: inline-block;
-      vertical-align: top;
-      img {
-        border-radius: 2px;
-        margin-left: 5px;
-      }
-    }
+}
+.bottom {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: #f6f8fa;
+  width: calc(100% - 40px);
+  height: 50px;
+  box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+  .el-button {
+    min-width: 64px;
+    margin-left: 20px;
+    margin-top: 10px;
   }
 }
 </style>
 
+    
