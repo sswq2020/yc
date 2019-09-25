@@ -10,8 +10,8 @@
           <el-option
             v-for="(item,index) in HywContractCompanyList"
             :key="index"
-            :label="item.name"
-            :value="item.id"
+            :label="item.label"
+            :value="item.value"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -62,14 +62,14 @@
 import _ from "lodash";
 import { mapState, mapMutations, mapActions } from "vuex";
 import {findLabelByValue} from "common/util";
-// import { dictMixin } from "@/common/mixin.js";
+import { dictMixin } from "@/common/mixin.js";
 // import Dict from "util/dict.js";
 // import { DICT_SELECT_ARR } from "common/util.js";
 import ImageBox from "components/ImageBox";
 import ImageUpload from "components/ImageUpload";
 export default {
   name: "agreedialog",
-  // mixins: [dictMixin],
+  mixins: [dictMixin],
   props: {
     loading:{
       type:Boolean,
@@ -101,9 +101,6 @@ export default {
       "agreeFormParams",
       "agreedialogEdit",
       "agreedialogVisible"
-    ]),
-    ...mapState("app", [
-      "HywContractCompanyList"
     ]),
     title() {
       return this.agreedialogEdit ? "编辑入会协议" : "新增入会协议";

@@ -6,6 +6,7 @@ const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
 
 const _DICT_SERVE_ = [
     "HywEmissionStandard",
+    "HywContractCompany",
     "YcNumUnit",
     "YcWeightUnit",
     "YcIncomingType",
@@ -85,6 +86,7 @@ export const dictMixin = {
     data() {
         return {
             HywEmissionStandardList: [],
+            HywContractCompanyList:[],
             YcNumUnitList: [],
             YcWeightUnitList: [],
             YcIncomingTypeList: [],
