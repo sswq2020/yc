@@ -79,6 +79,7 @@
       :editObj="editObj"
       :loading="isEditLoading"
       :confirmCb="modalConfirm"
+      :deliveryStoreList="deliveryStoreList"
     />
   </div>
   
@@ -213,7 +214,7 @@ export default {
     },
     /**下拉仓库*/
     async _getdeliveryStores() {
-      const res = await this.$api.getDeliveryStoreSelect(Dict.STORAGE_TYPE_OIL);
+      const res = await this.$api.getDeliveryStoreSelect(Dict.STORAGE_TYPE_STEEL_WOOD);
       switch (res.code) {
         case Dict.SUCCESS:
           this.deliveryStoreList = _toArray_(res.data);
