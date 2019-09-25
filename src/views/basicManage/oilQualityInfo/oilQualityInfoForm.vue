@@ -1,8 +1,8 @@
 <template>
-  <div class="container single-page">
+  <div class="container single-page" style="position:relative">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="form">
-      <el-form ref="form" :model="form" label-width="200px" size="small">
+      <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
           <div class="head">商品信息</div>
           <el-row>
@@ -110,11 +110,18 @@
             </el-col>
           </el-row>
         </div>
-        <div class="form-block" style="overflow-y:auto;overflow-x:hidden" :style="computedHeight" id="parameterList" v-show="form.parameterList.length">
+        <div
+          class="form-block"
+          style="overflow-y:auto;overflow-x:hidden"
+          :style="computedHeight"
+          id="parameterList"
+          v-show="form.parameterList.length"
+        >
           <div class="head">参数信息</div>
           <el-row>
             <el-col
-              :lg="8" :md="12"
+              :lg="8"
+              :md="12"
               :sm="12"
               :xs="24"
               v-for="(item, index) in form.parameterList"
@@ -130,10 +137,15 @@
             </el-col>
           </el-row>
         </div>
-        <div class="bottom">
-            <el-button type="primary" size="medium" :loading="loading" @click="submitForm('form')">{{isEdit ? "更新" : "新增"}}</el-button>
-        </div>
       </el-form>
+    </div>
+    <div class="bottom">
+      <el-button
+        type="primary"
+        size="medium"
+        :loading="loading"
+        @click="submitForm('form')"
+      >{{isEdit ? "更新" : "新增"}}</el-button>
     </div>
   </div>
 </template>
@@ -143,7 +155,7 @@ import _ from "lodash";
 import $ from "jquery";
 import { mapState, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin";
-import {findLabelByValue,findIndexByValue,_toArray_} from "common/util";
+import { findLabelByValue, findIndexByValue, _toArray_ } from "common/util";
 import Dict from "util/dict";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import ImageBox from "components/ImageBox";
@@ -180,7 +192,7 @@ export default {
       ExternalTrigger: false,
       reservaSecondClassId: null,
       ManufacturerList: [],
-      height:0
+      height: 0
     };
   },
   computed: {
@@ -190,8 +202,8 @@ export default {
         ? ["基础信息", "编辑油品信息"]
         : ["基础信息", "新增油品信息"];
     },
-    computedHeight(){
-      return `height:${this.height}px`
+    computedHeight() {
+      return `height:${this.height}px`;
     }
   },
   methods: {
@@ -335,13 +347,16 @@ export default {
           break;
       }
     },
-    setHeight(){
-      this.height = document.body.clientHeight - document.getElementById("parameterList").getBoundingClientRect().top - 150;
+    setHeight() {
+      this.height =
+        document.body.clientHeight -
+        document.getElementById("parameterList").getBoundingClientRect().top -
+        150;
     },
     perm() {},
     init() {
       setTimeout(() => {
-        this.setHeight()
+        this.setHeight();
         this.perm();
       }, 20);
     }
@@ -361,15 +376,18 @@ export default {
         });
     } else {
       this._getAllBaseInfo(Dict.PRODUCT_OIL).then(() => {
-          this._getProducerSelectList();
-        });
+        this._getProducerSelectList();
+      });
     }
     this.init();
-    $(window).bind("resize", _.throttle(() => {
-      this.setHeight();
-    }, 400));
+    $(window).bind(
+      "resize",
+      _.throttle(() => {
+        this.setHeight();
+      }, 400)
+    );
   },
-  destroyed () {
+  destroyed() {
     $(window).off("resize");
   },
   created() {},
@@ -413,9 +431,9 @@ export default {
     "form.parameterList": {
       handler(newV, oldV) {
         if (newV !== oldV) {
-          setTimeout(()=>{
-            this.setHeight()
-          },20)
+          setTimeout(() => {
+            this.setHeight();
+          }, 20);
         }
       }
     },
@@ -439,27 +457,28 @@ export default {
     padding-bottom: 20px;
     .head {
       margin-bottom: 20px;
-      padding-left:20px;
+      padding-left: 20px;
       height: 40px;
-      line-height:40px;
+      line-height: 40px;
       font-size: 14px;
       color: #333333;
-      background: #F6F8FA;
+      background: #f6f8fa;
     }
   }
-  .bottom {
-    position: fixed;
-    bottom: 20px;
-    background-color: #F6F8FA;
-    width: calc(100% - 40px);
-    height: 50px;
-    box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
-    .el-button{
-     min-width: 64px;
-     position: absolute;
-     margin-left: 20px;
-     margin-top: 10px;
-    }
+}
+.bottom {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: #f6f8fa;
+  width: calc(100% - 40px);
+  height: 50px;
+  box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+  .el-button {
+    min-width: 64px;
+    position: absolute;
+    margin-left: 20px;
+    margin-top: 10px;
   }
 }
 </style>

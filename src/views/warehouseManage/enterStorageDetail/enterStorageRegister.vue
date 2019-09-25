@@ -1,16 +1,12 @@
 <template>
-  <div class="container single-page">
+  <div class="container single-page" style="position:relative">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="form">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
+          <div class="head">基础信息</div>
           <el-row>
-            <el-col :md="12" :sm="12" :xs="24">
-              <div class="head">基础信息</div>
-            </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="日期"
                 prop="registerTime"
@@ -19,7 +15,7 @@
                 <el-date-picker v-model="form.registerTime" type="date" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="货主"
                 prop="userId"
@@ -39,8 +35,8 @@
         </div>
         <div class="form-block">
           <div class="head">仓库信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+          <el-row>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="交易仓库"
                 prop="deliveryStoreId"
@@ -56,7 +52,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
               <el-form-item
                 label="区桩位"
                 prop="pilePositionId"
@@ -73,7 +69,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油罐编号"
                 prop="oilTankId"
@@ -90,7 +86,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="入库类型"
                 prop="incomingType"
@@ -110,8 +106,8 @@
         </div>
         <div class="form-block">
           <div class="head">商品信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+          <el-row>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="计量方式"
                 prop="measuring"
@@ -127,7 +123,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="应收数量"
                 prop="supposedNum"
@@ -137,7 +133,7 @@
                 <el-input v-model.number="form.supposedNum"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="重量单位"
                 prop="weightUnit"
@@ -153,7 +149,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="应收重量"
                 prop="supposedWeight"
@@ -167,8 +163,7 @@
                 <el-input v-model="form.supposedWeight"></el-input>
               </el-form-item>
             </el-col>
-
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="数量单位"
                 prop="numUnit"
@@ -184,7 +179,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油品信息"
                 prop="productId"
@@ -194,8 +189,7 @@
                 <el-input type="hidden" :value="form.productId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
-
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
               <el-form-item
                 label="物资信息"
                 prop="goodsId"
@@ -207,13 +201,11 @@
             </el-col>
           </el-row>
         </div>
-        <div class="bottom">
-          <el-form-item>
-            <el-button type="primary" :loading="loading" @click="submitForm('form')">确定</el-button>
-            <el-button @click="back">取消</el-button>
-          </el-form-item>
-        </div>
       </el-form>
+    </div>
+    <div class="bottom">
+      <el-button type="primary" size="medium" :loading="loading" @click="submitForm('form')">确定</el-button>
+      <el-button size="medium" @click="back">取消</el-button>
     </div>
   </div>
 </template>
@@ -221,7 +213,7 @@
 <script>
 import { mapState } from "vuex";
 import { dictMixin } from "common/mixin";
-import { _toArray_, handleFilterSelf,findLabelByValue } from "common/util";
+import { _toArray_, handleFilterSelf, findLabelByValue } from "common/util";
 import Dict from "util/dict";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
@@ -295,7 +287,7 @@ export default {
         Object.assign(
           {},
           this.form,
-          { productTypeCode:this.productType },
+          { productTypeCode: this.productType },
           {
             deliveryStore: findLabelByValue(
               this.deliveryStoreList,
@@ -308,7 +300,9 @@ export default {
               this.form.pilePositionId
             )
           },
-          { oilTankCode: findLabelByValue(this.oiltankList, this.form.oilTankId) }
+          {
+            oilTankCode: findLabelByValue(this.oiltankList, this.form.oilTankId)
+          }
         )
       );
       return params;
@@ -420,14 +414,32 @@ export default {
 
 <style scoped lang="less">
 .form {
-  padding: 30px 15px 50px 15px;
+  padding: 20px 15px 50px 20px;
   .form-block {
     padding-bottom: 20px;
     .head {
-      margin-bottom: 15px;
-      font-size: 18px;
-      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left: 20px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      color: #333333;
+      background: #f6f8fa;
     }
+  }
+}
+.bottom {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: #f6f8fa;
+  width: calc(100% - 40px);
+  height: 50px;
+  box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+  .el-button {
+    min-width: 64px;
+    margin-left: 20px;
+    margin-top: 10px;
   }
 }
 </style>
