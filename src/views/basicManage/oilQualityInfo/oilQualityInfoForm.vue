@@ -114,7 +114,7 @@
             </el-col>
           </el-row>
         </div>
-        <div class="form-block" v-show="form.parameterList.length">
+        <div class="form-block" style="overflow-y:scroll;overflow-x:hidden" :style="computedHeight" id="parameterList" v-show="form.parameterList.length">
           <div class="head">参数信息</div>
           <el-row :gutter="30">
             <el-col
@@ -146,6 +146,7 @@
 
 <script>
 import _ from "lodash";
+import $ from "jquery";
 import { mapState, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin";
 import {findLabelByValue,findIndexByValue,_toArray_} from "common/util";
@@ -184,7 +185,8 @@ export default {
       /**参数列表一般是由牌号决定，但是编辑页面一开始进入的时候是唯一的外部触发*/
       ExternalTrigger: false,
       reservaSecondClassId: null,
-      ManufacturerList: []
+      ManufacturerList: [],
+      height:0
     };
   },
   computed: {
@@ -193,6 +195,9 @@ export default {
       return this.isEdit
         ? ["基础信息", "编辑油品信息"]
         : ["基础信息", "新增油品信息"];
+    },
+    computedHeight(){
+      return `height:${this.height}px`
     }
   },
   methods: {
@@ -336,9 +341,13 @@ export default {
           break;
       }
     },
+    setHeight(){
+      this.height = document.body.clientHeight - document.getElementById("parameterList").getBoundingClientRect().top - 150;
+    },
     perm() {},
     init() {
       setTimeout(() => {
+        this.setHeight()
         this.perm();
       }, 20);
     }
@@ -362,6 +371,12 @@ export default {
         });
     }
     this.init();
+    $(window).bind("resize", _.throttle(() => {
+      this.setHeight();
+    }, 400));
+  },
+  destroyed () {
+    $(window).off("resize");
   },
   created() {},
   beforeDestroy() {
@@ -398,6 +413,15 @@ export default {
         }
         if (newV !== oldV) {
           this._getParameter(newV);
+        }
+      }
+    },
+    "form.parameterList": {
+      handler(newV, oldV) {
+        if (newV !== oldV) {
+          setTimeout(()=>{
+            this.setHeight()
+          },20)
         }
       }
     },
