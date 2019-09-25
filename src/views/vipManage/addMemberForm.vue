@@ -194,7 +194,7 @@ export default {
     ]),
     back() {
       this.$router.push({
-        path: "/web/hyw/member/page"
+        path: "/web/yc/member/page"
       });
     },
     _getCompanyInfo(obj) {
