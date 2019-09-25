@@ -2,7 +2,7 @@
   <div class="container single-page" style="position:relative">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="form">
-      <el-form ref="form" :model="form" label-width="140px" size="small">
+      <el-form ref="form" :model="form" label-width="200px" size="small">
         <div class="form-block">
           <div class="head">公司信息</div>
           <el-row>
@@ -35,25 +35,6 @@
             </el-col>
             <el-col :lg="8" :md="12" :sm="24" :xs="24">
               <el-form-item label="营业有效期">{{form.effectiveDt}} - {{form.expireDt}}</el-form-item>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="form-block">
-          <div class="head">权限中心</div>
-          <el-row>
-            <el-col :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="是否允许重复交易"
-                prop="isRetrade"
-                :rules="[{ required: true, message: '必填' }]"
-              >
-                <el-radio
-                  v-for="item in retradestatusList"
-                  :key="item.value"
-                  v-model="form.isRetrade"
-                  :label="item.value"
-                >{{item.label}}</el-radio>
-              </el-form-item>
             </el-col>
           </el-row>
         </div>
@@ -125,11 +106,9 @@ import _ from "lodash";
 import moment from "moment";
 import { mapState, mapMutations, mapActions } from "vuex";
 import Dict from "util/dict.js";
-import { DICT_SELECT_ARR } from "common/util.js";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import companyglass from "components/companyglass";
 import agreedialog from "./agreedialog";
-const RetradestatusList = DICT_SELECT_ARR(Dict.RETRADE_STATUS);
 const defaulttableHeader = [
   {
     prop: "agreementName",
@@ -152,7 +131,6 @@ const defualtFormParams = {
   legalPersonName: null,
   effectiveDt: null,
   expireDt: null,
-  isRetrade: Dict.RETRADE_DISABLE,
   agreementList: []
 };
 
@@ -172,8 +150,7 @@ export default {
       form: { ...defualtFormParams, agreementList: [] },
       tableHeader: defaulttableHeader,
       /**新增的时候是-1,编辑的时候就是数组的序号 */
-      editIndex: -1,
-      retradestatusList: RetradestatusList
+      editIndex: -1
     };
   },
   components: {

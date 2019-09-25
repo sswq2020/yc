@@ -11,9 +11,6 @@
         <BankCardList />
       </el-tab-pane>
       <el-tab-pane label="开票信息">角色管理</el-tab-pane> -->
-      <el-tab-pane label="权限中心" v-if="visible">
-        <permission @permissionClose="cancel"/>
-      </el-tab-pane>
       <el-tab-pane label="入会协议" v-if="visible">
         <editMemberForm @agreemtClose="cancel"/>
       </el-tab-pane>
@@ -27,15 +24,13 @@
 // import CompanyRealName from './companyRealName';
 // import BankCardList from './bankCardList';
 import editMemberForm from '../editMemberForm.vue'
-import permission from '../permission.vue'
 export default {
   name: 'userDialog',
   components: {
     // PersonalRealName,
     // CompanyRealName,
     // BankCardList
-    editMemberForm,
-    permission
+    editMemberForm
   },
   props: {
     visible: {
