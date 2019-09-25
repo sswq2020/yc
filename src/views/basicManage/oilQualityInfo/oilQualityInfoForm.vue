@@ -4,13 +4,9 @@
     <div class="form">
       <el-form ref="form" :model="form" label-width="200px" size="small">
         <div class="form-block">
+          <div class="head">商品信息</div>
           <el-row>
-            <el-col :md="12" :sm="12" :xs="24">
-              <div class="head">商品信息</div>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="品类"
                 prop="firstCatalogId"
@@ -26,7 +22,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="牌号"
                 prop="secondCatalogId"
@@ -42,7 +38,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="排放标准"
                 prop="emissionStandard"
@@ -58,7 +54,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="密度(kg/m³)"
                 prop="density"
@@ -67,7 +63,7 @@
                 <el-input v-model="form.density"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="产品型号"
                 prop="productNumber"
@@ -76,7 +72,7 @@
                 <el-input v-model="form.productNumber"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="生产商"
                 prop="manufacturerId"
@@ -94,7 +90,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="商品图片"
                 prop="fileId"
@@ -114,11 +110,11 @@
             </el-col>
           </el-row>
         </div>
-        <div class="form-block" style="overflow-y:scroll;overflow-x:hidden" :style="computedHeight" id="parameterList" v-show="form.parameterList.length">
+        <div class="form-block" style="overflow-y:auto;overflow-x:hidden" :style="computedHeight" id="parameterList" v-show="form.parameterList.length">
           <div class="head">参数信息</div>
-          <el-row :gutter="30">
+          <el-row>
             <el-col
-              :md="12"
+              :lg="8" :md="12"
               :sm="12"
               :xs="24"
               v-for="(item, index) in form.parameterList"
@@ -135,9 +131,7 @@
           </el-row>
         </div>
         <div class="bottom">
-          <el-form-item>
-            <el-button type="primary" :loading="loading" @click="submitForm('form')">{{isEdit ? "更新" : "新增"}}</el-button>
-          </el-form-item>
+            <el-button type="primary" size="medium" :loading="loading" @click="submitForm('form')">{{isEdit ? "更新" : "新增"}}</el-button>
         </div>
       </el-form>
     </div>
@@ -440,13 +434,31 @@ export default {
 
 <style scoped lang="less">
 .form {
-  padding: 30px 15px 50px 15px;
+  padding: 20px 15px 50px 20px;
   .form-block {
     padding-bottom: 20px;
     .head {
-      margin-bottom: 15px;
-      font-size: 18px;
-      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left:20px;
+      height: 40px;
+      line-height:40px;
+      font-size: 14px;
+      color: #333333;
+      background: #F6F8FA;
+    }
+  }
+  .bottom {
+    position: fixed;
+    bottom: 20px;
+    background-color: #F6F8FA;
+    width: calc(100% - 40px);
+    height: 50px;
+    box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+    .el-button{
+     min-width: 64px;
+     position: absolute;
+     margin-left: 20px;
+     margin-top: 10px;
     }
   }
 }
