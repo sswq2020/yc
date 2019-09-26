@@ -7,8 +7,8 @@
           <div class="head">提货信息</div>
           <el-row>
             <el-col :lg="8" :md="12" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="cargoName">
-                <el-input :value="form.cargoName" :disabled="disabled"></el-input>
+              <el-form-item label="货主" prop="name">
+                <el-input :value="form.name" :disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24">
@@ -74,8 +74,8 @@
               </el-form-item>
             </el-col>
              <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="生产商" prop="manufacturerName">
-                <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
+              <el-form-item label="生产商" prop="materialName">
+                <el-input :value="item.materialName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
              <!--石油结束-->
@@ -183,7 +183,7 @@ import Dict from "@/util/dict.js";
 import hlBreadcrumb from "@/components/hl-breadcrumb";
 const defualtFormParams = {
   consignee: null,
-  cargoName: null,
+  name: null,
   pickUpPassword: null
 };
 
@@ -340,7 +340,7 @@ export default {
           this.form = Object.assign(
             {},
             {
-              cargoName: res.data[0].cargoName
+              name: res.data[0].name
             },
             { needShowData: res.data }
           );
@@ -377,9 +377,9 @@ export default {
 .bottom {
   position: fixed;
   bottom: 20px;
-  left: 20px;
+  right: 20px;
   background-color: #f6f8fa;
-  width: calc(99% - 40px);
+  width: calc(99% - 270px);
   height: 50px;
   box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
   .el-button {

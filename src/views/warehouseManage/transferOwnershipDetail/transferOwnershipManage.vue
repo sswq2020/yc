@@ -411,9 +411,9 @@ export default {
 .bottom {
   position: fixed;
   bottom: 20px;
-  left: 20px;
+  right: 20px;
   background-color: #f6f8fa;
-  width: calc(99% - 40px);
+  width: calc(99% - 270px);
   height: 50px;
   box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
   .el-button {
