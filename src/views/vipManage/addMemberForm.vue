@@ -54,24 +54,18 @@
                 <span>{{form.agreementList[scope.$index][item.prop]}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="协议有效期" align="center" width="200">
+            <el-table-column label="协议有效期" align="center">
               <template slot-scope="scope">
                 <span>{{form.agreementList[scope.$index].effectTimeText}}-{{form.agreementList[scope.$index].dueTimeText}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="协议图片">
+            <el-table-column label="协议图片" align="center">>
               <template slot-scope="scope">
-                <div class="goods">
-                  <div class="avatar">
-                    <img
-                      :key="index"
-                      v-for="(pic,index) in form.agreementList[scope.$index].picUrlList"
-                      width="65"
-                      height="64"
-                      :src="pic"
-                    />
-                  </div>
-                </div>
+                <el-button
+                  type="text"
+                  v-if="form.agreementList&&form.agreementList.length"
+                  @click="openImage(form.agreementList[scope.$index])"
+                >点击查看</el-button>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="250px" align="center">
@@ -98,6 +92,9 @@
       :cancleCb="()=>{this.setAgreeDialogVisible(false)}"
       :confirmCb="(agreeData)=>{_update_(agreeData)}"
     ></agreedialog>
+    <div class="images" style="display:none" v-viewer="{inline: false}">
+      <img v-for="(src,index) in images" :src="src" :key="index" />
+    </div>
   </div>
 </template>
 
@@ -113,12 +110,10 @@ const defaulttableHeader = [
   {
     prop: "agreementName",
     label: "协议名称",
-    width: "250"
   },
   {
     prop: "contractCompany",
     label: "签约公司",
-    width: "150"
   }
 ];
 
@@ -150,7 +145,8 @@ export default {
       form: { ...defualtFormParams, agreementList: [] },
       tableHeader: defaulttableHeader,
       /**新增的时候是-1,编辑的时候就是数组的序号 */
-      editIndex: -1
+      editIndex: -1,
+      images: []
     };
   },
   components: {
@@ -254,6 +250,13 @@ export default {
           this.$messageError(res.mesg);
           break;
       }
+    },
+    openImage(item) {
+      this.images = item.picUrlList;
+      setTimeout(() => {
+        const viewer = this.$el.querySelector(".images").$viewer;
+        viewer.show();
+      }, 500);
     }
   },
   computed: {
@@ -281,7 +284,7 @@ export default {
       background: #f6f8fa;
     }
     .uploadDeal {
-      margin-top:10px;
+      margin-top: 10px;
       font-size: 12px;
       color: #909399;
       height: 28px;
