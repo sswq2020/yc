@@ -328,7 +328,7 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "emissionStandard",
+    prop: "emissionStandardText",
     label: "排放标准",
     width: "180"
   },
@@ -343,7 +343,7 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "producerName",
+    prop: "manufacturerName",
     label: "生产商",
     width: "180"
   },
@@ -438,7 +438,7 @@ export default {
     },
     _filter() {
       return _.clone(
-        Object.assign({}, this.form, this.listParams, this.storageclass)
+        Object.assign({}, this.form, this.listParams, {productTypeCode:this.storageclass})
       );
     },
     clear() {
@@ -505,6 +505,7 @@ export default {
         if (newV === Dict.PRODUCT_OIL || oldV === Dict.PRODUCT_OIL) {
           this._getAllBaseInfo(newV);
         }
+        this.getListData();
       }
     },
     "form.deliveryStoreId": {
