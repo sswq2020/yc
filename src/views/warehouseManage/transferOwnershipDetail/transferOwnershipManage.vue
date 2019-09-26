@@ -2,7 +2,7 @@
   <div class="container single-page" style="position:relative">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="form" v-if="form.needShowData.length">
-      <el-form ref="form" :model="form" label-width="120px" size="small">
+      <el-form ref="form" :model="form" label-width="130px" size="small">
         <div class="form-block">
           <div class="head">过户信息</div>
           <el-row>
@@ -85,7 +85,7 @@
                 <el-input :value="item.productNumber" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
               <el-form-item label="生产商" prop="producerName">
                 <el-input :value="item.producerName" disabled="disabled"></el-input>
               </el-form-item>
@@ -117,7 +117,7 @@
               <el-form-item label="规格" prop="specificationsName">
                 <el-input :value="item.specificationsName" disabled="disabled"></el-input>
               </el-form-item>
-            </el-col>       
+            </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="产地" prop="originPlaceName">
                 <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
@@ -133,7 +133,7 @@
               <el-form-item label="库存重量" prop="totalWeightInventory">
                 <el-input :value="item.totalWeightInventory" disabled="disabled"></el-input>
               </el-form-item>
-            </el-col>                    
+            </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item label="计量方式" prop="measuringText">
                 <el-input :value="item.measuringText" disabled="disabled"></el-input>
@@ -149,7 +149,7 @@
                 <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>  
+          </el-row>
           <div class="head">出库信息</div>
           <el-row>
             <el-col :lg="8" :md="12" :sm="12" :xs="24">
@@ -199,8 +199,7 @@
 import { mapState } from "vuex";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import Dict from "util/dict.js";
-import { baseMixin } from "common/mixin.js";
-import { DICT_SELECT_ARR,findLabelByValue } from "common/util";
+import { DICT_SELECT_ARR, findLabelByValue,handleFilterSelf } from "common/util";
 const TypeDatas = DICT_SELECT_ARR(Dict.TRANSFER_OWNERSHIP_BUSINESS_TYPE);
 const defualtFormParams = {
   transferType: null,
@@ -210,7 +209,6 @@ const defualtFormParams = {
 
 export default {
   name: "transferOwnershipManage",
-  mixins: [baseMixin],
   components: {
     hlBreadcrumb
   },
@@ -225,11 +223,12 @@ export default {
       },
       typeDatas: TypeDatas,
       max: null, // 从库存明细页跳转过来,会另外带来最大重量的限制
-      Dict:Dict
+      cargoList:[],
+      Dict: Dict
     };
   },
   computed: {
-    ...mapState("inventoryManage", ["transferOwnership","productType"])
+    ...mapState("inventoryManage", ["transferOwnership", "productType"])
   },
   methods: {
     back() {
@@ -244,14 +243,11 @@ export default {
           message: "请输入过户重量",
           trigger: "blur"
         },
-        {  max: 10, 
-           message: '最多10位',
-           trigger: 'blur'
-        },
-        { 
+        { max: 10, message: "最多10位", trigger: "blur" },
+        {
           pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,3})?$/,
-          message: '正数可以包含3位小数'
-        },        
+          message: "正数可以包含3位小数"
+        },
         {
           validator(rule, value, callback) {
             if (max) {
@@ -306,9 +302,9 @@ export default {
     },
     _serialize_() {
       const newShipperName = findLabelByValue(
-              this.cargoList,
-              this.form.newShipperId
-            )
+        this.cargoList,
+        this.form.newShipperId
+      );
       const {
         newShipperId,
         originalShipperId,
@@ -335,8 +331,8 @@ export default {
     },
     async _getTransferAvailable_(arr) {
       const res = await this.$api.getTransferAvailable({
-        cargoId: arr[0].cargoId,
-        stockId: arr[0].id
+        cargoId: arr[0].userId || null,
+        stockId: arr[0].id || ""
       });
       switch (res.code) {
         case Dict.SUCCESS:
@@ -345,6 +341,17 @@ export default {
         default:
           this.max = null;
           this.$messageError(res.mesg);
+          break;
+      }
+    },
+    async _getCargoList() {
+      const res = await this.$api.getCargoList();
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.cargoList = handleFilterSelf(res.data);
+          break;
+        default:
+          this.$messageError(`${res.mesg}`);
           break;
       }
     },
@@ -363,9 +370,13 @@ export default {
           }
           res.data = res.data.slice().map(item => {
             return Object.assign({}, item, {
-              measuringText:item.measuringTypeEnum && item.measuringTypeEnum.text || "-",
-              numUnitText:item.numUnitTypeEnum && item.numUnitTypeEnum.text || "-",
-              weightUnitText:item.weightUnitTypeEnum && item.weightUnitTypeEnum.text || "-",
+              measuringText:
+                (item.measuringTypeEnum && item.measuringTypeEnum.text) || "-",
+              numUnitText:
+                (item.numUnitTypeEnum && item.numUnitTypeEnum.text) || "-",
+              weightUnitText:
+                (item.weightUnitTypeEnum && item.weightUnitTypeEnum.text) ||
+                "-",
               transferNums: null,
               transferWeights: null
             });
@@ -373,8 +384,8 @@ export default {
           this.form = Object.assign(
             {},
             {
-              originalShipperId: res.data[0].cargoId,
-              originalShipperName: res.data[0].cargoName
+              originalShipperId: res.data[0].userId || null,
+              originalShipperName: res.data[0].name || null
             },
             { needShowData: res.data }
           );
@@ -386,7 +397,9 @@ export default {
     }
   },
   created() {
-    this.init();
+    this._getCargoList().then(() => {
+      this.init();
+    });
   }
 };
 </script>

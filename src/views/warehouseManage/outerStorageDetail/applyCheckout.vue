@@ -2,7 +2,7 @@
   <div class="container single-page" style="position:relative">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="form">
-      <el-form ref="form" :model="form" label-width="120px" size="small">
+      <el-form ref="form" :model="form" label-width="130px" size="small">
         <div class="form-block">
           <div class="head">提货信息</div>
           <el-row>
@@ -304,8 +304,8 @@ export default {
     },     
     async _getTransferAvailable_(arr) {
       const res = await this.$api.getTransferAvailable({
-        cargoId: arr[0].cargoId,
-        stockId: arr[0].id
+        cargoId: arr[0].userId || null,
+        stockId: arr[0].id || ""
       });
       switch (res.code) {
         case Dict.SUCCESS:
