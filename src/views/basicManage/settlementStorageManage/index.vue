@@ -242,8 +242,7 @@ export default {
       this.isEdit = true;
       this.editObj = {
         ...obj,
-        address: [obj.storeAddressProvince, obj.storeAddressCity, obj.storeAddressCounty],
-        storeCapacity: parseInt(obj.storeCapacity, 10)
+        address: [obj.storeAddressProvince, obj.storeAddressCity, obj.storeAddressCounty]
       };
       this.SET_MODAL_VISIBLE(true);
     },
