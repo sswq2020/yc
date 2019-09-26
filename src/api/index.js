@@ -1008,7 +1008,7 @@ export default {
      * @description 待验收出库选中某一仓库,根据申请removalId，给出详细的列表信息
      * */    
     detailRetrieval(params){
-        return fetch(storageURL + '/web/yc/storage/stockRemoval/list', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemoval/list', params,'get')         
     },            
     /**
      * @author sswq
