@@ -1098,7 +1098,7 @@ export default {
      * @description 出库单
      * */     
     getStockRemovalBill(params){
-        return fetch(storageURL + '/web/yc/storage/stockRemovalDetail/get', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemovalDetail/get', params,'get')         
     },
     /**
      * @author sswq

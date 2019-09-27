@@ -605,7 +605,7 @@ const mockRouterMap = {
                         totalWeightInventory: "12",
                         sellState: "1",
                         picUrl:"https://gss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2324433426,425917240&fm=173&app=25&f=JPEG?w=218&h=146&s=6A814187406328AE248498A7030040A1",
-                        'parameterList|3-4': [paraValue]
+                        'parameterList|23': [paraValue]
                     }
                 };
             }
@@ -620,7 +620,7 @@ const mockRouterMap = {
             result(params) {
                 return {
                     ...body,
-                    'data|3-4': [{ ...paramsData, ...{ classifyId: params.id } }]
+                    'data|20-40': [{ ...paramsData, ...{ classifyId: params.id } }]
                 };
             }
         },
@@ -1035,7 +1035,7 @@ const mockRouterMap = {
         // #region  出库单
         {
             isMock: IS_MOCK,
-            methods: 'post',
+            methods: 'get',
             router: storageURL + '/web/yc/storage/stockRemovalDetail/get',
             result() {
                 return {
