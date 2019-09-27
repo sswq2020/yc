@@ -10,7 +10,7 @@
               <el-form-item label="登记日期:" prop="registerTime">{{item.registerTime}}</el-form-item>
             </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24">
-              <el-form-item label="货主:" prop="cargoName">{{item.cargoName}}</el-form-item>
+              <el-form-item label="货主:" prop="name">{{item.name}}</el-form-item>
             </el-col>
           </el-row>
           <div class="head">仓库信息</div>
@@ -269,7 +269,7 @@ export default {
   bottom: 20px;
   right: 20px;
   background-color: #f6f8fa;
-  width: calc(99% - 270px);
+  width: calc(99% - 250px);
   height: 50px;
   box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
   .el-button {

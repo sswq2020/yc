@@ -56,7 +56,7 @@
               <el-form-item label="牌号:" prop="secondCatalogName">{{item.secondCatalogName}}</el-form-item>
             </el-col>
             <el-col :lg="8"  :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="排放标准:" prop="emissionStandard">{{item.emissionStandard}}</el-form-item>
+              <el-form-item label="排放标准:" prop="emissionStandardText">{{item.emissionStandardText}}</el-form-item>
             </el-col>
             <el-col :lg="8"  :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
               <el-form-item label="密度(kg/m³):" prop="density">{{item.density}}</el-form-item>
@@ -113,10 +113,8 @@
       </el-form>
     </div>
     <div class="bottom">
-      <el-form-item>
         <el-button type="primary" size="medium" :loading="loading" @click="submitForm('form')">确定</el-button>
         <el-button @click="back" size="medium">取消</el-button>
-      </el-form-item>
     </div>
   </div>
 </template>
@@ -302,7 +300,7 @@ export default {
   bottom: 20px;
   right: 20px;
   background-color: #f6f8fa;
-  width: calc(99% - 270px);
+  width: calc(99% - 250px);
   height: 50px;
   box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
   .el-button {
