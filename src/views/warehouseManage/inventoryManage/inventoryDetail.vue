@@ -103,6 +103,7 @@
           :data="listData.list"
           :multiple="true"
           :loading="isListDataLoading"
+           layout="total, sizes, prev, pager, next"
         >
           <el-table-column
             :align="item.align || 'left'"
@@ -429,6 +430,7 @@ export default {
     },
     CancelCheckout(item) {
       let that = this;
+      const {id,stockRemovalId} = item
       that
         .$confirm(`确定要取消出库`, "提示", {
           confirmButtonText: "确定",
@@ -436,7 +438,7 @@ export default {
           type: "warning"
         })
         .then(async () => {
-          const res = await that.$api.cancelcheckout(item);
+          const res = await that.$api.cancelcheckout({id,stockRemovalId});
           switch (res.code) {
             case Dict.SUCCESS:
               that.$messageSuccess(`取消出库成功`);

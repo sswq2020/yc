@@ -34,6 +34,7 @@
     <div class="container">
       <el-pagination
         class="page"
+        background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -184,7 +185,7 @@ export default {
     display: block;
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 0px;
   }
 }
 </style>

@@ -993,7 +993,7 @@ export default {
      * @description 取消出库
      * */
     cancelcheckout(params){
-        return fetch(storageURL + '/web/yc/storage/stockInventoryDetail/cancelRemoval', params)          
+        return fetch(storageURL + '/web/yc/storage/stockInventoryDetail/cancelRemoval', params,'get')          
     },
     /**
      * @author sswq
