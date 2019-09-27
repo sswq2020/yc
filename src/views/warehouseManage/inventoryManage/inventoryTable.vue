@@ -318,7 +318,7 @@ const defaultSWtableHeader = [
     align: "right"
   },
   {
-    prop: "cargoName",
+    prop: "name",
     label: "货主",
     width: "180"
   },

@@ -245,7 +245,7 @@ const defaultSWtableHeader = [
     width: "180"
   },
   {
-    prop: "cargoName",
+    prop: "name",
     label: "货主",
     width: "180"
   },
