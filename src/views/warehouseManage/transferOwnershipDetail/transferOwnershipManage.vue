@@ -71,8 +71,8 @@
               </el-form-item>
             </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="排放标准" prop="emissionStandard">
-                <el-input :value="item.emissionStandard" disabled="disabled"></el-input>
+              <el-form-item label="排放标准" prop="emissionStandardText">
+                <el-input :value="item.emissionStandardText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
@@ -86,8 +86,8 @@
               </el-form-item>
             </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="生产商" prop="producerName">
-                <el-input :value="item.producerName" disabled="disabled"></el-input>
+              <el-form-item label="生产商" prop="manufacturerName">
+                <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <!--石油结束-->
@@ -172,7 +172,7 @@
             </el-col>
           </el-row>
           <el-row v-if="form.needShowData&&form.needShowData.length===1">
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :offset="8" :lg="8" :md="12" :sm="12" :xs="24">
               <span
                 style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;"
               >最大过户量:{{max}}</span>
@@ -279,6 +279,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          const {newShipperId,originalShipperId} = this.form;
+          if(newShipperId === originalShipperId) {
+            this.$messageError("新货主不能和旧货主相同");
+            return 
+          }
           const params = this._serialize_();
           this._doTransfer_(params);
         } else {
@@ -322,9 +327,8 @@ export default {
             transferType
           },
           { stockId: this.transferOwnership[index].stockId },
-          { realTransferNums: item.transferNums },
-          { realTransferWeights: item.transferWeights },
-          item
+          { transferNums: item.transferNums },
+          { transferWeights: item.transferWeights }
         );
       });
       return params;

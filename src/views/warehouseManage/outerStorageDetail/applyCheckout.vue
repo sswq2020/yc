@@ -59,8 +59,8 @@
               </el-form-item>
             </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="排放标准" prop="emissionStandard">
-                <el-input :value="item.emissionStandard" disabled="disabled"></el-input>
+              <el-form-item label="排放标准" prop="emissionStandardText">
+                <el-input :value="item.emissionStandardText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
@@ -74,8 +74,8 @@
               </el-form-item>
             </el-col>
              <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="生产商" prop="materialName">
-                <el-input :value="item.materialName" disabled="disabled"></el-input>
+              <el-form-item label="生产商" prop="manufacturerName">
+                <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
              <!--石油结束-->
