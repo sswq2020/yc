@@ -5,129 +5,85 @@
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block" v-for="(item,index) in form.needShowData" :key="item.id">
           <div class="head">基本信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="登记日期:" prop="registerTime">
-                {{item.registerTime}}
-              </el-form-item>
+          <el-row>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="登记日期:" prop="registerTime">{{item.registerTime}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="货主:" prop="cargoName">
-                {{item.cargoName}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="货主:" prop="cargoName">{{item.cargoName}}</el-form-item>
             </el-col>
           </el-row>
           <div class="head">仓库信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="交易仓库:" prop="deliveryStore">
-                {{item.deliveryStore}}
-              </el-form-item>
+          <el-row>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="交易仓库:" prop="deliveryStore">{{item.deliveryStore}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24"  v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="区桩位:" prop="pilePosition">
-                {{item.pilePosition}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="区桩位:" prop="pilePosition">{{item.pilePosition}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="油罐编号:" prop="oilTankCode">
-                {{item.oilTankCode}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="油罐编号:" prop="oilTankCode">{{item.oilTankCode}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="入库类型:" prop="incomingTypeText">
-                {{item.incomingTypeText||"-"}}
-              </el-form-item>
-            </el-col>           
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="层数:" prop="piles">
-                {{item.piles}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="入库类型:" prop="incomingTypeText">{{item.incomingTypeText||"-"}}</el-form-item>
+            </el-col>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="层数:" prop="piles">{{item.piles}}</el-form-item>
             </el-col>
           </el-row>
           <div class="head">商品信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="品名:" prop="productName">
-                {{item.productName}}
-              </el-form-item>
+          <el-row>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="品名:" prop="productName">{{item.productName}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="材质:" prop="materialName">
-                {{item.materialName}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="材质:" prop="materialName">{{item.materialName}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="产地:" prop="originPlaceName">
-                {{item.originPlaceName}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="产地:" prop="originPlaceName">{{item.originPlaceName}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="规格:" prop="specificationsName">
-                {{item.specificationsName}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
+              <el-form-item label="规格:" prop="specificationsName">{{item.specificationsName}}</el-form-item>
             </el-col>
             <!--石油开始-->
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="品类:" prop="firstCatalogName">
-                {{item.firstCatalogName}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="品类:" prop="firstCatalogName">{{item.firstCatalogName}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="牌号:" prop="secondCatalogName">
-                {{item.secondCatalogName}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="牌号:" prop="secondCatalogName">{{item.secondCatalogName}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="排放标准:" prop="emissionStandard">
-                {{item.emissionStandard}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="排放标准:" prop="emissionStandardText">{{item.emissionStandardText}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="密度(kg/m³):" prop="density">
-                {{item.density}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="密度(kg/m³):" prop="density">{{item.density}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="型号:" prop="productNumber">
-                {{item.productNumber}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="型号:" prop="productNumber">{{item.productNumber}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="生产商:" prop="producerName">
-                {{item.producerName}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="生产商:" prop="manufacturerName">{{item.manufacturerName}}</el-form-item>
             </el-col>
             <!--石油结束-->
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="应收数量:" prop="supposedNum">
-                {{item.supposedNum}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="应收数量:" prop="supposedNum">{{item.supposedNum}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="应收重量:" prop="supposedWeight">
-                {{item.supposedWeight}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="应收重量:" prop="supposedWeight">{{item.supposedWeight}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="数量单位:" prop="numUnitText">
-                {{item.numUnitText}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="数量单位:" prop="numUnitText">{{item.numUnitText}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="重量单位:" prop="weightUnitText">
-                {{item.weightUnitText}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="重量单位:" prop="weightUnitText">{{item.weightUnitText}}</el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="计量方式:" prop="measuringText">
-                {{item.measuringText}}
-              </el-form-item>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="计量方式:" prop="measuringText">{{item.measuringText}}</el-form-item>
             </el-col>
           </el-row>
           <div class="head">验收信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+          <el-row>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="实收数量:"
                 :prop="'needShowData.' + index + '.num'"
@@ -136,7 +92,7 @@
                 <el-input v-model.number="item.num"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="实收重量:"
                 :prop="'needShowData.' + index + '.weight'"
@@ -146,20 +102,13 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="50"></el-row>
-        </div>
-        <div class="bottom">
-          <el-form-item>
-            <el-button
-              type="primary"
-              :loading="loading"
-              size="medium"
-              @click="submitForm('form')"
-            >确定</el-button>
-            <el-button @click="back" size="medium">取消</el-button>
-          </el-form-item>
+          <el-row></el-row>
         </div>
       </el-form>
+    </div>
+    <div class="bottom">
+        <el-button type="primary" :loading="loading" size="medium" @click="submitForm('form')">确定</el-button>
+        <el-button @click="back" size="medium">取消</el-button>
     </div>
   </div>
 </template>
@@ -181,11 +130,11 @@ export default {
       form: {
         needShowData: []
       },
-      Dict:Dict
+      Dict: Dict
     };
   },
   computed: {
-    ...mapState("waitCheckEnter", ["inspection","productType"])
+    ...mapState("waitCheckEnter", ["inspection", "productType"])
   },
   methods: {
     back() {
@@ -238,7 +187,7 @@ export default {
         return Object.assign(
           {},
           item,
-          {productTypeCode:this.productType},
+          { productTypeCode: this.productType },
           { weightUnitTypeEnum: null },
           { numUnitTypeEnum: null },
           { measuringTypeEnum: null }
@@ -298,26 +247,35 @@ export default {
   }
 };
 </script>
->
 
 <style scoped lang="less">
 .form {
-  padding: 15px 15px 50px 15px;
-  background: rgba(240, 242, 245, 1);
+  padding: 20px 15px 50px 20px;
   .form-block {
-    padding-top: 15px;
-    margin-bottom: 15px;
-    background: white;
+    padding-bottom: 20px;
     .head {
-      padding-left: 10px;
-      margin-bottom: 15px;
-      font-size: 18px;
-      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left: 20px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      color: #333333;
+      background: #f6f8fa;
     }
   }
-  .bottom {
-    padding: 15px 0px 1px 0px;
-    background: white;
+}
+.bottom {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f6f8fa;
+  width: calc(99% - 270px);
+  height: 50px;
+  box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+  .el-button {
+    min-width: 64px;
+    margin-left: 20px;
+    margin-top: 10px;
   }
 }
 </style>
