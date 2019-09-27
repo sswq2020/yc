@@ -377,7 +377,7 @@ export default {
         })
         .then(async () => {
           const res = await that.$api.getTransferAvailable({
-            cargoId: this.form.cargoId,
+            cargoId: this.form.userId,
             stockId: stockInventoryId
           });
           switch (res.code) {
@@ -408,7 +408,7 @@ export default {
         })
         .then(async () => {
           const res = await that.$api.getTransferAvailable({
-            cargoId: this.form.cargoId,
+            cargoId: this.form.userId,
             stockId: stockInventoryId
           });
           switch (res.code) {
