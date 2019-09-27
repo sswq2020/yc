@@ -7,6 +7,18 @@
           <div class="head">基础信息</div>
           <el-row>
             <el-col :lg="8" :md="12" :sm="12" :xs="24">
+              <el-form-item label="商品大类">
+                <el-select v-model="storageclass" placeholder="请选择" size="small">
+                  <el-option
+                    v-for="(item,index) in typeProductDatas"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :lg="8" :md="12" :sm="12" :xs="24">
               <el-form-item
                 label="日期"
                 prop="registerTime"
@@ -211,14 +223,21 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import _ from "lodash";
+import { mapState, mapMutations } from "vuex";
 import { dictMixin } from "common/mixin";
-import { _toArray_, handleFilterSelf, findLabelByValue } from "common/util";
+import {
+  _toArray_,
+  handleFilterSelf,
+  findLabelByValue,
+  DICT_SELECT_ARR
+} from "common/util";
 import Dict from "util/dict";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
 import commodityglass from "views/basicManage/commodityManage/commodityglass.vue";
-import _ from "lodash";
+
+const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
 const defualtFormParams = {
   registerTime: new Date(), // 登记日期
   userId: null, // 货主id
@@ -256,38 +275,42 @@ export default {
       form: { ...defualtFormParams },
       Dict: Dict,
       oilInfoObj: null,
-      commodityObj: null
+      commodityObj: null,
+      /**商品大类数据源*/
+      typeProductDatas: TypeProductDatas,
+      storageclass: null
     };
   },
   computed: {
     ...mapState("inventoryManage", ["productType"])
   },
   methods: {
+    ...mapMutations("inventoryManage", ["setProductType"]),
     back() {
       this.$router.push({
         path: "/web/yc/storage/stockInventory/page"
       });
     },
-    async _addStockRegister_(params) {
-      this.loading = true;
-      const res = await this.$api.addStockRegister(params);
-      this.loading = false;
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.$messageSuccess("入库登记成功");
-          this.back();
-          break;
-        default:
-          this.$messageError(res.mesg);
-          break;
-      }
+    clear() {
+      this.form = { ...defualtFormParams };
+      (this.oilInfoObj = null), (this.commodityObj = null);
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          const params = this._filter();
+          this._addStockRegister_(params);
+        } else {
+          return false;
+        }
+      });
     },
     _filter() {
       const params = _.clone(
         Object.assign(
           {},
           this.form,
-          { productTypeCode: this.productType },
+          { productTypeCode: this.storageclass },
           {
             deliveryStore: findLabelByValue(
               this.deliveryStoreList,
@@ -307,15 +330,19 @@ export default {
       );
       return params;
     },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          const params = this._filter();
-          this._addStockRegister_(params);
-        } else {
-          return false;
-        }
-      });
+    async _addStockRegister_(params) {
+      this.loading = true;
+      const res = await this.$api.addStockRegister(params);
+      this.loading = false;
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.$messageSuccess("入库登记成功");
+          this.back();
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
     },
     /**下拉货主*/
     async _getCargoList() {
@@ -332,7 +359,7 @@ export default {
     /**下拉仓库*/
     async _getdeliveryStores() {
       const param =
-        this.productType === Dict.STORAGE_TYPE_OIL
+        this.storageclass === Dict.STORAGE_TYPE_OIL
           ? Dict.STORAGE_TYPE_OIL
           : Dict.STORAGE_TYPE_STEEL_WOOD;
       const res = await this.$api.getDeliveryStoreSelect(param);
@@ -382,15 +409,24 @@ export default {
   },
   created() {
     let _this = this;
+    this.storageclass = this.productType;
     this._getCargoList().then(() => {
       _this._getdeliveryStores();
     });
   },
   watch: {
+    storageclass(newV, oldV) {
+      if (newV && newV !== oldV) {
+        this.setProductType(newV);
+        this._getdeliveryStores().then(() => {
+          this.clear();
+        });
+      }
+    },
     "form.deliveryStoreId": {
       handler(newV, oldV) {
         if (newV !== oldV) {
-          if (this.productType === Dict.PRODUCT_OIL) {
+          if (this.storageclass === Dict.PRODUCT_OIL) {
             this.oiltankList = [];
             this.form.oilTankId = null;
           } else {
@@ -399,7 +435,7 @@ export default {
           }
           if (newV) {
             setTimeout(() => {
-              this.productType === Dict.PRODUCT_OIL
+              this.storageclass === Dict.PRODUCT_OIL
                 ? this._getOilTankSelect(newV)
                 : this._getPilePositions(newV);
             }, 20);
