@@ -138,7 +138,7 @@ const defaulttableHeader = [
     width: "180"
   },
   {
-    prop: "cargoName",
+    prop: "name",
     label: "货主",
     width: "180"
   },
@@ -224,7 +224,7 @@ export default {
       );
       return _.clone(
         Object.assign({}, _reqParams_, this.listParams, {
-          storageclass: this.storageclass
+          productTypeCode: this.storageclass
         })
       );
     },
@@ -293,7 +293,12 @@ export default {
     storageclass(newV, oldV) {
       if (newV !== oldV) {
         this.clear();
+        /**如果新旧值都是钢木,不要再请求*/
+        if (newV === Dict.PRODUCT_OIL || oldV === Dict.PRODUCT_OIL) {
+          this._getAllBaseInfo(newV);
+        }
       }
+      this.getListData();
     }
   }
 };
