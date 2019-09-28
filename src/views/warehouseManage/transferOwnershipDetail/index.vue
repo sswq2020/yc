@@ -16,9 +16,9 @@
         </div>
       </div>
       <div class="form-item">
-        <label>货主</label>
-        <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+        <label>新货主</label>
+        <div class="form-control">
+          <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
               :key="index"
@@ -26,9 +26,6 @@
               :value="item.value"
             ></el-option>
           </el-select>
-        </div>
-        <div class="form-control" v-if="IS_SHIPPER">
-          <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">

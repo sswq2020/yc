@@ -203,7 +203,7 @@ export default {
       const operationText = categoryStateCode === Dict.STATE_NORMAL ? "禁用" : "激活";
       const serve = categoryStateCode === Dict.STATE_NORMAL ? "disableCategory" : "activeCategory";
       that
-        .$confirm(`确定要确定要${operationText}生产商${categoryName}?`, "提示", {
+        .$confirm(`确定要${operationText}品类${categoryName}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
