@@ -79,7 +79,7 @@
       :editObj="editObj"
       :loading="isEditLoading"
       :confirmCb="modalConfirm"
-      :deliveryStoreList="deliveryStoreList"
+      :deliveryStoreList="changeList"
     />
   </div>
   
@@ -89,7 +89,7 @@
 import { mapMutations } from 'vuex';
 import moment from 'moment';
 import Dict from "util/dict.js";
-import { _toArray_ } from "common/util.js";
+import { _toArray_,findIndexByValue } from "common/util.js";
 import HLBreadcrumb from "components/hl-breadcrumb";
 import HLtable from "components/hl_table";
 import PilePositionFormModal from "./pilePositionFormModal.vue";
@@ -113,6 +113,7 @@ export default {
     return {
       breadTitle: ["基础信息", "区桩位管理"], // 面包屑title
       deliveryStoreList: [],
+      changeList:[],
       isListDataLoading: false,
       tableHeader: [ // 表头
         {
@@ -205,10 +206,21 @@ export default {
     add() {
       this.isEdit = false;
       this.editObj = {};
+      this.changeList = this.deliveryStoreList ;
       this.SET_MODAL_VISIBLE(true);
     },
     editItem(obj) {
       this.isEdit = true;
+      const { storeId,deliveryStore } = obj;
+      if(findIndexByValue(this.deliveryStoreList,storeId)=== -1) {
+        let insertList = this.deliveryStoreList.concat({
+          label:deliveryStore,
+          value:storeId,
+        })
+        this.changeList = insertList
+      }else {
+          this.changeList = this.deliveryStoreList;
+      }
       this.editObj = obj;
       this.SET_MODAL_VISIBLE(true);
     },
