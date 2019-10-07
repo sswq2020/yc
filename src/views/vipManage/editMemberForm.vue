@@ -7,7 +7,7 @@
             <div class="head">入会协议</div>
           </el-col>
         </el-row>
-        <el-table :data="agreementList" stripe border>
+        <el-table :data="agreementList" :header-cell-style="tableHeaderColor" stripe border>
           <el-table-column
             :prop="item.prop"
             :label="item.label"
@@ -28,10 +28,7 @@
           </el-table-column>
           <el-table-column label="协议图片" align="center">
             <template slot-scope="scope">
-              <el-button
-                type="text"
-                @click="openImage(agreementList[scope.$index])"
-              >点击查看</el-button>
+              <el-button type="text" @click="openImage(agreementList[scope.$index])">点击查看</el-button>
             </template>
           </el-table-column>
           <el-table-column label="操作" width="250px" align="center">
@@ -66,7 +63,7 @@
       :loading="loading"
     ></agreedialog>
     <div class="images" style="display:none" v-viewer="{inline: false}">
-      <img v-for="(src,index) in images" :src="src" :key="index">
+      <img v-for="(src,index) in images" :src="src" :key="index" />
     </div>
   </div>
 </template>
@@ -134,7 +131,7 @@ export default {
       agreementList: [],
       tableHeader: defaulttableHeader,
       retradestatusList: RetradestatusList,
-      images:[]
+      images: []
     };
   },
   components: {
@@ -226,10 +223,16 @@ export default {
     },
     openImage(item) {
       this.images = item.picUrlList;
-      setTimeout(()=>{
-        const viewer = this.$el.querySelector('.images').$viewer
-        viewer.show()
-      },500)
+      setTimeout(() => {
+        const viewer = this.$el.querySelector(".images").$viewer;
+        viewer.show();
+      }, 500);
+    },
+    // 修改table header的背景色
+    tableHeaderColor({ rowIndex }) {
+      if (rowIndex === 0) {
+        return "background-color: #F6F8FA;color: #262626;font-weight: 500;";
+      }
     }
   },
   computed: {

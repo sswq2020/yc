@@ -1,5 +1,5 @@
 <template>
-  <div class="container single-page" style="position:relative">
+  <div class="container single-page">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="form">
       <el-form ref="form" :model="form" label-width="200px" size="small">
@@ -40,7 +40,7 @@
         </div>
         <div class="form-block">
           <div class="head">入会协议</div>
-          <el-table :data="form.agreementList" stripe border>
+          <el-table :data="form.agreementList" :header-cell-style="tableHeaderColor" stripe border>
             <el-table-column
               :prop="item.prop"
               :label="item.label"
@@ -59,7 +59,8 @@
                 <span>{{form.agreementList[scope.$index].effectTimeText}}-{{form.agreementList[scope.$index].dueTimeText}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="协议图片" align="center">>
+            <el-table-column label="协议图片" align="center">
+              >
               <template slot-scope="scope">
                 <el-button
                   type="text"
@@ -109,11 +110,11 @@ import agreedialog from "./agreedialog";
 const defaulttableHeader = [
   {
     prop: "agreementName",
-    label: "协议名称",
+    label: "协议名称"
   },
   {
     prop: "contractCompany",
-    label: "签约公司",
+    label: "签约公司"
   }
 ];
 
@@ -257,6 +258,12 @@ export default {
         const viewer = this.$el.querySelector(".images").$viewer;
         viewer.show();
       }, 500);
+    },
+    // 修改table header的背景色
+    tableHeaderColor({ rowIndex }) {
+      if (rowIndex === 0) {
+        return "background-color: #F6F8FA;color: #262626;font-weight: 500;";
+      }
     }
   },
   computed: {
@@ -299,12 +306,12 @@ export default {
   }
 }
 .bottom {
-  position: absolute;
+  position: fixed;
+  width: 86%;
   bottom: 20px;
-  left: 20px;
-  background-color: #f6f8fa;
-  width: calc(100% - 40px);
   height: 50px;
+  background-color: #f6f8fa;
+  margin-left: 20px;
   box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
   .el-button {
     min-width: 64px;
