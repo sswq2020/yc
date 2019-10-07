@@ -107,7 +107,6 @@ import { baseMixin} from "common/mixin.js";
 import { requestParamsByTimeRangeOrigin } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
 import _ from "lodash";
-import { normalTime } from "util/util.js";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
 import hlBreadcrumb from "components/hl-breadcrumb";
@@ -155,7 +154,7 @@ const defaulttableHeader = [
     align: "right"
   },
   {
-    prop: "applyRemovalTimeText",
+    prop: "applyRemovalTime",
     label: "出库申请时间",
     width: "180"
   }
@@ -169,7 +168,7 @@ const rowAdapter = list => {
     list = list.map(row => {
       return (row = {
         ...row,
-        applyRemovalTimeText: normalTime(row.applyRemovalTime)
+        supposedRemovalNum: row.supposedRemovalNum || "-"
       });
     });
   }

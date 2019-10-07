@@ -167,7 +167,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="left"
+        :align="item.align || 'left'"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -363,20 +363,22 @@ const defaultOILtableHeader = [
   {
     prop: "secondCatalogName",
     label: "牌号",
-    width: "180"
+    width: "180",
+    align: "right"
   },
   {
-    prop: "emissionStandardText",
+    prop: "emissionStandard",
     label: "排放标准",
     width: "180"
   },
   {
     prop: "density",
     label: "密度",
-    width: "180"
+    width: "180",
+    align: "right"
   },
   {
-    prop: "manufacturerName",
+    prop: "producerName",
     label: "生产商",
     width: "180"
   },

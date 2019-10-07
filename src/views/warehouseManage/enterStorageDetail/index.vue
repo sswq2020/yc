@@ -246,7 +246,7 @@ const defaultSWtableHeader = [
     width: "180"
   },
   {
-    prop: "incomingTimeStr",
+    prop: "incomingTime",
     label: "入库日期",
     width: "180"
   },
@@ -326,7 +326,7 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "incomingTimeStr",
+    prop: "incomingTime",
     label: "入库日期",
     width: "180"
   },
@@ -348,7 +348,8 @@ const defaultOILtableHeader = [
   {
     prop: "secondCatalogName",
     label: "牌号",
-    width: "180"
+    width: "180",
+    align: "right"
   },
   {
     prop: "emissionStandardText",
@@ -358,7 +359,8 @@ const defaultOILtableHeader = [
   {
     prop: "density",
     label: "密度",
-    width: "180"
+    width: "180",
+    align: "right"
   },
   {
     prop: "manufacturerName",
@@ -420,7 +422,6 @@ const rowAdapter = list => {
         weightText: `${row.weight}${(row.weightUnitTypeEnum &&
           row.weightUnitTypeEnum.text) ||
           "-"}`,
-        incomingTimeStr: normalTime(row.incomingTime),
         oldIncomingIdText: row.oldIncomingId || "-"
       });
     });

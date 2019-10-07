@@ -274,7 +274,6 @@ import { mapState,mapGetters, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin.js";
 import {findIndexByValue} from "common/util.js"
 // import { judgeAuth } from "util/util.js";
-import { normalTime } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
@@ -379,7 +378,7 @@ const defaultSWtableHeader = [
     width: "180"
   },
   {
-    prop: "incomingTimeStr",
+    prop: "incomingTime",
     label: "入库时间",
     width: "180"
   }
@@ -415,7 +414,8 @@ const defaultOILtableHeader = [
   {
     prop: "secondCatalogName",
     label: "牌号",
-    width: "180"
+    width: "180",
+    align: "right"
   },
   {
     prop: "emissionStandardText",
@@ -430,7 +430,8 @@ const defaultOILtableHeader = [
   {
     prop: "density",
     label: "密度",
-    width: "180"
+    width: "180",
+    align: "right"
   },
   {
     prop: "manufacturerName",
@@ -463,7 +464,7 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "incomingTimeStr",
+    prop: "incomingTime",
     label: "入库时间",
     width: "180"
   }
@@ -482,7 +483,6 @@ const rowAdapter = (list) => {
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
-              incomingTimeStr:normalTime(row.incomingTime),
               totalNumInventoryText:`${row.totalNumInventory ? row.totalNumInventory : "-"}${(row.numUnitTypeEnum&&row.totalNumInventory) ? row.numUnitTypeEnum.text : ""}`,
               totalWeightInventoryText:`${row.totalWeightInventory}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
             }

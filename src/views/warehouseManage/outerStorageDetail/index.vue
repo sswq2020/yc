@@ -371,7 +371,8 @@ const defaultOILtableHeader = [
   {
     prop: "secondCatalogName",
     label: "牌号",
-    width: "180"
+    width: "180",
+    align: "right"
   },
   {
     prop: "emissionStandardText",
@@ -381,7 +382,8 @@ const defaultOILtableHeader = [
   {
     prop: "density",
     label: "密度",
-    width: "180"
+    width: "180",
+    align: "right"
   },
   {
     prop: "manufacturerName",
