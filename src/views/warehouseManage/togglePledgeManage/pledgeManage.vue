@@ -256,17 +256,17 @@ export default {
   }
 }
 .bottom {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #f6f8fa;
-  width: calc(99% - 270px);
-  height: 50px;
-  box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
-  .el-button {
-    min-width: 64px;
+    position: fixed;
+    width: 86%;
+    bottom: 20px;
+    height: 50px;
+    background-color: #f6f8fa;
     margin-left: 20px;
-    margin-top: 10px;
-  }
+    box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+    .el-button {
+      min-width: 64px;
+      margin-left: 20px;
+      margin-top: 10px;
+    }
 }
 </style>

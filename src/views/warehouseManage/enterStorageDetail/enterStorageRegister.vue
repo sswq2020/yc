@@ -1,5 +1,5 @@
 <template>
-  <div class="container single-page" style="position:relative">
+  <div class="container single-page">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="form">
       <el-form ref="form" :model="form" label-width="120px" size="small">
@@ -465,17 +465,17 @@ export default {
   }
 }
 .bottom {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background-color: #f6f8fa;
-  width: calc(100% - 40px);
-  height: 50px;
-  box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
-  .el-button {
-    min-width: 64px;
+    position: fixed;
+    width: 86%;
+    bottom: 20px;
+    height: 50px;
+    background-color: #f6f8fa;
     margin-left: 20px;
-    margin-top: 10px;
-  }
+    box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+    .el-button {
+      min-width: 64px;
+      margin-left: 20px;
+      margin-top: 10px;
+    }
 }
 </style>

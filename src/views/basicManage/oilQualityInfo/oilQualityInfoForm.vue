@@ -1,5 +1,5 @@
 <template>
-  <div class="container single-page" style="position:relative">
+  <div class="container single-page">
     <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
     <div class="form">
       <el-form ref="form" :model="form" label-width="120px" size="small">
@@ -110,32 +110,33 @@
             </el-col>
           </el-row>
         </div>
-        <div
-          class="form-block"
-          style="overflow-y:auto;overflow-x:hidden"
-          :style="computedHeight"
-          id="parameterList"
-          v-show="form.parameterList.length"
-        >
+        <div class="form-block">
           <div class="head">参数信息</div>
-          <el-row>
-            <el-col
-              :lg="8"
-              :md="12"
-              :sm="12"
-              :xs="24"
-              v-for="(item, index) in form.parameterList"
-              :key="item.id"
-            >
-              <el-form-item
-                :label="item.paraName"
-                :prop="'parameterList.' + index + '.paraValue'"
-                :rules="{required: true, message: '必填', trigger: 'blur'}"
+          <div
+            style="overflow-y:auto;overflow-x:hidden"
+            :style="computedHeight"
+            id="parameterList"
+            v-show="form.parameterList.length"
+          >
+            <el-row>
+              <el-col
+                :lg="8"
+                :md="12"
+                :sm="12"
+                :xs="24"
+                v-for="(item, index) in form.parameterList"
+                :key="item.id"
               >
-                <el-input v-model="item.paraValue"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+                <el-form-item
+                  :label="item.paraName"
+                  :prop="'parameterList.' + index + '.paraValue'"
+                  :rules="{required: true, message: '必填', trigger: 'blur'}"
+                >
+                  <el-input v-model="item.paraValue"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </div>
         </div>
       </el-form>
     </div>
@@ -351,7 +352,7 @@ export default {
       this.height =
         document.body.clientHeight -
         document.getElementById("parameterList").getBoundingClientRect().top -
-        150;
+        100;
     },
     perm() {},
     init() {
@@ -467,16 +468,15 @@ export default {
   }
 }
 .bottom {
-  position: absolute;
+  position: fixed;
+  width: 86%;
   bottom: 20px;
-  left: 20px;
-  background-color: #f6f8fa;
-  width: calc(100% - 40px);
   height: 50px;
+  background-color: #f6f8fa;
+  margin-left: 20px;
   box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
   .el-button {
     min-width: 64px;
-    position: absolute;
     margin-left: 20px;
     margin-top: 10px;
   }
