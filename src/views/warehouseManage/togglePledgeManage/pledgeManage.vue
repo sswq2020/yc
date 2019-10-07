@@ -6,7 +6,7 @@
         <div class="form-block">
           <div class="head">质押信息</div>
           <el-row>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="业务类型"
                 prop="pledgeType"
@@ -22,7 +22,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="质权方(银行)"
                 prop="bankId"
@@ -38,12 +38,12 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="质压方" prop="pledgeCargo">
                 <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="质押数量"
                 prop="pledgeNums"
@@ -52,7 +52,7 @@
                 <el-input v-model.number="form.pledgeNums"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="质押重量"
                 prop="pledgeWeight"
@@ -66,17 +66,17 @@
         <div class="form-block">
           <div class="head">库存信息</div>
           <el-row>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="货主" prop="pledgeCargo">
                 <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存数量" prop="inventoryTotalNums">
                 <el-input :value="form.inventoryTotalNums" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存重量" prop="inventoryTotalWeight">
                 <el-input :value="form.inventoryTotalWeight" disabled="disabled"></el-input>
               </el-form-item>

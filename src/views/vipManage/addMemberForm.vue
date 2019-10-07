@@ -18,22 +18,22 @@
             </el-col>
           </el-row>
           <el-row v-if="form.userId">
-            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+            <el-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
               <el-form-item label="公司名称">{{form.name}}</el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+            <el-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
               <el-form-item label="统一社会信用代码">{{form.creditCode}}</el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+            <el-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
               <el-form-item label="公司地址">{{form.address}}</el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+            <el-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
               <el-form-item label="公司类型">{{form.entType_}}</el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+            <el-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
               <el-form-item label="法人">{{form.legalPersonName}}</el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="24" :xs="24">
+            <el-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
               <el-form-item label="营业有效期">{{form.effectiveDt}} - {{form.expireDt}}</el-form-item>
             </el-col>
           </el-row>

@@ -6,7 +6,7 @@
         <div class="form-block">
           <div class="head">商品信息</div>
           <el-row>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="品类"
                 prop="firstCatalogId"
@@ -22,7 +22,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="牌号"
                 prop="secondCatalogId"
@@ -38,7 +38,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="排放标准"
                 prop="emissionStandard"
@@ -54,7 +54,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="密度(kg/m³)"
                 prop="density"
@@ -63,7 +63,7 @@
                 <el-input v-model="form.density"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="产品型号"
                 prop="productNumber"
@@ -72,7 +72,7 @@
                 <el-input v-model="form.productNumber"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="生产商"
                 prop="manufacturerId"
@@ -90,7 +90,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="商品图片"
                 prop="fileId"
@@ -120,7 +120,7 @@
           >
             <el-row>
               <el-col
-                :lg="8"
+                :xl="8" :lg="12"
                 :md="12"
                 :sm="12"
                 :xs="24"

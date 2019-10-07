@@ -6,7 +6,7 @@
         <div class="form-block">
           <div class="head">基础信息</div>
           <el-row>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="商品大类">
                 <el-select v-model="storageclass" placeholder="请选择" size="small">
                   <el-option
@@ -18,7 +18,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="日期"
                 prop="registerTime"
@@ -27,7 +27,7 @@
                 <el-date-picker v-model="form.registerTime" type="date" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="货主"
                 prop="userId"
@@ -48,7 +48,7 @@
         <div class="form-block">
           <div class="head">仓库信息</div>
           <el-row>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="交易仓库"
                 prop="deliveryStoreId"
@@ -64,7 +64,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
               <el-form-item
                 label="区桩位"
                 prop="pilePositionId"
@@ -81,7 +81,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油罐编号"
                 prop="oilTankId"
@@ -98,7 +98,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="入库类型"
                 prop="incomingType"
@@ -119,7 +119,7 @@
         <div class="form-block">
           <div class="head">商品信息</div>
           <el-row>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="计量方式"
                 prop="measuring"
@@ -135,7 +135,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="应收数量"
                 prop="supposedNum"
@@ -145,7 +145,7 @@
                 <el-input v-model.number="form.supposedNum"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="重量单位"
                 prop="weightUnit"
@@ -161,7 +161,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="应收重量"
                 prop="supposedWeight"
@@ -175,7 +175,7 @@
                 <el-input v-model="form.supposedWeight"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="数量单位"
                 prop="numUnit"
@@ -191,7 +191,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油品信息"
                 prop="productId"
@@ -201,7 +201,7 @@
                 <el-input type="hidden" :value="form.productId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :lg="8" :md="12" :sm="12" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
               <el-form-item
                 label="物资信息"
                 prop="goodsId"
