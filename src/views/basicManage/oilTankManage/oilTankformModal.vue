@@ -47,6 +47,10 @@ export default {
       type: Boolean,
       default: false
     },
+    cancleCb:{
+      type: Function,
+      default: () => {}
+    },
     confirmCb: {
       type: Function,
       default: () => {}
@@ -90,6 +94,7 @@ export default {
   methods: {
     ...mapMutations("modal", ["SET_MODAL_VISIBLE"]),
     cancle() {
+      this.cancleCb()
       this.SET_MODAL_VISIBLE(false);
     },
     confirm() {

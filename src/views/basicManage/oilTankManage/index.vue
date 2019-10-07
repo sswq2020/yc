@@ -70,8 +70,9 @@
       :loading="isEditLoading"
       :isEdit="isEdit"
       :confirmCb="modalConfirm"
+      :cancleCb="()=>{this.changeList = []}"
       :oilTankObj="oilTankObj"
-      :list="deliveryStoreList"
+      :list="changeList"
     ></oilTankformModal>
   </div>
 </template>
@@ -84,7 +85,7 @@ import Dict from "util/dict.js";
 import heltable from "components/hl_table";
 import hlBreadcrumb from "components/hl-breadcrumb";
 import oilTankformModal from "./oilTankformModal.vue";
-import { _toArray_ } from "common/util.js";
+import { _toArray_,findIndexByValue } from "common/util.js";
 
 const defaultListParams = {
   pageSize: 20,
@@ -156,6 +157,7 @@ export default {
     return {
       breadTitle: ["基础信息", "油罐管理"], // 面包屑title
       deliveryStoreList: [],
+      changeList:[],
       Dict: Dict,
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
@@ -264,7 +266,16 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      const { id, oilTankCode, deliveryStoreId,oilTankVolume } = obj;
+      const { id, oilTankCode, deliveryStoreId,deliveryStore,oilTankVolume } = obj;
+      if(findIndexByValue(this.deliveryStoreList,deliveryStoreId)=== -1) {
+        let insertList = this.deliveryStoreList.concat({
+          label:deliveryStore,
+          value:deliveryStoreId,
+        })
+        this.changeList = insertList
+      }else {
+          this.changeList = this.deliveryStoreList;
+      }
       this.oilTankObj = {
         id,
         oilTankCode,
@@ -276,6 +287,7 @@ export default {
     add() {
       this.isEdit = false;
       this.oilTankObj = null;
+      this.changeList = this.deliveryStoreList ;
       this.SET_MODAL_VISIBLE(true);
     }
   },
