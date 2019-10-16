@@ -147,13 +147,13 @@
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="重量单位"
-                prop="weightUnit"
-                :rules="[{ required: true, message: '请选择重量单位', trigger:'blur'}]"
+                label="数量单位"
+                prop="numUnit"
+                :rules="[{ required: true, message: '请选择数量单位', trigger:'blur'}]"
               >
-                <el-select v-model="form.weightUnit" placeholder="请选择" size="small">
+                <el-select v-model="form.numUnit" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in YcWeightUnitList"
+                    v-for="(item,index) in YcNumUnitList"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
@@ -177,20 +177,20 @@
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="数量单位"
-                prop="numUnit"
-                :rules="[{ required: true, message: '请选择数量单位', trigger:'blur'}]"
+                label="重量单位"
+                prop="weightUnit"
+                :rules="[{ required: true, message: '请选择重量单位', trigger:'blur'}]"
               >
-                <el-select v-model="form.numUnit" placeholder="请选择" size="small">
+                <el-select v-model="form.weightUnit" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in YcNumUnitList"
+                    v-for="(item,index) in YcWeightUnitList"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
                   ></el-option>
                 </el-select>
               </el-form-item>
-            </el-col>
+            </el-col>            
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油品信息"
