@@ -44,6 +44,7 @@
     >
       <el-table-column
         align="center"
+        :width="item.width || null"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -110,8 +111,9 @@ const defaulttableHeader = [
     label: "公司电话"
   },
   {
-    prop: "address",
-    label: "公司地址"
+    prop: "addressText",
+    label: "公司地址",
+    width:"300px"
   },
   {
     prop: "grantTime",
@@ -131,6 +133,7 @@ const rowAdapter = list => {
     list = list.map(row => {
       return (row = {
         ...row,
+        addressText:`${row.province || ''}${row.city || ''}${row.county || ''}${row.address || ''}`,
         stateText: `${Dict.VIP_STATUS[row.state]}`
       });
     });
