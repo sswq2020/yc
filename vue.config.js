@@ -13,10 +13,11 @@ module.exports = {
             '/api': {
                 // target: 'https://beidou.hletong.com/',
                 //  target: 'http://192.168.4.16:25084/',// 周杨
-                 target: 'http://192.168.4.16:25091/',// 佘慧
+                //  target: 'http://192.168.4.16:25091/',// 佘慧
                 // target: 'http://192.168.4.16:25092/',// 尹凯
                 // target:'http://10.1.15.119:8202/',
                 // target:'http://192.168.4.16:25083/',//liudongcai serve
+                target:'http://10.1.15.106:8445/',//liudongcai serve
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
