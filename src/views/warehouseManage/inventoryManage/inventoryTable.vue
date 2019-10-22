@@ -2,21 +2,25 @@
   <div class="container single-page">
     <HletongBreadcrumb :data="breadTitle">
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
         size="small"
         icon="el-icon-download"
         v-if="!IS_SHIPPER"
         @click="GoEnterRegister"
       >入库登记</el-button>
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
         size="small"
         icon="el-icon-bank-card"
+        v-if="!IS_SHIPPER"        
         :disabled="!equalShipperAndStoreItems"
         @click="()=>{this.batchCheckOutVisible = true}"
       >出库申请</el-button>
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
         size="small"
         icon="el-icon-bank-card"
         :disabled="!equalShipperItems"
@@ -24,7 +28,8 @@
         @click="()=>{this.batchTransferOwnershipVisible = true}"
       >过户</el-button>
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
         size="small"
         icon="el-icon-bank-card"
         :disabled="stockInventoryIds.length===0"
@@ -32,7 +37,8 @@
         @click="()=>{this.batchFrozenVisible=true}"
       >冻结</el-button>
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
         size="small"
         icon="el-icon-bank-card"
         :disabled="stockInventoryIds.length===0"
@@ -719,9 +725,8 @@ export default {
   },
   mounted() {
     this.storageclass = this.productType;
-    this._getAllBaseInfo(this.storageclass).then(()=>{
-       this.init();
-    })
+    this.init();
+    this._getAllBaseInfo(this.storageclass)
     
   },
   watch: {

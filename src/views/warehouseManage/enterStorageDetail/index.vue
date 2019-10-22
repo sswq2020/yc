@@ -18,7 +18,7 @@
       <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+          <el-select v-model="form.userId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
               :key="index"
@@ -215,7 +215,7 @@ import tickets from "components/tickets";
 import enterticket from "./enterticket";
 
 const defaultFormData = {
-  cargoId: null,
+  userId: null,
   deliveryStoreId: null,
   productNameId: null,
   materialId: null,
@@ -461,6 +461,9 @@ export default {
   },
   methods: {
     _filter() {
+      if(this.IS_SHIPPER) {
+        this.form.userId = this.userId
+      }
       return _.clone(Object.assign({}, this.form, this.listParams,{productTypeCode:this.storageclass}));
     },
     clear() {
@@ -525,9 +528,8 @@ export default {
     perm() {}
   },
   mounted() {
-    this._getAllBaseInfo(this.storageclass).then(() => {
-      this.init();
-    });
+    this.init();
+    this._getAllBaseInfo(this.storageclass)
   },
   watch: {
     storageclass(newV, oldV) {

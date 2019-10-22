@@ -11,10 +11,9 @@ const store = {
         deliveryStoreTypeData: {}, // 交割库类型
     },
     getters: {
-      role: state => state.role,
       userId: state => state.userId,
       username: state => state.username,
-      IS_SHIPPER: state => state.role === "1", // 判断是否是货主
+      IS_SHIPPER: state => state.role === Dict.VIP_USER, // 判断是否是货主
       productTypeCodeData: state => state.productTypeCodeData, 
       deliveryStoreTypeData: state => state.deliveryStoreTypeData, 
     },

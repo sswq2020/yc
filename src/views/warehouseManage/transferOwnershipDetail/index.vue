@@ -541,9 +541,8 @@ export default {
     perm() {}
   },
   mounted() {
-    this._getAllBaseInfo(this.storageclass).then(() => {
-      this.init();
-    });
+    this.init();
+    this._getAllBaseInfo(this.storageclass)
   },
   watch: {
     storageclass(newV, oldV) {
