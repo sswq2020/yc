@@ -88,6 +88,22 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item
+                label="产地"
+                prop="addressProvince"
+                :rules="[{ required: true, message: '必填' }]"
+              >
+                <el-select v-model="form.addressProvince" placeholder="请选择" size="small">
+                  <el-option
+                    v-for="(item,index) in ProvinceDataList"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.name"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
@@ -158,9 +174,18 @@ import { mapState, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin";
 import { findLabelByValue, findIndexByValue, _toArray_ } from "common/util";
 import Dict from "util/dict";
+import areaData from "components/areaData.js";
 import ImageBox from "components/ImageBox";
 import ImageUpload from "components/ImageUpload";
 // import { judgeAuth } from "util/util.js";
+
+const ProvinceDataList = areaData.map(item => {
+  return {
+    name: item.value
+  };
+});
+
+
 
 const defualtFormParams = {
   fileId: null, // 图片上传成功后返回的id
@@ -170,6 +195,7 @@ const defualtFormParams = {
   density: null,
   productNumber: null,
   manufacturerId: null,
+  addressProvince:null,
   parameterList: []
 };
 
@@ -191,6 +217,7 @@ export default {
       ExternalTrigger: false,
       reservaSecondClassId: null,
       ManufacturerList: [],
+      ProvinceDataList,
       height: 0
     };
   },
