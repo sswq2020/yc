@@ -4,6 +4,7 @@
       <el-button
         type="primary"
         plain
+        class="text-btn"
         size="small"
         icon="el-icon-download"
         :disabled="!equalShipperItems"

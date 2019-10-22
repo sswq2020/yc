@@ -4,6 +4,7 @@
       <el-button
         type="primary"
         plain
+        class="text-btn"
         size="small"
         icon="el-icon-download"
         v-if="!IS_SHIPPER"
@@ -12,6 +13,7 @@
       <el-button
         type="primary"
         plain
+        class="text-btn"
         size="small"
         icon="el-icon-bank-card"
         v-if="!IS_SHIPPER"        
@@ -21,6 +23,7 @@
       <el-button
         type="primary"
         plain
+        class="text-btn"
         size="small"
         icon="el-icon-bank-card"
         :disabled="!equalShipperItems"
@@ -30,6 +33,7 @@
       <el-button
         type="primary"
         plain
+        class="text-btn"
         size="small"
         icon="el-icon-bank-card"
         :disabled="stockInventoryIds.length===0"
@@ -39,6 +43,7 @@
       <el-button
         type="primary"
         plain
+        class="text-btn"
         size="small"
         icon="el-icon-bank-card"
         :disabled="stockInventoryIds.length===0"
