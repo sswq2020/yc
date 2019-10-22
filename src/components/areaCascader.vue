@@ -60,3 +60,10 @@
         }
     };
 </script>
+
+<style scoped lang="less">
+.areaCascader /deep/ .el-input {
+    height: 40px;
+    line-height: 40px;
+}
+</style>

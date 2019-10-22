@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form" v-if="pledgeData && pledgeData.cargoId">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
@@ -95,7 +95,6 @@
 <script>
 import { mapState } from "vuex";
 import _ from "lodash";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
 import { DICT_SELECT_ARR } from "@/common/util";
 import { bankMixin } from "@/common/mixin.js";
@@ -118,7 +117,6 @@ export default {
   name: "pledgeManage",
   mixins: [bankMixin],
   components: {
-    hlBreadcrumb
   },
   data() {
     return {

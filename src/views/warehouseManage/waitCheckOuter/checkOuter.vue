@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form" v-if="form.needShowData.length">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
@@ -121,7 +121,6 @@
 
 <script>
 import { mapState } from "vuex";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
 const defualtFormParams = {
   pickUpPassword: null,
@@ -132,7 +131,6 @@ const defualtFormParams = {
 export default {
   name: "checkOuter",
   components: {
-    hlBreadcrumb
   },
   data() {
     return {

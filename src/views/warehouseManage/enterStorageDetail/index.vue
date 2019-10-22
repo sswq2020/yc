@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>商品大类</label>
@@ -211,7 +211,6 @@ import { normalTime } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
-import hlBreadcrumb from "components/hl-breadcrumb";
 import tickets from "components/tickets";
 import enterticket from "./enterticket";
 
@@ -434,7 +433,6 @@ export default {
   mixins: [baseMixin, dictMixin],
   components: {
     heltable,
-    hlBreadcrumb,
     tickets,
     enterticket
   },

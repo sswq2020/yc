@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page" style="position:relative">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form" v-if="form.needShowData.length">
       <el-form ref="form" :model="form" label-width="130px" size="small">
         <div class="form-block">
@@ -197,7 +197,6 @@
 
 <script>
 import { mapState } from "vuex";
-import hlBreadcrumb from "components/hl-breadcrumb";
 import Dict from "util/dict.js";
 import { DICT_SELECT_ARR, findLabelByValue,handleFilterSelf } from "common/util";
 const TypeDatas = DICT_SELECT_ARR(Dict.TRANSFER_OWNERSHIP_BUSINESS_TYPE);
@@ -210,7 +209,6 @@ const defualtFormParams = {
 export default {
   name: "transferOwnershipManage",
   components: {
-    hlBreadcrumb
   },
   data() {
     return {

@@ -53,7 +53,9 @@ const store = {
               data.items.forEach(item => {
                 listData[item.id] = item.text;
               });
-              commit(dictionaryData[data.entryCode], listData);
+              if(dictionaryData[data.entryCode]) {
+                commit(dictionaryData[data.entryCode], listData);
+              }
             });
             break;
           default:

@@ -2,7 +2,7 @@
   <el-dialog :title="title" :visible="visible" width="600px"  @close="cancle()">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
       <el-form-item label="交割库名称" prop="deliveryStore">
-        <el-input v-model="form.deliveryStore" maxlength="20"  placeholder="请输入"></el-input>
+        <el-input v-model="form.deliveryStore" maxlength="20"  placeholder="请输入" size="small"></el-input>
       </el-form-item>
       <div class="two-form-item">
         <el-form-item label="交割库地址" prop="address">
@@ -13,19 +13,19 @@
             />
         </el-form-item>
         <el-form-item prop="storeAddressStreet" label-width="0">
-          <el-input v-model="form.storeAddressStreet" maxlength="50"  placeholder="请输入"></el-input>
+          <el-input v-model="form.storeAddressStreet" maxlength="50"  placeholder="请输入" size="small"></el-input>
         </el-form-item>
       </div>
       <el-form-item label="交割库容量" prop="storeCapacity">
-        <InputNumber v-model="form.storeCapacity"  :precision="3" :max="999999.999"  placeholder="请输入"/>
+        <InputNumber v-model="form.storeCapacity"  :precision="3" :max="999999.999"  placeholder="请输入" size="small"/>
       </el-form-item>
       <el-form-item label="交割库类型" prop="storeType">
-        <el-select v-model="form.storeType" placeholder="请选择">
+        <el-select v-model="form.storeType" placeholder="请选择" size="small">
           <el-option v-for="item in Object.keys(deliveryStoreTypeData)" :key="item" :label="deliveryStoreTypeData[item]" :value="item"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="存储类型" prop="saveType">
-        <el-select v-model="form.saveType" placeholder="请选择">
+        <el-select v-model="form.saveType" placeholder="请选择" size="small">
            <el-option v-for="(item,index) in TypeSaveDatas"
               :key="index"
               :label="item.label"
@@ -34,13 +34,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="负责人" prop="leader">
-        <el-input v-model="form.leader" maxlength="10"  placeholder="请输入"></el-input>
+        <el-input v-model="form.leader" maxlength="10"  placeholder="请输入" size="small"></el-input>
       </el-form-item>
       <el-form-item label="联系电话" prop="contactTel" maxlength="30">
-        <el-input v-model="form.contactTel"  placeholder="请输入"></el-input>
+        <el-input v-model="form.contactTel"  placeholder="请输入" size="small"></el-input>
       </el-form-item>
       <el-form-item label="仓管人员" prop="storeAdminList">
-        <el-select v-model="form.storeAdminList" placeholder="请选择" multiple >
+        <el-select v-model="form.storeAdminList" placeholder="请选择" multiple size="small">
           <el-option v-for="item in Object.keys(storeAdminData)" :key="item" :label="storeAdminData[item]" :value="item"></el-option>
         </el-select>
       </el-form-item>
@@ -195,7 +195,11 @@ export default {
         if( JSON.stringify(this.storeAdminData) === '{}') {
           this.getStoreAdmin();
         }
-        this.form = this.isEdit ? {...this.editObj} : {...defaultForm};
+        this.form = this.isEdit ? {
+          ...this.editObj,
+          storeCapacity: Number(this.editObj.storeCapacity)
+
+          } : {...defaultForm};
       } else {
         this.$refs.ruleForm.clearValidate();
       }

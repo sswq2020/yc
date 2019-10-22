@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>货主名称</label>
@@ -96,7 +96,6 @@ import { requestParamsByTimeRange, handleFilterSelf } from "common/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
-import hlBreadcrumb from "components/hl-breadcrumb";
 import tickets from "components/tickets";
 import pledgeticket from "./pledgeticket";
 
@@ -165,7 +164,6 @@ export default {
   name: "pledgeDetail",
   components: {
     heltable,
-    hlBreadcrumb,
     tickets,
     pledgeticket
   },

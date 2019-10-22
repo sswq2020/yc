@@ -1,8 +1,8 @@
 <template>
   <div class="container single-page">
-    <HLBreadcrumb :data="breadTitle">
-      <el-button type="primary" size="small" @click="add" icon="el-icon-plus">新增</el-button>
-    </HLBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle">
+      <el-button type="primary" size="small" @click="add" icon="el-icon-plus" plain class="text-btn">新增</el-button>
+    </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>交割库名称</label>
@@ -81,7 +81,6 @@
 import { mapMutations, mapActions, mapState  } from 'vuex';
 import moment from 'moment';
 import Dict from "@/util/dict.js";
-import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
 import AreaCascader from "@/components/areaCascader";
 import SettlementFormModal from "./settlementFormModal.vue";
@@ -98,7 +97,6 @@ const defaultListParams = {
 export default {
   name: "settlementStorageManage",
   components: {
-    HLBreadcrumb,
     HLtable,
     AreaCascader,
     SettlementFormModal

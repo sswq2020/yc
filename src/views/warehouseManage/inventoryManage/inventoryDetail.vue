@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form">
       <div class="form-block">
         <el-form ref="form" :model="form" label-width="120px" size="small">
@@ -158,7 +158,6 @@ import { mapState, mapGetters, mapMutations } from "vuex";
 import _ from "lodash";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
 const defaultForm = {
   incomingId: "",
   incomingTime: "",
@@ -238,7 +237,6 @@ export default {
   name: "inventoryDetail",
   components: {
     heltable,
-    hlBreadcrumb
   },
   data() {
     return {

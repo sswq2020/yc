@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>货主名称</label>
@@ -70,7 +70,6 @@ import _ from "lodash";
 import Dict from "util/dict.js";
 import { handleFilterSelf } from "common/util.js";
 import heltable from "components/hl_table";
-import hlBreadcrumb from "components/hl-breadcrumb";
 
 const defaultFormData = {
   cargoId: null,
@@ -121,7 +120,6 @@ export default {
   name: "togglePledgeManage",
   components: {
     heltable,
-    hlBreadcrumb
   },
   data() {
     return {

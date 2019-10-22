@@ -1,8 +1,8 @@
 <template>
   <div class="container single-page">
-    <HLBreadcrumb :data="breadTitle">
-      <el-button type="primary" size="small" @click="add" icon="el-icon-plus">新增</el-button>
-    </HLBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle">
+      <el-button type="primary" size="small" @click="add" icon="el-icon-plus" plain class="text-btn">新增</el-button>
+    </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>大类</label>
@@ -77,7 +77,6 @@
 import { mapState, mapMutations, mapActions  } from 'vuex';
 import moment from 'moment';
 import Dict from "@/util/dict.js";
-import HLBreadcrumb from "@/components/hl-breadcrumb";
 import HLtable from "@/components/hl_table";
 import ProductNameFormModal from "./productNameFormModal.vue";
 
@@ -91,7 +90,6 @@ const defaultListParams = {
 export default {
   name: "productNameManage",
   components: {
-    HLBreadcrumb,
     HLtable,
     ProductNameFormModal
   },

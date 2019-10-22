@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
@@ -233,7 +233,6 @@ import {
   DICT_SELECT_ARR
 } from "common/util";
 import Dict from "util/dict";
-import hlBreadcrumb from "components/hl-breadcrumb";
 import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
 import commodityglass from "views/basicManage/commodityManage/commodityglass.vue";
 
@@ -258,7 +257,6 @@ export default {
   name: "enterStorageRegister",
   mixins: [dictMixin],
   components: {
-    hlBreadcrumb,
     oilQualityInfoglass,
     commodityglass
   },

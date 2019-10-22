@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page" style="position:relative">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form">
       <el-form ref="form" :model="form" label-width="130px" size="small">
         <div class="form-block">
@@ -180,7 +180,6 @@
 <script>
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
 const defualtFormParams = {
   consignee: null,
   name: null,
@@ -190,7 +189,6 @@ const defualtFormParams = {
 export default {
   name: "applyCheckout",
   components: {
-    hlBreadcrumb
   },
   data() {
     return {

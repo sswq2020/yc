@@ -1,5 +1,5 @@
 <template>
-	<HletongLayout v-on:loginOut="loginOut" systemId="180283809692909568">
+	<HletongLayout v-on:loginOut="loginOut" ref="hlLayout"  systemId="180283809692909568">
 		<router-view></router-view>
 	</HletongLayout>
 </template>

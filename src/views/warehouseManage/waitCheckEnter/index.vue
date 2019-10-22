@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle">
+    <HletongBreadcrumb :data="breadTitle">
       <el-button
         class="hlB_buts"
         size="small"
@@ -8,7 +8,7 @@
         :disabled="!equalShipperItems"
         @click="()=>{this.batchInspectionVisible = true}"
       >入库</el-button>
-    </hlBreadcrumb>
+    </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>商品大类</label>
@@ -211,7 +211,6 @@ import { findIndexByValue } from "common/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
-import hlBreadcrumb from "components/hl-breadcrumb";
 import transitiondialog from "components/transitiondialog";
 
 const defaultFormData = {
@@ -389,7 +388,6 @@ export default {
   mixins: [baseMixin, dictMixin],
   components: {
     heltable,
-    hlBreadcrumb,
     transitiondialog
   },
   data() {

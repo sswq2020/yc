@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form">
       <el-form ref="form" :model="form" label-width="200px" size="small">
         <div class="form-block">
@@ -104,7 +104,6 @@ import _ from "lodash";
 import moment from "moment";
 import { mapState, mapMutations, mapActions } from "vuex";
 import Dict from "util/dict.js";
-import hlBreadcrumb from "components/hl-breadcrumb";
 import companyglass from "components/companyglass";
 import agreedialog from "./agreedialog";
 const defaulttableHeader = [
@@ -151,7 +150,6 @@ export default {
     };
   },
   components: {
-    hlBreadcrumb,
     companyglass,
     agreedialog
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
@@ -158,7 +158,6 @@ import { mapState, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin";
 import { findLabelByValue, findIndexByValue, _toArray_ } from "common/util";
 import Dict from "util/dict";
-import hlBreadcrumb from "components/hl-breadcrumb";
 import ImageBox from "components/ImageBox";
 import ImageUpload from "components/ImageUpload";
 // import { judgeAuth } from "util/util.js";
@@ -178,7 +177,6 @@ export default {
   name: "oilQualityInfoForm",
   mixins: [baseMixin, dictMixin],
   components: {
-    hlBreadcrumb,
     ImageBox,
     ImageUpload
   },
