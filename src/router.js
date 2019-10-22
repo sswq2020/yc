@@ -6,6 +6,7 @@ const PilePositionManage = () => import('@/views/basicManage/pilePositionManage/
 const OriginPlaceManage = () => import('@/views/basicManage/originPlaceManage/index')
 const ProductNameManage = () => import('@/views/basicManage/productNameManage/index')
 const SettlementStorageManage = () => import('@/views/basicManage/settlementStorageManage/index')
+const SettlementForm = () => import('@/views/basicManage/settlementStorageManage/settlementForm')
 const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 const SpecificationManage = () => import('@/views/basicManage/specificationManage/index')
 
@@ -130,6 +131,11 @@ let commonRoutes = {
             path: '/web/yc/base/deliveryStoreManage/pageDeliveryStore',
             name: 'settlementStorageManage',
             component: SettlementStorageManage
+        },
+        {
+            path: '/web/yc/base/deliveryStoreManage/settlementForm',
+            name: 'settlementForm',
+            component: SettlementForm
         },
         {
             path: '/web/yc/base/cargoManage/pageCargo',

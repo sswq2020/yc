@@ -1,8 +1,8 @@
 <template>
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px" class="form">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
-        <el-select v-model="form[item.prop]" placeholder="请选择" @change="select($event, item.prop)">
+        <el-select v-model="form[item.prop]" placeholder="请选择" @change="select($event, item.prop)" size="small">
           <el-option v-for="optionItem in Object.keys(item.optionData)" :key="optionItem" :label="item.optionData[optionItem]" :value="optionItem"></el-option>
         </el-select>
       </el-form-item>

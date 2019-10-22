@@ -1,8 +1,8 @@
 <template>
   <el-dialog :title="title" :visible="visible" width="600px"  @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px" class="form">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
-        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'" @change="handleChange">
+        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'" @change="handleChange" size="small">
             <el-option
               v-for="(item,index) in deliveryStoreList"
               :key="index"
@@ -10,7 +10,7 @@
               :value="item.value"
             ></el-option>
         </el-select>
-        <el-input v-model="form[item.prop]" :maxlength="item.maxlength"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
+        <el-input v-model="form[item.prop]" :maxlength="item.maxlength"  placeholder="请输入" v-if="item.type === 'input'" size="small"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

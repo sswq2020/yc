@@ -67,12 +67,12 @@
         </template>
       </el-table-column>
     </HLtable>
-    <SettlementFormModal 
+    <!-- <SettlementFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
       :loading="isEditLoading"
       :confirmCb="modalConfirm"
-    />
+    /> -->
   </div>
   
 </template>
@@ -83,7 +83,7 @@ import moment from 'moment';
 import Dict from "@/util/dict.js";
 import HLtable from "@/components/hl_table";
 import AreaCascader from "@/components/areaCascader";
-import SettlementFormModal from "./settlementFormModal.vue";
+// import SettlementFormModal from "./settlementFormModal.vue";
 
 const defaultListParams = {
   page: 1,
@@ -99,7 +99,7 @@ export default {
   components: {
     HLtable,
     AreaCascader,
-    SettlementFormModal
+    // SettlementFormModal
   },
   data() {
     return {
@@ -169,8 +169,8 @@ export default {
       listParams: { // 列表请求参数
         ...defaultListParams
       },
-      isEdit: false,
-      isEditLoading: false,
+      // isEdit: false,
+      // isEditLoading: false,
       editObj: {},
       address: [], // 地址列表 - ['省', '市', '区']
     }
@@ -179,7 +179,7 @@ export default {
     ...mapState('app', ['deliveryStoreTypeData']),
   },
   methods: {
-    ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
+    ...mapMutations('modal', ['SET_IS_EDIT', 'SET_EDIT_OBJ']),
     ...mapActions('app', ['setYcData']),
     /**
      * @author: xh
@@ -232,17 +232,30 @@ export default {
       this.listParams.storeAddressCounty = value[2] || '';
     },
     add() {
-      this.isEdit = false;
-      this.editObj = null;
-      this.SET_MODAL_VISIBLE(true);
+      // this.isEdit = false;
+      // this.editObj = null;
+      this.SET_IS_EDIT(false);
+      this.SET_EDIT_OBJ(null);
+      this.$router.push({
+        name: 'settlementForm'
+      });
     },
     editItem(obj) {
-      this.isEdit = true;
-      this.editObj = {
+      // this.isEdit = true;
+      // this.editObj = {
+      //   ...obj,
+      //   address: [obj.storeAddressProvince, obj.storeAddressCity, obj.storeAddressCounty]
+      // };
+      // this.SET_MODAL_VISIBLE(true);
+
+      this.SET_IS_EDIT(true);
+      this.SET_EDIT_OBJ({
         ...obj,
         address: [obj.storeAddressProvince, obj.storeAddressCity, obj.storeAddressCounty]
-      };
-      this.SET_MODAL_VISIBLE(true);
+      });
+      this.$router.push({
+        name: 'settlementForm'
+      });
     },
     /**
      * @author: xh
@@ -275,20 +288,20 @@ export default {
      * @author: xh
      * @description: 弹窗确定回调事件
      */
-    async modalConfirm(obj) {
-      const serve = this.isEdit ? "updateDeliveryStore" : "addDeliveryStore";
-      const response = await this.$api[serve]({ ...obj });
-      switch (response.code) {
-        case Dict.SUCCESS:
-          this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
-          this.SET_MODAL_VISIBLE(false);
-          this.getList();
-          break;
-        default:
-          this.$messageError(response.mesg);
-          break;
-      }
-    }
+    // async modalConfirm(obj) {
+    //   const serve = this.isEdit ? "updateDeliveryStore" : "addDeliveryStore";
+    //   const response = await this.$api[serve]({ ...obj });
+    //   switch (response.code) {
+    //     case Dict.SUCCESS:
+    //       this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
+    //       // this.SET_MODAL_VISIBLE(false);
+    //       this.getList();
+    //       break;
+    //     default:
+    //       this.$messageError(response.mesg);
+    //       break;
+    //   }
+    // }
   },
   created() {
     this.setYcData(); // 获取字典项数据

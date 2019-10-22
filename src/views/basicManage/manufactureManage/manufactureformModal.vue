@@ -1,6 +1,6 @@
 <template>
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px" class="form">
       <el-form-item label="生产商名称:" prop="producerName">
         <el-input v-model="form.producerName" size="small"></el-input>
       </el-form-item>

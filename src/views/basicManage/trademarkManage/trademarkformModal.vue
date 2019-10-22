@@ -1,6 +1,6 @@
 <template>
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px" class="form">
       <el-form-item label="品类名称:" prop="categoryId">
         <el-select v-model="form.categoryId" placeholder="请选择" size="small" style="width:100%">
           <el-option

@@ -1,11 +1,11 @@
 <template>
   <el-dialog :title="title" :visible="visible" width="600px"  @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px" class="form">
       <el-form-item label="材质名称" prop="materialName">
-        <el-input v-model="form.materialName" maxlength="10"  placeholder="请输入"></el-input>
+        <el-input v-model="form.materialName" maxlength="10"  placeholder="请输入" size="small"></el-input>
       </el-form-item>
       <el-form-item label="备注" prop="materialRemark">
-        <el-input type="textarea"  v-model="form.materialRemark" :autosize="{ minRows: 5}" size="medium" placeholder="请输入" maxlength="100"></el-input>
+        <el-input type="textarea"  v-model="form.materialRemark" size="small" placeholder="请输入" maxlength="100" ></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

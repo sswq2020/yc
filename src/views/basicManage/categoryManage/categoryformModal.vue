@@ -1,8 +1,8 @@
 <template>
   <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px" class="form">
       <el-form-item label="品类名称:" prop="categoryName">
-        <el-input v-model="form.categoryName"></el-input>
+        <el-input v-model="form.categoryName" size="small"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
