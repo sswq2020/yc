@@ -18,8 +18,10 @@ export default {
       if (res.code === "000000") {
         const userId = res.data.userId;
         const username = res.data.username;
+        const role = res.data.userType;
         this.SET_USER_ID(userId);
         this.SET_USER_NAME(username);
+        this.SET_ROLE(role);
         // const response = await this.$api.getUserRole(userId);
         // if(response.code === "000000") {
         //     this.SET_ROLE(response.data.role);

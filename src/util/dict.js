@@ -111,7 +111,15 @@ DICT.AGREE_TYPE = {
     [DICT.AGREE_OFFLINE]: "线下协议",
 }
 
+/***内部用户***/
+DICT.INTERNAL_USER = 1;
+/***会员用户***/
+DICT.VIP_USER = 3;
 
+DICT.USERTYPE = {
+    [DICT.INTERNAL_USER]:'内部用户',
+    [DICT.VIP_USER]:'会员用户'
+}
 
 
 
