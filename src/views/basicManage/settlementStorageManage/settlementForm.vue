@@ -129,6 +129,7 @@ export default {
     init() {
       this.form = this.isEdit ? {
         ...this.editObj,
+        address: this.editObj.address.filter(item =>  item),
         storeCapacity: Number(this.editObj.storeCapacity)
       } : {...defaultForm};
     },
