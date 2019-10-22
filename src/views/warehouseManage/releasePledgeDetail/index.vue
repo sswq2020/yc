@@ -259,9 +259,8 @@ export default {
     perm() {}
   },
   mounted() {
-    this._getCargoList().then(() => {
-      this.init();
-    });
+    this.init();
+    this._getCargoList();
   }
 };
 </script>

@@ -281,6 +281,9 @@ export default {
       this.getListData();
     },
     authCheckout(item) {
+      if (this.IS_SHIPPER) {
+        return false;
+      }
       return item.state === Dict.INVENTORY_NORMAL;
     },
     authCancelCheckout(item) {

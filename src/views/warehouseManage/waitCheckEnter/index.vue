@@ -2,7 +2,8 @@
   <div class="container single-page">
     <HletongBreadcrumb :data="breadTitle">
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
         size="small"
         icon="el-icon-download"
         :disabled="!equalShipperItems"
@@ -437,6 +438,9 @@ export default {
       this.selectedItems = selection.slice();
     },
     _filter() {
+      if(this.IS_SHIPPER) {
+        this.form.userId = this.userId;
+      }
       return _.clone(
         Object.assign({}, this.form, this.listParams, {productTypeCode:this.storageclass})
       );
@@ -493,9 +497,8 @@ export default {
   },
   mounted() {
     this.storageclass = this.productType;
-    this._getAllBaseInfo(this.storageclass).then(() => {
-      this.init();
-    });
+    this.init();
+    this._getAllBaseInfo(this.storageclass)
   },
   watch: {
     storageclass(newV, oldV) {

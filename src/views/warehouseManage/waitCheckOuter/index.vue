@@ -18,7 +18,7 @@
       <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+          <el-select v-model="form.userId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
               :key="index"
@@ -114,7 +114,7 @@ import heltable from "components/hl_table";
 const EXTRA_PARAMS_KEYS = ["start", "end"];
 
 const defaultFormData = {
-  cargoId: null,
+  userId: null,
   deliveryStoreId: null,
   timeRange: []
 };
@@ -212,7 +212,7 @@ export default {
     _filter() {
       const { timeRange } = this.form;
       if (this.IS_SHIPPER) {
-        this.form.cargoId = this.userId;
+        this.form.userId = this.userId;
       }
       const _reqParams_ = requestParamsByTimeRangeOrigin(
         this.form,
@@ -282,9 +282,8 @@ export default {
   },
   mounted() {
     this.storageclass = this.productType;
-    this._getAllBaseInfo(this.storageclass).then(() => {
-      this.init();
-    });
+    this.init();
+    this._getAllBaseInfo(this.storageclass)
   },
   watch: {
     storageclass(newV, oldV) {
