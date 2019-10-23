@@ -8,6 +8,7 @@
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "test": "cross-env NODE_ENV=test vue-cli-service build --mode test",
+    "append":"cross-env NODE_ENV=production node appended",
     "pro": "cross-env NODE_ENV=production vue-cli-service build"
   },
   "dependencies": {
