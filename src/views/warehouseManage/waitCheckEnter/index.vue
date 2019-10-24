@@ -335,7 +335,7 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "productNumber",
+    prop: "serialNumber",
     label: "型号",
     width: "180"
   },

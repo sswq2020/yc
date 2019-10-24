@@ -81,8 +81,8 @@
               </el-form-item>
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="型号" prop="productNumber">
-                <el-input :value="item.productNumber" disabled="disabled"></el-input>
+              <el-form-item label="型号" prop="serialNumber">
+                <el-input :value="item.serialNumber" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">

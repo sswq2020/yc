@@ -129,8 +129,8 @@ const defaulttableHeader = [
     width: "120"
   },
   {
-    prop: "productNumber",
-    label: "产品编号"
+    prop: "serialNumber",
+    label: "产品型号"
   },
   {
     prop: "manufacturerName",

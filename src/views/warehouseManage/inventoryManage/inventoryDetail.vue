@@ -38,7 +38,7 @@
               <el-form-item label="密度:" prop="density">{{form.density}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="型号:" prop="productNumber">{{form.productNumber}}</el-form-item>
+              <el-form-item label="产品型号:" prop="serialNumber">{{form.serialNumber}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="生产商:" prop="manufacturerName">{{form.manufacturerName}}</el-form-item>
