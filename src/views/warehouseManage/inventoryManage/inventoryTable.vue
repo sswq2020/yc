@@ -7,7 +7,7 @@
         class="text-btn"
         size="small"
         icon="el-icon-download"
-        v-if="!IS_SHIPPER"
+        v-if="stockregister"
         @click="GoEnterRegister"
       >入库登记</el-button>
       <el-button
@@ -16,7 +16,7 @@
         class="text-btn"
         size="small"
         icon="el-icon-bank-card"
-        v-if="!IS_SHIPPER"        
+        v-if="stockInventoryApply"        
         :disabled="!equalShipperAndStoreItems"
         @click="()=>{this.batchCheckOutVisible = true}"
       >出库申请</el-button>
@@ -27,7 +27,7 @@
         size="small"
         icon="el-icon-bank-card"
         :disabled="!equalShipperItems"
-        v-if="!IS_SHIPPER"
+        v-if="transferConfirm"
         @click="()=>{this.batchTransferOwnershipVisible = true}"
       >过户</el-button>
       <el-button
@@ -37,7 +37,7 @@
         size="small"
         icon="el-icon-bank-card"
         :disabled="stockInventoryIds.length===0"
-        v-if="!IS_SHIPPER"
+        v-if="stockInventoryFrozen"
         @click="()=>{this.batchFrozenVisible=true}"
       >冻结</el-button>
       <el-button
@@ -47,7 +47,7 @@
         size="small"
         icon="el-icon-bank-card"
         :disabled="stockInventoryIds.length===0"
-        v-if="!IS_SHIPPER"
+        v-if="stockInventoryUnFrozen"
         @click="()=>{this.batchUnFrozenVisible = true}"
       >解冻</el-button>
     </HletongBreadcrumb>
@@ -236,7 +236,7 @@
 
       <el-table-column label="操作" fixed="right" width="100px" align="left">
         <template slot-scope="scope">
-          <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
+          <el-button v-if="stockInventoryDetail" type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
       </el-table-column>
     </heltable>
@@ -284,7 +284,7 @@
 import { mapState,mapGetters, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin.js";
 import {findIndexByValue} from "common/util.js"
-// import { judgeAuth } from "util/util.js";
+import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
@@ -535,7 +535,22 @@ export default {
       /*多选的row*/
       selectedItems: [],
       titles: ["批量出库登记", "批量过户", "批量冻结", "批量解冻"],
-      Dict: Dict
+      Dict: Dict,
+
+      // #region 权限
+      /***入库登记**/     
+      stockregister:false, 
+      /***出库申请**/     
+      stockInventoryApply:false, 
+      /***过户**/     
+      transferConfirm:false,
+      /***冻结**/     
+      stockInventoryFrozen:false,       
+      /***解冻**/     
+      stockInventoryUnFrozen:false,         
+      /***库存明细**/     
+      stockInventoryDetail:false, 
+      // #endgion
     };
   },
   computed: {
@@ -726,7 +741,14 @@ export default {
       }, 20);
       this.perm();
     },
-    perm() {}
+    perm() {
+      this.stockregister = judgeAuth("ycstore:stockregister:add");
+      this.stockInventoryApply = judgeAuth("ycstore:stockInventory:apply");
+      this.transferConfirm = judgeAuth("inventory:transfer");  
+      this.stockInventoryFrozen = judgeAuth("inventory:frozen");
+      this.stockInventoryUnFrozen = judgeAuth("inventory:unfrozen"); 
+      this.stockInventoryDetail = judgeAuth("stockInventoryDetail:page");
+    }
   },
   mounted() {
     this.storageclass = this.productType;

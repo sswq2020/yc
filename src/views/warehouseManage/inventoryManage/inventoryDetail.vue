@@ -103,7 +103,7 @@
           :data="listData.list"
           :multiple="true"
           :loading="isListDataLoading"
-           layout="total, sizes, prev, pager, next"
+          layout="total, sizes, prev, pager, next"
         >
           <el-table-column
             :align="item.align || 'left'"
@@ -118,13 +118,13 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="操作" fixed="right" width="180px" align="left">
+          <el-table-column label="操作" fixed="right" width="220px" align="left">
             <template slot-scope="scope">
               <el-button
                 type="text"
                 @click="CheckOut(listData.list[scope.$index])"
                 v-if="authCheckout(listData.list[scope.$index])"
-              >出库</el-button>
+              >出库申请</el-button>
               <el-button
                 type="text"
                 @click="CancelCheckout(listData.list[scope.$index])"
@@ -157,6 +157,7 @@
 import { mapState, mapGetters, mapMutations } from "vuex";
 import _ from "lodash";
 import Dict from "@/util/dict.js";
+import { judgeAuth } from "util/util.js";
 import heltable from "@/components/hl_table";
 const defaultForm = {
   incomingId: "",
@@ -236,7 +237,7 @@ const rowAdapter = list => {
 export default {
   name: "inventoryDetail",
   components: {
-    heltable,
+    heltable
   },
   data() {
     return {
@@ -251,7 +252,24 @@ export default {
       /**表格相关*/
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
-      Dict: Dict
+      Dict: Dict,
+      // #region 权限
+      /***出库申请**/
+
+      stockInventoryApply: false,
+      /***过户**/
+
+      transferConfirm: false,
+      /***冻结**/
+
+      stockInventoryFrozen: false,
+      /***解冻**/
+
+      stockInventoryUnFrozen: false,
+      /***取消出库**/
+
+      stockInventoryCancel: false
+      // #endgion
     };
   },
   computed: {
@@ -281,28 +299,31 @@ export default {
       this.getListData();
     },
     authCheckout(item) {
-      if (this.IS_SHIPPER) {
+      if (!this.stockInventoryApply) {
         return false;
       }
       return item.state === Dict.INVENTORY_NORMAL;
     },
     authCancelCheckout(item) {
+      if (!this.stockInventoryCancel) {
+        return false;
+      }
       return item.state === Dict.INVENTORY_WAITCHECKOUT;
     },
     authTransferOwner(item) {
-      if (this.IS_SHIPPER) {
+      if (!this.transferConfirm) {
         return false;
       }
       return item.state === Dict.INVENTORY_NORMAL;
     },
     authUnFrozen(item) {
-      if (this.IS_SHIPPER) {
+      if (!this.stockInventoryUnFrozen) {
         return false;
       }
       return item.state === Dict.INVENTORY_FROZEN;
     },
     authFrozen(item) {
-      if (this.IS_SHIPPER) {
+      if (!this.stockInventoryFrozen) {
         return false;
       }
       return item.state === Dict.INVENTORY_NORMAL;
@@ -431,7 +452,7 @@ export default {
     },
     CancelCheckout(item) {
       let that = this;
-      const {id,stockRemovalId} = item
+      const { id, stockRemovalId } = item;
       that
         .$confirm(`确定要取消出库`, "提示", {
           confirmButtonText: "确定",
@@ -439,7 +460,7 @@ export default {
           type: "warning"
         })
         .then(async () => {
-          const res = await that.$api.cancelcheckout({id,stockRemovalId});
+          const res = await that.$api.cancelcheckout({ id, stockRemovalId });
           switch (res.code) {
             case Dict.SUCCESS:
               that.$messageSuccess(`取消出库成功`);
@@ -450,6 +471,13 @@ export default {
               break;
           }
         });
+    },
+    perm() {
+      this.stockInventoryApply = judgeAuth("ycstore:stockInventory:apply");
+      this.transferConfirm = judgeAuth("inventory:transfer");
+      this.stockInventoryFrozen = judgeAuth("inventory:frozen");
+      this.stockInventoryUnFrozen = judgeAuth("inventory:unfrozen");
+      this.stockInventoryCancel = judgeAuth("ycstore:stockInventory:cancel");
     },
     init() {
       if (!this.findDetail) {
@@ -464,6 +492,11 @@ export default {
   },
   created() {
     this.init();
+  },
+  mounted() {
+    setTimeout(() => {
+      this.perm();
+    }, 20);
   }
 };
 </script>
