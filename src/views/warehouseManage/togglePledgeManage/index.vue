@@ -53,8 +53,8 @@
 
       <el-table-column label="操作" fixed="right" width="120px" align="left">
         <template slot-scope="scope">
-          <el-button type="text"  v-if="listData.list[scope.$index].inventoryAvailableWeight > 0"  @click="GoPledge(listData.list[scope.$index])">质押</el-button>
-          <el-button type="text"  v-if="listData.list[scope.$index].totalPledgeWeight > 0" @click="GoReleasePledge(listData.list[scope.$index])">解押</el-button>
+          <el-button type="text"  v-if="pledgeInfoConfirm && listData.list[scope.$index].inventoryAvailableWeight > 0"  @click="GoPledge(listData.list[scope.$index])">质押</el-button>
+          <el-button type="text"  v-if="releaseinfoConfirm && listData.list[scope.$index].totalPledgeWeight > 0" @click="GoReleasePledge(listData.list[scope.$index])">解押</el-button>
         </template>
       </el-table-column>
 
@@ -65,7 +65,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-// import { judgeAuth } from "util/util.js";
+import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
 import { handleFilterSelf } from "common/util.js";
@@ -130,7 +130,9 @@ export default {
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
-      cargoList:[]
+      cargoList:[],
+      pledgeInfoConfirm:false,
+      releaseinfoConfirm:false
     };
   },
   computed: {
@@ -213,7 +215,10 @@ export default {
       }, 20);
       this.perm();
     },
-    perm() {}
+    perm() {
+      this.pledgeInfoConfirm = judgeAuth("pledgeinfo:pledge");       
+      this.releaseinfoConfirm = judgeAuth("releaseinfo:release");       
+    }
   },
   mounted() {
     this.init();

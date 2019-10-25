@@ -107,7 +107,7 @@
       </el-form>
     </div>
     <div class="bottom">
-        <el-button type="primary" :loading="loading" size="medium" @click="submitForm('form')">确定</el-button>
+        <el-button type="primary" v-if="ycexamine" :loading="loading" size="medium" @click="submitForm('form')">确定</el-button>
         <el-button @click="back" size="medium">取消</el-button>
     </div>
   </div>
@@ -116,6 +116,7 @@
 <script>
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
+import { judgeAuth } from "util/util.js";
 export default {
   name: "checkEnter",
   components: {
@@ -128,7 +129,8 @@ export default {
       form: {
         needShowData: []
       },
-      Dict: Dict
+      Dict: Dict,
+      ycexamine:false
     };
   },
   computed: {
@@ -238,7 +240,15 @@ export default {
           );
         });
       }
+    },
+    perm(){
+      this.ycexamine = judgeAuth("ycstore:stockregister:examine"); 
     }
+  },
+  mounted(){
+    setTimeout(()=>{
+      this.perm()
+    })
   },
   created() {
     this.init();

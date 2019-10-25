@@ -113,7 +113,7 @@
       </el-form>
     </div>
     <div class="bottom">
-        <el-button type="primary" size="medium" :loading="loading" @click="submitForm('form')">确定</el-button>
+        <el-button type="primary" v-if="ycremoval" size="medium" :loading="loading" @click="submitForm('form')">确定</el-button>
         <el-button @click="back" size="medium">取消</el-button>
     </div>
   </div>
@@ -122,6 +122,7 @@
 <script>
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
+import { judgeAuth } from "util/util.js";
 const defualtFormParams = {
   pickUpPassword: null,
   name: null,
@@ -141,7 +142,8 @@ export default {
         needShowData: [],
         ...defualtFormParams
       },
-      Dict: Dict
+      Dict: Dict,
+      ycremoval:false
     };
   },
   computed: {
@@ -269,7 +271,15 @@ export default {
       } else {
         this.getDetail(this.retrieval);
       }
-    }
+    },
+    perm(){
+      this.ycremoval = judgeAuth("ycstore:stockremoval:removal"); 
+    }    
+  },
+    mounted(){
+      setTimeout(()=>{
+        this.perm()
+      })
   },
   created() {
     this.init();

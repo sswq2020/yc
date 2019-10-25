@@ -185,6 +185,7 @@
               type="primary"
               :loading="loading"
               size="medium"
+              v-if="transferConfirm"
               @click="submitForm('form')"
             >确定</el-button>
             <el-button size="medium" @click="back">取消</el-button>
@@ -198,6 +199,7 @@
 <script>
 import { mapState } from "vuex";
 import Dict from "util/dict.js";
+import { judgeAuth } from "util/util.js";
 import { DICT_SELECT_ARR, findLabelByValue,handleFilterSelf } from "common/util";
 const TypeDatas = DICT_SELECT_ARR(Dict.TRANSFER_OWNERSHIP_BUSINESS_TYPE);
 const defualtFormParams = {
@@ -222,7 +224,8 @@ export default {
       typeDatas: TypeDatas,
       max: null, // 从库存明细页跳转过来,会另外带来最大重量的限制
       cargoList:[],
-      Dict: Dict
+      Dict: Dict,
+      transferConfirm:false
     };
   },
   computed: {
@@ -396,8 +399,17 @@ export default {
           this.$messageError(res.mesg);
           break;
       }
-    }
+    },
+    perm(){
+      this.transferConfirm = judgeAuth("inventory:transfer"); 
+    }     
   },
+    mounted(){
+      setTimeout(()=>{
+        this.perm()
+      })
+  },
+
   created() {
     this._getCargoList().then(() => {
       this.init();
