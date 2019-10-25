@@ -7,7 +7,7 @@
           <div class="head">提货信息</div>
           <el-row>
             <el-col :xl="8" :lg="12"  :md="24" :sm="24" :xs="24">
-              <el-form-item label="货主:" prop="cargoName">{{form.cargoName}}</el-form-item>
+              <el-form-item label="货主:" prop="name">{{form.name}}</el-form-item>
             </el-col>
             <el-col :xl="8" :lg="12"  :md="24" :sm="24" :xs="24">
               <el-form-item label="提货人:" prop="consignee">{{form.consignee || "-"}}</el-form-item>
@@ -124,7 +124,7 @@ import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
 const defualtFormParams = {
   pickUpPassword: null,
-  cargoName: null,
+  name: null,
   consignee: null
 };
 
@@ -253,7 +253,7 @@ export default {
             {},
             {
               consignee: res.data[0].consignee,
-              cargoName: res.data[0].cargoName
+              name: res.data[0].name
             },
             { needShowData: res.data }
           );
