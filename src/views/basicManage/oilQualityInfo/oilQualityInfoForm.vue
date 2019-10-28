@@ -1,160 +1,158 @@
 <template>
-  <div class="container single-page">
+  <div class="container single-page" style="display: block;background-color: white;height: 100%;">
     <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
-    <div class="form">
-      <el-form ref="form" :model="form" label-width="120px" size="small">
-        <div class="form-block">
-          <div class="head">商品信息</div>
-          <el-row>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="品类"
-                prop="firstCatalogId"
-                :rules="[{ required: true, message: '必选'  }]"
-              >
-                <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
-                  <el-option
-                    v-for="(item,index) in firstCatalogList"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="牌号"
-                prop="secondCatalogId"
-                :rules="[{ required: true, message:'必选'  }]"
-              >
-                <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
-                  <el-option
-                    v-for="(item,index) in trademarkList"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="排放标准"
-                prop="emissionStandard"
-                :rules="[{ required: true, message: '必选' }]"
-              >
-                <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
-                  <el-option
-                    v-for="(item,index) in HywEmissionStandardList"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="密度(kg/m³)"
-                prop="density"
-                :rules="[{ required: true, message: '必填' }]"
-              >
-                <el-input v-model="form.density"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="产品型号"
-                prop="serialNumber"
-                :rules="[{ required: true, message: '必填' }]"
-              >
-                <el-input v-model="form.serialNumber"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="生产商"
-                prop="manufacturerId"
-                :rules="[{ required: true, message: '必填' }]"
-              >
-                <el-select v-model="form.manufacturerId" placeholder="请选择" size="small">
-                  <el-option
-                    v-for="(item,index) in ManufacturerList"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="产地"
-                prop="addressProvince"
-                :rules="[{ required: true, message: '必填' }]"
-              >
-                <el-select v-model="form.addressProvince" placeholder="请选择" size="small">
-                  <el-option
-                    v-for="(item,index) in ProvinceDataList"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.name"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="商品图片"
-                prop="fileId"
-                :rules="[{ required: true, message: '请正确上传图片' }]"
-              >
-                <div class="imgBox" v-show="form.fileId">
-                  <ImageBox :url="url" :onDelete="uploadDelete"></ImageBox>
-                </div>
-                <div class="imgBox" v-show="!(form.fileId)">
-                  <ImageUpload :onSuccess="(file)=>{this.uploadSuceess(file)}"></ImageUpload>
-                  <div
-                    style="display:inline-block;vertical-align:text-bottom;font-size:12px;color:#333;margin-left:10px;"
-                  >尺寸最大800*800。图片大小小于3M</div>
-                </div>
-                <el-input type="hidden" :value="form.fileId" style="display:inline;height:0"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="form-block">
-          <div class="head">参数信息</div>
-          <div
-            style="overflow-y:auto;overflow-x:hidden"
-            :style="computedHeight"
-            id="parameterList"
-            v-show="form.parameterList.length"
-          >
+    <div class="computedHeight">
+      <div class="form">
+        <el-form ref="form" :model="form" label-width="120px" size="small">
+          <div class="form-block">
+            <div class="head">商品信息</div>
             <el-row>
-              <el-col
-                :xl="8" :lg="12"
-                :md="12"
-                :sm="12"
-                :xs="24"
-                v-for="(item, index) in form.parameterList"
-                :key="item.id"
-              >
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item
-                  :label="item.paraName"
-                  :prop="'parameterList.' + index + '.paraValue'"
-                  :rules="{required: true, message: '必填', trigger: 'blur'}"
+                  label="品类"
+                  prop="firstCatalogId"
+                  :rules="[{ required: true, message: '必选'  }]"
                 >
-                  <el-input v-model="item.paraValue"></el-input>
+                  <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
+                    <el-option
+                      v-for="(item,index) in firstCatalogList"
+                      :key="index"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item
+                  label="牌号"
+                  prop="secondCatalogId"
+                  :rules="[{ required: true, message:'必选'  }]"
+                >
+                  <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
+                    <el-option
+                      v-for="(item,index) in trademarkList"
+                      :key="index"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item
+                  label="排放标准"
+                  prop="emissionStandard"
+                  :rules="[{ required: true, message: '必选' }]"
+                >
+                  <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
+                    <el-option
+                      v-for="(item,index) in HywEmissionStandardList"
+                      :key="index"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item
+                  label="密度(kg/m³)"
+                  prop="density"
+                  :rules="[{ required: true, message: '必填' }]"
+                >
+                  <el-input v-model="form.density"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item
+                  label="产品型号"
+                  prop="serialNumber"
+                  :rules="[{ required: true, message: '必填' }]"
+                >
+                  <el-input v-model="form.serialNumber"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item
+                  label="生产商"
+                  prop="manufacturerId"
+                  :rules="[{ required: true, message: '必填' }]"
+                >
+                  <el-select v-model="form.manufacturerId" placeholder="请选择" size="small">
+                    <el-option
+                      v-for="(item,index) in ManufacturerList"
+                      :key="index"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item
+                  label="产地"
+                  prop="addressProvince"
+                  :rules="[{ required: true, message: '必填' }]"
+                >
+                  <el-select v-model="form.addressProvince" placeholder="请选择" size="small">
+                    <el-option
+                      v-for="(item,index) in ProvinceDataList"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.name"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item
+                  label="商品图片"
+                  prop="fileId"
+                  :rules="[{ required: true, message: '请正确上传图片' }]"
+                >
+                  <div class="imgBox" v-show="form.fileId">
+                    <ImageBox :url="url" :onDelete="uploadDelete"></ImageBox>
+                  </div>
+                  <div class="imgBox" v-show="!(form.fileId)">
+                    <ImageUpload :onSuccess="(file)=>{this.uploadSuceess(file)}"></ImageUpload>
+                    <div
+                      style="display:inline-block;vertical-align:text-bottom;font-size:12px;color:#333;margin-left:10px;"
+                    >尺寸最大800*800。图片大小小于3M</div>
+                  </div>
+                  <el-input type="hidden" :value="form.fileId" style="display:inline;height:0"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
           </div>
-        </div>
-      </el-form>
+          <div class="form-block">
+            <div class="head">参数信息</div>
+            <div id="parameterList" v-show="form.parameterList.length">
+              <el-row>
+                <el-col
+                  :xl="8"
+                  :lg="12"
+                  :md="12"
+                  :sm="12"
+                  :xs="24"
+                  v-for="(item, index) in form.parameterList"
+                  :key="item.id"
+                >
+                  <el-form-item
+                    :label="item.paraName"
+                    :prop="'parameterList.' + index + '.paraValue'"
+                    :rules="{required: true, message: '必填', trigger: 'blur'}"
+                  >
+                    <el-input v-model="item.paraValue"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
+          </div>
+        </el-form>
+      </div>
     </div>
     <div class="bottom">
       <el-button
@@ -169,7 +167,6 @@
 
 <script>
 import _ from "lodash";
-import $ from "jquery";
 import { mapState, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin";
 import { findLabelByValue, findIndexByValue, _toArray_ } from "common/util";
@@ -185,8 +182,6 @@ const ProvinceDataList = areaData.map(item => {
   };
 });
 
-
-
 const defualtFormParams = {
   fileId: null, // 图片上传成功后返回的id
   firstCatalogId: null,
@@ -195,7 +190,7 @@ const defualtFormParams = {
   density: null,
   serialNumber: null,
   manufacturerId: null,
-  addressProvince:null,
+  addressProvince: null,
   parameterList: []
 };
 
@@ -217,8 +212,7 @@ export default {
       ExternalTrigger: false,
       reservaSecondClassId: null,
       ManufacturerList: [],
-      ProvinceDataList,
-      height: 0
+      ProvinceDataList
     };
   },
   computed: {
@@ -227,9 +221,6 @@ export default {
       return this.isEdit
         ? ["基础信息", "编辑油品信息"]
         : ["基础信息", "新增油品信息"];
-    },
-    computedHeight() {
-      return `height:${this.height}px`;
     }
   },
   methods: {
@@ -373,16 +364,9 @@ export default {
           break;
       }
     },
-    setHeight() {
-      this.height =
-        document.body.clientHeight -
-        document.getElementById("parameterList").getBoundingClientRect().top -
-        100;
-    },
     perm() {},
     init() {
       setTimeout(() => {
-        this.setHeight();
         this.perm();
       }, 20);
     }
@@ -406,15 +390,6 @@ export default {
       });
     }
     this.init();
-    $(window).bind(
-      "resize",
-      _.throttle(() => {
-        this.setHeight();
-      }, 400)
-    );
-  },
-  destroyed() {
-    $(window).off("resize");
   },
   created() {},
   beforeDestroy() {
@@ -454,15 +429,6 @@ export default {
         }
       }
     },
-    "form.parameterList": {
-      handler(newV, oldV) {
-        if (newV !== oldV) {
-          setTimeout(() => {
-            this.setHeight();
-          }, 20);
-        }
-      }
-    },
     "form.fileId": {
       handler(newV, oldV) {
         if (newV) {
@@ -477,18 +443,21 @@ export default {
 </script>
 
 <style scoped lang="less">
-.form {
-  padding: 20px 15px 50px 20px;
-  .form-block {
-    padding-bottom: 20px;
-    .head {
-      margin-bottom: 20px;
-      padding-left: 20px;
-      height: 40px;
-      line-height: 40px;
-      font-size: 14px;
-      color: #333333;
-      background: #f6f8fa;
+.computedHeight {
+  height: calc(100% - 101px);
+  overflow: auto;
+  .form {
+    .form-block {
+      padding: 20px;
+      .head {
+        margin-bottom: 20px;
+        padding-left: 20px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        color: #333333;
+        background: #f6f8fa;
+      }
     }
   }
 }
