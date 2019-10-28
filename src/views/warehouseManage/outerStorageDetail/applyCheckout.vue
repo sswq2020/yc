@@ -1,6 +1,7 @@
 <template>
-  <div class="container single-page" style="position:relative">
+  <div class="container single-page" style="display: block;background-color: white;height: 100%;">
     <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
+    <div class="computedHeight">
     <div class="form">
       <el-form ref="form" :model="form" label-width="130px" size="small">
         <div class="form-block">
@@ -169,6 +170,7 @@
           </el-row>
         </div>
       </el-form>
+    </div>
     </div>
     <div class="bottom">
       <el-button type="primary" :loading="loading" size="medium" @click="submitForm('form')">确定</el-button>
@@ -356,10 +358,12 @@ export default {
 </script>
 
 <style scoped lang="less">
+.computedHeight{
+    height: calc(100% - 101px);
+    overflow: auto;
 .form {
-  padding: 20px 15px 50px 20px;
   .form-block {
-    padding-bottom: 20px;
+    padding: 20px;
     .head {
       margin-bottom: 20px;
       padding-left: 20px;
@@ -371,6 +375,9 @@ export default {
     }
   }
 }
+}
+
+
 .bottom {
   position: fixed;
   bottom: 20px;
