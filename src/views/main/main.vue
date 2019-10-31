@@ -1,12 +1,18 @@
 <template>
-	<HletongLayout v-on:loginOut="loginOut" ref="hlLayout"  systemId="180283809692909568">
+	<HletongLayout v-on:loginOut="loginOut" ref="hlLayout"  :systemId="systemId">
 		<router-view></router-view>
 	</HletongLayout>
 </template>
 
 <script>
+   import {SystemId} from "common/env.js"
 	export default {
 		name:'Main',
+				data(){
+			return {
+				systemId:SystemId
+			}
+		},
 		watch: {
 			$route(to,from){
 				// console.log(to);
