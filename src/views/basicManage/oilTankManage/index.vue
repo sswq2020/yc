@@ -5,7 +5,7 @@
     </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
-        <label>交割库名称</label>
+        <label>交割仓库</label>
         <div class="form-control">
           <el-select v-model="listParams.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
@@ -95,7 +95,7 @@ const defaultListParams = {
 const defaulttableHeader = [
   {
     prop: "deliveryStore",
-    label: "交割库名称",
+    label: "交割仓库",
     width: "180"
   },
   {

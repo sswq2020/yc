@@ -20,9 +20,9 @@
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="日期"
+                label="到货日期"
                 prop="registerTime"
-                :rules="[{ required: true, message: '请选择登记日期', trigger: 'blur' }]"
+                :rules="[{ required: true, message: '请选择到货日期', trigger: 'blur' }]"
               >
                 <el-date-picker v-model="form.registerTime" type="date" placeholder="选择日期"></el-date-picker>
               </el-form-item>
@@ -33,7 +33,7 @@
                 prop="userId"
                 :rules="[{ required: true, message: '请输入货主', trigger: 'blur' }]"
               >
-                <el-select v-model="form.userId" placeholder="请选择" size="small">
+                <el-select v-model="form.userId" placeholder="请选择" size="small" v-if="!IS_SHIPPER">
                   <el-option
                     v-for="(item,index) in cargoList"
                     :key="index"
@@ -211,6 +211,14 @@
                 <el-input type="hidden" :value="form.goodsId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
+            <el-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
+              <el-form-item
+                label="备注"
+                prop="remark"
+              >
+                <el-input type="textarea" v-model="form.remark"></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
         </div>
       </el-form>
@@ -224,7 +232,7 @@
 
 <script>
 import _ from "lodash";
-import { mapState, mapMutations } from "vuex";
+import { mapState,mapGetters, mapMutations } from "vuex";
 import { dictMixin } from "common/mixin";
 import {
   _toArray_,
@@ -250,7 +258,8 @@ const defualtFormParams = {
   weightUnit: null, // 数量单位
   numUnit: null, // 重量单位
   productId: null, // 油品信息传递过来的id
-  goodsId: null // 物资信息传递过来的id
+  goodsId: null, // 物资信息传递过来的id
+  remark:null // 备注
 };
 
 export default {
@@ -280,6 +289,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
     ...mapState("inventoryManage", ["productType"])
   },
   methods: {
