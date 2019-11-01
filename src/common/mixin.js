@@ -26,7 +26,7 @@ export const baseMixin = {
             emissionStandardList: [],
             /**四个关联特殊的**/
             deliveryStoreList: [], // 仓库
-            oiltankList: [], // 油罐编号联动仓库,作为子集
+            oiltankList: [], // 储罐编号联动仓库,作为子集
 
             firstCatalogList: [], //品类
             trademarkList: [], // 牌号联动品类,作为子集

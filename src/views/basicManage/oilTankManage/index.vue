@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="form-item">
-        <label>油罐编号</label>
+        <label>储罐编号</label>
         <div class="form-control">
           <el-input v-model="listParams.oilTankCode" placeholder="请输入" size="small"></el-input>
         </div>
@@ -100,12 +100,12 @@ const defaulttableHeader = [
   },
   {
     prop: "oilTankCode",
-    label: "油罐编号",
+    label: "储罐编号",
     width: "180"
   },
   {
     prop: "oilTankVolume",
-    label: "油罐容积(L)",
+    label: "储罐容积(L)",
     width: "180"
   },
   {
@@ -153,7 +153,7 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "油罐管理"], // 面包屑title
+      breadTitle: ["基础信息", "储罐管理"], // 面包屑title
       deliveryStoreList: [],
       changeList:[],
       Dict: Dict,
@@ -244,7 +244,7 @@ export default {
       const serve =
         oilTankStateCode === Dict.STATE_NORMAL ? "disableOilTank" : "activeOilTank";
       that
-        .$confirm(`确定要${operationText}油罐${oilTankCode}?`, "提示", {
+        .$confirm(`确定要${operationText}储罐${oilTankCode}?`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"

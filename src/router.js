@@ -14,7 +14,7 @@ const SpecificationManage = () => import('@/views/basicManage/specificationManag
 const OilQualityInfo = () => import('@/views/basicManage/oilQualityInfo/index')
 /**油品信息新增编辑页面*/
 const OilQualityInfoForm = () => import('@/views/basicManage/oilQualityInfo/oilQualityInfoForm')
-/**油罐管理*/
+/**储罐管理*/
 const OilTankManage = () => import('@/views/basicManage/oilTankManage/index')
 /**牌号管理*/
 const TrademarkManage = () => import('@/views/basicManage/trademarkManage/index')

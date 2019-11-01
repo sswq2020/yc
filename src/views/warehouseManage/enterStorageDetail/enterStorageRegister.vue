@@ -83,9 +83,9 @@
 
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
-                label="油罐编号"
+                label="储罐编号"
                 prop="oilTankId"
-                :rules="[{ required: true, message: '请选择油罐编号', trigger:'blur'}]"
+                :rules="[{ required: true, message: '请选择储罐编号', trigger:'blur'}]"
               >
                 <el-select v-model="form.oilTankId" placeholder="请选择" size="small">
                   <el-option
@@ -243,7 +243,7 @@ const defualtFormParams = {
   incomingType: null, //入库类型
   deliveryStoreId: null, //交易仓库id
   pilePositionId: null, //区桩位id
-  oilTankId: null, // 油罐编号id
+  oilTankId: null, // 储罐编号id
   measuring: null, // 计量方式
   supposedNum: null, // 应收数量
   supposedWeight: null, // 应收重量
@@ -382,7 +382,7 @@ export default {
           break;
       }
     },
-    /**下拉油罐*/
+    /**下拉储罐*/
     async _getOilTankSelect(stockId) {
       const res = await this.$api.getOilTankSelect(stockId);
       switch (res.code) {

@@ -37,7 +37,7 @@
                 :xs="24"
                 v-if="productType===Dict.PRODUCT_OIL"
               >
-                <el-form-item label="油罐编号:" prop="oilTankCode">{{item.oilTankCode}}</el-form-item>
+                <el-form-item label="储罐编号:" prop="oilTankCode">{{item.oilTankCode}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="入库类型:" prop="incomingTypeText">{{item.incomingTypeText||"-"}}</el-form-item>

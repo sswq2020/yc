@@ -11,10 +11,10 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="油罐编号:" prop="oilTankCode" size="small">
+      <el-form-item label="储罐编号:" prop="oilTankCode" size="small">
         <el-input v-model="form.oilTankCode"></el-input>
       </el-form-item>
-      <el-form-item label="油罐容积(L):" prop="oilTankVolume" size="small">
+      <el-form-item label="储罐容积(L):" prop="oilTankVolume" size="small">
         <el-input v-model="form.oilTankVolume"></el-input>
       </el-form-item>
 
@@ -72,11 +72,11 @@ export default {
           { required: true, message: "请选择品类", trigger: "blur" }
         ],
         oilTankCode: [
-          { required: true, message: "请输入油罐编号", trigger: "blur" },
+          { required: true, message: "请输入储罐编号", trigger: "blur" },
           { max: 10, message: "最多10个字符", trigger: "blur" }
         ],
         oilTankVolume:[
-          { required: true, message: "请输入油罐容积", trigger: "blur" },
+          { required: true, message: "请输入储罐容积", trigger: "blur" },
           { max: 10, message: "最多10个字符", trigger: "blur" }            
         ]
       }
@@ -88,7 +88,7 @@ export default {
       return this.list.slice();
     },
     title() {
-      return this.isEdit ? "编辑油罐" : "新增油罐";
+      return this.isEdit ? "编辑储罐" : "新增储罐";
     }
   },
   methods: {

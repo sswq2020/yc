@@ -97,8 +97,8 @@ const InventoryTableList = {
     "measuringTypeEnum": { code: "1", text: "理算" }, // 计量方式
     "wareHousingTypeEnum": { code: "1", text: "过货入库" }, //入库类型
     "incomingDays": 0, //入库天数
-    "oilTankCode": "@PICK('1','2')号罐", // 油罐编号
-    "oilTankId": "@PICK('1','2')号罐", // 油罐Id
+    "oilTankCode": "@PICK('1','2')号罐", // 储罐编号
+    "oilTankId": "@PICK('1','2')号罐", // 储罐Id
     "firstCatalogId": "2", // 品类id
     "firstCatalogName": "汽油",
     "secondCatalogId":"",
@@ -496,7 +496,7 @@ const mockRouterMap = {
         },
         // #endregion 
 
-        // #region  油罐下拉(专门为入库登记设计,与交割库联动)
+        // #region  储罐下拉(专门为入库登记设计,与交割库联动)
         {
             isMock: IS_MOCK,
             methods: 'get',

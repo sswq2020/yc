@@ -64,7 +64,7 @@
                 :xs="24"
                 v-if="productType===Dict.PRODUCT_OIL"
               >
-                <el-form-item label="油罐编号" prop="oilTankCode">
+                <el-form-item label="储罐编号" prop="oilTankCode">
                   <el-input :value="item.oilTankCode" disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>

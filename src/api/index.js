@@ -477,7 +477,7 @@ export default {
     },
     /**
      * @author sswq
-     * @description 油罐下拉(专门为入库登记设计,与交割库联动)
+     * @description 储罐下拉(专门为入库登记设计,与交割库联动)
      * */
     getOilTankSelect(stockId) {
         return fetch(storageURL + '/web/yc/base/oilTank/select', {stockId},'get')
@@ -857,35 +857,35 @@ export default {
     },
     /**
      * @author sswq
-     * @description 油罐列表查询
+     * @description 储罐列表查询
      * */
     getOilTankList(params) {
         return fetch(storageURL + '/web/yc/base/oilTank/listOilTanks', params)
     },
      /**
      * @author sswq
-     * @description 禁用油罐
+     * @description 禁用储罐
      * */
     disableOilTank(params) {
         return fetch(storageURL + '/web/yc/base/oilTank/disable', params)
     },
      /**
      * @author sswq
-     * @description 激活油罐
+     * @description 激活储罐
      * */
     activeOilTank(params) {
         return fetch(storageURL + '/web/yc/base/oilTank/active', params)
     },
     /**
      * @author sswq
-     * @description 新增油罐
+     * @description 新增储罐
      * */
     addOilTank(params) {
         return fetch(storageURL + '/web/yc/base/oilTank/add', params)
     },
     /**
      * @author sswq
-     * @description 编辑油罐
+     * @description 编辑储罐
      * */
     updateOilTank(params) {
         return fetch(storageURL + '/web/yc/base/oilTank/update', params)

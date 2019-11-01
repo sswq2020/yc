@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
-        <label>油罐编号</label>
+        <label>储罐编号</label>
         <div class="form-control">
           <el-select v-model="form.oiltankId" placeholder="请选择" size="small">
             <el-option
@@ -351,7 +351,7 @@ const defaultOILtableHeader = [
   },
   {
     prop: "oilTankCode",
-    label: "油罐编号",
+    label: "储罐编号",
     width: "180"
   },
   {

@@ -23,7 +23,7 @@
           <!--石油参数开始-->
           <el-row v-if="productType===Dict.PRODUCT_OIL">
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="油罐编号:" prop="oilTankCode">{{form.oilTankCode}}</el-form-item>
+              <el-form-item label="储罐编号:" prop="oilTankCode">{{form.oilTankCode}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="品类:" prop="firstCatalogName">{{form.firstCatalogName}}</el-form-item>

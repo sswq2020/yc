@@ -30,7 +30,7 @@
       <th v-if="productType!==Dict.PRODUCT_OIL">产地</th>
       <th v-if="productType!==Dict.PRODUCT_OIL">区桩位</th>
 
-      <th v-if="productType===Dict.PRODUCT_OIL">油罐编号</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">储罐编号</th>
       <th v-if="productType===Dict.PRODUCT_OIL">品类</th>
       <th v-if="productType===Dict.PRODUCT_OIL">牌号</th>
       <th v-if="productType===Dict.PRODUCT_OIL">排放标准</th>
