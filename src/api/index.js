@@ -41,7 +41,7 @@ switch (env) {
         loginUrl = 'http://login.hlet.com';
         storageURL = 'hlyc'
         break;
-    case 'yctest':
+    case 'ywtest':
         baseURL = 'http://10.1.15.110:8445/';
         redirectUrl = 'http://yc.hletown.com';
         loginUrl = 'http://login.hletown.com';

@@ -16,7 +16,7 @@
 		watch: {
 			$route(to,from){
 				// console.log(to);
-				this.$refs.hlLayout.getUrl()
+				// this.$refs.hlLayout.getUrl()
 			}
 		},
 		methods:{
