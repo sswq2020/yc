@@ -189,7 +189,7 @@ let commonRoutes = {
             component: EnterStorageDetail
         }, 
         {
-            path: '/web/yc/storage/stockRegisterDetail/page/register',
+            path: '/web/yc/storage/stockRegister/empty',
             name: 'enterStorageRegister',
             component: EnterStorageRegister
         },        
