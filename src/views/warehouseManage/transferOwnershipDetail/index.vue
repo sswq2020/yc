@@ -17,7 +17,7 @@
       </div>
       <div class="form-item">
         <label>新货主</label>
-        <div class="form-control">
+        <!-- <div class="form-control">
           <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in cargoList"
@@ -26,10 +26,14 @@
               :value="item.value"
             ></el-option>
           </el-select>
+        </div> -->
+        <div class="form-control">
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
         </div>
+
       </div>
       <div class="form-item">
-        <label>仓库</label>
+        <label>交割仓库</label>
         <div class="form-control">
           <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
@@ -209,7 +213,7 @@ import Dict from "util/dict.js";
 import heltable from "components/hl_table";
 import tickets from "components/tickets";
 import transferticket from "./transferticket";
-
+import cargoglass from "components/cargoglass";
 
 const defaultFormData = {
   newShipperId: null,
@@ -238,7 +242,7 @@ const defaultListData = {
 const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
@@ -331,7 +335,7 @@ const defaultSWtableHeader = [
 const defaultOILtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
@@ -448,7 +452,9 @@ export default {
   components: {
     heltable,
     tickets,
-    transferticket
+    transferticket,
+    cargoglass
+    
   },
   data() {
     return {
@@ -486,7 +492,10 @@ export default {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      this.$refs.cargoglass.clearValue();
+      setTimeout(()=>{
+        this.getListData();
+      },20)
     },
     changePage(page) {
       this.listParams.page = page;
@@ -531,6 +540,10 @@ export default {
     print(){
 
     },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.newShipperId = obj.userId;
+    },      
     init() {
       setTimeout(() => {
         this.clearListParams();

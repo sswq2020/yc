@@ -38,7 +38,7 @@
           <div class="head">库存信息</div>
           <el-row>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item label="交易仓库" prop="deliveryStore">
+              <el-form-item label="交割仓库" prop="deliveryStore">
                 <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
@@ -130,12 +130,7 @@
               </el-form-item>
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item label="数量单位" prop="numUnitText">
-                <el-input :value="item.numUnitText" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item label="重量单位" prop="weightUnitText">
+              <el-form-item label="计量单位" prop="weightUnitText">
                 <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
@@ -160,9 +155,12 @@
                 <el-input v-model="item.supposedRemovalWeight"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row v-if="form.needShowData&&form.needShowData.length===1">
-            <el-col :offset="8" :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="备注" prop="remark">
+                {{item.remark}}
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="form.needShowData&&form.needShowData.length===1">
               <span
                 style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;"
               >最大申请重量:{{max}}</span>
@@ -331,10 +329,10 @@ export default {
           res.data = res.data.slice().map(item => {
             return Object.assign({}, item, {
               measuringText:item.measuringTypeEnum && item.measuringTypeEnum.text || "-",
-              numUnitText:item.numUnitTypeEnum && item.numUnitTypeEnum.text || "-",
               weightUnitText:item.weightUnitTypeEnum && item.weightUnitTypeEnum.text || "-",
               supposedRemovalNum: null,
-              supposedRemovalWeight: null
+              supposedRemovalWeight: null,
+              remark:item.remark || null
             });
           });
           this.form = Object.assign(

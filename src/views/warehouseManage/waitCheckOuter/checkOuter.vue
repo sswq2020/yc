@@ -29,7 +29,7 @@
             <div class="head">库存信息</div>
             <el-row>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="交易仓库:" prop="deliveryStore">{{item.deliveryStore}}</el-form-item>
+                <el-form-item label="交割仓库:" prop="deliveryStore">{{item.deliveryStore}}</el-form-item>
               </el-col>
               <!--钢木开始-->
               <el-col
@@ -160,10 +160,7 @@
                 >{{item.supposedRemovalWeight}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="数量单位:" prop="numUnitText">{{item.numUnitText}}</el-form-item>
-              </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="重量单位:" prop="weightUnitText">{{item.weightUnitText}}</el-form-item>
+                <el-form-item label="计量单位:" prop="weightUnitText">{{item.weightUnitText}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="计量方式:" prop="measuringText">{{item.measuringText}}</el-form-item>
@@ -189,6 +186,12 @@
                   <el-input v-model="item.actualRemovalWeight"></el-input>
                 </el-form-item>
               </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item label="备注:" prop="remark">
+                  {{item.remark}}
+                </el-form-item>
+              </el-col>
+
             </el-row>
           </div>
         </el-form>
@@ -329,13 +332,12 @@ export default {
             return Object.assign({}, item, {
               measuringText:
                 (item.measuringTypeEnum && item.measuringTypeEnum.text) || "-",
-              numUnitText:
-                (item.numUnitTypeEnum && item.numUnitTypeEnum.text) || "-",
               weightUnitText:
                 (item.weightUnitTypeEnum && item.weightUnitTypeEnum.text) ||
                 "-",
               actualRemovalNum: null,
-              actualRemovalWeight: null
+              actualRemovalWeight: null,
+              remark:item.remark || null
             });
           });
           this.form = Object.assign(
@@ -346,6 +348,7 @@ export default {
             },
             { needShowData: res.data }
           );
+          console.log(this.form);
           break;
         default:
           this.$messageError(res.mesg);

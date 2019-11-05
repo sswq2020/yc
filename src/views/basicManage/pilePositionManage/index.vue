@@ -116,7 +116,7 @@ export default {
       tableHeader: [ // 表头
         {
           prop: "deliveryStore",
-          label: "仓库",
+          label: "交割仓库",
           width: 180
         },
         {

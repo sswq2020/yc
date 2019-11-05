@@ -3,16 +3,9 @@
     <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
-        <label>货主名称</label>
+        <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in cargoList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
         </div>
         <div class="form-control" v-if="IS_SHIPPER">
           <el-input size="small" :value="username" :disabled="true"></el-input>
@@ -68,8 +61,8 @@ import { mapGetters, mapMutations } from "vuex";
 import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import { handleFilterSelf } from "common/util.js";
 import heltable from "components/hl_table";
+import cargoglass from "components/cargoglass";
 
 const defaultFormData = {
   cargoId: null,
@@ -120,6 +113,7 @@ export default {
   name: "togglePledgeManage",
   components: {
     heltable,
+    cargoglass
   },
   data() {
     return {
@@ -130,7 +124,6 @@ export default {
       listData: { ...defaultListData }, // 返回list的数据结构
       tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
-      cargoList:[],
       pledgeInfoConfirm:false,
       releaseinfoConfirm:false
     };
@@ -156,7 +149,10 @@ export default {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      this.$refs.cargoglass.clearValue();
+      setTimeout(()=>{
+        this.getListData();
+      },20)
     },
     changePage(page) {
       this.listParams.page = page;
@@ -184,18 +180,7 @@ export default {
           this.$messageError(res.mesg);
           break;
       }
-    },
-    async _getCargoList() {
-      const res = await this.$api.getCargoList();
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.cargoList = handleFilterSelf(res.data);
-          break;
-        default:
-          this.$messageError(`${res.mesg}`);
-          break;
-      }
-    },    
+    },   
     GoPledge(item) {
       this.setPledgeData(item);
       this.$router.push({
@@ -208,6 +193,10 @@ export default {
         path: "/web/yc/pledgeinfo/page/releasePledgeManage"
       });
     },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.cargoId = obj.userId;
+    },  
     init() {
       setTimeout(() => {
         this.clearListParams();

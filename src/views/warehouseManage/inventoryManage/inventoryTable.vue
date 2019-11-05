@@ -1,7 +1,7 @@
 <template>
   <div class="container single-page">
     <HletongBreadcrumb :data="breadTitle">
-      <el-button
+      <!-- <el-button
         type="primary"
         plain
         class="text-btn"
@@ -9,7 +9,7 @@
         icon="el-icon-download"
         v-if="stockregister"
         @click="GoEnterRegister"
-      >入库登记</el-button>
+      >入库登记</el-button> -->
       <el-button
         type="primary"
         plain
@@ -68,21 +68,14 @@
       <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.userId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in cargoList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
         </div>
         <div class="form-control" v-if="IS_SHIPPER">
           <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
-        <label>仓库</label>
+        <label>交割仓库</label>
         <div class="form-control">
           <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
@@ -289,6 +282,7 @@ import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
 import transitiondialog from "components/transitiondialog";
+import cargoglass from "components/cargoglass.vue";
 
 const defaultFormData = {
   userId: null,
@@ -317,7 +311,7 @@ const defaultListData = {
 const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
@@ -378,6 +372,11 @@ const defaultSWtableHeader = [
     width: "180"
   },
   {
+    prop: "weightUnitText",
+    label: "计量单位",
+    width: "180"
+  },
+  {
     prop: "incomingTypeText",
     label: "入库类型",
     width: "180"
@@ -397,7 +396,7 @@ const defaultSWtableHeader = [
 const defaultOILtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
@@ -464,6 +463,11 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
+    prop: "weightUnitText",
+    label: "计量单位",
+    width: "180"
+  },
+  {
     prop: "incomingTypeText",
     label: "入库类型",
     width: "180"
@@ -489,12 +493,11 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               piles:row.piles || "-",
-              numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
-              totalNumInventoryText:`${row.totalNumInventory ? row.totalNumInventory : "-"}${(row.numUnitTypeEnum&&row.totalNumInventory) ? row.numUnitTypeEnum.text : ""}`,
-              totalWeightInventoryText:`${row.totalWeightInventory}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              totalNumInventoryText:`${row.totalNumInventory || "-"}`,
+              totalWeightInventoryText:`${row.totalWeightInventory || "-"}`,
             }
         })
     }
@@ -506,7 +509,8 @@ export default {
   mixins: [baseMixin, dictMixin],
   components: {
     heltable,
-    transitiondialog
+    transitiondialog,
+    cargoglass
   },
   data() {
     return {
@@ -640,7 +644,10 @@ export default {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      this.$refs.cargoglass.clearValue();
+      setTimeout(()=>{
+        this.getListData();
+      },20)
     },
     changePage(page) {
       this.listParams.page = page;
@@ -724,7 +731,7 @@ export default {
     GoEnterRegister() {
       this.setProductType(this.storageclass);
       this.$router.push({
-        path: "/web/yc/storage/stockRegisterDetail/page/register"
+        path: "/web/yc/storage/stockRegister/empty"
       });
     },
     detail(item) {
@@ -733,6 +740,10 @@ export default {
       this.$router.push({
         path: "/web/yc/storage/stockInventory/page/inventoryDetail"
       });
+    },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.userId = obj.userId;
     },
     init() {
       setTimeout(() => {

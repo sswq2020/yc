@@ -28,21 +28,14 @@
       <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.userId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in cargoList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
         </div>
         <div class="form-control" v-if="IS_SHIPPER">
           <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
-        <label>仓库</label>
+        <label>交割仓库</label>
         <div class="form-control">
           <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
@@ -214,6 +207,7 @@ import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
 import transitiondialog from "components/transitiondialog";
+import cargoglass from "components/cargoglass.vue";
 
 const defaultFormData = {
   userId: null,
@@ -242,7 +236,7 @@ const defaultListData = {
 const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
@@ -280,32 +274,27 @@ const defaultSWtableHeader = [
     label: "应收数量",
     width: "180"
   },
-  // {
-  //   prop: "numUnitText",
-  //   label: "数量单位",
-  //   width: "180"
-  // },
   {
     prop: "supposedWeightText",
     label: "应收重量",
     width: "180"
   },
-  // {
-  //   prop: "weightUnitText",
-  //   label: "重量单位",
-  //   width: "180"
-  // },
   {
     prop: "measuringText",
     label: "计量方式",
     width: "180"
-  }
+  },
+  {
+    prop: "weightUnitText",
+    label: "计量单位",
+    width: "180"
+  },  
 ];
 
 const defaultOILtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
@@ -364,7 +353,12 @@ const defaultOILtableHeader = [
     prop: "measuringText",
     label: "计量方式",
     width: "180"
-  }
+  },
+  {
+    prop: "weightUnitText",
+    label: "计量单位",
+    width: "180"
+  }  
 ];
 const rowAdapter = (list) => {
     if (!list) {
@@ -374,11 +368,10 @@ const rowAdapter = (list) => {
         list = list.map((row) => {
             return row = { 
               ...row,
-              numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
-              supposedNumText:`${row.supposedNum || "-"}${(row.numUnitTypeEnum&&row.supposedNum)&&row.numUnitTypeEnum.text || ""}`,
-              supposedWeightText:`${row.supposedWeight}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              supposedNumText:`${row.supposedNum || "-"}`,
+              supposedWeightText:`${row.supposedWeight || "-"}`,
             }
         })
     }
@@ -390,7 +383,8 @@ export default {
   mixins: [baseMixin, dictMixin],
   components: {
     heltable,
-    transitiondialog
+    transitiondialog,
+    cargoglass
   },
   data() {
     return {
@@ -455,7 +449,10 @@ export default {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      this.$refs.cargoglass.clearValue();
+      setTimeout(()=>{
+        this.getListData();
+      },20)
     },
     changePage(page) {
       this.listParams.page = page;
@@ -486,6 +483,10 @@ export default {
       this.$router.push({
         path: "/web/yc/storage/stockRegister/page/checkEnter"
       });
+    },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.userId = obj.userId;
     },
     init() {
       setTimeout(() => {

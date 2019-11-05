@@ -3,16 +3,9 @@
     <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
-        <label>货主名称</label>
+        <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in cargoList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
         </div>
         <div class="form-control" v-if="IS_SHIPPER">
           <el-input size="small" :value="username" :disabled="true"></el-input>
@@ -92,12 +85,14 @@
 <script>
 // import NP from "number-precision";
 import { mapGetters } from "vuex";
-import { requestParamsByTimeRange, handleFilterSelf } from "common/util.js";
+import { requestParamsByTimeRange } from "common/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
 import tickets from "components/tickets";
+import cargoglass from "components/cargoglass";
 import pledgeticket from "./pledgeticket";
+
 
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
 const EXTRA_PARAMS_KEYS = ["pledgeStartTime", "pledgeEndTime"];
@@ -165,7 +160,8 @@ export default {
   components: {
     heltable,
     tickets,
-    pledgeticket
+    pledgeticket,
+    cargoglass
   },
   data() {
     return {
@@ -178,8 +174,7 @@ export default {
       showOverflowTooltip: true,
       visible: false,
       contentId: "customers",
-      bill: [],
-      cargoList:[]
+      bill: []
     };
   },
   computed: {
@@ -202,7 +197,10 @@ export default {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      this.$refs.cargoglass.clearValue();
+      setTimeout(()=>{
+        this.getListData();
+      },20)
     },
     changePage(page) {
       this.listParams.page = page;
@@ -242,17 +240,10 @@ export default {
           break;
       }
     },
-    async _getCargoList() {
-      const res = await this.$api.getCargoList();
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.cargoList = handleFilterSelf(res.data);
-          break;
-        default:
-          this.$messageError(`${res.mesg}`);
-          break;
-      }
-    },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.cargoId = obj.userId;
+    },    
     init() {
       setTimeout(() => {
         this.clearListParams();
@@ -264,7 +255,6 @@ export default {
   },
   mounted() {
     this.init();
-    this._getCargoList();
   }
 };
 </script>

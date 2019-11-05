@@ -80,10 +80,10 @@
               <el-form-item label="计量方式:" prop="measuringText">{{form.measuringText}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="数量单位:" prop="numUnitText">{{form.numUnitText}}</el-form-item>
+              <el-form-item label="计量单位:" prop="weightUnitText">{{form.weightUnitText}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="重量单位:" prop="weightUnitText">{{form.weightUnitText}}</el-form-item>
+              <el-form-item label="备注:" prop="remark">{{form.remark}}</el-form-item>
             </el-col>
           </el-row>
         </el-form>
@@ -173,8 +173,8 @@ const defaultForm = {
   totalNumInventory: "",
   totalWeightInventory: "",
   measuringText: "",
-  numUnitText: "",
   weightUnitText: "",
+  remark: "",
 
   /**石油类型的*/
   oilTankCode: "",
@@ -225,9 +225,7 @@ const rowAdapter = list => {
       return (row = {
         ...row,
         stateText: Dict.INVENTORY_STATUS[row.state],
-        numUnitText: (row.numUnitTypeEnum && row.numUnitTypeEnum.text) || "-",
-        weightUnitText:
-          (row.weightUnitTypeEnum && row.weightUnitTypeEnum.text) || "-"
+        weightUnitText:(row.weightUnitTypeEnum && row.weightUnitTypeEnum.text) || "-"
       });
     });
   }

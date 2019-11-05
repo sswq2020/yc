@@ -18,21 +18,14 @@
       <div class="form-item">
         <label>货主</label>
         <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.userId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in cargoList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
         </div>
         <div class="form-control" v-if="IS_SHIPPER">
           <el-input size="small" :value="username" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
-        <label>仓库</label>
+        <label>交割仓库</label>
         <div class="form-control">
           <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
@@ -109,6 +102,7 @@ import { requestParamsByTimeRangeOrigin } from "common/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
 import heltable from "components/hl_table";
+import cargoglass from "components/cargoglass.vue";
 
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
 const EXTRA_PARAMS_KEYS = ["start", "end"];
@@ -132,7 +126,7 @@ const defaultListData = {
 const defaulttableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
@@ -179,6 +173,7 @@ export default {
   mixins: [baseMixin],
   components: {
     heltable,
+    cargoglass
   },
   data() {
     return {
@@ -234,7 +229,10 @@ export default {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      this.$refs.cargoglass.clearValue();
+      setTimeout(()=>{
+        this.getListData();
+      },20)
     },
     changePage(page) {
       this.listParams.page = page;
@@ -271,6 +269,10 @@ export default {
         path: "/web/yc/storage/stockRemoval/page/CheckOuter"
       });
     },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.userId = obj.userId;
+    },    
     init() {
       setTimeout(() => {
         this.clearListParams();

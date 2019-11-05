@@ -34,14 +34,16 @@
                   prop="newShipperId"
                   :rules="{ required: true, message: '请选择新货主'}"
                 >
-                  <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
+                <cargoglass @cargoSelect="acceptcargo"></cargoglass>
+                <el-input  type="hidden" :value="form.newShipperId" style="display:inline;height:0"></el-input>
+                  <!-- <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
                     <el-option
                       v-for="(item,index) in cargoList"
                       :key="index"
                       :label="item.label"
                       :value="item.value"
                     ></el-option>
-                  </el-select>
+                  </el-select> -->
                 </el-form-item>
               </el-col>
             </el-row>
@@ -232,12 +234,7 @@
                 </el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="数量单位" prop="numUnitText">
-                  <el-input :value="item.numUnitText" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="重量单位" prop="weightUnitText">
+                <el-form-item label="计量单位" prop="weightUnitText">
                   <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
@@ -262,9 +259,12 @@
                   <el-input v-model="item.transferWeights"></el-input>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row v-if="form.needShowData&&form.needShowData.length===1">
-              <el-col :offset="8" :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item label="备注" prop="remark">
+                  {{item.remark}}
+                </el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="form.needShowData&&form.needShowData.length===1">
                 <span
                   style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;"
                 >最大过户量:{{max}}</span>
@@ -296,6 +296,7 @@ import {
   findLabelByValue,
   handleFilterSelf
 } from "common/util";
+import cargoglass from "components/cargoglass.vue";
 const TypeDatas = DICT_SELECT_ARR(Dict.TRANSFER_OWNERSHIP_BUSINESS_TYPE);
 const defualtFormParams = {
   transferType: null,
@@ -305,7 +306,9 @@ const defualtFormParams = {
 
 export default {
   name: "transferOwnershipManage",
-  components: {},
+  components: {
+    cargoglass
+  },
   data() {
     return {
       loading: false,
@@ -471,13 +474,12 @@ export default {
             return Object.assign({}, item, {
               measuringText:
                 (item.measuringTypeEnum && item.measuringTypeEnum.text) || "-",
-              numUnitText:
-                (item.numUnitTypeEnum && item.numUnitTypeEnum.text) || "-",
               weightUnitText:
                 (item.weightUnitTypeEnum && item.weightUnitTypeEnum.text) ||
                 "-",
               transferNums: null,
-              transferWeights: null
+              transferWeights: null,
+              remark:item.remark || null
             });
           });
           this.form = Object.assign(
@@ -494,6 +496,10 @@ export default {
           break;
       }
     },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.newShipperId = obj.userId;
+    },    
     perm() {
       this.transferConfirm = judgeAuth("inventory:transfer");
     }

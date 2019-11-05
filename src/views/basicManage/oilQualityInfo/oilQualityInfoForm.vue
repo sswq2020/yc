@@ -140,11 +140,15 @@
                   v-for="(item, index) in form.parameterList"
                   :key="item.id"
                 >
-                  <el-form-item
+                  <!-- <el-form-item
                     :label="item.paraName"
                     :prop="'parameterList.' + index + '.paraValue'"
                     :rules="{required: true, message: '必填', trigger: 'blur'}"
-                  >
+                  > -->
+                  <el-form-item
+                    :label="item.paraName"
+                    :prop="'parameterList.' + index + '.paraValue'"
+                  >                
                     <el-input v-model="item.paraValue"></el-input>
                   </el-form-item>
                 </el-col>

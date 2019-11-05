@@ -37,7 +37,19 @@
                 :xs="24"
                 v-if="productType===Dict.PRODUCT_OIL"
               >
-                <el-form-item label="储罐编号:" prop="oilTankCode">{{item.oilTankCode}}</el-form-item>
+                <el-form-item label="储罐号" :prop="'needShowData.' + index + '.oilTankCode'">
+                    <!-- <el-input v-model="item.oilTankCode"></el-input> -->
+
+                    <el-select v-model="item.oilTankId" placeholder="请选择" size="small">
+                      <el-option
+                        v-for="(item,index) in oiltankList"
+                        :key="index"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
+
+                </el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="入库类型:" prop="incomingTypeText">{{item.incomingTypeText||"-"}}</el-form-item>
@@ -137,7 +149,10 @@
                 :xs="24"
                 v-if="productType===Dict.PRODUCT_OIL"
               >
-                <el-form-item label="密度(kg/m³):" prop="density">{{item.density}}</el-form-item>
+                <el-form-item label="密度(kg/m³):" :prop="'needShowData.' + index + '.density'"
+                :rules="[{pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,3})?$/,message: '正数可以包含3位小数'}]">
+                    <el-input v-model="item.density"></el-input>
+                </el-form-item>
               </el-col>
               <el-col
                 :xl="8"
@@ -167,14 +182,14 @@
                 <el-form-item label="应收重量:" prop="supposedWeight">{{item.supposedWeight}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="数量单位:" prop="numUnitText">{{item.numUnitText}}</el-form-item>
-              </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="重量单位:" prop="weightUnitText">{{item.weightUnitText}}</el-form-item>
+                <el-form-item label="计量单位:" prop="weightUnitText">{{item.weightUnitText}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="计量方式:" prop="measuringText">{{item.measuringText}}</el-form-item>
               </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item label="备注:" prop="remark">{{item.remark}}</el-form-item>
+              </el-col>              
             </el-row>
             <div class="head">验收信息</div>
             <el-row>
@@ -219,6 +234,12 @@
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
 import { judgeAuth } from "util/util.js";
+import {
+  _toArray_,
+  // handleFilterSelf,
+  findLabelByValue,
+  // DICT_SELECT_ARR
+} from "common/util";
 export default {
   name: "checkEnter",
   components: {},
@@ -242,6 +263,18 @@ export default {
       this.$router.push({
         path: "/web/yc/storage/stockRegister/page"
       });
+    },
+    /**下拉储罐*/
+    async _getOilTankSelect(stockId) {
+      const res = await this.$api.getOilTankSelect(stockId);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.oiltankList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
     },
     validateweight(weight, max = null) {
       return [
@@ -284,10 +317,12 @@ export default {
       ];
     },
     _serialize_() {
+      let that = this;
       const params = this.form.needShowData.map(item => {
         return Object.assign(
           {},
           item,
+          { oilTankCode:findLabelByValue(that.oiltankList,item.oilTankId)},
           { productTypeCode: this.productType },
           { weightUnitTypeEnum: null },
           { numUnitTypeEnum: null },
@@ -325,21 +360,22 @@ export default {
       if (this.inspection.length === 0) {
         this.back();
       } else {
-        this.form.needShowData = this.inspection.slice().map(item => {
-          return Object.assign(
-            {},
-            item,
-            { num: null, weight: null },
-            {
-              measuringText:
-                (item.measuringTypeEnum && item.measuringTypeEnum.text) || "-",
-              numUnitText:
-                (item.numUnitTypeEnum && item.numUnitTypeEnum.text) || "-",
-              weightUnitText:
-                (item.weightUnitTypeEnum && item.weightUnitTypeEnum.text) || "-"
-            }
-          );
-        });
+        const stockId = this.inspection[0].deliveryStoreId;
+        this._getOilTankSelect(stockId).then(()=>{
+          this.form.needShowData = this.inspection.slice().map(item => {
+            return Object.assign(
+              {},
+              item,
+              { num: null, weight: null,remark:item.remark || null },
+              {
+                measuringText:
+                  (item.measuringTypeEnum && item.measuringTypeEnum.text) || "-",
+                weightUnitText:
+                  (item.weightUnitTypeEnum && item.weightUnitTypeEnum.text) || "-"
+              }
+            );
+          });
+        })
       }
     },
     perm() {

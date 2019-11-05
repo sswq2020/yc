@@ -28,19 +28,10 @@
               </el-form-item>
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="货主"
-                prop="userId"
-                :rules="[{ required: true, message: '请输入货主', trigger: 'blur' }]"
-              >
-                <el-select v-model="form.userId" placeholder="请选择" size="small" v-if="!IS_SHIPPER">
-                  <el-option
-                    v-for="(item,index) in cargoList"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
+              <el-form-item label="货主" prop="userId" :rules="validateShipper(IS_SHIPPER)">
+                <el-input v-if="IS_SHIPPER" size="small" :value="username" :disabled="true"></el-input>
+                <cargoglass v-if="!IS_SHIPPER" @cargoSelect="acceptcargo"></cargoglass>
+                <el-input v-if="!IS_SHIPPER" type="hidden" :value="form.userId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -50,7 +41,7 @@
           <el-row>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="交易仓库"
+                label="交割仓库"
                 prop="deliveryStoreId"
                 :rules="[{ required: true, message: '请选择交易仓库', trigger:'blur'}]"
               >
@@ -127,7 +118,7 @@
               >
                 <el-select v-model="form.measuring" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in YcMeasuringTypeList"
+                    v-for="(item,index) in MeasuringTypeList"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
@@ -147,13 +138,13 @@
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="数量单位"
-                prop="numUnit"
-                :rules="[{ required: true, message: '请选择数量单位', trigger:'blur'}]"
+                label="计量单位"
+                prop="weightUnit"
+                :rules="[{ required: true, message: '请选择计量单位', trigger:'blur'}]"
               >
-                <el-select v-model="form.numUnit" placeholder="请选择" size="small">
+                <el-select v-model="form.weightUnit" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in YcNumUnitList"
+                    v-for="(item,index) in WeightUnitList"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
@@ -174,23 +165,7 @@
               >
                 <el-input v-model="form.supposedWeight"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="重量单位"
-                prop="weightUnit"
-                :rules="[{ required: true, message: '请选择重量单位', trigger:'blur'}]"
-              >
-                <el-select v-model="form.weightUnit" placeholder="请选择" size="small">
-                  <el-option
-                    v-for="(item,index) in YcWeightUnitList"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>            
+            </el-col>       
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
               <el-form-item
                 label="油品信息"
@@ -212,10 +187,7 @@
               </el-form-item>
             </el-col>
             <el-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="备注"
-                prop="remark"
-              >
+              <el-form-item label="备注" prop="remark">
                 <el-input type="textarea" v-model="form.remark"></el-input>
               </el-form-item>
             </el-col>
@@ -232,19 +204,22 @@
 
 <script>
 import _ from "lodash";
-import { mapState,mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import { dictMixin } from "common/mixin";
 import {
   _toArray_,
-  handleFilterSelf,
+  // handleFilterSelf,
   findLabelByValue,
   DICT_SELECT_ARR
 } from "common/util";
 import Dict from "util/dict";
 import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
 import commodityglass from "views/basicManage/commodityManage/commodityglass.vue";
+import cargoglass from "components/cargoglass.vue";
 
 const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
+const WeightUnitList = DICT_SELECT_ARR(Dict.MEASURE_UNIT);
+const MeasuringTypeList = DICT_SELECT_ARR(Dict.MEASURE_TYPE);
 const defualtFormParams = {
   registerTime: new Date(), // 登记日期
   userId: null, // 货主id
@@ -255,11 +230,10 @@ const defualtFormParams = {
   measuring: null, // 计量方式
   supposedNum: null, // 应收数量
   supposedWeight: null, // 应收重量
-  weightUnit: null, // 数量单位
-  numUnit: null, // 重量单位
+  weightUnit: null, // 计量单位
   productId: null, // 油品信息传递过来的id
   goodsId: null, // 物资信息传递过来的id
-  remark:null // 备注
+  remark: null // 备注
 };
 
 export default {
@@ -267,12 +241,12 @@ export default {
   mixins: [dictMixin],
   components: {
     oilQualityInfoglass,
-    commodityglass
+    commodityglass,
+    cargoglass
   },
   data() {
     return {
       /*各个下拉列表*/
-      cargoList: [],
       deliveryStoreList: [],
       oiltankList: [],
       pilePositionList: [],
@@ -285,7 +259,10 @@ export default {
       commodityObj: null,
       /**商品大类数据源*/
       typeProductDatas: TypeProductDatas,
-      storageclass: null
+      storageclass: null,
+      /**计量单位数据源*/
+      WeightUnitList,
+      MeasuringTypeList
     };
   },
   computed: {
@@ -314,6 +291,9 @@ export default {
       });
     },
     _filter() {
+      if (this.IS_SHIPPER) {
+        this.form.userId = this.userId;
+      }
       const params = _.clone(
         Object.assign(
           {},
@@ -349,18 +329,6 @@ export default {
           break;
         default:
           this.$messageError(res.mesg);
-          break;
-      }
-    },
-    /**下拉货主*/
-    async _getCargoList() {
-      const res = await this.$api.getCargoList();
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.cargoList = handleFilterSelf(res.data);
-          break;
-        default:
-          this.$messageError(`${res.mesg}`);
           break;
       }
     },
@@ -413,14 +381,32 @@ export default {
     acceptCommodity(obj) {
       this.form.goodsId = obj.id;
       this.commodityObj = obj;
+    },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.userId = obj.userId;
+    },
+    validateShipper(IS_SHIPPER) {
+      if (IS_SHIPPER) {
+        return [
+          {
+            validator(rule, value, callback) {
+                callback();
+              }
+            }          
+        ];
+      }else {
+        return  [
+        {
+          required: true,
+          message: "货主必填"
+        }]
+      }
     }
   },
   created() {
-    let _this = this;
     this.storageclass = this.productType;
-    this._getCargoList().then(() => {
-      _this._getdeliveryStores();
-    });
+    this._getdeliveryStores();
   },
   watch: {
     storageclass(newV, oldV) {
@@ -473,17 +459,17 @@ export default {
   }
 }
 .bottom {
-    position: fixed;
-    width: 86%;
-    bottom: 20px;
-    height: 50px;
-    background-color: #f6f8fa;
+  position: fixed;
+  width: 86%;
+  bottom: 20px;
+  height: 50px;
+  background-color: #f6f8fa;
+  margin-left: 20px;
+  box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+  .el-button {
+    min-width: 64px;
     margin-left: 20px;
-    box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
-    .el-button {
-      min-width: 64px;
-      margin-left: 20px;
-      margin-top: 10px;
-    }
+    margin-top: 10px;
+  }
 }
 </style>

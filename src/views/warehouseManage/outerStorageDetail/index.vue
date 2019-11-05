@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="form-item">
-        <label>仓库</label>
+        <label>交割仓库</label>
         <div class="form-control">
           <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
@@ -241,7 +241,7 @@ const defaultListData = {
 const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
@@ -343,7 +343,7 @@ const defaultSWtableHeader = [
 const defaultOILtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
