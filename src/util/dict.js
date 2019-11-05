@@ -121,9 +121,30 @@ DICT.USERTYPE = {
     [DICT.VIP_USER]:'会员用户'
 }
 
+/***吨***/
+DICT.TON = "00";
+/***立方***/
+DICT.CUTE = "01";
+/***计量单位***/
+DICT.MEASURE_UNIT ={
+  [DICT.TON]:"吨",
+  [DICT.CUTE]:"立方",
+}
 
-
-
-
+/***磅计***/
+DICT.POUND = "0";
+/***检尺***/
+DICT.CULL = "1";
+/***体积流量计***/
+DICT.VOLUME_FLOWMETER = "2";
+/***质量流量计***/
+DICT.MASS_FLOWMETER = "3";
+/***计量方式***/
+DICT.MEASURE_TYPE ={
+  [DICT.POUND]:"磅计",
+  [DICT.CULL]:"检尺",
+  [DICT.VOLUME_FLOWMETER]:"体积流量计",
+  [DICT.MASS_FLOWMETER]:"质量流量计",
+}
 
 export default DICT;
