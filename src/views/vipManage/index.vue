@@ -43,7 +43,7 @@
       :loading="isListDataLoading"
     >
       <el-table-column
-        align="center"
+        :align="item.align ||'left' "
         :width="item.width || null"
         :prop="item.prop"
         :label="item.label"
@@ -121,7 +121,8 @@ const defaulttableHeader = [
   },
   {
     prop: "grantTime",
-    label: "授权日期"
+    label: "授权日期",
+    align:"right"
   },
   {
     prop: "stateText",
