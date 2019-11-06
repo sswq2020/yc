@@ -191,7 +191,9 @@ export default {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.$refs.cargoglass.clearValue();
+      if(this.$refs.cargoglass) {
+        this.$refs.cargoglass.clearValue();
+      }
       setTimeout(()=>{
         this.getListData();
       },20)
@@ -250,7 +252,6 @@ export default {
   },
   mounted() {
     this.init();
-    this._getCargoList();
   }
 };
 </script>

@@ -196,8 +196,8 @@
       </el-form>
     </div>
     <div class="bottom">
-      <el-button type="primary" size="medium" :loading="loading" @click="submitForm('form')">确定</el-button>
-      <el-button size="medium" @click="back">取消</el-button>
+      <el-button type="primary" size="small" :loading="loading" @click="submitForm('form')">确定</el-button>
+      <el-button size="small" @click="back">取消</el-button>
     </div>
   </div>
 </template>
@@ -444,9 +444,8 @@ export default {
 
 <style scoped lang="less">
 .form {
-  padding: 20px 15px 50px 20px;
   .form-block {
-    padding-bottom: 20px;
+    padding: 20px;
     .head {
       margin-bottom: 20px;
       padding-left: 20px;
@@ -470,6 +469,9 @@ export default {
     min-width: 64px;
     margin-left: 20px;
     margin-top: 10px;
+    &:last-child{
+      margin-left: 16px;
+    }
   }
 }
 </style>

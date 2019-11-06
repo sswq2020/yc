@@ -201,11 +201,11 @@
       <el-button
         type="primary"
         v-if="ycremoval"
-        size="medium"
+        size="small"
         :loading="loading"
         @click="submitForm('form')"
       >确定</el-button>
-      <el-button @click="back" size="medium">取消</el-button>
+      <el-button @click="back" size="small">取消</el-button>
     </div>
   </div>
 </template>
@@ -408,6 +408,9 @@ export default {
     min-width: 64px;
     margin-left: 20px;
     margin-top: 10px;
+    &:last-child{
+      margin-left: 16px;
+    }
   }
 }
 </style>

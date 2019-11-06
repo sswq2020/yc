@@ -161,7 +161,7 @@
     <div class="bottom">
       <el-button
         type="primary"
-        size="medium"
+        size="small"
         :loading="loading"
         @click="submitForm('form')"
       >{{isEdit ? "更新" : "新增"}}</el-button>

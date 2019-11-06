@@ -86,8 +86,8 @@
       </el-form>
     </div>
     <div class="bottom">
-      <el-button type="primary" size="medium" :loading="loading" @click="submitForm">确定</el-button>
-      <el-button size="medium" @click="back">取消</el-button>
+      <el-button type="primary" size="small" :loading="loading" @click="submitForm">确定</el-button>
+      <el-button size="small" @click="back">取消</el-button>
     </div>
     <agreedialog
       :cancleCb="()=>{this.setAgreeDialogVisible(false)}"
@@ -315,6 +315,9 @@ export default {
     min-width: 64px;
     margin-left: 20px;
     margin-top: 10px;
+    &:last-child{
+      margin-left: 16px;
+    }
   }
 }
 </style>

@@ -36,14 +36,6 @@
                 >
                 <cargoglass @cargoSelect="acceptcargo"></cargoglass>
                 <el-input  type="hidden" :value="form.newShipperId" style="display:inline;height:0"></el-input>
-                  <!-- <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
-                    <el-option
-                      v-for="(item,index) in cargoList"
-                      :key="index"
-                      :label="item.label"
-                      :value="item.value"
-                    ></el-option>
-                  </el-select> -->
                 </el-form-item>
               </el-col>
             </el-row>
@@ -278,11 +270,11 @@
         <el-button
           type="primary"
           :loading="loading"
-          size="medium"
+          size="small"
           v-if="transferConfirm"
           @click="submitForm('form')"
         >确定</el-button>
-        <el-button size="medium" @click="back">取消</el-button>
+        <el-button size="small" @click="back">取消</el-button>
     </div>
   </div>
 </template>
@@ -446,17 +438,6 @@ export default {
           break;
       }
     },
-    async _getCargoList() {
-      const res = await this.$api.getCargoList();
-      switch (res.code) {
-        case Dict.SUCCESS:
-          this.cargoList = handleFilterSelf(res.data);
-          break;
-        default:
-          this.$messageError(`${res.mesg}`);
-          break;
-      }
-    },
     async init() {
       if (this.transferOwnership.length === 0) {
         this.back();
@@ -511,9 +492,7 @@ export default {
   },
 
   created() {
-    this._getCargoList().then(() => {
-      this.init();
-    });
+    this.init();
   }
 };
 </script>
@@ -524,7 +503,7 @@ export default {
   overflow: auto;
   .form {
     .form-block {
-      padding-bottom: 20px;
+      padding: 20px;
       .head {
         margin-bottom: 20px;
         padding-left: 20px;
@@ -549,6 +528,9 @@ export default {
     min-width: 64px;
     margin-left: 20px;
     margin-top: 10px;
+    &:last-child{
+      margin-left: 16px;
+    }
   }
 }
 </style>
