@@ -29,8 +29,8 @@ const store = {
       [type.SET_USER_NAME](state,payload){
         state.username = payload
       },
-      [type.SET_YC_PRODUCT_TYPE](state,payload) {
-        state.productTypeCodeData = payload;
+      [type.SET_REAL_NAME](state,payload) {
+        state.realname = payload;
       },    
       [type.SET_YC_DELIVERY_STORE](state,payload) {
         state.deliveryStoreTypeData = payload;
