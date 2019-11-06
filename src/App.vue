@@ -12,15 +12,17 @@ export default {
     ...mapState("app",["role", "userId", "username"])    
   },
   methods: {
-    ...mapMutations("app",["SET_ROLE","SET_USER_ID","SET_USER_NAME"]),
+    ...mapMutations("app",["SET_ROLE","SET_USER_ID","SET_USER_NAME","SET_REAL_NAME"]),
     async getInfo() {
       const res = await this.$api.getUser();
       if (res.code === "000000") {
         const userId = res.data.userId;
         const username = res.data.username;
+        const realname = res.data.realname || "";
         const role = res.data.userType;
         this.SET_USER_ID(userId);
         this.SET_USER_NAME(username);
+        this.SET_REAL_NAME(realname);
         this.SET_ROLE(role);
         // const response = await this.$api.getUserRole(userId);
         // if(response.code === "000000") {

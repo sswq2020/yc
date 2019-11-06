@@ -271,7 +271,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    ...mapGetters("app", ["role", "userId", "realname", "IS_SHIPPER"]),
     ...mapState("inventoryManage", ["findDetail", "productType"])
   },
   methods: {

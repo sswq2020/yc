@@ -7,12 +7,14 @@ const store = {
         role:null,
         userId:null,
         username:null,
+        realname:null,
         productTypeCodeData: {}, // 品名大类
         deliveryStoreTypeData: {}, // 交割库类型
     },
     getters: {
       userId: state => state.userId,
       username: state => state.username,
+      realname: state => state.realname,
       IS_SHIPPER: state => state.role === Dict.VIP_USER, // 判断是否是货主
       productTypeCodeData: state => state.productTypeCodeData, 
       deliveryStoreTypeData: state => state.deliveryStoreTypeData, 

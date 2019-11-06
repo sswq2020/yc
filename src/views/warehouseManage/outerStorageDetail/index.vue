@@ -28,7 +28,7 @@
           </el-select>
         </div>
         <div class="form-control" v-if="IS_SHIPPER">
-          <el-input size="small" :value="username" :disabled="true"></el-input>
+          <el-input size="small" :value="realname" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -505,7 +505,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    ...mapGetters("app", ["role", "userId", "realname", "IS_SHIPPER"]),
     /**根据storageclass改变tableHeader*/
     tableHeader() {
       return this.storageclass === Dict.PRODUCT_OIL

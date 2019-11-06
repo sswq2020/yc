@@ -29,7 +29,7 @@
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="货主" prop="userId" :rules="validateShipper(IS_SHIPPER)">
-                <el-input v-if="IS_SHIPPER" size="small" :value="username" :disabled="true"></el-input>
+                <el-input v-if="IS_SHIPPER" size="small" :value="realname" :disabled="true"></el-input>
                 <cargoglass v-if="!IS_SHIPPER" @cargoSelect="acceptcargo"></cargoglass>
                 <el-input v-if="!IS_SHIPPER" type="hidden" :value="form.userId" style="display:inline;height:0"></el-input>
               </el-form-item>
@@ -266,7 +266,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    ...mapGetters("app", ["role", "userId", "realname", "IS_SHIPPER"]),
     ...mapState("inventoryManage", ["productType"])
   },
   methods: {

@@ -471,7 +471,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    ...mapGetters("app", ["role", "userId", "realname", "IS_SHIPPER"]),
     /**根据storageclass改变tableHeader*/
     tableHeader() {
       return this.storageclass === Dict.PRODUCT_OIL

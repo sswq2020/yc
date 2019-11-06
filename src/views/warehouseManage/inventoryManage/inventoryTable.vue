@@ -71,7 +71,7 @@
          <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
         </div>
         <div class="form-control" v-if="IS_SHIPPER">
-          <el-input size="small" :value="username" :disabled="true"></el-input>
+          <el-input size="small" :value="realname" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -558,7 +558,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    ...mapGetters("app", ["role", "userId", "realname", "IS_SHIPPER"]),
     ...mapState("inventoryManage", ["productType"]),
     /**选中的必须是同一个货主才能过户,不限制仓库*/
     equalShipperItems() {

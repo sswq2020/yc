@@ -6,4 +6,6 @@ export const SET_USER_ID = 'SET_USER_ID';
 
 export const SET_USER_NAME = 'SET_USER_NAME';
 
+export const SET_REAL_NAME = 'SET_REAL_NAME';
+
 export const SET_YC_DELIVERY_STORE = 'SET_YC_DELIVERY_STORE';
