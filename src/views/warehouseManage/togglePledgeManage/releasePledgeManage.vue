@@ -142,6 +142,13 @@ export default {
             if (!value) {
               callback();
             }
+            if(max === 0) {
+              if(value===0) {
+                callback()
+              }else{
+               callback(new Error(`解压数量只能是0或者不填`));
+              }
+            }
             if (max) {
               num = max;
             }
