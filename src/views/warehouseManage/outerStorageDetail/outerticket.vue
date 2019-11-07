@@ -39,10 +39,10 @@
       <th v-if="productType===Dict.PRODUCT_OIL">密度</th>
       <th v-if="productType===Dict.PRODUCT_OIL">型号</th>
       <th v-if="productType===Dict.PRODUCT_OIL">生产商</th>      
-      <th>单位</th>
+      <th>计量单位</th>
       <th>数量</th>
       <th>重量</th>
-      <th>计量</th>
+      <th>计量方式</th>
       <th>车船号</th>
       <th>备注</th>
     </tr>
@@ -63,10 +63,10 @@
       <td v-if="productType===Dict.PRODUCT_OIL">{{item.manufacturer || "--"}}</td>
 
 
-      <td>{{item.numUnitTypeEnum.text || "--"}}</td>
+      <td>{{item.weightUnitTypeEnum && item.weightUnitTypeEnum.text || "--"}}</td>
       <td>{{item.actualRemovalNum || "--"}}</td>
       <td>{{item.actualRemovalWeight || "--"}}</td>
-      <td>{{item.measuringTypeEnum.text || "--"}}</td>
+      <td>{{item.measuringTypeEnum && item.measuringTypeEnum.text || "--"}}</td>
       <td>--</td>
       <td>--</td>
     </tr>
