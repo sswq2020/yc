@@ -52,17 +52,17 @@
       <td v-if="productType!==Dict.PRODUCT_OIL">{{item.originPlaceName || "--"}}</td>
       <td v-if="productType!==Dict.PRODUCT_OIL">{{item.pilePosition || "--"}}</td>
 
-      <td v-if="productType===Dict.PRODUCT_OIL">{{item.oiltank || "--"}}</td>
-      <td v-if="productType===Dict.PRODUCT_OIL">{{item.firstCatalog || "--"}}</td>
-      <td v-if="productType===Dict.PRODUCT_OIL">{{item.trademark || "--"}}</td>
-      <td v-if="productType===Dict.PRODUCT_OIL">{{item.emissionStandard || "--"}}</td>
-      <td v-if="productType===Dict.PRODUCT_OIL">{{item.models || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.oilTankCode || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.firstCatalogName || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.secondCatalogName || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.emissionStandardText || "--"}}</td>
       <td v-if="productType===Dict.PRODUCT_OIL">{{item.density || "--"}}</td>
-      <td v-if="productType===Dict.PRODUCT_OIL">{{item.manufacturer || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.serialNumber || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.manufacturerName || "--"}}</td>
 
 
 
-      <td>{{item.num || "--"}}</td>
+      <td>{{item.num || 0}}</td>
       <td>{{item.weightUnitTypeEnum && item.weightUnitTypeEnum.text || "--"}}</td>
       <td>{{item.weight || "--"}}</td>
       <td>{{item.measuringTypeEnum && item.measuringTypeEnum.text || "--"}}</td>
