@@ -206,7 +206,7 @@ export default {
         this.$messageError("必须选中一行才能确认");
         return
       }
-      this.value = this.currentRow.username || "";
+      this.value = this.currentRow.name || "";
       this.$emit('cargoSelect',this.currentRow);
       this.cancel();
     },

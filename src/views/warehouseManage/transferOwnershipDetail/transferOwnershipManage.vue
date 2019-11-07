@@ -285,14 +285,14 @@ import Dict from "util/dict.js";
 import { judgeAuth } from "util/util.js";
 import {
   DICT_SELECT_ARR,
-  findLabelByValue,
-  handleFilterSelf
 } from "common/util";
 import cargoglass from "components/cargoglass.vue";
 const TypeDatas = DICT_SELECT_ARR(Dict.TRANSFER_OWNERSHIP_BUSINESS_TYPE);
 const defualtFormParams = {
   transferType: null,
   newShipperId: null,
+  newShipperName:null,
+  originalShipperId:null,
   originalShipperName: null
 };
 
@@ -396,12 +396,9 @@ export default {
       }
     },
     _serialize_() {
-      const newShipperName = findLabelByValue(
-        this.cargoList,
-        this.form.newShipperId
-      );
       const {
         newShipperId,
+        newShipperName,
         originalShipperId,
         originalShipperName,
         transferType
@@ -465,6 +462,7 @@ export default {
           });
           this.form = Object.assign(
             {},
+            this.form,
             {
               originalShipperId: res.data[0].userId || null,
               originalShipperName: res.data[0].name || null
@@ -480,6 +478,7 @@ export default {
     /**接收货主传递的对象*/
     acceptcargo(obj) {
       this.form.newShipperId = obj.userId;
+      this.form.newShipperName = obj.name;
     },    
     perm() {
       this.transferConfirm = judgeAuth("inventory:transfer");
