@@ -104,7 +104,7 @@ if (options.pz !== undefined) {
 }
 
 if (options.a !== undefined) {
-  testZipDeploy();
+  testDeploy();
   YwTestDeploy();
   return;
 }
