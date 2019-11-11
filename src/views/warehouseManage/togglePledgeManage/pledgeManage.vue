@@ -47,7 +47,7 @@
               <el-form-item
                 label="质押数量"
                 prop="pledgeNums"
-                :rules="validatenum(form.inventoryTotalNums)"
+                :rules="validatenum((form.inventoryTotalNums - form.totalPledgeNums))"
               >
                 <el-input v-model.number="form.pledgeNums"></el-input>
               </el-form-item>
@@ -110,7 +110,8 @@ const defualtFormParams = {
   pledgeWeight: null,
   pledgeCode: null,
   inventoryTotalNums: null,
-  inventoryTotalWeight: null
+  inventoryTotalWeight: null,
+  totalPledgeNums:0
 };
 
 export default {

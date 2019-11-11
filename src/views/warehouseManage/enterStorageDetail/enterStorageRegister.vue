@@ -24,7 +24,7 @@
                 prop="registerTime"
                 :rules="[{ required: true, message: '请选择到货日期', trigger: 'blur' }]"
               >
-                <el-date-picker v-model="form.registerTime" type="date" placeholder="选择日期"></el-date-picker>
+                <el-date-picker style="width:415px" v-model="form.registerTime" type="date" placeholder="选择日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
@@ -252,7 +252,7 @@ export default {
       pilePositionList: [],
 
       loading: false,
-      breadTitle: ["仓储管理", "库存表", "入库登记"],
+      breadTitle: ["仓储管理", "库存表", "入库预报"],
       form: { ...defualtFormParams },
       Dict: Dict,
       oilInfoObj: null,
