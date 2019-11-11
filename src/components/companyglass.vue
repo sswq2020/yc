@@ -4,6 +4,7 @@
       <el-button :disabled="disabled" slot="append" icon="el-icon-search" @click="open"></el-button>
     </el-input>
     <el-dialog
+      v-loading="isListDataLoading"
       title="公司"
       width="1200px"
       :visible.sync="visible"

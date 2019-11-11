@@ -41,6 +41,7 @@
         </div>
       </div>
       <el-table
+        v-loading="isListDataLoading"
         stylestripe
         border
         highlight-current-row
