@@ -40,7 +40,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -68,7 +68,7 @@
           <el-button type="text" @click="detail(listData.list[scope.$index])">解押单</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
         <tickets
       :visible="visible"
       :cancelCb="()=>{this.visible = false}"
@@ -89,7 +89,6 @@ import { requestParamsByTimeRange,handleFilterSelf } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
 import tickets from "components/tickets";
 import cargoglass from "components/cargoglass";
 import releasePledgeticket from "./releasePledgeticket";
@@ -156,7 +155,6 @@ const defaulttableHeader = [
 export default {
   name: "releasePledgeDetail",
   components: {
-    heltable,
     tickets,
     releasePledgeticket,
     cargoglass

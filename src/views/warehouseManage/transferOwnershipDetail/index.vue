@@ -172,6 +172,7 @@
     >
       <el-table-column
         :align="item.align || 'left'"
+        :width="item.width || null"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -242,188 +243,156 @@ const defaultListData = {
 const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
-    label: "交割仓库",
-    width: "180"
+    label: "交割仓库"
   },
   {
     prop: "originalShipperName",
-    label: "原货主",
-    width: "180"
+    label: "原货主"
   },
   {
     prop: "newShipperName",
-    label: "新货主",
-    width: "180"
+    label: "新货主"
   },
   {
     prop: "transferTime",
-    label: "过户日期",
-    width: "180"
+    label: "过户日期"
   },
   {
     prop: "pilePosition",
-    label: "区桩位",
-    width: "180"
+    label: "区桩位"
   },
   {
     prop: "piles",
-    label: "层数",
-    width: "180"
+    label: "层数"
   },
   {
     prop: "productName",
-    label: "品名",
-    width: "180"
+    label: "品名"
   },
   {
     prop: "materialName",
-    label: "材质",
-    width: "180"
+    label: "材质"
   },
   {
     prop: "specificationsName",
-    label: "规格",
-    width: "180"
+    label: "规格"
   },
   {
     prop: "originPlaceName",
-    label: "产地",
-    width: "180"
+    label: "产地"
   },
   {
     prop: "transferNumsText",
-    label: "过户数量",
-    width: "180"
+    label: "过户数量"
   },
   {
     prop: "realTransferNumsText",
     label: "实际过户数量",
-    width: "180"
+    width:"110"
   },
   {
     prop: "transferWeightsText",
-    label: "过户重量",
-    width: "180"
+    label: "过户重量"
   },
   {
     prop: "realTransferWeightsText",
     label: "实际过户重量",
-    width: "180"
+    width:"110"
   },
   {
     prop: "measuringText",
-    label: "计量方式",
-    width: "180"
+    label: "计量方式"
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型",
-    width: "180"
+    label: "入库类型"
   },
   {
     prop: "incomingId",
-    label: "入库单号",
-    width: "180"
+    label: "入库单号"
   },
   {
     prop: "transferTypeText",
-    label: "业务类型",
-    width: "180"
+    label: "业务类型"
   }
 ];
 
 const defaultOILtableHeader = [
   {
     prop: "deliveryStore",
-    label: "交割仓库",
-    width: "180"
+    label: "交割仓库"
   },
   {
     prop: "originalShipperName",
-    label: "原货主",
-    width: "180"
+    label: "原货主"
   },
   {
     prop: "newShipperName",
-    label: "新货主",
-    width: "180"
+    label: "新货主"
   },
   {
     prop: "transferTime",
-    label: "过户日期",
-    width: "180"
+    label: "过户日期"
   },
   {
     prop: "oilTankCode",
-    label: "储罐编号",
-    width: "180"
+    label: "储罐编号"
   },
   {
     prop: "firstCatalogName",
-    label: "品类",
-    width: "180"
+    label: "品类"
   },
   {
     prop: "secondCatalogName",
     label: "牌号",
-    width: "180",
     align: "right"
   },
   {
     prop: "emissionStandard",
-    label: "排放标准",
-    width: "180"
+    label: "排放标准"
   },
   {
     prop: "density",
     label: "密度",
-    width: "180",
     align: "right"
   },
   {
     prop: "producerName",
-    label: "生产商",
-    width: "180"
+    label: "生产商"
   },
   {
     prop: "transferNumsText",
-    label: "过户数量",
-    width: "180"
+    label: "过户数量"
   },
   {
     prop: "realTransferNumsText",
     label: "实际过户数量",
-    width: "180"
+    width:"110"
   },
   {
     prop: "transferWeightsText",
-    label: "过户重量",
-    width: "180"
+    label: "过户重量"
   },
   {
     prop: "realTransferWeightsText",
     label: "实际过户重量",
-    width: "180"
+    width:"110"
   },
   {
     prop: "measuringText",
-    label: "计量方式",
-    width: "180"
+    label: "计量方式"
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型",
-    width: "180"
+    label: "入库类型"
   },
   {
     prop: "incomingId",
-    label: "入库单号",
-    width: "180"
+    label: "入库单号"
   },
   {
     prop: "transferTypeText",
-    label: "业务类型",
-    width: "180"
+    label: "业务类型"
   }
 ];
 
