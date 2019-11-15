@@ -20,7 +20,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -51,7 +51,7 @@
           >{{ scope.row.producerStateCode === Dict.STATE_NORMAL ? '禁用' : '激活' }}</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
     <manufactureformModal
       ref="modal"
       :loading="isEditLoading"
@@ -67,7 +67,6 @@ import { mapState, mapMutations } from "vuex";
 import moment from "moment";
 // import { judgeAuth } from "@/util/util.js";
 import Dict from "@/util/dict.js";
-import heltable from "@/components/hl_table";
 import manufactureformModal from "./manufactureformModal.vue";
 
 const defaultListParams = {
@@ -126,7 +125,6 @@ const rowAdapter = list => {
 export default {
   name: "manufactureManage",
   components: {
-    heltable,
     manufactureformModal
   },
   data() {

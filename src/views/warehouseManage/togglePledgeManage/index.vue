@@ -21,7 +21,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -51,7 +51,7 @@
         </template>
       </el-table-column>
 
-    </heltable>
+    </HletongTable>
 
   </div>
 </template>
@@ -61,7 +61,6 @@ import { mapGetters, mapMutations } from "vuex";
 import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
 import cargoglass from "components/cargoglass";
 
 const defaultFormData = {
@@ -112,7 +111,6 @@ const defaulttableHeader = [
 export default {
   name: "togglePledgeManage",
   components: {
-    heltable,
     cargoglass
   },
   data() {

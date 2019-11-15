@@ -53,7 +53,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -84,7 +84,7 @@
           >{{ scope.row.sellState == Dict.STATE_NORMAL ? '禁用' : '激活' }}</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
   </div>
 </template>
 
@@ -94,7 +94,6 @@ import { baseMixin,dictMixin } from "common/mixin.js";
 import moment from "moment";
 // import { judgeAuth } from "@/util/util.js";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
 import { findIndexByValue } from "common/util.js";
 
 const defaultFormData = {
@@ -176,9 +175,6 @@ const rowAdapter = list => {
 export default {
   name: "oilQualityInfo",
   mixins: [baseMixin, dictMixin],
-  components: {
-    heltable,
-  },
   data() {
     return {
       breadTitle: ["基础信息", "油品信息"], // 面包屑title

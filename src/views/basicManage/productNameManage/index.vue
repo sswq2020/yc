@@ -34,7 +34,7 @@
         <el-button size="small" @click="reset">重置</el-button>
       </div>
     </div>
-    <HLtable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -62,7 +62,7 @@
           <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.productStatusCode == 0 ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
-    </HLtable>
+    </HletongTable>
     <ProductNameFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
@@ -77,7 +77,6 @@
 import { mapState, mapMutations, mapActions  } from 'vuex';
 import moment from 'moment';
 import Dict from "@/util/dict.js";
-import HLtable from "@/components/hl_table";
 import ProductNameFormModal from "./productNameFormModal.vue";
 
 const defaultListParams = {
@@ -90,7 +89,6 @@ const defaultListParams = {
 export default {
   name: "productNameManage",
   components: {
-    HLtable,
     ProductNameFormModal
   },
   data() {

@@ -38,7 +38,7 @@
         <el-button size="small" @click="reset">重置</el-button>
       </div>
     </div>
-    <HLtable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -66,7 +66,7 @@
           <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.publicStatusEnum.code == '0' ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
-    </HLtable>
+    </HletongTable>
     <!-- <SettlementFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
@@ -81,7 +81,6 @@
 import { mapMutations, mapActions, mapState  } from 'vuex';
 import moment from 'moment';
 import Dict from "@/util/dict.js";
-import HLtable from "@/components/hl_table";
 import AreaCascader from "@/components/areaCascader";
 // import SettlementFormModal from "./settlementFormModal.vue";
 
@@ -97,7 +96,6 @@ const defaultListParams = {
 export default {
   name: "settlementStorageManage",
   components: {
-    HLtable,
     AreaCascader,
     // SettlementFormModal
   },

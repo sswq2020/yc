@@ -61,7 +61,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -90,7 +90,7 @@
           <el-button type="text" @click="Retrieval(listData.list[scope.$index])">出库</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
   </div>
 </template>
 
@@ -101,7 +101,6 @@ import { requestParamsByTimeRangeOrigin } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
 import cargoglass from "components/cargoglass.vue";
 
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
@@ -172,7 +171,6 @@ export default {
   name: "waitCheckEnter",
   mixins: [baseMixin],
   components: {
-    heltable,
     cargoglass
   },
   data() {

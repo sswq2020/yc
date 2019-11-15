@@ -20,7 +20,7 @@
         <el-button size="small" @click="reset">重置</el-button>
       </div>
     </div>
-    <HLtable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -48,7 +48,7 @@
           <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.materialStatusCode == "0" ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
-    </HLtable>
+    </HletongTable>
     <MaterialFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
@@ -63,7 +63,6 @@
 import { mapMutations  } from 'vuex';
 import moment from 'moment';
 import Dict from "@/util/dict.js";
-import HLtable from "@/components/hl_table";
 import MaterialFormModal from "./materialFormModal.vue";
 
 const defaultListParams = {
@@ -74,7 +73,6 @@ const defaultListParams = {
 export default {
   name: "materialManage",
   components: {
-    HLtable,
     MaterialFormModal
   },
   data() {
