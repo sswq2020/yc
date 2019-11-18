@@ -36,13 +36,13 @@ switch (env) {
         storageURL = ''
         break;
     case 'test':
-        baseURL = 'http://10.1.15.106:8445';
+        baseURL = 'http://test.hletong.com/apis/';
         redirectUrl = 'http://yc.hlet.com';
         loginUrl = 'http://login.hlet.com';
         storageURL = 'hlyc'
         break;
     case 'ywtest':
-        baseURL = 'http://10.1.15.110:8445/';
+        baseURL = 'http://apis.hletown.com/';
         redirectUrl = 'http://yc.hletown.com';
         loginUrl = 'http://login.hletown.com';
         storageURL = 'hlyc'
