@@ -1,5 +1,5 @@
 <template>
-  <div class="container single-page">
+  <div class="container single-page" id="fixpadding">
     <HletongBreadcrumb :data="breadTitle">
       <!-- <el-button
         type="primary"
@@ -202,7 +202,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @pageChange="changePage"
       :total="listData.paginator.totalCount"
@@ -211,11 +211,13 @@
       :pageSizes="[20]"
       :data="listData.list"
       :multiple="true"
+      :blankCol="false"
       @selection-change="selectChange"
       :loading="isListDataLoading"
     >
       <el-table-column
         :align="item.align || 'left'"
+        :width="item.width || null"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -232,7 +234,7 @@
           <el-button v-if="stockInventoryDetail" type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
     <transitiondialog
       :data="selectedItems"
       :tableHeader="tableHeader.slice(0,8)"
@@ -280,7 +282,7 @@ import {findIndexByValue} from "common/util.js"
 import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
+// import heltable from "components/hl_table";
 import transitiondialog from "components/transitiondialog";
 import cargoglass from "components/cargoglass.vue";
 
@@ -312,175 +314,151 @@ const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
     label: "交割仓库",
-    width: "180"
   },
   {
     prop: "incomingDays",
     label: "入库天数",
-    width: "180",
+    width: "50",
     align: "right"
   },
   {
     prop: "name",
     label: "货主",
-    width: "180"
   },
   {
     prop: "pilePosition",
     label: "区桩位",
-    width: "180"
   },
   {
     prop: "piles",
     label: "层数",
-    width: "180",
+    width: "50",
     align: "right"
   },
   {
     prop: "productName",
-    label: "品名",
-    width: "180"
+    label: "品名"
   },
   {
     prop: "materialName",
-    label: "材质",
-    width: "180"
+    label: "材质"
   },
   {
     prop: "specificationsName",
-    label: "规格",
-    width: "180"
+    label: "规格"
   },
   {
     prop: "originPlaceName",
-    label: "产地",
-    width: "180"
+    label: "产地"
   },
   {
     prop: "totalNumInventoryText",
     label: "库存数量",
-    width: "180"
+    width: "80",
   },
   {
     prop: "totalWeightInventoryText",
     label: "库存重量",
-    width: "180"
+    width: "80"
   },
   {
     prop: "measuringText",
-    label: "计量方式",
-    width: "180"
+    label: "计量方式"
   },
   {
     prop: "weightUnitText",
-    label: "计量单位",
-    width: "180"
+    label: "计量单位"
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型",
-    width: "180"
+    label: "入库类型"
   },
   {
     prop: "incomingId",
-    label: "入库单号",
-    width: "180"
+    label: "入库单号"
   },
   {
     prop: "incomingTime",
-    label: "入库时间",
-    width: "180"
+    label: "入库时间"
   }
 ];
 
 const defaultOILtableHeader = [
   {
     prop: "deliveryStore",
-    label: "交割仓库",
-    width: "180"
+    label: "交割仓库"
   },
   {
     prop: "incomingDays",
     label: "入库天数",
-    width: "180",
+    width: "80",
     align: "right"
   },
   {
     prop: "name",
     label: "货主",
-    width: "180"
   },
   {
     prop: "oilTankCode",
-    label: "储罐编号",
-    width: "180"
+    label: "储罐编号"
   },
   {
     prop: "firstCatalogName",
-    label: "品类",
-    width: "180"
+    label: "品类"
   },
   {
     prop: "secondCatalogName",
     label: "牌号",
-    width: "180",
+    width: "80",
     align: "right"
   },
   {
     prop: "emissionStandardText",
-    label: "排放标准",
-    width: "180"
+    label: "排放标准"
   },
   {
     prop: "serialNumber",
-    label: "产品型号",
-    width: "180"
+    label: "产品型号"
   },
   {
     prop: "density",
     label: "密度",
-    width: "180",
+    width: "80",
     align: "right"
   },
   {
     prop: "manufacturerName",
-    label: "生产商",
-    width: "180"
+    label: "生产商"
   },
   {
     prop: "totalNumInventoryText",
     label: "库存数量",
-    width: "180"
+    width: "80",
   },
   {
     prop: "totalWeightInventoryText",
     label: "库存重量",
-    width: "180"
+    width: "80",
   },
   {
     prop: "measuringText",
-    label: "计量方式",
-    width: "180"
+    label: "计量方式"
   },
   {
     prop: "weightUnitText",
-    label: "计量单位",
-    width: "180"
+    label: "计量单位"
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型",
-    width: "180"
+    label: "入库类型"
   },
   {
     prop: "incomingId",
-    label: "入库单号",
-    width: "180"
+    label: "入库单号"
   },
   {
     prop: "incomingTime",
-    label: "入库时间",
-    width: "180"
+    label: "入库时间"
   }
 ];
 
@@ -508,7 +486,7 @@ export default {
   name: "inventoryTable",
   mixins: [baseMixin, dictMixin],
   components: {
-    heltable,
+    // heltable,
     transitiondialog,
     cargoglass
   },

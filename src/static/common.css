@@ -109,6 +109,10 @@
     height: 34px !important ;
     font-size: 12px;
 }
+.el-table th{
+    padding-left: 13px !important;
+}
+
 .el-table .cell{
     /*line-height: 34px;*/
     max-height: 34px !important;
