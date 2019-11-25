@@ -72,8 +72,8 @@
         ></el-pagination>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel">取 消</el-button>
-        <el-button type="primary" @click="comfirm">确 定</el-button>
+        <el-button @click="cancel" size="small">取消</el-button>
+        <el-button type="primary" @click="comfirm" size="small">确定</el-button>
       </div>
     </el-dialog>
   </div>

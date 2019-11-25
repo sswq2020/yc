@@ -1,6 +1,6 @@
 <template>
-  <el-dialog :show-close="false" :title="title" :visible="agreedialogVisible" width="600px" append-to-body>
-    <el-form :model="agreeFormParams" ref="agreeForm" label-position="right" label-width="150px">
+  <el-dialog :show-close="false" :title="title" :visible="agreedialogVisible" width="575px" append-to-body  class="dialog-form">
+    <el-form :model="agreeFormParams" ref="agreeForm" label-position="right" label-width="110px">
       <el-form-item label="协议名称" prop="agreementName" :rules="[{ required: true, message: '必选'  }]">
         <el-input v-model="agreeFormParams.agreementName" size="small"></el-input>
       </el-form-item>
@@ -52,8 +52,8 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="cancle">取 消</el-button>
-      <el-button type="primary" @click="confirm" :loading="loading"    >确 定</el-button>
+      <el-button @click="cancle" size="small">取消</el-button>
+      <el-button type="primary" @click="confirm" :loading="loading" size="small">确定</el-button>
     </div>
   </el-dialog>
 </template>

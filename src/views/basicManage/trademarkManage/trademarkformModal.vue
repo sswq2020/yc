@@ -1,6 +1,6 @@
 <template>
-  <el-dialog :title="title" :visible="visible" width="600px" @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px" class="form">
+  <el-dialog :title="title" :visible="visible" width="575px" @close="cancle()" class="dialog-form">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="110px" class="form">
       <el-form-item label="品类名称:" prop="categoryId">
         <el-select v-model="form.categoryId" placeholder="请选择" size="small" style="width:100%">
           <el-option
@@ -16,8 +16,8 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="cancle">取 消</el-button>
-      <el-button type="primary" @click="confirm" :loading="loading">确 定</el-button>
+      <el-button @click="cancle" size="small">取消</el-button>
+      <el-button type="primary" @click="confirm" :loading="loading" size="small">确定</el-button>
     </div>
   </el-dialog>
 </template>

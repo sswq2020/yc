@@ -47,8 +47,8 @@
       </el-form>
     </div>
     <div class="bottom">
-      <el-button @click="cancle">取 消</el-button>
-      <el-button type="primary" @click="confirm" :loading="loading">确 定</el-button>
+      <el-button type="primary" @click="confirm" :loading="loading" size="small">确定</el-button>
+      <el-button @click="cancle" size="small">取消</el-button>
     </div>
   </div>
 </template>

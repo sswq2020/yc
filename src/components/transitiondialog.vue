@@ -23,8 +23,8 @@
     </el-table>
     <slot name="count"></slot>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="cancle()">取 消</el-button>
-      <el-button type="primary" :loading="loading" @click="confirm()">确 定</el-button>
+      <el-button @click="cancle()" size="small">取消</el-button>
+      <el-button type="primary" :loading="loading" @click="confirm()" size="small">确定</el-button>
     </div>
   </el-dialog>
 </template>
