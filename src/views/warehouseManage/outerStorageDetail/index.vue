@@ -347,7 +347,7 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "actualRemovalTimeText",
+    prop: "actualRemovalTime",
     label: "实提日期",
     width: "180"
   },
@@ -461,7 +461,6 @@ const rowAdapter = list => {
           (row.incomingTypeEnum && row.incomingTypeEnum.text) || "-",
         outsideTypeText:
           (row.outsideTypeEnum && row.outsideTypeEnum.text) || "-",
-        actualRemovalTimeText: normalTime(row.actualRemovalTime),
         supposedRemovalNumText: `${row.supposedRemovalNum ||
           "-"}${(row.numUnitTypeEnum &&
           row.supposedRemovalNum &&
