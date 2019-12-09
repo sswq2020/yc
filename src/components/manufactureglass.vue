@@ -1,10 +1,10 @@
 <template>
-  <div class="cargoglass">
-    <el-input placeholder="请选择货主" :value="value" :readonly="true">
+  <div class="manufactureglass">
+    <el-input placeholder="请选择生产商" :value="value" :readonly="true">
       <el-button style="margin: -10px -20px;" :disabled="disabled" slot="append" icon="el-icon-search" @click="open"></el-button>
     </el-input>
     <el-dialog
-      title="货主"
+      title="生产商"
       width="1200px"
       :visible.sync="visible"
       :center="true"
@@ -13,23 +13,11 @@
     >
       <div class="search-box" style="padding:0px;margin:0px 0px 10px 0px;">
         <div class="form-item">
-          <label style="line-height:1">用户名</label>
+          <label style="line-height:1">生产商名称</label>
           <div class="form-control">
-            <el-input v-model="form.username" placeholder="请输入" size="small"></el-input>
+            <el-input v-model="form.producerName" placeholder="请输入" size="small"></el-input>
           </div>
-        </div>
-        <div class="form-item">
-          <label style="line-height:1">手机号</label>
-          <div class="form-control">
-            <el-input v-model="form.phone" placeholder="请输入" size="small"></el-input>
-          </div>
-        </div>
-        <div class="form-item">
-          <label style="line-height:1">公司名称</label>
-          <div class="form-control">
-            <el-input v-model="form.name" placeholder="请输入" size="small"></el-input>
-          </div>
-        </div>        
+        </div>    
         <div class="form-item">
           <el-button
             type="primary"
@@ -80,10 +68,9 @@
 </template>
 <script>
 import Dict from "util/dict.js";
+import moment from "moment";
 const defaultFormData = {
-  name: null,
-  phone: null,
-  username:null
+  producerName: null
 };
 
 const defaultListParams = {
@@ -100,26 +87,25 @@ const defaultListData = {
 
 const defaultAuditResultTableHeader = [
   {
-    prop: "username",
-    label: "用户名"
+    prop: "producerName",
+    label: "生产商名称",
+    width: "180"
   },
   {
-    prop: "phone",
-    label: "手机号"
+    prop: "remark",
+    label: "备注",
+    width: "180"
   },
   {
-    prop: "name",
-    label: "公司名称"
+    prop: "createdTimeText",
+    label: "录入时间",
+    width: "180"
   },
   {
-    prop: "telNo",
-    label: "公司电话"
-  },
-  {
-    prop: "addressText",
-    label: "公司地址",
-    width:"300px"
-  },
+    prop: "producerStateText",
+    label: "状态",
+    width: "180"
+  }
 ];
 
 const rowAdapter = list => {
@@ -130,7 +116,9 @@ const rowAdapter = list => {
     list = list.map(row => {
       return (row = {
         ...row,
-        addressText:`${row.province || ''}${row.city || ''}${row.county || ''}${row.address || ''}`
+        createdTimeText: row.createdTime
+          ? moment(row.createdTime).format("YYYY-MM-DD HH:mm:ss")
+          : ""
       });
     });
   }
@@ -138,7 +126,7 @@ const rowAdapter = list => {
 };
 
 export default {
-  name: "cargoglass",
+  name: "manufactureglass",
   props: {
     disabled:{
       type: Boolean,
@@ -207,8 +195,8 @@ export default {
         this.$messageError("必须选中一行才能确认");
         return
       }
-      this.value = this.currentRow.name || "";
-      this.$emit('cargoSelect',this.currentRow);
+      this.value = this.currentRow.producerName || "";
+      this.$emit('manufactureSelect',this.currentRow);
       this.cancel();
     },
     handleCurrentChange(row) {
@@ -216,7 +204,7 @@ export default {
     }
   },
   watch: {
-    visible(newV, oldV) {
+    visible(newV) {
       if (newV) {
         this.clearListParams();
       }
