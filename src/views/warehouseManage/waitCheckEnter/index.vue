@@ -282,12 +282,12 @@ const defaultSWtableHeader = [
   {
     prop: "measuringText",
     label: "计量方式",
-    width: "180"
+    width: "150"
   },
   {
     prop: "weightUnitText",
     label: "计量单位",
-    width: "180"
+    width: "150"
   },  
 ];
 
@@ -315,7 +315,7 @@ const defaultOILtableHeader = [
   {
     prop: "secondCatalogName",
     label: "牌号",
-    width: "180",
+    width: "150",
     align: "right"
   },
   {
@@ -331,7 +331,7 @@ const defaultOILtableHeader = [
   {
     prop: "density",
     label: "密度",
-    width: "180",
+    width: "150",
     align: "right"
   },
   {
@@ -352,12 +352,12 @@ const defaultOILtableHeader = [
   {
     prop: "measuringText",
     label: "计量方式",
-    width: "180"
+    width: "150"
   },
   {
     prop: "weightUnitText",
     label: "计量单位",
-    width: "180"
+    width: "150"
   }  
 ];
 const rowAdapter = (list) => {
