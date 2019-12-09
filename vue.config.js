@@ -32,7 +32,8 @@ module.exports = {
     },
     configureWebpack: {
 		externals: {
-			hlet: 'hlet'
+            hlet: 'hlet',
+            hletComponents:'hletComponents'
 		}
 	},
     lintOnSave: false,
