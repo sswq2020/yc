@@ -1,21 +1,18 @@
 <template>
-  <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+  <div class="container single-page" style="display: block;background-color: white;height: 100%;">
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
+    <div class="computedHeight">
     <div class="form">
-      <el-form ref="form" :model="form" label-width="120px" size="small">
+      <el-form ref="form" :model="form" label-width="130px" size="small">
         <div class="form-block">
+          <div class="head">提货信息</div>
           <el-row>
-            <el-col :md="12" :sm="12" :xs="24">
-              <div class="head">提货信息</div>
-            </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="货主" prop="cargoName">
-                <el-input :value="form.cargoName" :disabled="disabled"></el-input>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="货主" prop="name">
+                <el-input :value="form.name" :disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="提货人"
                 prop="consignee"
@@ -25,7 +22,7 @@
                 <el-input v-model="form.consignee"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="提货密码"
                 prop="pickUpPassword"
@@ -39,73 +36,108 @@
         </div>
         <div class="form-block" v-for="(item,index) in form.needShowData" :key="item.id">
           <div class="head">库存信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="交易仓库" prop="deliveryStore">
+          <el-row>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="交割仓库" prop="deliveryStore">
                 <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+
+            <!--石油开始-->
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="储罐编号" prop="oilTankCode">
+                <el-input :value="item.oilTankCode" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="品类" prop="firstCatalogName">
+                <el-input :value="item.firstCatalogName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="牌号" prop="secondCatalogName">
+                <el-input :value="item.secondCatalogName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="排放标准" prop="emissionStandardText">
+                <el-input :value="item.emissionStandardText" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="密度(kg/m³)" prop="density">
+                <el-input :value="item.density" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="型号" prop="serialNumber">
+                <el-input :value="item.serialNumber" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="生产商" prop="manufacturerName">
+                <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+             <!--石油结束-->
+
+            <!--钢木开始-->
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="区桩位" prop="pilePosition">
                 <el-input :value="item.pilePosition" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="品名" prop="productName">
                 <el-input :value="item.productName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="层数" prop="piles">
                 <el-input :value="item.piles" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="材质" prop="materialName">
                 <el-input :value="item.materialName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="规格" prop="specificationsName">
                 <el-input :value="item.specificationsName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="产地" prop="originPlaceName">
                 <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <!--钢木结束-->
+
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存数量" prop="totalNumInventory">
                 <el-input :value="item.totalNumInventory" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存重量" prop="totalWeightInventory">
                 <el-input :value="item.totalWeightInventory" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="计量方式" prop="measuringText">
                 <el-input :value="item.measuringText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="数量单位" prop="numUnitText">
-                <el-input :value="item.numUnitText" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="重量单位" prop="weightUnitText">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="计量单位" prop="weightUnitText">
                 <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <div class="head">出库信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+          <el-row>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="申请数量"
                 :prop="'needShowData.' + index + '.supposedRemovalNum'"
@@ -114,7 +146,7 @@
                 <el-input v-model.number="item.supposedRemovalNum"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="申请重量"
                 :prop="'needShowData.' + index + '.supposedRemovalWeight'"
@@ -123,40 +155,40 @@
                 <el-input v-model="item.supposedRemovalWeight"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="50" v-if="form.needShowData&&form.needShowData.length===1">
-            <el-col :offset="12" :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="备注" prop="remark">
+                {{item.remark}}
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="form.needShowData&&form.needShowData.length===1">
               <span
                 style="color:red;font-size:12px;margin-left:45px;padding-bottom:4px;"
               >最大申请重量:{{max}}</span>
             </el-col>
           </el-row>
         </div>
-        <div class="bottom">
-          <el-form-item>
-            <el-button type="primary" :loading="loading" size="medium" @click="submitForm('form')">确定</el-button>
-            <el-button @click="back" size="medium">取消</el-button>
-          </el-form-item>
-        </div>
       </el-form>
     </div>
+    </div>
+    <div class="bottom">
+      <el-button type="primary" :loading="loading" size="small" @click="submitForm('form')">确定</el-button>
+      <el-button @click="back" size="small">取消</el-button>
+    </div>    
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
 const defualtFormParams = {
   consignee: null,
-  cargoName: null,
+  name: null,
   pickUpPassword: null
 };
 
 export default {
   name: "applyCheckout",
   components: {
-    hlBreadcrumb
   },
   data() {
     return {
@@ -167,11 +199,12 @@ export default {
         needShowData: [],
         ...defualtFormParams
       },
-      max: null // 从库存明细页跳转过来,会另外带来最大重量的限制
+      max: null, // 从库存明细页跳转过来,会另外带来最大重量的限制
+      Dict:Dict
     };
   },
   computed: {
-    ...mapState("inventoryManage", ["checkout"]),
+    ...mapState("inventoryManage", ["checkout","productType"]),
   },
   methods: {
     back() {
@@ -242,6 +275,7 @@ export default {
         {},
         {consignee,pickUpPassword},
         item,
+        {productTypeCode:this.productType},
         {id:null},
         {stockInventoryId:item.id},
         {incomingTypeEnum:null},
@@ -268,8 +302,8 @@ export default {
     },     
     async _getTransferAvailable_(arr) {
       const res = await this.$api.getTransferAvailable({
-        cargoId: arr[0].cargoId,
-        stockId: arr[0].id
+        cargoId: arr[0].userId || null,
+        stockId: arr[0].id || ""
       });
       switch (res.code) {
         case Dict.SUCCESS:
@@ -295,16 +329,16 @@ export default {
           res.data = res.data.slice().map(item => {
             return Object.assign({}, item, {
               measuringText:item.measuringTypeEnum && item.measuringTypeEnum.text || "-",
-              numUnitText:item.numUnitTypeEnum && item.numUnitTypeEnum.text || "-",
               weightUnitText:item.weightUnitTypeEnum && item.weightUnitTypeEnum.text || "-",
               supposedRemovalNum: null,
-              supposedRemovalWeight: null
+              supposedRemovalWeight: null,
+              remark:item.remark || null
             });
           });
           this.form = Object.assign(
             {},
             {
-              cargoName: res.data[0].cargoName
+              name: res.data[0].name
             },
             { needShowData: res.data }
           );
@@ -320,26 +354,43 @@ export default {
   }
 };
 </script>
->
 
 <style scoped lang="less">
+.computedHeight{
+    height: calc(100% - 101px);
+    overflow: auto;
 .form {
-  padding: 15px 15px 50px 15px;
-  background: rgba(240, 242, 245, 1);
   .form-block {
-    padding-top: 15px;
-    margin-bottom: 15px;
-    background: white;
+    padding: 20px;
     .head {
-      padding-left: 10px;
-      margin-bottom: 15px;
-      font-size: 18px;
-      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left: 20px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      color: #333333;
+      background: #f6f8fa;
     }
   }
-  .bottom {
-    padding: 15px 0px 1px 0px;
-    background: white;
+}
+}
+
+
+.bottom {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f6f8fa;
+  width: calc(99% - 270px);
+  height: 50px;
+  box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+  .el-button {
+    min-width: 64px;
+    margin-left: 20px;
+    margin-top: 10px;
+    &:last-child{
+      margin-left: 16px;
+    }
   }
 }
 </style>

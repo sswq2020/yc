@@ -6,8 +6,22 @@ const PilePositionManage = () => import('@/views/basicManage/pilePositionManage/
 const OriginPlaceManage = () => import('@/views/basicManage/originPlaceManage/index')
 const ProductNameManage = () => import('@/views/basicManage/productNameManage/index')
 const SettlementStorageManage = () => import('@/views/basicManage/settlementStorageManage/index')
+const SettlementForm = () => import('@/views/basicManage/settlementStorageManage/settlementForm')
 const ShipperManage = () => import('@/views/basicManage/shipperManage/index')
 const SpecificationManage = () => import('@/views/basicManage/specificationManage/index')
+
+/**油品信息*/
+const OilQualityInfo = () => import('@/views/basicManage/oilQualityInfo/index')
+/**油品信息新增编辑页面*/
+const OilQualityInfoForm = () => import('@/views/basicManage/oilQualityInfo/oilQualityInfoForm')
+/**储罐管理*/
+const OilTankManage = () => import('@/views/basicManage/oilTankManage/index')
+/**牌号管理*/
+const TrademarkManage = () => import('@/views/basicManage/trademarkManage/index')
+/**品类管理*/
+const CategoryManage = () => import('@/views/basicManage/categoryManage/index')
+/**生产商管理*/
+const ManufactureManage = () => import('@/views/basicManage/manufactureManage/index')
 
 
 // #region 仓储管理
@@ -46,6 +60,22 @@ const PledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/pl
 /**解押管理*/
 const ReleasePledgeManage = () => import('@/views/warehouseManage/togglePledgeManage/releasePledgeManage.vue')
 // #endregion 仓储管理
+
+
+// #region 会员管理
+/**交易会员管理列表*/
+const VipManage = () => import('views/vipManage/index.vue')
+/**新增会员表单模块*/
+const AddMemberForm = () => import('views/vipManage/addMemberForm.vue')
+/**者编辑会员表单模块*/
+const EditMemberForm = () => import('views/vipManage/editMemberForm.vue')
+// #endregion
+
+// #region 预警管理
+/**协议到期预警*/
+const DealDueforeWarn = () => import('views/foreWarnManage/dealDueforeWarn.vue')
+// #endregion
+
 
 Vue.use(Router)
 
@@ -103,6 +133,11 @@ let commonRoutes = {
             component: SettlementStorageManage
         },
         {
+            path: '/web/yc/base/deliveryStoreManage/settlementForm',
+            name: 'settlementForm',
+            component: SettlementForm
+        },
+        {
             path: '/web/yc/base/cargoManage/pageCargo',
             name: 'shipperManage',
             component: ShipperManage
@@ -117,6 +152,36 @@ let commonRoutes = {
             name: 'print',
             component: () => import('@/views/basicManage/print/index')
         },  
+        {
+            path: '/web/yc/base/category/listCategorys',
+            name: 'categoryManage',
+            component: CategoryManage
+        },  
+        {
+            path: '/web/yc/product/product/pageForSale',
+            name: 'oilQualityInfo',
+            component: OilQualityInfo
+        },      
+        {
+            path: '/web/yc/product/product/pageForSale/form',
+            name: 'oilQualityInfoForm',
+            component: OilQualityInfoForm
+        },          
+        {
+            path: '/web/yc/base/producer/listProducers',
+            name: 'manufactureManage',
+            component: ManufactureManage
+        },  
+        {
+            path: '/web/yc/base/brand/listBrands',
+            name: 'trademarkManage',
+            component: TrademarkManage
+        },  
+        {
+            path: '/web/yc/base/oilTank/listOilTanks',
+            name: 'oilTankManage',
+            component: OilTankManage
+        },  
         // #region  仓储信息      
         {
             path: '/web/yc/storage/stockRegisterDetail/page',
@@ -124,7 +189,7 @@ let commonRoutes = {
             component: EnterStorageDetail
         }, 
         {
-            path: '/web/yc/storage/stockRegisterDetail/page/register',
+            path: '/web/yc/storage/stockRegister/empty',
             name: 'enterStorageRegister',
             component: EnterStorageRegister
         },        
@@ -202,8 +267,40 @@ let commonRoutes = {
             path: '/web/settlement/pageList/transferOwnershipManage',
             name: 'transferOwnershipManage',
             component: TransferOwnershipManage
-        }
-        // #endregion           
+        },
+        // #endregion       
+        
+        
+        // #region  会员管理  
+        {
+            path: '/web/yc/member/page',
+            name: 'vipManage',
+            component: VipManage
+        },
+        {
+            path: '/web/yc/member/member/addmemberForm',
+            name: 'addMemberForm',
+            component: AddMemberForm
+        },      
+        {
+            path: '/web/yc/member/member/editmemberForm',
+            name: 'editMemberForm',
+            component: EditMemberForm
+        },
+        // #endregion     
+
+
+        // #region  预警管理      
+        {
+            path: '/web/yc/agreement/pageWarn',
+            name: 'dealDueforeWarn',
+            component: DealDueforeWarn
+        },
+        // #endregion      
+
+
+
+
     ]
 }
 

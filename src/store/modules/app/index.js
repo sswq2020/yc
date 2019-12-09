@@ -7,14 +7,15 @@ const store = {
         role:null,
         userId:null,
         username:null,
+        realname:null,
         productTypeCodeData: {}, // 品名大类
         deliveryStoreTypeData: {}, // 交割库类型
     },
     getters: {
-      role: state => state.role,
       userId: state => state.userId,
       username: state => state.username,
-      IS_SHIPPER: state => state.role === "1", // 判断是否是货主
+      realname: state => state.realname,
+      IS_SHIPPER: state => state.role === Dict.VIP_USER, // 判断是否是货主
       productTypeCodeData: state => state.productTypeCodeData, 
       deliveryStoreTypeData: state => state.deliveryStoreTypeData, 
     },
@@ -28,9 +29,12 @@ const store = {
       [type.SET_USER_NAME](state,payload){
         state.username = payload
       },
+      [type.SET_REAL_NAME](state,payload) {
+        state.realname = payload;
+      },    
       [type.SET_YC_PRODUCT_TYPE](state,payload) {
         state.productTypeCodeData = payload;
-      },    
+      },      
       [type.SET_YC_DELIVERY_STORE](state,payload) {
         state.deliveryStoreTypeData = payload;
       },
@@ -53,7 +57,9 @@ const store = {
               data.items.forEach(item => {
                 listData[item.id] = item.text;
               });
-              commit(dictionaryData[data.entryCode], listData);
+              if(dictionaryData[data.entryCode]) {
+                commit(dictionaryData[data.entryCode], listData);
+              }
             });
             break;
           default:

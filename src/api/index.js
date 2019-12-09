@@ -36,9 +36,15 @@ switch (env) {
         storageURL = ''
         break;
     case 'test':
-        baseURL = 'http://10.1.15.106:8445';
+        baseURL = 'http://test.hletong.com/apis/';
         redirectUrl = 'http://yc.hlet.com';
         loginUrl = 'http://login.hlet.com';
+        storageURL = 'hlyc'
+        break;
+    case 'ywtest':
+        baseURL = 'http://apis.hletown.com/';
+        redirectUrl = 'http://yc.hletown.com';
+        loginUrl = 'http://login.hletown.com';
         storageURL = 'hlyc'
         break;
     default:
@@ -443,14 +449,14 @@ export default {
     },
     /**
      * @author sswq
-     * @description 仓库下拉列表(专门为入库登记设计)
+     * @description 仓库下拉列表
      * */
     getdeliveryStoresData() {
         return fetch(storageURL + '/web/yc/base/pilePosition/selectStockIds', '', 'get')
     },
     /**
      * @author sswq
-     * @description 区装位下拉列表(根据仓库id)
+     * @description 区装位下拉列表(根据仓库id,专门为入库登记设计)
      * */
     getPilePositionsData(stockId) {
         return fetch(storageURL + '/web/yc/base/pilePosition/select', {stockId}, 'get')
@@ -461,6 +467,20 @@ export default {
      * */
     getDeliveryStoreList(params) {
         return fetch(storageURL + '/web/yc/base/deliveryStoreManage/pageDeliveryStore', params)
+    },
+    /**
+     * @author sswq
+     * @description 交割库下拉(专门为入库登记设计)
+     * */
+    getDeliveryStoreSelect(deliverySaveType) {
+        return fetch(storageURL + '/web/yc/base/deliveryStoreManage/select', {deliverySaveType},'get')
+    },
+    /**
+     * @author sswq
+     * @description 储罐下拉(专门为入库登记设计,与交割库联动)
+     * */
+    getOilTankSelect(stockId) {
+        return fetch(storageURL + '/web/yc/base/oilTank/select', {stockId},'get')
     },
     /**
      * @author xh
@@ -700,6 +720,204 @@ export default {
     getDropDownList() {
         return fetch(storageURL + '/web/yc/inventory/transfer/base', '', 'get')
     },
+    /**
+     * @author sswq
+     * @description 生产商下拉列表
+     * */
+    getProducerSelectList() {
+        return fetch(storageURL + '/web/yc/base/producer/select', '', 'get')
+    },
+    /**
+     * @author sswq
+     * @description 生产商列表查询
+     * */
+    getProducersList(params) {
+        return fetch(storageURL + '/web/yc/base/producer/listProducers', params)
+    },
+     /**
+     * @author sswq
+     * @description 禁用生产商
+     * */
+    disableProducer(params) {
+        return fetch(storageURL + '/web/yc/base/producer/disable', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活生产商
+     * */
+    activeProducer(params) {
+        return fetch(storageURL + '/web/yc/base/producer/active', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增生产商
+     * */
+    addProducer(params) {
+        return fetch(storageURL + '/web/yc/base/producer/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑生产商
+     * */
+    updateProducer(params) {
+        return fetch(storageURL + '/web/yc/base/producer/update', params)
+    },
+    /**
+     * @author sswq
+     * @description 牌号列表查询
+     * */
+    getBrandsList(params) {
+        return fetch(storageURL + '/web/yc/base/brand/listBrands', params)
+    },
+     /**
+     * @author sswq
+     * @description 禁用牌号
+     * */
+    disableBrand(params) {
+        return fetch(storageURL + '/web/yc/base/brand/disable', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活牌号
+     * */
+    activeBrand(params) {
+        return fetch(storageURL + '/web/yc/base/brand/active', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增牌号
+     * */
+    addBrand(params) {
+        return fetch(storageURL + '/web/yc/base/brand/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑牌号
+     * */
+    updateBrand(params) {
+        return fetch(storageURL + '/web/yc/base/brand/update', params)
+    },
+    /**
+     * @author sswq
+     * @param params
+     * @description 牌号下动态加载的各个参数
+     * */
+    getParameterById(id) {
+        return fetch(storageURL + '/web/yc/getParameterById', { id }, 'get')
+    },
+    /**
+     * @author sswq
+     * @param params
+     * @description 商品详情页/编辑查询
+     * */
+    getDetailCommodity(id) {
+        return fetch(storageURL + '/web/yc/open/product/product/get', {id}, 'get')
+    },
+    /**
+     * @author sswq
+     * @description 品类下拉列表
+     * */
+    getCategorySelectList(params) {
+        return fetch(storageURL + '/web/yc/base/category/select', params)
+    },
+    /**
+     * @author sswq
+     * @description 品类列表查询
+     * */
+    getCategoryList(params) {
+        return fetch(storageURL + '/web/yc/base/category/listCategorys', params)
+    },
+     /**
+     * @author sswq
+     * @description 禁用品类
+     * */
+    disableCategory(params) {
+        return fetch(storageURL + '/web/yc/base/category/disable', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活品类
+     * */
+    activeCategory(params) {
+        return fetch(storageURL + '/web/yc/base/category/active', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增品类
+     * */
+    addCategory(params) {
+        return fetch(storageURL + '/web/yc/base/category/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑品类
+     * */
+    updateCategory(params) {
+        return fetch(storageURL + '/web/yc/base/category/update', params)
+    },
+    /**
+     * @author sswq
+     * @description 储罐列表查询
+     * */
+    getOilTankList(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/listOilTanks', params)
+    },
+     /**
+     * @author sswq
+     * @description 禁用储罐
+     * */
+    disableOilTank(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/disable', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活储罐
+     * */
+    activeOilTank(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/active', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增储罐
+     * */
+    addOilTank(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑储罐
+     * */
+    updateOilTank(params) {
+        return fetch(storageURL + '/web/yc/base/oilTank/update', params)
+    },
+    /**
+     * @author sswq
+     * @description 油品信息分页查询
+     * */
+    getOilQualityInfoList(params) {
+        return fetch(storageURL + '/web/yc/product/product/pageForSale', params)
+    },
+     /**
+     * @author sswq
+     * @description 激活禁用油品信息
+     * */
+    switchOilQualityInfoState(params) {
+        return fetch(storageURL + '/web/yc/product/product/switchState', params)
+    },
+    /**
+     * @author sswq
+     * @description 新增油品信息
+     * */
+    addOilQualityInfo(params) {
+        return fetch(storageURL + '/web/yc/product/product/add', params)
+    },
+    /**
+     * @author sswq
+     * @description 编辑油品信息
+     * */
+    updateOilQualityInfo(params) {
+        return fetch(storageURL + '/web/yc/product/product/update', params)
+    },
     // #endregion
 
     // #region 仓储管理
@@ -781,7 +999,7 @@ export default {
      * @description 取消出库
      * */
     cancelcheckout(params){
-        return fetch(storageURL + '/web/yc/storage/stockInventoryDetail/cancelRemoval', params)          
+        return fetch(storageURL + '/web/yc/storage/stockInventoryDetail/cancelRemoval', params,'get')          
     },
     /**
      * @author sswq
@@ -796,7 +1014,7 @@ export default {
      * @description 待验收出库选中某一仓库,根据申请removalId，给出详细的列表信息
      * */    
     detailRetrieval(params){
-        return fetch(storageURL + '/web/yc/storage/stockRemoval/list', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemoval/list', params,'get')         
     },            
     /**
      * @author sswq
@@ -886,7 +1104,7 @@ export default {
      * @description 出库单
      * */     
     getStockRemovalBill(params){
-        return fetch(storageURL + '/web/yc/storage/stockRemovalDetail/get', params)         
+        return fetch(storageURL + '/web/yc/storage/stockRemovalDetail/get', params,'get')         
     },
     /**
      * @author sswq
@@ -946,15 +1164,117 @@ export default {
     ReleaseinfoBill(releaseId){
         return fetch(storageURL + '/web/yc/releaseinfo/bill',{releaseId}, 'get')   
     },
+    /**
+     * @author sswq
+     * @param {string} 
+     * @description 货主检索条件
+     * */ 
+    getCargoList(){
+        return fetch(storageURL + '/web/yc/search/cargo','', 'get')   
+    },
     // #endregion
+
+    // #region 会员管理
+    /**
+     * @author sswq
+     * @param params
+     * @description 交易(货主)会员管理列表
+     * */
+    getVIPList(params) {
+        return fetch(storageURL + '/web/yc/member/page', params)
+    },
+    /**
+      * @author sswq
+      * @param params
+      * @description 会员启用禁用
+      * */
+    vipEnable(params) {
+        return fetch(storageURL + '/web/yc/member/updateState', params)
+    },
+    /**
+      * @author sswq
+      * @param params
+      * @description 获取会员信息(用于会员编辑前请求)
+      * */
+     getVIPInfo(params) {
+        return fetch(storageURL + '/web/yc/member/get', params,'get')
+    },
+    /**
+      * @author sswq
+      * @param params
+      * @description 新增会员
+      * */
+    AddVIP(params) {
+        return fetch(storageURL + '/web/yc/member/add', params)
+    },
+    /**
+      * @author sswq
+      * @param params
+      * @description 更新会员
+      * */
+    UpdateVIP(params) {
+        return fetch(storageURL + '/web/yc/member/update', params)
+    }, 
+    
+    /**
+      * @author sswq
+      * @param params
+      * @description 新增入会协议
+      * */
+     AddAgreement(params) {
+        return fetch(storageURL + '/web/yc/agreement/add', params)
+    },        
+    /**
+      * @author sswq
+      * @param params
+      * @description 编辑入会协议
+      * */
+     UpdateAgreement(params) {
+        return fetch(storageURL + '/web/yc/agreement/update', params)
+    },  
+    /**
+      * @author sswq
+      * @param params
+      * @description 删除入会协议
+      * */
+     DelAgreement(params) {
+        return fetch(storageURL + '/web/yc/agreement/delete', params)
+    }, 
+    // #endregion 
+
+    // #region 预警管理
+    /**
+     * @author sswq
+     * @param params
+     * @description 入会协议分页
+     * */
+    getAgreementList(params) {
+        return fetch(storageURL + '/web/yc/agreement/page', params)
+    },
+    /**
+     * @author sswq
+     * @param params
+     * @description 协议到期预警列表
+     * */
+    getDealDueForeWarnList(params) {
+        return fetch(storageURL + '/web/yc/agreement/pageWarn', params)
+    },
+    // #endregion 
 
     // #region  字典项
     /**
      * @author sswq
+     * @description 获取文件信息
+     * */
+    getFilesInfo(params) {
+        return fetch('/dfs/open/files/info/get', params, 'get')
+    },
+    /**
+     * @author sswq
      * @description 查询所有基础信息下拉数据源
      * */
-    getAllBaseInfo() {
-        return fetch(storageURL + '/web/yc/inventory/transfer/base', '', 'get')
+    getAllBaseInfo(productType) {
+        return fetch(storageURL + '/web/yc/inventory/transfer/base', {productType}, 'get')
     },
     /**
      * @author xh
@@ -969,6 +1289,13 @@ export default {
      * */
     getBankList(params) {
         return fetch(storageURL + '/web/yc/bank/info', params, 'get')
+    },
+    /**
+     * @author sswq
+     * @description 企业用户分页查询
+     * */
+    getEnterpriseList(params) {
+        return fetch('/userinfo/enterprise/list/search', params)
     },
     // #endregion
 

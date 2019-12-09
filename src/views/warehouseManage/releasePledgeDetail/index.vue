@@ -1,18 +1,14 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
-        <label>货主名称</label>
-        <div class="form-control">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in cargoList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+        <label>货主</label>
+        <div class="form-control" v-if="!IS_SHIPPER">
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
+        </div>
+        <div class="form-control" v-if="IS_SHIPPER">
+          <el-input size="small" :value="realname" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
@@ -44,7 +40,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -72,7 +68,7 @@
           <el-button type="text" @click="detail(listData.list[scope.$index])">解押单</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
         <tickets
       :visible="visible"
       :cancelCb="()=>{this.visible = false}"
@@ -89,14 +85,12 @@
 <script>
 // import NP from "number-precision";
 import { mapGetters } from "vuex";
-import { baseMixin } from "@/common/mixin.js";
-import { requestParamsByTimeRange } from "@/common/util.js";
-// import { judgeAuth } from "@/util/util.js";
+import { requestParamsByTimeRange,handleFilterSelf } from "common/util.js";
+// import { judgeAuth } from "util/util.js";
 import _ from "lodash";
-import Dict from "@/util/dict.js";
-import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
-import tickets from "@/components/tickets";
+import Dict from "util/dict.js";
+import tickets from "components/tickets";
+import cargoglass from "components/cargoglass";
 import releasePledgeticket from "./releasePledgeticket";
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
 const EXTRA_PARAMS_KEYS = ['releaseStartTime', 'releaseEndTime'];
@@ -160,12 +154,10 @@ const defaulttableHeader = [
 ];
 export default {
   name: "releasePledgeDetail",
-  mixins: [baseMixin],
   components: {
-    heltable,
-    hlBreadcrumb,
     tickets,
-    releasePledgeticket
+    releasePledgeticket,
+    cargoglass
   },
   data() {
     return {
@@ -178,15 +170,18 @@ export default {
       showOverflowTooltip: true,
       visible: false,
       contentId:"customers",
-      bill:[],
+      bill:[]
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"])
+    ...mapGetters("app", ["role", "userId", "realname", "IS_SHIPPER"])
   },
   methods: {
     _filter() {
       const {timeRange} = this.form;
+      if (this.IS_SHIPPER) {
+        this.form.cargoId = this.userId;
+      }      
       const _reqParams_ = requestParamsByTimeRange(this.form, timeRange, ...EXTRA_PARAMS_KEYS);
       return _.clone(Object.assign({}, _reqParams_, this.listParams));
     },
@@ -194,7 +189,12 @@ export default {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      if(this.$refs.cargoglass) {
+        this.$refs.cargoglass.clearValue();
+      }
+      setTimeout(()=>{
+        this.getListData();
+      },20)
     },
     changePage(page) {
       this.listParams.page = page;
@@ -235,6 +235,10 @@ export default {
           break;
       }      
     },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.cargoId = obj.userId;
+    },      
     init() {
       setTimeout(() => {
         this.clearListParams();

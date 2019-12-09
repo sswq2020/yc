@@ -1,16 +1,12 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="form" v-if="pledgeData && pledgeData.cargoId">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
+          <div class="head">质押信息</div>
           <el-row>
-            <el-col :md="12" :sm="12" :xs="24">
-              <div class="head">质押信息</div>
-            </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="业务类型"
                 prop="pledgeType"
@@ -26,7 +22,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="质权方(银行)"
                 prop="bankId"
@@ -42,21 +38,21 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="质压方" prop="pledgeCargo">
                 <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="质押数量"
                 prop="pledgeNums"
-                :rules="validatenum(form.inventoryTotalNums)"
+                :rules="validatenum((form.inventoryTotalNums - form.totalPledgeNums))"
               >
                 <el-input v-model.number="form.pledgeNums"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
                 label="质押重量"
                 prop="pledgeWeight"
@@ -69,31 +65,29 @@
         </div>
         <div class="form-block">
           <div class="head">库存信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+          <el-row>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="货主" prop="pledgeCargo">
                 <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存数量" prop="inventoryTotalNums">
                 <el-input :value="form.inventoryTotalNums" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存重量" prop="inventoryTotalWeight">
                 <el-input :value="form.inventoryTotalWeight" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </div>
-        <div class="bottom">
-          <el-form-item>
-            <el-button type="primary" size="medium" @click="submitForm('form')">确定</el-button>
-            <el-button @click="back" size="medium">取消</el-button>
-          </el-form-item>
-        </div>
       </el-form>
+    </div>
+    <div class="bottom">
+        <el-button type="primary" size="small" @click="submitForm('form')">确定</el-button>
+        <el-button @click="back" size="small">取消</el-button>
     </div>
   </div>
 </template>
@@ -101,7 +95,6 @@
 <script>
 import { mapState } from "vuex";
 import _ from "lodash";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
 import { DICT_SELECT_ARR } from "@/common/util";
 import { bankMixin } from "@/common/mixin.js";
@@ -117,14 +110,14 @@ const defualtFormParams = {
   pledgeWeight: null,
   pledgeCode: null,
   inventoryTotalNums: null,
-  inventoryTotalWeight: null
+  inventoryTotalWeight: null,
+  totalPledgeNums:0
 };
 
 export default {
   name: "pledgeManage",
   mixins: [bankMixin],
   components: {
-    hlBreadcrumb
   },
   data() {
     return {
@@ -153,13 +146,10 @@ export default {
           message: "请输入质押重量",
           trigger: "blur"
         },
-        {  max: 10, 
-           message: '最多10位',
-           trigger: 'blur'
-        },
-        { 
+        { max: 10, message: "最多10位", trigger: "blur" },
+        {
           pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,3})?$/,
-          message: '正数可以包含3位小数'
+          message: "正数可以包含3位小数"
         },
         {
           validator(rule, value, callback) {
@@ -220,8 +210,8 @@ export default {
         const res = await this.$api.getAvailableNum(this.pledgeData.cargoId);
         switch (res.code) {
           case Dict.SUCCESS:
-            if(res.data) {
-               this.max = Number(res.data);
+            if (res.data) {
+              this.max = Number(res.data);
             }
             break;
           default:
@@ -246,23 +236,39 @@ export default {
   }
 };
 </script>
->
+
 
 <style scoped lang="less">
 .form {
-  padding: 15px 15px 50px 15px;
+  padding: 20px 15px 50px 20px;
   .form-block {
-    padding-top: 15px;
+    padding-bottom: 20px;
     .head {
-      padding-left: 10px;
-      margin-bottom: 15px;
-      font-size: 18px;
-      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left: 20px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      color: #333333;
+      background: #f6f8fa;
     }
   }
-  .bottom {
-    padding: 15px 0px 1px 0px;
-    background: white;
-  }
+}
+.bottom {
+    position: fixed;
+    width: 86%;
+    bottom: 20px;
+    height: 50px;
+    background-color: #f6f8fa;
+    margin-left: 20px;
+    box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+    .el-button {
+      min-width: 64px;
+      margin-left: 20px;
+      margin-top: 10px;
+      &:last-child{
+        margin-left: 16px;
+      }
+    }
 }
 </style>

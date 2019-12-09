@@ -1,11 +1,19 @@
 import pathToRegexp from "path-to-regexp";
 import mockjs from "mockjs";
 
-const hostList = {
+export const hostList = {
+    // dev: '//192.168.4.16:25092/hletoil', // 易凯/
+    // dev: '//192.168.4.16:25084/hletoil', // 周扬
+    development: '//oil.hlet.com/hletoil', // 测试
+    // dev: '//192.168.4.16:25091/hletoil', // 佘慧   13888888888   888888       admin 888888
+    // dev: '//test.hletong.com/hletoil', // 佘慧   13888888888   888888       admin 888888
+    test: '//test.hletong.com/apis',
+    ywtest:'//apis.hletown.com',
+    production: '//yc.hletong.com/apis',
     default: ""
 };
 
-const IS_MOCK = false;
+const IS_MOCK = true;
 const storageURL = ""
 
 const dict = { 'SUCCESS': "000000" }
@@ -50,7 +58,7 @@ const shipperManageList = {
 const InventoryTableList = {
     "id|+1": "@INTEGER(1,2019690999)",
     "availableNumInventory": 0,
-    "availableWeightInventory": 0,
+    "availableWeightInventory": 12,
     "createdBy": "",
     "createdTime": "",
     "disableNumInventory": 0,
@@ -68,8 +76,8 @@ const InventoryTableList = {
     "volumeWeightSold": 0,
     "deliveryStoreId": "",
     "deliveryStore": "@PICK('仓库一','仓库二')", // 仓库
-    "cargoId": "@PICK('1','2')",
-    "cargoName": "@PICK('货主1','货主2')", // 货主
+    "userId": "@PICK('1','2')",
+    "name": "@PICK('货主1','货主2')", // 货主
     "pilePositionId": "",
     "pilePosition": "A",// 区桩位
     "piles": '054', // 层数
@@ -85,9 +93,22 @@ const InventoryTableList = {
     "numUnit": "支", // 数量单位
     "totalWeightInventory": 6, // 库存重量
     "weightUnit": "吨", // 重量单位
+    "numUnitTypeEnum": { code: "1", text: "件" }, // 数量单位
     "measuringTypeEnum": { code: "1", text: "理算" }, // 计量方式
     "wareHousingTypeEnum": { code: "1", text: "过货入库" }, //入库类型
-    "incomingDays": 0 //入库天数
+    "incomingDays": 0, //入库天数
+    "oilTankCode": "@PICK('1','2')号罐", // 储罐编号
+    "oilTankId": "@PICK('1','2')号罐", // 储罐Id
+    "firstCatalogId": "2", // 品类id
+    "firstCatalogName": "汽油",
+    "secondCatalogId":"",
+    "secondCatalogName":"@PICK('92','95')", // 牌号
+    "trademark": "@PICK('0','92','95')", // 牌号
+    "emissionStandard": "@PICK('国五','国六')",// 排放标准
+    "productNumber": "型号1", // 型号
+    "density": "100", //密度
+    "producerId": "",
+    "producerName": "生产商1", // 生产商
 }
 
 const InventoryDetailList = {
@@ -243,18 +264,139 @@ const stockRemovalBill = {
     'outsideType': '库存发货'
 }
 
+const paramsData =
+{
+    classifyId: "7",
+    "id": "@INTEGER(2,2019690999)",
+    paraName: "@CTITLE(2,4)"
+}
 
-const cargoMap = { "1": "小红", "2": "熊安明", "c8254b4eb6154d9d91992acdf0df248a": "1", "fba7fb0eabc64ee882233e85d9b62d26": "kkkkkyinkai", "95105a94a7c5487c93616d505958c850": "test1" }
-const specificationsMap = { "5d9992cab42840138a35b585e637b5e1": "25mm*20mm*30mm", "8810851ea47c414db9129f14aba557ed": "1", "b609063bb007469ab52cccc5f930c685": "11", "cc1926c4da1448739ddd8a0d3e1f82eb": "30*20*30" }
-const materialMap = { "8293674dcc74426e97983b85f5bfd305": "ABC1" }
-const productNameMap = { "0b8b112b5eb34d8b824c6cb5dcb5a686": "粗石油222", "b2fd07bb44d94647a7731f6cac488f62": "粗石油222", "ce78797629a448c89f2e0330de4c1ce1": "H型钢" }
-const originPlaceMap = { "bc5ecc7158f44eccae90cada6e986165": "测试1" }
-const deliveryStoreMap = { "bc5ecc7158f44eccae90cada6e986165": "仓库1", "bc5ecc7158f44ecc56": "仓库2" }
-const pilePositionMap = { "bc5ecc7158f44eccae90cada6e986165": "区桩A", "bc5ecc7158f44ecc56": "区桩B" }
+const paraValue =
+{
+    ...paramsData,
+    paraValue: "@CTITLE(6,7)"
+}
+
+const cargoList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "@CNAME()",
+    "sonSearchList": []
+}
+const specificationsList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "@INTEGER(1,20)mm*@INTEGER(1,20)mm*30mm",
+    "sonSearchList": []
+}
+const materialList = { id: "8293674dcc74426e97983b85f5bfd305", text: "ABC1", sonSearchList: [] }
+const originPlaceList = { id: "bc5ecc7158f44eccae90cada6e986165", text: "测试1", sonSearchList: [] }
+const productNameList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "@PICK('粗石油','H型钢')@INTEGER(1,222)",
+    "sonSearchList": []
+}
+const pilePositionList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "区桩@PICK('A','B','C','D','E')",
+    "sonSearchList": []
+}
+const emissionStandardList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "text": "('国六','国五')",
+    "sonSearchList": []
+}
+
+const pageMemberList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "phone": "@INTEGER(13012819898,18912819898)",
+    "name": "@CTITLE(7,9)公司",
+    "username": "@CNAME(2,3)",
+    "telNo": "@INTEGER(13012819898,18912819898)",
+    "address": '@PROVINCE()@CITY()@CTITLE(2,10)@INTEGER(1,100)号',
+    "grantTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "state": "@PICK('0','1')",  // 1正常 0禁止
+    "userId": "@INTEGER(1,2019690999)",  // 会员id
+}
+
+const EnterpriseList = {
+    "id|+1":"@INTEGER(1,2019690999)",
+    "extInfo": {
+        "address": '@PROVINCE()@CITY()@CTITLE(2,10)@INTEGER(1,100)号', // 地址
+        "bizIdNo": "@INTEGER(321102199108120001,321102200208120034)",  //业务联系人身份证号
+        "bizName": "@CNAME()", //业务联系人名称
+        "city": "@CITY()", // 所属市
+        "county": "@COUNTY()", // 所属区/县
+        "creditCode": "@INTEGER(321102199108120001,321102200208120034)", // 统一社会信用代码
+        "effectiveDt": '@DATE("yyyy-MM-dd")', //营业生效日期
+        "entType_": "@PICK('股份有限公司','有限责任公司')", // 企业类型Text
+        "expireDt": '@DATE("yyyy-MM-dd")', // //营业到期日期
+        "legalPersonName": "@CNAME()", // 法人姓名
+        "name": "@CNAME()", // 企业名称
+        "province": "@PROVINCE()", //所属省
+        "userId": "@INTEGER(1,2019690999)", //用户id
+        "isRetrade":"@PICK('0','1')" // 重复交易
+    }
+}
+
+const PICLIST1 = [
+'https://gss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3764408578,1682053584&fm=173&app=49&f=JPEG?w=218&h=146&s=EEBA33C344B0359C0B9CD01A0100C092',
+'https://gss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1704057549,3981133715&fm=173&app=49&f=JPEG?w=218&h=146&s=2D9306D971B8EE3ED25DA1DA0300D033',
+]
+
+const PICLIST2 = [
+    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+        'https://gss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3245319348,1127212882&fm=173&app=49&f=PNG?w=218&h=146&s=BD01703354107BC2122849CF0300E030'
+    ]
+
+const agreementList = {
+    "agreementName": "买方@CTITLE(2)协议", // 协议名称
+    "contractCompany": "惠龙易通",
+    "contractCompanyId":"0",
+    "dueTime": null, // 到期时间
+    "effectTime": new Date(), // 生效时间
+    "fileIdList":new Array(4).fill('984ffb1bcd4145e4951d47573f037415'), // 图片的fileId数组
+    "picUrlList": Math.random() > 0.3 ?  PICLIST1 : PICLIST2 , // 图片的fileId数组对应的URL
+    "id|+1":"@INTEGER(1,2019690999)", // 每一行的主键，但是新增的没有
+}
+
+const VIPInfoData = {
+    ...EnterpriseList.extInfo,
+    "agreementList|2-3":[agreementList]
+}
+
 
 const MockRole = {
     role: "@PICK('1','2')"  // 货主 1,仓管员 2
 }
+
+const oilQualityInfoList = {
+    "id|+1": "@INTEGER(1,2019690999)",
+    "createdTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+    "sellState": "@PICK('0','1')",
+    "productNumber": "@INTEGER(1,2019690999)",
+    "density": "34",
+    "emissionStandard": "0",
+    "emissionStandardEnum": { text: "惠龙排放标准1" },
+    "fileId": "324234",
+    "firstCatalogId": "@INTEGER(1,2019690999)",
+    "firstCatalogName": "@CTITLE(2,4)",
+    "manufacturerId": "@INTEGER(1,2019690999)",
+    "manufacturerName": "@CTITLE(2,4)公司",
+    "picUrl": "",
+    "secondCatalogId": "@INTEGER(1,2019690999)",
+    "secondCatalogName": "@CTITLE(2,4)",
+    "sellStateEnum": "",
+    "parameterList": [
+        {
+            "classifyId": 0,
+            "id": 0,
+            "paraName": "",
+            "paraType": "",
+            "paraValue": "",
+            "sort": 0
+        }
+    ],
+}
+
 
 const mockRouterMap = {
     [hostList.default]: [
@@ -323,7 +465,181 @@ const mockRouterMap = {
         },
         // #endregion    
 
+        // #region  货主检索条件
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/search/cargo',
+            result() {
+                return {
+                    ...body,
+                    "data|5-6": [cargoList],
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  交割库下拉(专门为入库登记设计)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/deliveryStoreManage/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "bc5ecc7158f44eccae90cada6e986165": "仓库1",
+                        "bc5ecc7158f44ecc56": "仓库2"
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  储罐下拉(专门为入库登记设计,与交割库联动)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/oilTank/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "778": "1号罐",
+                        "212": "2号罐",
+                        "333": "6号罐",
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  区装位下拉列表(根据仓库id,专门为入库登记设计)
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/pilePosition/select',
+            result() {
+                return {
+                    ...body,
+                    data: {
+                        "1212": "区装位1",
+                        "3333": "区装位2"
+                    }
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  油品信息分页查询
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/product/product/pageForSale',
+            result(params) {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            'list|10-20': [oilQualityInfoList],
+                            "paginator": {
+                                "currentPage": params.page,
+                                "pageSize": params.pageSize,
+                                "totalCount": 1000,
+                                "totalPage": 1000 / params.pageSize
+                            }
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  品类下拉列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: storageURL + '/web/yc/base/category/select',
+            result() {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            '787822':"汽油",
+                            '787866':"柴油",
+                            '787888':"润滑油",                           
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  商品详情页/编辑查询
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/open/product/product/get',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        id: params.id,
+                        fileId: '121212',
+                        firstCatalogId: '5',
+                        secondCatalogId: '51',
+                        emissionStandard: "0",
+                        density: 'mock',
+                        productNumber : 'mock',
+                        addressProvince:"@PROVINCE()",
+                        manufacturerId: "213123123",
+                        price: '23',
+                        totalWeightInventory: "12",
+                        sellState: "1",
+                        picUrl:"https://gss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2324433426,425917240&fm=173&app=25&f=JPEG?w=218&h=146&s=6A814187406328AE248498A7030040A1",
+                        'parameterList|23': [paraValue]
+                    }
+                };
+            }
+        },
+        // #endregion 
+
+        // #region  牌号下动态加载的各个参数
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL +  '/web/yc/getParameterById',
+            result(params) {
+                return {
+                    ...body,
+                    'data|20-40': [{ ...paramsData, ...{ classifyId: params.id } }]
+                };
+            }
+        },
+
+
         // #endregion
+
+        // #region  生产商下拉列表
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: storageURL + '/web/yc/base/producer/select',
+            result() {
+                return {
+                    ...body,
+                    ...{
+                        data: {
+                            '213123123':"生产商1",
+                            '213123156':"生产商2",
+                            '213123173':"生产商3"                         
+                        },
+                    },
+                };
+            }
+        },
+        // #endregion 
+
 
         // #region 仓储信息
 
@@ -368,7 +684,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/web/yc/base/stockInventoryDetail/page',
+            router: storageURL + '/web/yc/storage/stockInventoryDetail/page',
             result(params) {
                 return {
                     ...body,
@@ -449,7 +765,7 @@ const mockRouterMap = {
         {
             isMock: IS_MOCK,
             methods: 'post',
-            router: storageURL + '/web/yc/base/stockRemoval/list',
+            router: storageURL + '/web/yc/storage/stockRemoval/list',
             result() {
                 return {
                     ...body,
@@ -711,7 +1027,7 @@ const mockRouterMap = {
         // #region  出库单
         {
             isMock: IS_MOCK,
-            methods: 'post',
+            methods: 'get',
             router: storageURL + '/web/yc/storage/stockRemovalDetail/get',
             result() {
                 return {
@@ -764,10 +1080,10 @@ const mockRouterMap = {
                         "num": 23,
                         "weight": 243,
                         "registerId": "SH1905060002",
-                        "registerTime":'@DATE("yyyy-MM-dd HH:mm:ss")',
-                        "summation":87,
-                        "remark":"备注",
-                        "productTypeCode":"34234"
+                        "registerTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+                        "summation": 87,
+                        "remark": "备注",
+                        "productTypeCode": "34234"
                     },
 
                 };
@@ -811,10 +1127,10 @@ const mockRouterMap = {
                         "num": 23,
                         "weight": 243,
                         "registerId": "SH1905060002",
-                        "registerTime":'@DATE("yyyy-MM-dd HH:mm:ss")',
-                        "summation":87,
-                        "remark":"备注",
-                        "chineseWeights":"" // 中文重量
+                        "registerTime": '@DATE("yyyy-MM-dd HH:mm:ss")',
+                        "summation": 87,
+                        "remark": "备注",
+                        "chineseWeights": "" // 中文重量
                     },
 
                 };
@@ -924,7 +1240,6 @@ const mockRouterMap = {
         },
         // #endregion 
 
-
         // #endregion
 
         // #region 系统参数
@@ -995,22 +1310,200 @@ const mockRouterMap = {
 
         // #endregion
 
+        // #region 会员管理
+
+        // #region  交易会员管理列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/member/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10-20': [pageMemberList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+                };
+            }
+        },
+        // #endregion
+
+        // #region  会员启用禁用
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/member/updateState',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #region  获取会员信息
+        {
+            isMock: IS_MOCK,
+            methods: 'get',
+            router: '/web/yc/member/get',
+            result(params) {
+                return {
+                    ...body,
+                    data:{...VIPInfoData,userId:params.userId}                                          
+                };
+            }
+        },
+        // #endregion
+
+        // #region  新增会员
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/member/add',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #region  更新会员
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/member/update',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #endregion
+
+        // #region 预警管理
+
+        // #region  新增协议
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/agreement/add',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #region  更新协议
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/agreement/update',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion
+
+        // #region  删除协议
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/agreement/delete',
+            result() {
+                return {
+                    ...body
+                };
+            }
+        },
+        // #endregion        
+
+        // #region  协议到期预警列表
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/web/yc/agreement/page',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|3-4': [agreementList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+                };
+            }
+        },
+        // #endregion
+
+        // #endregion
+
         // #region  字典项
         {
             isMock: IS_MOCK,
             methods: 'get',
             router: '/web/yc/inventory/transfer/base',
-            result() {
+            result(productType) {
                 return {
                     ...body,
                     data: {
-                        "cargoMap": cargoMap,
-                        "specificationsMap": specificationsMap,
-                        "materialMap": materialMap,
-                        "productNameMap": productNameMap,
-                        "originPlaceMap": originPlaceMap,
-                        "deliveryStoreMap": deliveryStoreMap,
-                        "pilePositionMap": pilePositionMap
+                        "cargoList|3": [cargoList],
+                        "specificationsList|3": [specificationsList],
+                        "originPlaceList": [originPlaceList],
+                        "productNameList|3": [productNameList],
+                        "pilePositionList|3": [pilePositionList],
+                        "emissionStandardList|2": [emissionStandardList],
+                        "materialList": [materialList],
+                        "firstCatalogList": [{
+                            "id": "5",
+                            "text": '汽油',
+                            "sonSearchList": [
+                                { 'id': '51', 'text': "92" },
+                                { 'id': '52', 'text': '95' }
+                            ]
+                        },
+                        {
+                            "id": "6",
+                            "text": '柴油',
+                            "sonSearchList": [
+                                { 'id': '61', 'text': "-10" },
+                                { 'id': '62', 'text': '-20' }
+                            ]
+                        }
+                        ],
+                        "deliveryStoreList": [{
+                            "id": "2",
+                            "text": '仓库一',
+                            "sonSearchList": [
+                                { 'id': '21', 'text': "1号罐" },
+                                { 'id': '22', 'text': '2号罐' }
+                            ]
+                        },
+                        {
+                            "id": "3",
+                            "text": '仓库二',
+                            "sonSearchList": [
+                                { 'id': '31', 'text': '3号罐' },
+                                { 'id': '32', 'text': '4号罐' }
+                            ]
+                        }
+                        ],
                     }
                 };
             }
@@ -1065,6 +1558,28 @@ const mockRouterMap = {
             }
         },
         // #endregion     
+
+        // #region  企业用户分页查询
+        {
+            isMock: IS_MOCK,
+            methods: 'post',
+            router: '/userinfo/enterprise/list/search',
+            result(params) {
+                return {
+                    ...body,
+                    data: {
+                        'list|10': [EnterpriseList],
+                        "paginator": {
+                            "currentPage": params.page,
+                            "pageSize": params.pageSize,
+                            "totalCount": 1000,
+                            "totalPage": 1000 / params.pageSize
+                        }
+                    },
+                };
+            }
+        },
+        // #endregion
 
         // 数据字段项
         {
@@ -1121,7 +1636,27 @@ const mockRouterMap = {
                                     "text": "木材"
                                 }
                             ]
-                        }
+                        },
+                        {
+                            "entryCode": "ycEmissionStandard",
+                            "entryName": "排放标准",
+                            "items": [
+                                {
+                                    "disabled": false,
+                                    "id": "0",
+                                    "orderBy": 0,
+                                    "selected": 0,
+                                    "text": "排放标准1"
+                                },
+                                {
+                                    "disabled": false,
+                                    "id": "1",
+                                    "orderBy": 1,
+                                    "selected": 0,
+                                    "text": "排放标准2"
+                                }
+                            ]
+                        },
                     ]
                 };
             }

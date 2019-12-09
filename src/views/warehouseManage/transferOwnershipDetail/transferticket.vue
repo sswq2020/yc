@@ -24,25 +24,46 @@
       <th colspan="3"></th>
     </tr>
     <tr>
-      <th>类型</th>
-      <th>区桩位</th>
-      <th>炉号</th>
-      <th>品名</th>
-      <th>规格</th>
-      <th>材质</th>
-      <th>产地</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">类型</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">区桩位</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">炉号</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">品名</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">规格</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">材质</th>
+      <th v-if="productType!==Dict.PRODUCT_OIL">产地</th>
+
+      <th v-if="productType===Dict.PRODUCT_OIL">储罐编号</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">品类</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">牌号</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">排放标准</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">密度</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">型号</th>
+      <th v-if="productType===Dict.PRODUCT_OIL">生产商</th>  
+
+
       <th>数量</th>
       <th>重量</th>
       <th>备注</th>
     </tr>
     <tr class="alt"  v-for="(item,index) in data" :key="index">
-      <td>{{item.transferTypeText || ""}}</td>
-      <td>{{item.pilePosition || ""}}</td>
-      <td>--</td>
-      <td>{{item.productName || ""}}</td>
-      <td>{{item.specificationsName || ""}}</td>
-      <td>{{item.materialName || ""}}</td>
-      <td>{{item.originPlaceName || ""}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.transferTypeText || ""}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.pilePosition || ""}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">--</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.productName || ""}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.specificationsName || ""}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.materialName || ""}}</td>
+      <td v-if="productType!==Dict.PRODUCT_OIL">{{item.originPlaceName || ""}}</td>
+
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.oiltank || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.firstCatalog || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.trademark || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.emissionStandard || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.models || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.density || "--"}}</td>
+      <td v-if="productType===Dict.PRODUCT_OIL">{{item.manufacturer || "--"}}</td>
+
+
+
       <td>{{item.realTransferNums || ""}}</td>
       <td>{{item.realTransferWeights || ""}}</td>
       <td>{{item.remark || ""}}</td>
@@ -82,7 +103,11 @@ export default {
       default: function () {
         return []
       }        
-    }       
+    },
+    productType:{
+      type: String,
+      default:Dict.PRODUCT_OIL
+    }          
   },
   data() {
     return {

@@ -1,13 +1,13 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
-        <label>货主名称</label>
+        <label>商品大类</label>
         <div class="form-control">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+          <el-select v-model="storageclass" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in cargoList"
+              v-for="(item,index) in typeProductDatas"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -16,7 +16,16 @@
         </div>
       </div>
       <div class="form-item">
-        <label>仓库</label>
+        <label>货主</label>
+        <div class="form-control" v-if="!IS_SHIPPER">
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
+        </div>
+        <div class="form-control" v-if="IS_SHIPPER">
+          <el-input size="small" :value="realname" :disabled="true"></el-input>
+        </div>
+      </div>
+      <div class="form-item">
+        <label>交割仓库</label>
         <div class="form-control">
           <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
@@ -52,7 +61,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -81,26 +90,24 @@
           <el-button type="text" @click="Retrieval(listData.list[scope.$index])">出库</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
-import { baseMixin } from "@/common/mixin.js";
-import { requestParamsByTimeRangeOrigin } from "@/common/util.js";
-// import { judgeAuth } from "@/util/util.js";
+import { mapState,mapGetters, mapMutations } from "vuex";
+import { baseMixin} from "common/mixin.js";
+import { requestParamsByTimeRangeOrigin } from "common/util.js";
+// import { judgeAuth } from "util/util.js";
 import _ from "lodash";
-import { normalTime } from "@/util/util.js";
-import Dict from "@/util/dict.js";
-import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
+import Dict from "util/dict.js";
+import cargoglass from "components/cargoglass.vue";
 
 /**只是请求参数的key,页面中的观察属性却不需要，只在请求的那一刻由timeRange赋值*/
 const EXTRA_PARAMS_KEYS = ["start", "end"];
 
 const defaultFormData = {
-  cargoId: null,
+  userId: null,
   deliveryStoreId: null,
   timeRange: []
 };
@@ -118,11 +125,11 @@ const defaultListData = {
 const defaulttableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
+    label: "交割仓库",
     width: "180"
   },
   {
-    prop: "cargoName",
+    prop: "name",
     label: "货主",
     width: "180"
   },
@@ -130,44 +137,41 @@ const defaulttableHeader = [
     prop: "supposedRemovalNum",
     label: "申请出库数量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
     prop: "supposedRemovalWeight",
     label: "申请出库重量",
     width: "180",
-    align:"right"
+    align: "right"
   },
   {
-    prop: "applyRemovalTimeText",
+    prop: "applyRemovalTime",
     label: "出库申请时间",
     width: "180"
   }
 ];
 
-const rowAdapter = (list) => {
-    if (!list) {
-        return []
-    }
-    if (list.length > 0) {
-        list = list.map((row) => {
-            return row = { 
-              ...row,
-              applyRemovalTimeText:normalTime(row.applyRemovalTime),
-              
-            }
-        })
-    }
-    return list
-}
-
+const rowAdapter = list => {
+  if (!list) {
+    return [];
+  }
+  if (list.length > 0) {
+    list = list.map(row => {
+      return (row = {
+        ...row,
+        supposedRemovalNum: row.supposedRemovalNum || "-"
+      });
+    });
+  }
+  return list;
+};
 
 export default {
   name: "waitCheckEnter",
   mixins: [baseMixin],
   components: {
-    heltable,
-    hlBreadcrumb
+    cargoglass
   },
   data() {
     return {
@@ -190,35 +194,53 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"])
+    ...mapGetters("app", ["role", "userId", "realname", "IS_SHIPPER"]),
+    ...mapState("waitCheckOuter", ["productType"]),
   },
   methods: {
-    ...mapMutations("waitCheckOuter", ["setRetrieval"]),
+    ...mapMutations("waitCheckOuter", ["setRetrieval","setProductType"]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
     },
     _filter() {
       const { timeRange } = this.form;
+      if (this.IS_SHIPPER) {
+        this.form.userId = this.userId;
+      }
       const _reqParams_ = requestParamsByTimeRangeOrigin(
         this.form,
         timeRange,
         ...EXTRA_PARAMS_KEYS
       );
-      return _.clone(Object.assign({}, _reqParams_, this.listParams));
+      return _.clone(
+        Object.assign({}, _reqParams_, this.listParams, {
+          productTypeCode: this.storageclass
+        })
+      );
+    },
+    clear() {
+      this.form = { ...defaultFormData };
+      this.listParams = { ...defaultListParams };
+      this.listData = { ...defaultListData };
     },
     clearListParams() {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      if(this.$refs.cargoglass) {
+        this.$refs.cargoglass.clearValue();
+      }
+      setTimeout(()=>{
+        this.getListData();
+      },20)
     },
     changePage(page) {
       this.listParams.page = page;
       this.getListData();
     },
     changePageSize(pageSize) {
-      this.listParams = { ...defaultListParams, pageSize:pageSize };
-      this.getListData();      
+      this.listParams = { ...defaultListParams, pageSize: pageSize };
+      this.getListData();
     },
     getListDataBylistParams() {
       this.listParams = { ...defaultListParams };
@@ -231,7 +253,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData ={...res.data, list: rowAdapter(res.data.list) };
+          this.listData = { ...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
           this.listData = { ...defaultListData };
@@ -241,11 +263,16 @@ export default {
     },
     Retrieval(item) {
       const { removalId } = item;
+      this.setProductType(this.storageclass);
       this.setRetrieval(removalId);
       this.$router.push({
         path: "/web/yc/storage/stockRemoval/page/CheckOuter"
       });
     },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.userId = obj.userId;
+    },    
     init() {
       setTimeout(() => {
         this.clearListParams();
@@ -256,7 +283,21 @@ export default {
     perm() {}
   },
   mounted() {
+    this.storageclass = this.productType;
     this.init();
+    this._getAllBaseInfo(this.storageclass)
+  },
+  watch: {
+    storageclass(newV, oldV) {
+      if (newV !== oldV) {
+        this.clear();
+        /**如果新旧值都是钢木,不要再请求*/
+        if (newV === Dict.PRODUCT_OIL || oldV === Dict.PRODUCT_OIL) {
+          this._getAllBaseInfo(newV);
+        }
+      }
+      this.getListData();
+    }
   }
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div class="container single-page">
-    <HLBreadcrumb :data="breadTitle">
-      <el-button type="primary" size="small" @click="add" icon="el-icon-plus">新增</el-button>
-    </HLBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle">
+      <el-button type="primary" size="small" @click="add" icon="el-icon-plus" plain class="text-btn">新增</el-button>
+    </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>材质名称</label>
@@ -20,7 +20,7 @@
         <el-button size="small" @click="reset">重置</el-button>
       </div>
     </div>
-    <HLtable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -48,7 +48,7 @@
           <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.materialStatusCode == "0" ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
-    </HLtable>
+    </HletongTable>
     <MaterialFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
@@ -63,8 +63,6 @@
 import { mapMutations  } from 'vuex';
 import moment from 'moment';
 import Dict from "@/util/dict.js";
-import HLBreadcrumb from "@/components/hl-breadcrumb";
-import HLtable from "@/components/hl_table";
 import MaterialFormModal from "./materialFormModal.vue";
 
 const defaultListParams = {
@@ -75,8 +73,6 @@ const defaultListParams = {
 export default {
   name: "materialManage",
   components: {
-    HLBreadcrumb,
-    HLtable,
     MaterialFormModal
   },
   data() {

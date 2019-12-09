@@ -1,5 +1,9 @@
 console.log('环境--------' + process.env.NODE_ENV)
+const path = require("path");
 const Time = new Date().getTime();
+function resolve(dir) {
+    return path.join(__dirname, dir);
+}
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production'
         ? '/'
@@ -10,9 +14,10 @@ module.exports = {
                 // target: 'https://beidou.hletong.com/',
                 //  target: 'http://192.168.4.16:25084/',// 周杨
                 //  target: 'http://192.168.4.16:25091/',// 佘慧
-                 target: 'http://192.168.4.16:25092/',// 尹凯
+                // target: 'http://192.168.4.16:25092/',// 尹凯
                 // target:'http://10.1.15.119:8202/',
                 // target:'http://192.168.4.16:25083/',//liudongcai serve
+                target:'http://10.1.15.106:8445/',//liudongcai serve
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
@@ -25,10 +30,21 @@ module.exports = {
             }
         }
     },
+    configureWebpack: {
+		externals: {
+			hlet: 'hlet'
+		}
+	},
     lintOnSave: false,
     chainWebpack: config => {
-        if(process.env.NODE_ENV === 'test'){
+        if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'ywtest') {
             config.output.filename(`[name].${Time}.[hash].js`).end();
         }
-    }
+        config.resolve.alias.set("@", resolve("src"));
+        config.resolve.alias.set("components", resolve("src/components"));
+        config.resolve.alias.set("common", resolve("src/common"));
+        config.resolve.alias.set("views", resolve("src/views"));
+        config.resolve.alias.set("api", resolve("src/api"))
+        config.resolve.alias.set("util", resolve("src/util"))
+    },
 }

@@ -1,64 +1,81 @@
 <template>
-  <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle">
-      <el-button
-        class="hlB_buts"
+  <div class="container single-page" id="fixpadding">
+    <HletongBreadcrumb :data="breadTitle">
+      <!-- <el-button
+        type="primary"
+        plain
+        class="text-btn"
         size="small"
         icon="el-icon-download"
-        v-if="!IS_SHIPPER"
+        v-if="stockregister"
         @click="GoEnterRegister"
-      >入库登记</el-button>
+      >入库登记</el-button> -->
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
+        class="text-btn"
         size="small"
         icon="el-icon-bank-card"
+        v-if="stockInventoryApply"        
         :disabled="!equalShipperAndStoreItems"
         @click="()=>{this.batchCheckOutVisible = true}"
       >出库申请</el-button>
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
+        class="text-btn"
         size="small"
         icon="el-icon-bank-card"
         :disabled="!equalShipperItems"
-        v-if="!IS_SHIPPER"
+        v-if="transferConfirm"
         @click="()=>{this.batchTransferOwnershipVisible = true}"
       >过户</el-button>
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
+        class="text-btn"
         size="small"
         icon="el-icon-bank-card"
         :disabled="stockInventoryIds.length===0"
-        v-if="!IS_SHIPPER"
+        v-if="stockInventoryFrozen"
         @click="()=>{this.batchFrozenVisible=true}"
       >冻结</el-button>
       <el-button
-        class="hlB_buts"
+        type="primary"
+        plain
+        class="text-btn"
         size="small"
         icon="el-icon-bank-card"
         :disabled="stockInventoryIds.length===0"
-        v-if="!IS_SHIPPER"
+        v-if="stockInventoryUnFrozen"
         @click="()=>{this.batchUnFrozenVisible = true}"
       >解冻</el-button>
-    </hlBreadcrumb>
+    </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
-        <label>货主</label>
-        <div class="form-control" v-if="!IS_SHIPPER">
-          <el-select v-model="form.cargoId" placeholder="请选择" size="small">
+        <label>商品大类</label>
+        <div class="form-control">
+          <el-select v-model="storageclass" placeholder="请选择" size="small">
             <el-option
-              v-for="(item,index) in cargoList"
+              v-for="(item,index) in typeProductDatas"
               :key="index"
               :label="item.label"
               :value="item.value"
             ></el-option>
           </el-select>
         </div>
+      </div>
+      <div class="form-item">
+        <label>货主</label>
+        <div class="form-control" v-if="!IS_SHIPPER">
+         <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
+        </div>
         <div class="form-control" v-if="IS_SHIPPER">
-          <el-input size="small" :value="username" :disabled="true"></el-input>
+          <el-input size="small" :value="realname" :disabled="true"></el-input>
         </div>
       </div>
       <div class="form-item">
-        <label>仓库</label>
+        <label>交割仓库</label>
         <div class="form-control">
           <el-select v-model="form.deliveryStoreId" placeholder="请选择" size="small">
             <el-option
@@ -70,7 +87,60 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item">
+      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+        <label>储罐编号</label>
+        <div class="form-control">
+          <el-select v-model="form.oilTankId" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in oiltankList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+        <label>品类</label>
+        <div class="form-control">
+          <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in firstCatalogList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+        <label>牌号</label>
+        <div class="form-control">
+          <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in trademarkList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+        <label>排放标准</label>
+        <div class="form-control">
+          <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in HywEmissionStandardList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+
+      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
         <label>品名</label>
         <div class="form-control">
           <el-select v-model="form.productNameId" placeholder="请选择" size="small">
@@ -83,7 +153,7 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item">
+      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
         <label>材质</label>
         <div class="form-control">
           <el-select v-model="form.materialId" placeholder="请选择" size="small">
@@ -96,7 +166,7 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item">
+      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
         <label>规格</label>
         <div class="form-control">
           <el-select v-model="form.specificationsId" placeholder="请选择" size="small">
@@ -109,7 +179,7 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item">
+      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
         <label>产地</label>
         <div class="form-control">
           <el-select v-model="form.originPlaceId" placeholder="请选择" size="small">
@@ -132,7 +202,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @pageChange="changePage"
       :total="listData.paginator.totalCount"
@@ -141,11 +211,13 @@
       :pageSizes="[20]"
       :data="listData.list"
       :multiple="true"
+      :blankCol="false"
       @selection-change="selectChange"
       :loading="isListDataLoading"
     >
       <el-table-column
         :align="item.align || 'left'"
+        :width="item.width || null"
         :prop="item.prop"
         :label="item.label"
         :key="item.id"
@@ -159,10 +231,10 @@
 
       <el-table-column label="操作" fixed="right" width="100px" align="left">
         <template slot-scope="scope">
-          <el-button type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
+          <el-button v-if="stockInventoryDetail" type="text" @click="detail(listData.list[scope.$index])">查看明细</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
     <transitiondialog
       :data="selectedItems"
       :tableHeader="tableHeader.slice(0,8)"
@@ -204,23 +276,28 @@
 
 <script>
 // import NP from "number-precision";
-import { mapGetters, mapMutations } from "vuex";
-import { baseMixin } from "@/common/mixin.js";
-// import { judgeAuth } from "@/util/util.js";
-import { normalTime } from "@/util/util.js";
+import { mapState,mapGetters, mapMutations } from "vuex";
+import { baseMixin, dictMixin } from "common/mixin.js";
+import {findIndexByValue} from "common/util.js"
+import { judgeAuth } from "util/util.js";
 import _ from "lodash";
-import Dict from "@/util/dict.js";
-import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
-import transitiondialog from "@/components/transitiondialog";
+import Dict from "util/dict.js";
+// import heltable from "components/hl_table";
+import transitiondialog from "components/transitiondialog";
+import cargoglass from "components/cargoglass.vue";
 
 const defaultFormData = {
-  cargoId: null,
+  userId: null,
   deliveryStoreId: null,
   productNameId: null,
   materialId: null,
   specificationsId: null,
-  originPlaceId: null
+  originPlaceId: null,
+
+  oilTankId: null,
+  firstCatalogId: null,
+  secondCatalogId: null,
+  emissionStandard: null
 };
 const defaultListParams = {
   pageSize: 20,
@@ -233,93 +310,155 @@ const defaultListData = {
   },
   list: []
 };
-const defaulttableHeader = [
+const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
-    label: "仓库",
-    width: "180"
+    label: "交割仓库",
   },
   {
     prop: "incomingDays",
     label: "入库天数",
-    width: "180",
-    align:"right"
+    width: "50",
+    align: "right"
   },
   {
-    prop: "cargoName",
+    prop: "name",
     label: "货主",
-    width: "180"
   },
   {
     prop: "pilePosition",
     label: "区桩位",
-    width: "180"
   },
   {
     prop: "piles",
     label: "层数",
-    width: "180",
-    align:"right"
+    width: "50",
+    align: "right"
   },
   {
     prop: "productName",
-    label: "品名",
-    width: "180"
+    label: "品名"
   },
   {
     prop: "materialName",
-    label: "材质",
-    width: "180"
+    label: "材质"
   },
   {
     prop: "specificationsName",
-    label: "规格",
-    width: "180"
+    label: "规格"
   },
   {
     prop: "originPlaceName",
-    label: "产地",
-    width: "180"
+    label: "产地"
   },
   {
     prop: "totalNumInventoryText",
     label: "库存数量",
-    width: "180"
+    width: "80",
   },
-  // {
-  //   prop: "numUnitText",
-  //   label: "数量单位",
-  //   width: "180"
-  // },
   {
     prop: "totalWeightInventoryText",
     label: "库存重量",
-    width: "180"
+    width: "80"
   },
-  // {
-  //   prop: "weightUnitText",
-  //   label: "重量单位",
-  //   width: "180"
-  // },
   {
     prop: "measuringText",
-    label: "计量方式",
-    width: "180"
+    label: "计量方式"
+  },
+  {
+    prop: "weightUnitText",
+    label: "计量单位"
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型",
-    width: "180"
+    label: "入库类型"
   },
   {
     prop: "incomingId",
-    label: "入库单号",
-    width: "180"
+    label: "入库单号"
   },
   {
-    prop: "incomingTimeStr",
-    label: "入库时间",
-    width: "180"
+    prop: "incomingTime",
+    label: "入库时间"
+  }
+];
+
+const defaultOILtableHeader = [
+  {
+    prop: "deliveryStore",
+    label: "交割仓库"
+  },
+  {
+    prop: "incomingDays",
+    label: "入库天数",
+    width: "80",
+    align: "right"
+  },
+  {
+    prop: "name",
+    label: "货主",
+  },
+  {
+    prop: "oilTankCode",
+    label: "储罐编号"
+  },
+  {
+    prop: "firstCatalogName",
+    label: "品类"
+  },
+  {
+    prop: "secondCatalogName",
+    label: "牌号",
+    width: "80",
+    align: "right"
+  },
+  {
+    prop: "emissionStandardText",
+    label: "排放标准"
+  },
+  {
+    prop: "serialNumber",
+    label: "产品型号"
+  },
+  {
+    prop: "density",
+    label: "密度",
+    width: "80",
+    align: "right"
+  },
+  {
+    prop: "manufacturerName",
+    label: "生产商"
+  },
+  {
+    prop: "totalNumInventoryText",
+    label: "库存数量",
+    width: "80",
+  },
+  {
+    prop: "totalWeightInventoryText",
+    label: "库存重量",
+    width: "80",
+  },
+  {
+    prop: "measuringText",
+    label: "计量方式"
+  },
+  {
+    prop: "weightUnitText",
+    label: "计量单位"
+  },
+  {
+    prop: "incomingTypeText",
+    label: "入库类型"
+  },
+  {
+    prop: "incomingId",
+    label: "入库单号"
+  },
+  {
+    prop: "incomingTime",
+    label: "入库时间"
   }
 ];
 
@@ -332,13 +471,11 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               piles:row.piles || "-",
-              numUnitText:row.numUnitTypeEnum&&row.numUnitTypeEnum.text || "-",
               weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
-              incomingTimeStr:normalTime(row.incomingTime),
-              totalNumInventoryText:`${row.totalNumInventory ? row.totalNumInventory : "-"}${(row.numUnitTypeEnum&&row.totalNumInventory) ? row.numUnitTypeEnum.text : ""}`,
-              totalWeightInventoryText:`${row.totalWeightInventory}${row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-"}`,
+              totalNumInventoryText:`${row.totalNumInventory || "-"}`,
+              totalWeightInventoryText:`${row.totalWeightInventory || "-"}`,
             }
         })
     }
@@ -347,11 +484,11 @@ const rowAdapter = (list) => {
 
 export default {
   name: "inventoryTable",
-  mixins: [baseMixin],
+  mixins: [baseMixin, dictMixin],
   components: {
-    heltable,
-    hlBreadcrumb,
-    transitiondialog
+    // heltable,
+    transitiondialog,
+    cargoglass
   },
   data() {
     return {
@@ -376,19 +513,34 @@ export default {
       form: { ...defaultFormData }, // 查询参数
       listData: { ...defaultListData }, // 返回list的数据结构
       // #endgion
-      /**表格相关*/
-      tableHeader: defaulttableHeader,
       showOverflowTooltip: true,
       /*多选的row*/
       selectedItems: [],
-      titles: ["批量出库登记", "批量过户", "批量冻结", "批量解冻"]
+      titles: ["批量出库登记", "批量过户", "批量冻结", "批量解冻"],
+      Dict: Dict,
+
+      // #region 权限
+      /***入库登记**/     
+      stockregister:false, 
+      /***出库申请**/     
+      stockInventoryApply:false, 
+      /***过户**/     
+      transferConfirm:false,
+      /***冻结**/     
+      stockInventoryFrozen:false,       
+      /***解冻**/     
+      stockInventoryUnFrozen:false,         
+      /***库存明细**/     
+      stockInventoryDetail:false, 
+      // #endgion
     };
   },
   computed: {
-    ...mapGetters("app", ["role", "userId", "username", "IS_SHIPPER"]),
+    ...mapGetters("app", ["role", "userId", "realname", "IS_SHIPPER"]),
+    ...mapState("inventoryManage", ["productType"]),
     /**选中的必须是同一个货主才能过户,不限制仓库*/
     equalShipperItems() {
-      let arr = this.selectedItems.map(item => item.cargoId);
+      let arr = this.selectedItems.map(item => item.userId);
       return new Set(arr).size === 1;
     },
     /**选中的必须是同一个货主和同一仓库才能出库*/
@@ -437,28 +589,46 @@ export default {
           stockInventoryId: item.id
         };
       });
+    },
+    /**根据storageclass改变tableHeader*/
+    tableHeader() {
+      return this.storageclass === Dict.PRODUCT_OIL
+        ? defaultOILtableHeader.slice()
+        : defaultSWtableHeader.slice();
     }
   },
   methods: {
     ...mapMutations("inventoryManage", [
       "setTransferOwnership",
       "setCheckout",
-      "setFindDetail"
+      "setFindDetail",
+      "setProductType"
     ]),
     selectChange(selection) {
       this.selectedItems = selection.slice();
     },
     _filter() {
       if (this.IS_SHIPPER) {
-        this.form.cargoId = this.userId;
+        this.form.userId = this.userId;
       }
-      return _.clone(Object.assign({}, this.form, this.listParams));
+      return _.clone(Object.assign({}, this.form, this.listParams,{productTypeCode:this.storageclass}));
+    },
+    clear() {
+      this.form = { ...defaultFormData };
+      this.listParams = { ...defaultListParams };
+      this.listData = { ...defaultListData };
     },
     clearListParams() {
       this.form = { ...defaultFormData };
       this.listParams = { ...defaultListParams };
       this.listData = { ...defaultListData };
-      this.getListData();
+      if(this.$refs.cargoglass) {
+        this.$refs.cargoglass.clearValue();
+      }
+      setTimeout(()=>{
+        this.getListData();
+      },20)
+
     },
     changePage(page) {
       this.listParams.page = page;
@@ -475,7 +645,7 @@ export default {
       this.isListDataLoading = false;
       switch (res.code) {
         case Dict.SUCCESS:
-          this.listData ={...res.data, list: rowAdapter(res.data.list) };
+          this.listData = { ...res.data, list: rowAdapter(res.data.list) };
           break;
         default:
           this.listData = { ...defaultListData };
@@ -490,11 +660,11 @@ export default {
           return;
       }
         this.batchTransferOwnershipVisible = false;
+        this.setProductType(this.storageclass)
         this.setTransferOwnership(this.stockIds);
         this.$router.push({
           path: "/web/settlement/pageList/transferOwnershipManage"
         });
-
     },
     async batchFrozen() {
       this.isbatchFrozenLoading = true;
@@ -533,21 +703,28 @@ export default {
           return;
       }
       this.batchCheckOutVisible = false;
+      this.setProductType(this.storageclass)
       this.setCheckout(this.stockIds);
       this.$router.push({
         path: "/web/yc/storage/stockRemovalDetail/page/applyCheckOut"
       });
     },
     GoEnterRegister() {
+      this.setProductType(this.storageclass);
       this.$router.push({
-        path: "/web/yc/storage/stockRegisterDetail/page/register"
+        path: "/web/yc/storage/stockRegister/empty"
       });
     },
     detail(item) {
+      this.setProductType(this.storageclass);
       this.setFindDetail(item);
       this.$router.push({
         path: "/web/yc/storage/stockInventory/page/inventoryDetail"
       });
+    },
+    /**接收货主传递的对象*/
+    acceptcargo(obj) {
+      this.form.userId = obj.userId;
     },
     init() {
       setTimeout(() => {
@@ -556,10 +733,58 @@ export default {
       }, 20);
       this.perm();
     },
-    perm() {}
+    perm() {
+      this.stockregister = judgeAuth("ycstore:stockregister:add");
+      this.stockInventoryApply = judgeAuth("ycstore:stockInventory:apply");
+      this.transferConfirm = judgeAuth("inventory:transfer");  
+      this.stockInventoryFrozen = judgeAuth("inventory:frozen");
+      this.stockInventoryUnFrozen = judgeAuth("inventory:unfrozen"); 
+      this.stockInventoryDetail = judgeAuth("stockInventoryDetail:page");
+    }
   },
   mounted() {
+    this.storageclass = this.productType;
     this.init();
+    this._getAllBaseInfo(this.storageclass)
+    
+  },
+  watch: {
+    storageclass(newV, oldV) {
+      if (newV !== oldV) {
+        this.clear()
+        /**如果新旧值都是钢木,不要再请求*/
+        if(newV === Dict.PRODUCT_OIL || oldV===Dict.PRODUCT_OIL) {
+          this._getAllBaseInfo(newV)
+        }
+        this.getListData();
+      }
+    },
+    "form.deliveryStoreId": {
+      handler(newV, oldV) {
+        if (newV !== oldV) {
+          this.form.productNameId = null;
+          if (newV && this.storageclass=== Dict.PRODUCT_OIL) {
+            setTimeout(() => {
+              const index = findIndexByValue(this.deliveryStoreList,newV)
+              this.oiltankList = this.deliveryStoreList[index].child;
+            }, 20);
+          }
+        }
+      }
+    },
+    "form.firstCatalogId": {
+      handler(newV, oldV) {
+        if (newV !== oldV) {
+          this.form.secondCatalogId = null;
+          if (newV && this.storageclass=== Dict.PRODUCT_OIL) {
+            setTimeout(() => {
+              const index = findIndexByValue(this.firstCatalogList,newV)
+              this.trademarkList = this.firstCatalogList[index].child;
+            }, 20);
+          }
+        }
+      }
+    }
   }
 };
 </script>

@@ -1,28 +1,34 @@
 <template>
-  <el-dialog :title="title" :visible="visible" width="600px"  @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
+  <el-dialog :title="title" :visible="visible" width="575px"  @close="cancle()" class="dialog-form">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="110px" class="form">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
-        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'" @change="handleChange">
-          <el-option v-for="optionItem in Object.keys(dropDownData.deliveryStoreMap)" :key="optionItem" :label="dropDownData.deliveryStoreMap[optionItem]" :value="optionItem"></el-option>
+        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'" @change="handleChange" size="small">
+            <el-option
+              v-for="(item,index) in deliveryStoreList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
         </el-select>
-        <el-input v-model="form[item.prop]" :maxlength="item.maxlength"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
+        <el-input v-model="form[item.prop]" :maxlength="item.maxlength"  placeholder="请输入" v-if="item.type === 'input'" size="small"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="cancle">取 消</el-button>
-      <el-button type="primary" @click="confirm" :loading="loading">确 定</el-button>
+      <el-button @click="cancle" size="small">取消</el-button>
+      <el-button type="primary" @click="confirm" :loading="loading" size="small">确定</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
 import { mapState, mapMutations  } from 'vuex';
+import {findLabelByValue} from "common/util";
 const defaultForm = {
-  storeId: '', // 仓库
-  deliveryStore: '', // 仓库名称
-  reservoirArea: '', // 库区
-  cargoArea: '', // 货区
-  positionName: '', // 仓位名称
+  storeId: null, // 仓库
+  deliveryStore: null, // 仓库名称
+  reservoirArea: null, // 库区
+  cargoArea: null, // 货区
+  positionName: null, // 仓位名称
 }
 export default {
   name: "pilePositionManage",
@@ -42,7 +48,11 @@ export default {
     editObj:{
       type: Object,
       default: () => {}
-    }
+    },
+    deliveryStoreList:{
+      type:Array,
+      default:()=>[]
+    },
     
   },
   data() {
@@ -82,7 +92,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('modal', ['visible', 'dropDownData']),
+    ...mapState('modal', ['visible']),
     title() {
       return this.isEdit ? "编辑区桩位" : "新增区桩位";
     }
@@ -94,7 +104,7 @@ export default {
      * @description: 根据选择的仓库id设置对应的仓库名称
      */
     handleChange(val) {
-      this.form.deliveryStore = this.dropDownData.deliveryStoreMap[val];
+      this.form.deliveryStore = findLabelByValue(this.deliveryStoreList,val);
     },
     cancle() {
       this.SET_MODAL_VISIBLE(false);
@@ -112,7 +122,7 @@ export default {
     },
   },
   watch: {
-    visible(newV, oldV) {
+    visible(newV) {
       if (newV) {
         this.form = this.isEdit ? {...this.editObj} : {...defaultForm};
       } else {

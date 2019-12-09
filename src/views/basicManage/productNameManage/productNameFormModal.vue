@@ -1,16 +1,16 @@
 <template>
-  <el-dialog :title="title" :visible="visible" width="600px"  @close="cancle()">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="150px">
+  <el-dialog :title="title" :visible="visible" width="575px"  @close="cancle()" class="dialog-form">
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="110px" class="form">
       <el-form-item :label="item.label" :prop="item.prop" v-for="(item, index) in formItem" :key="index">
-        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'">
+        <el-select v-model="form[item.prop]" placeholder="请选择" v-if="item.type === 'select'" size="small">
           <el-option v-for="optionItem in Object.keys(productTypeCodeData)" :key="optionItem" :label="productTypeCodeData[optionItem]" :value="optionItem"></el-option>
         </el-select>
-        <el-input v-model="form[item.prop]" maxlength="20"  placeholder="请输入" v-if="item.type === 'input'"></el-input>
+        <el-input v-model="form[item.prop]" maxlength="20"  placeholder="请输入" v-if="item.type === 'input'" size="small"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="cancle">取 消</el-button>
-      <el-button type="primary" @click="confirm" :loading="loading">确 定</el-button>
+      <el-button @click="cancle" size="small">取消</el-button>
+      <el-button type="primary" @click="confirm" :loading="loading" size="small">确定</el-button>
     </div>
   </el-dialog>
 </template>

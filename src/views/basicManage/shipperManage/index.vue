@@ -1,8 +1,8 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle">
-      <el-button type="primary" size="small" @click="add" icon="el-icon-plus">新增</el-button>
-    </hlBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle">
+      <el-button type="primary" size="small" @click="add" icon="el-icon-plus" plain class="text-btn">新增</el-button>
+    </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>货主名称</label>
@@ -72,7 +72,6 @@ import _ from "lodash";
 import { judgeAuth } from "@/util/util.js";
 import Dict from "@/util/dict.js";
 import heltable from "@/components/hl_table";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
 import shipperformModal from "./shipperformModal.vue";
 
 const defaultListParams = {
@@ -126,7 +125,6 @@ export default {
   name: "shipperManage",
   components: {
     heltable,
-    hlBreadcrumb,
     shipperformModal,
   },
   data() {

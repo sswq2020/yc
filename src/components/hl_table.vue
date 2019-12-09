@@ -17,7 +17,7 @@
       @select-all="selectAll"
       @row-click="rowClick"
       v-loading="loading"
-      style="width: 98%;margin: 20px auto 0 20px;border: 1px solid rgba(233, 233, 233, 1)"
+      style="width: 98%;margin: 20px auto 0 20px;"
     >
       <el-table-column v-if="multiple" type="selection" width="40" align="center"></el-table-column>
       <el-table-column
@@ -34,6 +34,7 @@
     <div class="container">
       <el-pagination
         class="page"
+        background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -153,7 +154,7 @@ export default {
     },
     getHlTableListHeight() {
       const $HLtableList = $("#HLtableList");
-      return window.innerHeight - $HLtableList.offset().top - 70;
+      return window.innerHeight - $HLtableList.offset().top - 54;
     }
   },
   mounted() {
@@ -175,15 +176,14 @@ export default {
 .container {
   width: 98%;
   margin-left: 20px;
-  height: 50px;
+  height: 34px;
   background-color: #f6f8fa;
   position: relative;
-  /*margin-top: 15px;*/
   margin-bottom: 20px;
   .page {
     display: block;
     position: absolute;
-    top: 10px;
+    top: 1px;
     right: 10px;
   }
 }

@@ -1,8 +1,12 @@
 import api from '@/api'
 import Dict from '@/util/dict.js'
-import { _toArray_ } from './util'
+import { _toArray_,handleFilterSelf } from './util'
+import { DICT_SELECT_ARR } from "common/util";
+const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
 
 const _DICT_SERVE_ = [
+    "HywEmissionStandard",
+    "HywContractCompany",
     "YcNumUnit",
     "YcWeightUnit",
     "YcIncomingType",
@@ -18,28 +22,34 @@ export const baseMixin = {
             materialList: [],
             productNameList: [],
             originPlaceList: [],
-            deliveryStoreList: [],
-            pilePositionList: []
+            pilePositionList: [],
+            emissionStandardList: [],
+            /**四个关联特殊的**/
+            deliveryStoreList: [], // 仓库
+            oiltankList: [], // 储罐编号联动仓库,作为子集
+
+            firstCatalogList: [], //品类
+            trademarkList: [], // 牌号联动品类,作为子集
+
+            /**商品大类数据源*/ 
+            typeProductDatas: TypeProductDatas,
+            /**商品大类默认石油*/
+            storageclass: Dict.PRODUCT_OIL
         }
     },
     methods: {
-        async _getAllBaseInfo() {
-            let _this = this;
-            const response = await api.getAllBaseInfo()
-            switch (response.code) {
+        async _getAllBaseInfo(productType) {
+            const res = await api.getAllBaseInfo(productType)
+            switch (res.code) {
                 case Dict.SUCCESS:
-                    Object.keys(response.data).forEach((item) => {
-                        _this[item.slice(0, -3)+'List'] = _toArray_(response.data[item])
+                    Object.keys(res.data).forEach((key) => {
+                        this[key] = handleFilterSelf(res.data[key])
                     })
                     break;
                 default:
                     break;
             }
         }
-    },
-    created() {
-        this._getAllBaseInfo()
-
     }
 }
 
@@ -68,7 +78,6 @@ export const bankMixin = {
     },
     created() {
         this._getBankList()
-
     }
 }
 
@@ -76,6 +85,8 @@ export const bankMixin = {
 export const dictMixin = {
     data() {
         return {
+            HywEmissionStandardList: [],
+            HywContractCompanyList:[],
             YcNumUnitList: [],
             YcWeightUnitList: [],
             YcIncomingTypeList: [],
@@ -91,14 +102,14 @@ export const dictMixin = {
             })
             switch (res.code) {
                 case Dict.SUCCESS:
-                   res.data.forEach((obj)=>{
-                       that[obj.entryCode+'List'] =  obj.items.map((item)=>{
-                           return {
-                            value:item.id,
-                            label:item.text
-                           }
-                       })
-                   })
+                    res.data.forEach((obj) => {
+                        that[obj.entryCode + 'List'] = obj.items.map((item) => {
+                            return {
+                                value: item.id,
+                                label: item.text
+                            }
+                        })
+                    })
                     break;
                 default:
                     break;
@@ -107,6 +118,5 @@ export const dictMixin = {
     },
     created() {
         this._getValidList()
-
-    }    
+    }
 }

@@ -1,14 +1,19 @@
 <template>
   <div class="container single-page">
-    <HLBreadcrumb :data="breadTitle">
-      <el-button type="primary" size="small" @click="add" icon="el-icon-plus">新增</el-button>
-    </HLBreadcrumb>
+    <HletongBreadcrumb :data="breadTitle">
+      <el-button type="primary" size="small" @click="add" icon="el-icon-plus" plain class="text-btn">新增</el-button>
+    </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
         <label>仓库</label>
         <div class="form-control">
           <el-select v-model="listParams.storeId" placeholder="请选择">
-            <el-option v-for="item in Object.keys(dropDownData.deliveryStoreMap)" :key="item" :label="dropDownData.deliveryStoreMap[item]" :value="item"></el-option>
+            <el-option
+              v-for="(item,index) in deliveryStoreList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </div>
       </div>
@@ -40,7 +45,7 @@
         <el-button size="small" @click="reset">重置</el-button>
       </div>
     </div>
-    <HLtable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -68,23 +73,23 @@
           <el-button type="text" @click="forbiddenOrActiveItem(listData.list[scope.$index])">{{scope.row.pilePositionStatusCode == '0' ? '禁用' : '激活'}}</el-button>
         </template>
       </el-table-column>
-    </HLtable>
+    </HletongTable>
     <PilePositionFormModal 
       :isEdit="isEdit"
       :editObj="editObj"
       :loading="isEditLoading"
       :confirmCb="modalConfirm"
+      :deliveryStoreList="changeList"
     />
   </div>
   
 </template>
 
 <script>
-import {  mapState, mapMutations, mapActions  } from 'vuex';
+import { mapMutations } from 'vuex';
 import moment from 'moment';
-import Dict from "@/util/dict.js";
-import HLBreadcrumb from "@/components/hl-breadcrumb";
-import HLtable from "@/components/hl_table";
+import Dict from "util/dict.js";
+import { _toArray_,findIndexByValue } from "common/util.js";
 import PilePositionFormModal from "./pilePositionFormModal.vue";
 
 const defaultListParams = {
@@ -98,18 +103,18 @@ const defaultListParams = {
 export default {
   name: "pilePositionManage",
   components: {
-    HLBreadcrumb,
-    HLtable,
     PilePositionFormModal
   },
   data() {
     return {
       breadTitle: ["基础信息", "区桩位管理"], // 面包屑title
+      deliveryStoreList: [],
+      changeList:[],
       isListDataLoading: false,
       tableHeader: [ // 表头
         {
           prop: "deliveryStore",
-          label: "仓库",
+          label: "交割仓库",
           width: 180
         },
         {
@@ -153,12 +158,8 @@ export default {
       warehouseList: []
     }
   },
-  computed: {
-    ...mapState('modal', ['dropDownData'])
-  },
   methods: {
     ...mapMutations('modal', ['SET_MODAL_VISIBLE']),
-    ...mapActions('modal', ['getDropDownData']),
     /**
      * @author: xh
      * @description: 获取区桩位管理列表
@@ -201,12 +202,35 @@ export default {
     add() {
       this.isEdit = false;
       this.editObj = {};
+      this.changeList = this.deliveryStoreList ;
       this.SET_MODAL_VISIBLE(true);
     },
     editItem(obj) {
       this.isEdit = true;
+      const { storeId,deliveryStore } = obj;
+      if(findIndexByValue(this.deliveryStoreList,storeId)=== -1) {
+        let insertList = this.deliveryStoreList.concat({
+          label:deliveryStore,
+          value:storeId,
+        })
+        this.changeList = insertList
+      }else {
+          this.changeList = this.deliveryStoreList;
+      }
       this.editObj = obj;
       this.SET_MODAL_VISIBLE(true);
+    },
+    /**下拉仓库*/
+    async _getdeliveryStores() {
+      const res = await this.$api.getDeliveryStoreSelect(Dict.STORAGE_TYPE_STEEL_WOOD);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          this.deliveryStoreList = _toArray_(res.data);
+          break;
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
     },
      /**
      * @author: xh
@@ -255,8 +279,9 @@ export default {
     }
   },
   created() {
-    this.getDropDownData(); // 获取下拉数据
-    this.getList();
+    this._getdeliveryStores().then(()=>{
+      this.getList();
+    })
   }
 };
 </script>

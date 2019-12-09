@@ -1,33 +1,36 @@
 <template>
   <div class="container single-page">
-    <hlBreadcrumb :data="breadTitle"></hlBreadcrumb>
-    <div class="form"  v-if="releasePledgeData && releasePledgeData.cargoId">
+    <HletongBreadcrumb :data="breadTitle"></HletongBreadcrumb>
+    <div class="form" v-if="releasePledgeData && releasePledgeData.cargoId">
       <el-form ref="form" :model="form" label-width="120px" size="small">
         <div class="form-block">
+          <div class="head">质押信息</div>
           <el-row>
-            <el-col :md="12" :sm="12" :xs="24">
-              <div class="head">质押信息</div>
-            </el-col>
-          </el-row>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="质权方" prop="bankName">
                 <el-input :value="form.bankName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="质压方" prop="cargoName">
                 <el-input :value="form.cargoName" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item label="解押数量" prop="releaseNums" :rules="validatenum(form.inventoryTotalNums,this.maxnum)">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item
+                label="解押数量"
+                prop="releaseNums"
+                :rules="validatenum(form.inventoryTotalNums,this.maxnum)"
+              >
                 <el-input v-model.number="form.releaseNums"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
-              <el-form-item 
-                label="解押重量" prop="releaseWeight" :rules="validateweight(form.reserveweight,this.maxweight)">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item
+                label="解押重量"
+                prop="releaseWeight"
+                :rules="validateweight(form.reserveweight,this.maxweight)"
+              >
                 <el-input v-model="form.releaseWeight"></el-input>
               </el-form-item>
             </el-col>
@@ -35,31 +38,29 @@
         </div>
         <div class="form-block">
           <div class="head">库存信息</div>
-          <el-row :gutter="50">
-            <el-col :md="12" :sm="12" :xs="24">
+          <el-row>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="货主" prop="pledgeCargo">
                 <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存数量" prop="inventoryTotalNums">
                 <el-input :value="form.inventoryTotalNums" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :md="12" :sm="12" :xs="24">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存重量" prop="inventoryTotalWeight">
                 <el-input :value="form.inventoryTotalWeight" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </div>
-        <div class="bottom">
-          <el-form-item>
-            <el-button type="primary" size="medium" @click="submitForm('form')">确定</el-button>
-            <el-button @click="back" size="medium">取消</el-button>
-          </el-form-item>
-        </div>
       </el-form>
+    </div>
+    <div class="bottom">
+      <el-button type="primary" size="small" @click="submitForm('form')">确定</el-button>
+      <el-button @click="back" size="small">取消</el-button>
     </div>
   </div>
 </template>
@@ -67,9 +68,8 @@
 <script>
 import { mapState } from "vuex";
 import _ from "lodash";
-import hlBreadcrumb from "@/components/hl-breadcrumb";
 import Dict from "@/util/dict.js";
-import {number3} from "@/util/validate.js";
+import { number3 } from "@/util/validate.js";
 const defualtFormParams = {
   bankId: null, // 质权方id(银行id)
   bankName: null, // 银行名称
@@ -77,7 +77,7 @@ const defualtFormParams = {
   cargoName: null, // 货主也是质押方
   pledgeCargo: null, // 质押方
   releaseNums: null, // 解押数量
-  releaseWeight: null,// 解押重量
+  releaseWeight: null, // 解押重量
   releaseCode: null, // 解押单号
   inventoryTotalNums: null, // 库存数量
   inventoryTotalWeight: null // 库存重量
@@ -86,7 +86,6 @@ const defualtFormParams = {
 export default {
   name: "releasePledgeManage",
   components: {
-    hlBreadcrumb
   },
   data() {
     return {
@@ -95,12 +94,12 @@ export default {
       form: {
         ...defualtFormParams
       },
-      maxweight:null,
-      maxnum:null
+      maxweight: null,
+      maxnum: null
     };
   },
   computed: {
-    ...mapState("togglePledgeManage", ["releasePledgeData"]),
+    ...mapState("togglePledgeManage", ["releasePledgeData"])
   },
   methods: {
     back() {
@@ -115,21 +114,18 @@ export default {
           message: "请输入解押重量",
           trigger: "blur"
         },
-        {  max: 10, 
-           message: '最多10位',
-           trigger: 'blur'
-        },
-        { 
+        { max: 10, message: "最多10位", trigger: "blur" },
+        {
           pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,3})?$/,
-          message: '正数可以包含3位小数'
-        },        
+          message: "正数可以包含3位小数"
+        },
         {
           validator(rule, value, callback) {
             if (max) {
               weight = max;
             }
-            if(!number3) {
-              callback(new Error('正数可以包含3位小数'))
+            if (!number3) {
+              callback(new Error("正数可以包含3位小数"));
             }
             if (value > weight) {
               callback(new Error(`不能大于${weight}`));
@@ -145,6 +141,13 @@ export default {
           validator(rule, value, callback) {
             if (!value) {
               callback();
+            }
+            if(max === 0) {
+              if(value===0) {
+                callback()
+              }else{
+               callback(new Error(`解压数量只能是0或者不填`));
+              }
             }
             if (max) {
               num = max;
@@ -170,12 +173,11 @@ export default {
       }
     },
     _serialize_() {
-      const params =  Object.assign({},
-        this.form,
-        {releaseWeight:Number(this.form.releaseWeight)},
-        );
+      const params = Object.assign({}, this.form, {
+        releaseWeight: Number(this.form.releaseWeight)
+      });
       return params;
-    },  
+    },
     submitForm(formName) {
       let that = this;
       this.$refs[formName].validate(valid => {
@@ -193,23 +195,27 @@ export default {
     },
     async init() {
       if (this.releasePledgeData && this.releasePledgeData.cargoId) {
-        const res = await this.$api.getPledgeNum(this.releasePledgeData.cargoId);
+        const res = await this.$api.getPledgeNum(
+          this.releasePledgeData.cargoId
+        );
         switch (res.code) {
           case Dict.SUCCESS:
-            if(res.data) {
-               this.maxweight = Number(res.data.totalPledgeWeight);
-               this.maxnum = Number(res.data.totalPledgeNums);
+            if (res.data) {
+              this.maxweight = Number(res.data.totalPledgeWeight);
+              this.maxnum = Number(res.data.totalPledgeNums);
             }
             break;
           default:
             this.$messageError(res.mesg);
             break;
         }
-        const res_ = await this.$api.getPledgeCargoinfo(this.releasePledgeData.cargoId);
+        const res_ = await this.$api.getPledgeCargoinfo(
+          this.releasePledgeData.cargoId
+        );
         switch (res_.code) {
           case Dict.SUCCESS:
-            this.form.bankId = res_.data.bankId
-            this.form.bankName = res_.data.bankName
+            this.form.bankId = res_.data.bankId;
+            this.form.bankName = res_.data.bankName;
             break;
           default:
             this.$messageError(res_.mesg);
@@ -233,26 +239,38 @@ export default {
   }
 };
 </script>
->
 
 <style scoped lang="less">
 .form {
-  padding: 15px 15px 50px 15px;
-  background: rgba(240, 242, 245, 1);
+  padding: 20px 15px 50px 20px;
   .form-block {
-    padding-top: 15px;
-    margin-bottom: 15px;
-    background: white;
+    padding-bottom: 20px;
     .head {
-      padding-left: 10px;
-      margin-bottom: 15px;
-      font-size: 18px;
-      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left: 20px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      color: #333333;
+      background: #f6f8fa;
     }
   }
-  .bottom {
-    padding: 15px 0px 1px 0px;
-    background: white;
-  }
+}
+.bottom {
+    position: fixed;
+    width: 86%;
+    bottom: 20px;
+    height: 50px;
+    background-color: #f6f8fa;
+    margin-left: 20px;
+    box-shadow: 0 -1px 4px 0 hsla(0, 0%, 80%, 0.5);
+    .el-button {
+      min-width: 64px;
+      margin-left: 20px;
+      margin-top: 10px;
+      &:last-child{
+        margin-left: 16px;
+      }
+    }
 }
 </style>
