@@ -93,7 +93,7 @@
           库存明细
           <span class="info">(冻结:用于冻结货主库存 质押中:货主库存质押给银行 待出库:货主提交库存出库申请 挂牌中:货主库存在大宗上挂牌交易)</span>
         </div>
-        <heltable
+        <HletongTable
           ref="tb"
           @pageChange="changePage"
           :total="listData.paginator.totalCount"
@@ -147,7 +147,7 @@
               >解冻</el-button>
             </template>
           </el-table-column>
-        </heltable>
+        </HletongTable>
       </div>
     </div>
   </div>
@@ -158,7 +158,6 @@ import { mapState, mapGetters, mapMutations } from "vuex";
 import _ from "lodash";
 import Dict from "@/util/dict.js";
 import { judgeAuth } from "util/util.js";
-import heltable from "@/components/hl_table";
 const defaultForm = {
   incomingId: "",
   incomingTime: "",
@@ -234,9 +233,6 @@ const rowAdapter = list => {
 
 export default {
   name: "inventoryDetail",
-  components: {
-    heltable
-  },
   data() {
     return {
       breadTitle: ["仓储管理", "库存表", "库存明细"],

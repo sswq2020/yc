@@ -160,7 +160,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -168,6 +168,7 @@
       :currentPage="listParams.page"
       :pageSize="listParams.pageSize"
       :data="listData.list"
+      :blankCol="false"
       :loading="isListDataLoading"
     >
       <el-table-column
@@ -189,7 +190,7 @@
           <el-button type="text" @click="detail(listData.list[scope.$index])">过户单</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
 
     <tickets
       :visible="visible"
@@ -211,7 +212,6 @@ import { findIndexByValue } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
 import tickets from "components/tickets";
 import transferticket from "./transferticket";
 import cargoglass from "components/cargoglass";
@@ -419,7 +419,6 @@ export default {
   name: "transferOwnershipDetail",
   mixins: [baseMixin,dictMixin],
   components: {
-    heltable,
     tickets,
     transferticket,
     cargoglass

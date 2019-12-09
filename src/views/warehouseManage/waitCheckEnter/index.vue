@@ -162,7 +162,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @pageChange="changePage"
       :total="listData.paginator.totalCount"
@@ -171,6 +171,7 @@
       :pageSizes="[20]"
       :data="listData.list"
       :multiple="true"
+      :blankCol="false"
       @selection-change="selectChange"
       :loading="isListDataLoading"
     >
@@ -186,7 +187,7 @@
           <span>{{listData.list[scope.$index][item.prop]}}</span>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
     <transitiondialog
       :data="selectedItems"
       :tableHeader="tableHeader.slice(0,8)"
@@ -205,7 +206,6 @@ import { findIndexByValue } from "common/util.js";
 // import { judgeAuth } from "@/util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
 import transitiondialog from "components/transitiondialog";
 import cargoglass from "components/cargoglass.vue";
 
@@ -382,7 +382,6 @@ export default {
   name: "waitCheckEnter",
   mixins: [baseMixin, dictMixin],
   components: {
-    heltable,
     transitiondialog,
     cargoglass
   },

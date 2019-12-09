@@ -159,7 +159,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -167,6 +167,7 @@
       :currentPage="listParams.page"
       :pageSize="listParams.pageSize"
       :data="listData.list"
+      :blankCol="false"
       :loading="isListDataLoading"
     >
       <el-table-column
@@ -187,7 +188,7 @@
           <el-button type="text" @click="detail(listData.list[scope.$index])">入库单</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
     <tickets
       :visible="visible"
       :cancelCb="()=>{this.visible = false}"
@@ -207,10 +208,8 @@ import { mapGetters } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin.js";
 import { findIndexByValue } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
-import { normalTime } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
 import tickets from "components/tickets";
 import enterticket from "./enterticket";
 
@@ -432,7 +431,6 @@ export default {
   name: "enterStorageDetail",
   mixins: [baseMixin, dictMixin],
   components: {
-    heltable,
     tickets,
     enterticket
   },

@@ -282,7 +282,6 @@ import {findIndexByValue} from "common/util.js"
 import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-// import heltable from "components/hl_table";
 import transitiondialog from "components/transitiondialog";
 import cargoglass from "components/cargoglass.vue";
 
@@ -486,7 +485,6 @@ export default {
   name: "inventoryTable",
   mixins: [baseMixin, dictMixin],
   components: {
-    // heltable,
     transitiondialog,
     cargoglass
   },
