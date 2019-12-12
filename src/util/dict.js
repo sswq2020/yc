@@ -66,7 +66,7 @@ DICT.STORAGE_TYPE = {
 
 /**钢材*/
 DICT.PRODUCT_STELL = '00'
-/**石油*/
+/**石化*/
 DICT.PRODUCT_OIL = '01'
 /**木材*/
 DICT.PRODUCT_WOOD = '02'

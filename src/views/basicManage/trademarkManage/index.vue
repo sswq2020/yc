@@ -5,6 +5,19 @@
     </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
+        <label>大类</label>
+        <div class="form-control">
+          <el-select v-model="listParams.productTypeCode" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in TypeProductDatas"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item">
         <label>品类名称</label>
         <div class="form-control">
           <el-select v-model="listParams.categoryId" placeholder="请选择" size="small">
@@ -18,7 +31,7 @@
         </div>
       </div>
       <div class="form-item">
-        <label>牌号名称</label>
+        <label>规格/牌号名称</label>
         <div class="form-control">
           <el-input v-model="listParams.brandName" placeholder="请输入" size="small"></el-input>
         </div>
@@ -69,9 +82,10 @@
       ref="modal"
       :loading="isEditLoading"
       :isEdit="isEdit"
+      :productTypes="TypeProductDatas"
       :confirmCb="modalConfirm"
       :trademarkObj="trademarkObj"
-      :list="selectList"
+      :list="outerlist"
     ></trademarkformModal>
   </div>
 </template>
@@ -80,25 +94,29 @@
 import { mapState, mapMutations } from "vuex";
 import moment from "moment";
 // import { judgeAuth } from "@/util/util.js";
+import { DICT_SELECT_ARR } from "common/util";
 import Dict from "util/dict.js";
 import trademarkformModal from "./trademarkformModal.vue";
 import { _toArray_ } from "common/util.js";
+
+const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
 
 const defaultListParams = {
   pageSize: 20,
   page: 1,
   brandName: null,
-  categoryId: null
+  categoryId: null,
+  productTypeCode:null
 };
 const defaulttableHeader = [
   {
     prop: "categoryName",
-    label: "品类名称",
+    label: "品类",
     width: "180"
   },
   {
-    prop: "brandName",
-    label: "牌号名称",
+    prop: "brandNameText",
+    label: "规格/牌号",
     width: "180"
   },
   {
@@ -131,7 +149,8 @@ const rowAdapter = list => {
         ...row,
         createdTimeText: row.createdTime
           ? moment(row.createdTime).format("YYYY-MM-DD HH:mm:ss")
-          : ""
+          : "",
+        brandNameText : (row.productTypeCode !== Dict.PRODUCT_OIL ? row.brandName : `${row.brandName}(${row.emissionStandard})`)
       });
     });
   }
@@ -145,8 +164,9 @@ export default {
   },
   data() {
     return {
-      breadTitle: ["基础信息", "牌号管理"], // 面包屑title
-      Dict:Dict,
+      breadTitle: ["基础信息", "规格/牌号管理"], // 面包屑title
+      Dict,
+      TypeProductDatas,
       selectList: [],
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
@@ -163,7 +183,8 @@ export default {
 
       // #region 弹窗相关
       isEdit: false,
-      trademarkObj: null
+      trademarkObj: null,
+      outerlist:[]
       // #endgion
     };
   },
@@ -201,20 +222,21 @@ export default {
           break;
       }
     },
-    async _getCategorySelectList() {
-      const res = await this.$api.getCategorySelectList();
+    async _getCategorySelectList(productTypeCode) {
+      const res = await this.$api.getCategorySelectList(productTypeCode);
       switch (res.code) {
         case Dict.SUCCESS:
-          this.selectList = _toArray_(res.data);
-          break;
+          return _toArray_(res.data);
         default:
           this.$messageError(res.mesg);
           break;
       }
     },
     async modalConfirm(obj) {
+      this.isEditLoading = true;
       const serve = this.isEdit ? "updateBrand" : "addBrand";
       const response = await this.$api[serve]({ ...obj });
+      this.isEditLoading = false;
       switch (response.code) {
         case Dict.SUCCESS:
           this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
@@ -256,13 +278,19 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      const { id, brandName,categoryId } = obj;
+      const { id, brandName,categoryId,productTypeCode,emissionStandard,remark } = obj;
       this.trademarkObj = {
         id,
         brandName,
-        categoryId
+        categoryId,
+        productTypeCode,
+        emissionStandard,
+        remark
       };
-      this.SET_MODAL_VISIBLE(true);
+      this._getCategorySelectList(productTypeCode).then(list => {
+        this.outerlist = list || []
+        this.SET_MODAL_VISIBLE(true);
+      })
     },
     add() {
       this.isEdit = false;
@@ -271,9 +299,23 @@ export default {
     }
   },
   created() {
-    this._getCategorySelectList().then(() => {
-      this.clearListParams();
-    });
+    this.clearListParams();
+  },
+  watch:{
+    'listParams.productTypeCode':{
+      handler(newV,oldV) {
+        let that = this;
+        if(!newV) {return}
+        if(newV !== oldV){
+          this.selectList = [];
+          setTimeout(()=>{
+             this._getCategorySelectList(newV).then(list => {
+               that.selectList = list || []
+             })
+          },50)
+        }
+      }
+    }
   }
 };
 </script>

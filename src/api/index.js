@@ -815,10 +815,11 @@ export default {
     },
     /**
      * @author sswq
+     * @param {String} productTypeCode 大类的code
      * @description 品类下拉列表
      * */
-    getCategorySelectList(params) {
-        return fetch(storageURL + '/web/yc/base/category/select', params)
+    getCategorySelectList(productTypeCode) {
+        return fetch(storageURL + '/web/yc/base/category/select', {productTypeCode},'get')
     },
     /**
      * @author sswq

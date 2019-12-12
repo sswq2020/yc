@@ -26,6 +26,7 @@
 import { mapState, mapMutations } from "vuex";
 import Dict from "@/util/dict.js";
 const defaultForm = {
+  productTypeCode:null,
   categoryName: null // 品类名称
 };
 
