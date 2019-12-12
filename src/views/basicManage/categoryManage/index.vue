@@ -205,8 +205,10 @@ export default {
       }
     },
     async modalConfirm(obj) {
+      this.isEditLoading = true;
       const serve = this.isEdit ? "updateCategory" : "addCategory";
       const response = await this.$api[serve]({ ...obj });
+      this.isEditLoading = false;
       switch (response.code) {
         case Dict.SUCCESS:
           this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
@@ -244,10 +246,11 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      const { id, categoryName } = obj;
+      const { id, categoryName,productTypeCode } = obj;
       this.categoryObj = {
         id,
-        categoryName
+        categoryName,
+        productTypeCode
       };
       this.SET_MODAL_VISIBLE(true);
     },

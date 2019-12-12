@@ -2,7 +2,7 @@
   <el-dialog :title="title" :visible="visible" width="575px" @close="cancle()"  class="dialog-form">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-position="right" label-width="110px" class="form">
       <el-form-item label="大类:" prop="productTypeCode">
-          <el-select v-model="form.productTypeCode" placeholder="请选择" size="small">
+          <el-select v-model="form.productTypeCode" placeholder="请选择" size="small" :disabled="isEdit">
             <el-option
               v-for="(item,index) in productTypes"
               :key="index"
