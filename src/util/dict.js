@@ -74,7 +74,7 @@ DICT.PRODUCT_WOOD = '02'
 /**商品大类*/
 DICT.PRODUCT_CATEGORY = {
     [DICT.PRODUCT_STELL]:"钢材",
-    [DICT.PRODUCT_OIL]:"石油",
+    [DICT.PRODUCT_OIL]:"石化",
     [DICT.PRODUCT_WOOD]:"木材",
 }
 
