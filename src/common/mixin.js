@@ -1,6 +1,6 @@
 import api from '@/api'
 import Dict from '@/util/dict.js'
-import { _toArray_,handleFilterSelf } from './util'
+import { handleFilterSelf } from './util'
 import { DICT_SELECT_ARR } from "common/util";
 const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
 

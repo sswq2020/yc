@@ -5,6 +5,19 @@
     </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
+        <label>大类</label>
+        <div class="form-control">
+          <el-select v-model="form.productTypeCode" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in TypeProductDatas"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item">
         <label>品类</label>
         <div class="form-control">
           <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
@@ -23,19 +36,6 @@
           <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in trademarkList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="form-item">
-        <label>排放标准</label>
-        <div class="form-control">
-          <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in HywEmissionStandardList"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -90,16 +90,21 @@
 
 <script>
 import {mapMutations } from "vuex";
-import { baseMixin,dictMixin } from "common/mixin.js";
 import moment from "moment";
 // import { judgeAuth } from "@/util/util.js";
 import Dict from "util/dict.js";
-import { findIndexByValue } from "common/util.js";
+import { DICT_SELECT_ARR,_toArray_ } from "common/util.js";
+
+const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
+
 
 const defaultFormData = {
+   /**商品大类code*/ 
+  productTypeCode:null,
+  /**品类code*/ 
   firstCatalogId: null,
-  secondCatalogId: null,
-  emissionStandard:null
+  /**牌号/规格code*/ 
+  secondCatalogId: null
 };
 
 const defaultListParams = {
@@ -107,6 +112,11 @@ const defaultListParams = {
   page: 1
 };
 const defaulttableHeader = [
+  {
+    prop: "productTypeCodeText",
+    label: "大类",
+    width: "150"    
+  },
   {
     prop: "firstCatalogName",
     label: "品类名称",
@@ -116,11 +126,6 @@ const defaulttableHeader = [
     prop: "secondCatalogName",
     label: "牌号",
     width: "150"
-  },
-  {
-    prop: "emissionStandardEnumText",
-    label: "排放标准",
-    width: "120"
   },
   {
     prop: "density",
@@ -162,7 +167,6 @@ const rowAdapter = list => {
       return (row = {
         ...row,
         sellStateText: Dict.STATE_NORMAL === row.sellState ? "正常" : "禁用",
-        emissionStandardEnumText: row.emissionStandardEnum.text || "--", // 排放标准
         createdTimeText: row.createdTime
           ? moment(row.createdTime).format("YYYY-MM-DD HH:mm:ss")
           : ""
@@ -174,18 +178,20 @@ const rowAdapter = list => {
 
 export default {
   name: "oilQualityInfo",
-  mixins: [baseMixin, dictMixin],
   data() {
     return {
-      breadTitle: ["基础信息", "油品信息"], // 面包屑title
-      Dict: Dict,
-      selectList: [],
+      breadTitle: ["基础信息", "信息库"], // 面包屑title
+      Dict,
+      TypeProductDatas,
       // #region 查询的基本数据结构
       listParams: { ...defaultListParams }, // 页数
       listData: { ...defaultListData },
       form: { ...defaultFormData },
       // #endgion
 
+      firstCatalogList: [], //品类
+      trademarkList: [], // 牌号联动品类,作为子集
+      
       // #region 表格相关
       isListDataLoading: false,
       isdeleteLoading: false,
@@ -242,6 +248,28 @@ export default {
           break;
       }
     },
+    /**品类下拉*/
+    async _getCategorySelectList(productTypeCode) {
+      const res = await this.$api.getCategorySelectList(productTypeCode);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          return _toArray_(res.data);
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    /** 牌号/规格下拉*/
+    async _getBrandSelect(categoryId){
+      const res = await this.$api.getBrandSelect(categoryId);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          return _toArray_(res.data);
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
     switchState(obj) {
       let that = this;
       const { id, sellState, secondCatalogName, firstCatalogName } = obj;
@@ -285,20 +313,36 @@ export default {
     }
   },
   created() {
-    this._getAllBaseInfo(Dict.PRODUCT_OIL).then(() => {
       this.clearListParams();
-    });
   },
   watch: {
+    'form.productTypeCode':{
+      handler(newV,oldV) {
+        let that = this;
+        if(!newV) {return}
+        if(newV !== oldV){
+          this.form.firstCatalogId = null
+          this.firstCatalogList = [];
+          setTimeout(()=>{
+             that._getCategorySelectList(newV).then(list => {
+               that.firstCatalogList = list || []
+             })
+          },50)
+        }
+      }
+    },
     "form.firstCatalogId": {
       handler(newV, oldV) {
+        let that = this;
         if (newV !== oldV) {
           this.form.secondCatalogId = null;
+          this.trademarkList = [];
           if (newV) {
             setTimeout(() => {
-              const index = findIndexByValue(this.firstCatalogList, newV);
-              this.trademarkList = this.firstCatalogList[index].child;
-            }, 20);
+             this._getBrandSelect(newV).then(list => {
+               that.trademarkList = list || []
+             })
+            }, 50);
           }
         }
       }

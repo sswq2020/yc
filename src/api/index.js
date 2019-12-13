@@ -769,6 +769,13 @@ export default {
     getBrandsList(params) {
         return fetch(storageURL + '/web/yc/base/brand/listBrands', params)
     },
+    /**
+     * @author sswq
+     * @description 牌号/规格下拉
+     * */
+    getBrandSelect(categoryId) {
+        return fetch(storageURL + '/web/yc/base/brand/select', {categoryId},'get')
+    },
      /**
      * @author sswq
      * @description 禁用牌号
