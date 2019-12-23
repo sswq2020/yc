@@ -1,10 +1,10 @@
 <template>
   <div class="oilQualityInfoglass">
-    <el-input placeholder="请选择油品信息" :value="value"   :readonly="true">
+    <el-input placeholder="请选择" :value="value"   :readonly="true">
       <el-button slot="append" icon="el-icon-search" @click="open"></el-button>
     </el-input>
     <el-dialog
-      title="油品信息"
+      title="信息库"
       width="1200px"
       :visible.sync="visible"
       :center="true"
@@ -12,6 +12,19 @@
       :close-on-click-modal="false"
     >
       <div class="search-box">
+        <div class="form-item">
+          <label>大类</label>
+          <div class="form-control">
+            <el-select v-model="form.productTypeCode" placeholder="请选择" size="small">
+              <el-option
+                v-for="(item,index) in TypeProductDatas"
+                :key="index"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
         <div class="form-item">
           <label>品类</label>
           <div class="form-control">
@@ -37,20 +50,7 @@
               ></el-option>
             </el-select>
           </div>
-        </div>
-        <div class="form-item">
-          <label>排放标准</label>
-          <div class="form-control">
-            <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
-              <el-option
-                v-for="(item,index) in HywEmissionStandardList"
-                :key="index"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </div>
-        </div>
+        </div>d
         <div class="form-item">
           <el-button
             type="primary"
@@ -100,13 +100,16 @@
 </template>
 <script>
 import Dict from "util/dict.js";
+import { DICT_SELECT_ARR,_toArray_ } from "common/util.js";
 import moment from "moment";
 import { baseMixin, dictMixin } from "common/mixin.js";
-import { findIndexByValue } from "common/util.js";
+
+const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
+
 const defaultFormData = {
+  productTypeCode:null,
   firstCatalogId: null,
-  secondCatalogId: null,
-  emissionStandard: null
+  secondCatalogId: null
 };
 
 const defaultListParams = {
@@ -123,28 +126,19 @@ const defaultListData = {
 
 const defaulttableHeader = [
   {
+    prop: "productTypeCodeText",
+    label: "大类",
+    width: "150"    
+  },
+  {
     prop: "firstCatalogName",
-    label: "品类名称",
+    label: "品类",
     width: "150"
   },
   {
     prop: "secondCatalogName",
-    label: "牌号",
+    label: "规格/牌号",
     width: "150"
-  },
-  {
-    prop: "emissionStandardEnumText",
-    label: "排放标准",
-    width: "120"
-  },
-  {
-    prop: "density",
-    label: "密度",
-    width: "120"
-  },
-  {
-    prop: "serialNumber",
-    label: "产品型号"
   },
   {
     prop: "manufacturerName",
@@ -164,7 +158,7 @@ const rowAdapter = list => {
     list = list.map(row => {
       return (row = {
         ...row,
-        emissionStandardEnumText: row.emissionStandardEnum.text || "--", // 排放标准
+        productTypeCodeText: Dict.PRODUCT_CATEGORY[row.productTypeCode],
         createdTimeText: row.createdTime
           ? moment(row.createdTime).format("YYYY-MM-DD HH:mm:ss")
           : ""
@@ -179,6 +173,10 @@ export default {
   mixins: [baseMixin, dictMixin],
   data() {
     return {
+      TypeProductDatas,
+      firstCatalogList: [], //品类
+      trademarkList: [], // 牌号联动品类,作为子集
+
       visible: false,
       isListDataLoading: false,
       listParams: { ...defaultListParams }, // 页数
@@ -225,6 +223,28 @@ export default {
           break;
       }
     },
+    /**品类下拉*/
+    async _getCategorySelectList(productTypeCode) {
+      const res = await this.$api.getCategorySelectList(productTypeCode);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          return _toArray_(res.data);
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
+    /** 牌号/规格下拉*/
+    async _getBrandSelect(categoryId){
+      const res = await this.$api.getBrandSelect(categoryId);
+      switch (res.code) {
+        case Dict.SUCCESS:
+          return _toArray_(res.data);
+        default:
+          this.$messageError(res.mesg);
+          break;
+      }
+    },
     open() {
       this.visible = true;
     },
@@ -250,15 +270,33 @@ export default {
         this.clearListParams();
       }
     },
+    'form.productTypeCode':{
+      handler(newV,oldV) {
+        let that = this;
+        if(!newV) {return}
+        if(newV !== oldV){
+          this.form.firstCatalogId = null
+          this.firstCatalogList = [];
+          setTimeout(()=>{
+             that._getCategorySelectList(newV).then(list => {
+               that.firstCatalogList = list || []
+             })
+          },50)
+        }
+      }
+    },
     "form.firstCatalogId": {
       handler(newV, oldV) {
+        let that = this;
         if (newV !== oldV) {
           this.form.secondCatalogId = null;
+          this.trademarkList = [];
           if (newV) {
             setTimeout(() => {
-              const index = findIndexByValue(this.firstCatalogList, newV);
-              this.trademarkList = this.firstCatalogList[index].child;
-            }, 20);
+             this._getBrandSelect(newV).then(list => {
+               that.trademarkList = list || []
+             })
+            }, 50);
           }
         }
       }
