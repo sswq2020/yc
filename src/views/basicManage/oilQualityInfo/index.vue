@@ -128,15 +128,6 @@ const defaulttableHeader = [
     width: "150"
   },
   {
-    prop: "density",
-    label: "密度",
-    width: "120"
-  },
-  {
-    prop: "serialNumber",
-    label: "产品型号"
-  },
-  {
     prop: "manufacturerName",
     label: "生产商"
   },
@@ -166,6 +157,7 @@ const rowAdapter = list => {
     list = list.map(row => {
       return (row = {
         ...row,
+        productTypeCodeText: Dict.PRODUCT_CATEGORY[row.productTypeCode],
         sellStateText: Dict.STATE_NORMAL === row.sellState ? "正常" : "禁用",
         createdTimeText: row.createdTime
           ? moment(row.createdTime).format("YYYY-MM-DD HH:mm:ss")
@@ -207,7 +199,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations("oilQualityInfo", ["setIsEdit", "setoilQualityInfoId"]),
+    ...mapMutations("oilQualityInfo", ["setIsEdit", "setoilQualityInfoId","setProductTypeCode"]),
     GoForm(){
          this.$router.push({
         path: "/web/yc/product/product/pageForSale/form"
@@ -301,13 +293,15 @@ export default {
         });
     },
     editItem(obj) {
-       let {id} = obj;
-      this.setIsEdit(true);
-       this.setoilQualityInfoId(id)
+       let {id,productTypeCode} = obj;
+       this.setIsEdit(true);
+       this.setProductTypeCode(productTypeCode);
+       this.setoilQualityInfoId(id);
        this.GoForm()
     },
     add() {
        this.setIsEdit(false);
+       this.setProductTypeCode(null);
        this.setoilQualityInfoId(null)
        this.GoForm()
     }
