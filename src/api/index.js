@@ -8,7 +8,7 @@ var cookie = require('cookie-parse');
 
 const env = process.env.NODE_ENV;
 
-let baseURL = '/apis';//开发路由前缀
+let baseURL = '';//开发路由前缀
 let loginUrl = '';
 
 let redirectUrl = ''; //跳转到登录页的路由

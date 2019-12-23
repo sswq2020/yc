@@ -147,6 +147,7 @@
         :loading="loading"
         @click="submitForm('form')"
       >{{isEdit ? "更新" : "新增"}}</el-button>
+      <el-button size="small" @click="back">取消</el-button>
     </div>
   </div>
 </template>
