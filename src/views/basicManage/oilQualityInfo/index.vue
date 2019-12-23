@@ -132,6 +132,10 @@ const defaulttableHeader = [
     label: "生产商"
   },
   {
+    prop: "measuringName",
+    label: "计量方式"
+  },
+  {
     prop: "createdTimeText",
     label: "录入时间"
   },

@@ -147,4 +147,14 @@ DICT.MEASURE_TYPE ={
   [DICT.MASS_FLOWMETER]:"质量流量计",
 }
 
+/***收货入库***/
+DICT.TAKE_IN_STORAGE = "0"
+/***过货入库***/
+DICT.TRANSFER_IN_STORAGE = "1"
+/***入库方式***/
+DICT.ENTER_STORAGE_TYPE = {
+    [DICT.TAKE_IN_STORAGE]:"收货入库",
+    [DICT.TRANSFER_IN_STORAGE]:"过货入库",
+}
+
 export default DICT;

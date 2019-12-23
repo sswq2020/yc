@@ -1,7 +1,7 @@
 <template>
   <div class="oilQualityInfoglass">
-    <el-input placeholder="请选择" :value="value"   :readonly="true">
-      <el-button slot="append" icon="el-icon-search" @click="open"></el-button>
+    <el-input placeholder="请选择" :value="value" :readonly="true">
+      <el-button :disabled="disabled" style="margin: -10px -20px;" slot="append" icon="el-icon-search" @click="open"></el-button>
     </el-input>
     <el-dialog
       title="信息库"
@@ -11,9 +11,9 @@
       @close="cancel"
       :close-on-click-modal="false"
     >
-      <div class="search-box">
+      <div class="search-box" style="padding:0px;margin:0px 0px 10px 0px;">
         <div class="form-item">
-          <label>大类</label>
+          <label style="line-height:1">大类</label>
           <div class="form-control">
             <el-select v-model="form.productTypeCode" placeholder="请选择" size="small">
               <el-option
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="form-item">
-          <label>品类</label>
+          <label style="line-height:1">品类</label>
           <div class="form-control">
             <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
               <el-option
@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="form-item">
-          <label>牌号</label>
+          <label style="line-height:1">牌号</label>
           <div class="form-control">
             <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
               <el-option
@@ -50,7 +50,7 @@
               ></el-option>
             </el-select>
           </div>
-        </div>d
+        </div>
         <div class="form-item">
           <el-button
             type="primary"
@@ -62,6 +62,7 @@
         </div>
       </div>
       <el-table
+        v-loading="isListDataLoading"
         stylestripe
         border
         highlight-current-row
@@ -141,6 +142,10 @@ const defaulttableHeader = [
     width: "150"
   },
   {
+    prop: "measuringName",
+    label: "计量方式"
+  },  
+  {
     prop: "manufacturerName",
     label: "生产商"
   },
@@ -171,6 +176,12 @@ const rowAdapter = list => {
 export default {
   name: "oilQualityInfoglass",
   mixins: [baseMixin, dictMixin],
+  props: {
+    disabled:{
+      type: Boolean,
+      default: false
+    }
+  },  
   data() {
     return {
       TypeProductDatas,
@@ -251,6 +262,9 @@ export default {
     cancel() {
       this.visible = false;
     },
+    clearValue(){
+      this.value = ""
+    },
     comfirm() {
       if (!this.currentRow) {
         this.$messageError("必须选中一行才能确认");
@@ -319,7 +333,7 @@ export default {
   font-size: 14px;
   .form-item {
     .el-button {
-      margin-top: 36px;
+      margin-top: 20px;
     }
   }
 }

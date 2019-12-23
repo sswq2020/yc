@@ -10,7 +10,7 @@
               <el-form-item label="商品大类">
                 <el-select v-model="storageclass" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in typeProductDatas"
+                    v-for="(item,index) in TypeProductDatas"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
@@ -97,7 +97,7 @@
               >
                 <el-select v-model="form.incomingType" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in YcIncomingTypeList"
+                    v-for="(item,index) in EnterStorageTypeList"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
@@ -112,44 +112,12 @@
           <el-row>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="计量方式"
-                prop="measuring"
-                :rules="[{ required: true, message: '请选择计量方式', trigger:'blur'}]"
-              >
-                <el-select v-model="form.measuring" placeholder="请选择" size="small">
-                  <el-option
-                    v-for="(item,index) in MeasuringTypeList"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
                 label="应收数量"
                 prop="supposedNum"
                 :rules="[{ required: true, message: '请输入应收数量', trigger: 'blur'},
                 { pattern: /^[\d]{0,10}$/,message: '必须是正整数，最大10位', trigger: 'blur'}]"
               >
                 <el-input v-model.number="form.supposedNum"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-              <el-form-item
-                label="计量单位"
-                prop="weightUnit"
-                :rules="[{ required: true, message: '请选择计量单位', trigger:'blur'}]"
-              >
-                <el-select v-model="form.weightUnit" placeholder="请选择" size="small">
-                  <el-option
-                    v-for="(item,index) in WeightUnitList"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
               </el-form-item>
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
@@ -166,24 +134,14 @@
                 <el-input v-model="form.supposedWeight"></el-input>
               </el-form-item>
             </el-col>       
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType === Dict.PRODUCT_OIL">
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item
-                label="油品信息"
+                label="信息库"
                 prop="productId"
                 :rules="[{ required: true, message: '必选一项', trigger:'blur'}]"
               >
-                <oilQualityInfoglass @oilQualityInfoSelect="acceptOilQuality"></oilQualityInfoglass>
+                <oilQualityInfoglass ref="infoglass" @oilQualityInfoSelect="acceptOilQuality"></oilQualityInfoglass>
                 <el-input type="hidden" :value="form.productId" style="display:inline;height:0"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType !== Dict.PRODUCT_OIL">
-              <el-form-item
-                label="物资信息"
-                prop="goodsId"
-                :rules="[{ required: true, message: '必选一项', trigger:'blur'}]"
-              >
-                <commodityglass @commoditySelect="acceptCommodity"></commodityglass>
-                <el-input type="hidden" :value="form.goodsId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24">
@@ -214,12 +172,10 @@ import {
 } from "common/util";
 import Dict from "util/dict";
 import oilQualityInfoglass from "views/basicManage/oilQualityInfo/oilQualityInfoglass.vue";
-import commodityglass from "views/basicManage/commodityManage/commodityglass.vue";
 import cargoglass from "components/cargoglass.vue";
 
 const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
-const WeightUnitList = DICT_SELECT_ARR(Dict.MEASURE_UNIT);
-const MeasuringTypeList = DICT_SELECT_ARR(Dict.MEASURE_TYPE);
+const EnterStorageTypeList = DICT_SELECT_ARR(Dict.ENTER_STORAGE_TYPE);
 const defualtFormParams = {
   registerTime: new Date(), // 登记日期
   userId: null, // 货主id
@@ -230,9 +186,7 @@ const defualtFormParams = {
   measuring: null, // 计量方式
   supposedNum: null, // 应收数量
   supposedWeight: null, // 应收重量
-  weightUnit: null, // 计量单位
-  productId: null, // 油品信息传递过来的id
-  goodsId: null, // 物资信息传递过来的id
+  productId: null, // 信息库传递过来的id
   remark: null // 备注
 };
 
@@ -241,7 +195,6 @@ export default {
   mixins: [dictMixin],
   components: {
     oilQualityInfoglass,
-    commodityglass,
     cargoglass
   },
   data() {
@@ -258,11 +211,9 @@ export default {
       oilInfoObj: null,
       commodityObj: null,
       /**商品大类数据源*/
-      typeProductDatas: TypeProductDatas,
-      storageclass: null,
-      /**计量单位数据源*/
-      WeightUnitList,
-      MeasuringTypeList
+      TypeProductDatas,
+      EnterStorageTypeList,
+      storageclass: null
     };
   },
   computed: {
@@ -278,7 +229,10 @@ export default {
     },
     clear() {
       this.form = { ...defualtFormParams };
-      (this.oilInfoObj = null), (this.commodityObj = null);
+      if(this.$refs.infoglass) {
+        this.$refs.infoglass.clearValue();
+      }
+      this.oilInfoObj = null;
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -376,11 +330,6 @@ export default {
     acceptOilQuality(obj) {
       this.form.productId = obj.id;
       this.oilInfoObj = obj;
-    },
-    /**接收物资信息传递的对象*/
-    acceptCommodity(obj) {
-      this.form.goodsId = obj.id;
-      this.commodityObj = obj;
     },
     /**接收货主传递的对象*/
     acceptcargo(obj) {
