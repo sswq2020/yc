@@ -183,7 +183,6 @@ const defualtFormParams = {
   deliveryStoreId: null, //交易仓库id
   pilePositionId: null, //区桩位id
   oilTankId: null, // 储罐编号id
-  measuring: null, // 计量方式
   supposedNum: null, // 应收数量
   supposedWeight: null, // 应收重量
   productId: null, // 信息库传递过来的id
@@ -248,10 +247,12 @@ export default {
       if (this.IS_SHIPPER) {
         this.form.userId = this.userId;
       }
+      const {measuringId} = this.oilInfoObj
       const params = _.clone(
         Object.assign(
           {},
           this.form,
+          { measuring: measuringId},
           { productTypeCode: this.storageclass },
           {
             deliveryStore: findLabelByValue(
