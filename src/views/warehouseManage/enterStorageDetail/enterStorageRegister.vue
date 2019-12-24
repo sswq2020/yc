@@ -223,7 +223,7 @@ export default {
     ...mapMutations("inventoryManage", ["setProductType"]),
     back() {
       this.$router.push({
-        path: "/web/yc/storage/stockInventory/page"
+        path: "/web/yc/storage/stockRegister/page"
       });
     },
     clear() {
