@@ -89,22 +89,18 @@ const defaultAuditResultTableHeader = [
   {
     prop: "producerName",
     label: "生产商名称",
-    width: "180"
   },
   {
     prop: "remark",
     label: "备注",
-    width: "180"
   },
   {
     prop: "createdTimeText",
-    label: "录入时间",
-    width: "180"
+    label: "录入时间"
   },
   {
     prop: "producerStateText",
-    label: "状态",
-    width: "180"
+    label: "状态"
   }
 ];
 
@@ -167,7 +163,7 @@ export default {
     },
     async getListData() {
       this.isListDataLoading = true;
-      const res = await this.$api.getVIPList({
+      const res = await this.$api.getProducersList({
         ...this.listParams,
         ...this.form
       });
