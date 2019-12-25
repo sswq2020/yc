@@ -10,66 +10,32 @@
               <el-form-item label="入库单号:" prop="incomingId">{{form.incomingId}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="入库日期:" prop="incomingTime">{{form.incomingTime}}</el-form-item>
+              <el-form-item label="到货日期:" prop="incomingTime">{{form.incomingTime}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="货主:" prop="name">{{form.name}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="交易仓库:" prop="deliveryStore">{{form.deliveryStore}}</el-form-item>
-            </el-col>
-          </el-row>
-
-          <!--石油参数开始-->
-          <el-row v-if="productType===Dict.PRODUCT_OIL">
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="储罐编号:" prop="oilTankCode">{{form.oilTankCode}}</el-form-item>
+              <el-form-item label="交割仓库:" prop="deliveryStore">{{form.deliveryStore}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="品类:" prop="firstCatalogName">{{form.firstCatalogName}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="牌号:" prop="secondCatalogName">{{form.secondCatalogName}}</el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="排放标准:" prop="manufacturerName">{{form.emissionStandardText}}</el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="密度:" prop="density">{{form.density}}</el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="产品型号:" prop="serialNumber">{{form.serialNumber}}</el-form-item>
+              <el-form-item label="规格牌号:" prop="secondCatalogName">{{form.secondCatalogName}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="生产商:" prop="manufacturerName">{{form.manufacturerName}}</el-form-item>
             </el-col>
-          </el-row>
-          <!--石油参数结束-->
-
-          <!--钢木参数开始-->
-          <el-row v-if="productType!==Dict.PRODUCT_OIL">
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="6" :sm="12" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="储罐编号:" prop="oilTankCode">{{form.oilTankCode}}</el-form-item>
+            </el-col>
+            <el-col :md="6" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="区桩位:" prop="pilePosition">{{form.pilePosition}}</el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
+            <el-col :md="6" :sm="12" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="层数:" prop="piles">{{form.piles}}</el-form-item>
             </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="品名:" prop="productName">{{form.productName}}</el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="材质:" prop="materialName">{{form.materialName}}</el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="规格:" prop="specificationsName">{{form.specificationsName}}</el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="产地:" prop="originPlaceName">{{form.originPlaceName}}</el-form-item>
-            </el-col>
-          </el-row>
-          <!--钢木参数结束-->
-
-          <el-row>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="库存数量:" prop="totalNumInventory">{{form.totalNumInventory}}</el-form-item>
             </el-col>
@@ -78,9 +44,6 @@
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="计量方式:" prop="measuringText">{{form.measuringText}}</el-form-item>
-            </el-col>
-            <el-col :md="6" :sm="12" :xs="24">
-              <el-form-item label="计量单位:" prop="weightUnitText">{{form.weightUnitText}}</el-form-item>
             </el-col>
             <el-col :md="6" :sm="12" :xs="24">
               <el-form-item label="备注:" prop="remark">{{form.remark}}</el-form-item>
