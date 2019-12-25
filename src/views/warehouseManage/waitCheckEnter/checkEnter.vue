@@ -183,6 +183,7 @@
 
 <script>
 import { mapState } from "vuex";
+import _ from 'lodash'
 import Dict from "@/util/dict.js";
 import { judgeAuth } from "util/util.js";
 import ImageBox from "components/ImageBox";
@@ -302,15 +303,16 @@ export default {
       }
     },
     uploadDelete(index) {
-      this.form.needShowData[index].url = "#";
-      this.form.needShowData[index].fileId = null;
+      let copyObj = _.cloneDeep(this.form.needShowData[index])
+      /**不要直接使用array[index] = item,Vue无法观察数组的变化,必须用变异的函数*/
+      this.form.needShowData.splice(index,1,{...copyObj,url:"#",fileId:null})
     },
     uploadSuceess(res,index) {
-      this.form.needShowData[index].url = res.data.url;
-      this.form.needShowData[index].fileId = res.data.id;
+      const {url,id} = res.data;
+      let copyObj = _.cloneDeep(this.form.needShowData[index])   
+      /**不要直接使用array[index] = item,Vue无法观察数组的变化,必须用变异的函数*/
+      this.form.needShowData.splice(index,1,{...copyObj,url,fileId:id})      
     },    
-
-
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
