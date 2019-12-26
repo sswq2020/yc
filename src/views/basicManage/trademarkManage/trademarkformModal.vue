@@ -160,6 +160,7 @@ export default {
         if(this.isEdit) {return}
         if(!newV) {return}
         if(newV !== oldV){
+          this.form.categoryId = null;
           this.innerselectList = [];
           setTimeout(()=>{
              this._getCategorySelectList(newV)

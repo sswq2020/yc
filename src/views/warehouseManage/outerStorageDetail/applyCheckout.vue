@@ -36,11 +36,11 @@
               <el-form-item
                 label="提货方式"
                 prop="pickUpType"
-                :rules="[{ required: true, message: '请选择提货方式', trigger: 'blur' }]"
+                :rules="[{ required: true, message: '请选择提货方式'}]"
               >
-                <el-select v-model="pickUpType" placeholder="请选择" size="small">
+                <el-select v-model="form.pickUpType" placeholder="请选择" size="small">
                   <el-option
-                    v-for="(item,index) in PickUpTypes"
+                    v-for="(item,index) in PICKUPTYPES"
                     :key="index"
                     :label="item.label"
                     :value="item.value"
@@ -161,13 +161,13 @@
 <script>
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
-import { DICT_SELECT_ARR } from "common/util";
-const PickUpTypes = DICT_SELECT_ARR(Dict.PICK_UP_TYPE);
+import { DICT_SELECT_ARR,deepMerge } from "common/util";
+const PICKUPTYPES = DICT_SELECT_ARR(Dict.PICK_UP_TYPE);
 const defualtFormParams = {
   consignee: null,
   name: null,
   pickUpPassword: null,
-  pickUpType:null
+  pickUpType:Dict.PICK_UP_SELF
 };
 
 export default {
@@ -181,9 +181,9 @@ export default {
       disabled: true,
       form: {
         needShowData: [],
-        ...defualtFormParams
+        ...deepMerge(defualtFormParams)
       },
-      PickUpTypes,
+      PICKUPTYPES,
       max: null, // 从库存明细页跳转过来,会另外带来最大重量的限制
       Dict:Dict
     };
@@ -323,6 +323,7 @@ export default {
           });
           this.form = Object.assign(
             {},
+            this.form,
             {
               name: res.data[0].name
             },
