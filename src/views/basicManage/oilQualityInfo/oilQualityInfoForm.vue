@@ -41,7 +41,7 @@
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item
-                  label="牌号"
+                  label="规格/牌号"
                   prop="secondCatalogId"
                   :rules="[{ required: true, message:'必选'  }]"
                 >

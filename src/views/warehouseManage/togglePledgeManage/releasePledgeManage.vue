@@ -220,8 +220,10 @@ export default {
             this.$messageError(res.mesg);
             break;
         }
-        const res_ = await this.$api.getPledgeCargoinfo(
-          this.releasePledgeData.cargoId
+        const res_ = await this.$api.getPledgeCargoinfo({
+            cargoId,
+            productTypeCode
+          }
         );
         switch (res_.code) {
           case Dict.SUCCESS:

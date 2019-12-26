@@ -44,7 +44,7 @@
             <div class="head">库存信息</div>
             <el-row>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="交易仓库" prop="deliveryStore">
+                <el-form-item label="交割仓库" prop="deliveryStore">
                   <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
@@ -106,7 +106,7 @@
                 :sm="24"
                 :xs="24"
               >
-                <el-form-item label="牌号" prop="secondCatalogName">
+                <el-form-item label="规格/牌号" prop="secondCatalogName">
                   <el-input :value="item.secondCatalogName" disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
