@@ -255,7 +255,7 @@ const defaultSWtableHeader = [
   {
     prop: "incomingDays",
     label: "入库天数",
-    width: "50",
+    width: "80",
     align: "right"
   },
   {
@@ -690,11 +690,13 @@ export default {
       handler(newV, oldV) {
         if (newV !== oldV) {
           this.form.secondCatalogId = null;
-          if (newV && this.storageclass=== Dict.PRODUCT_OIL) {
+          if (newV) {
             setTimeout(() => {
               const index = findIndexByValue(this.firstCatalogList,newV)
               this.trademarkList = this.firstCatalogList[index].child;
             }, 20);
+          }else {
+            this.trademarkList = [];
           }
         }
       }
