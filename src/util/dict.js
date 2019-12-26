@@ -157,4 +157,16 @@ DICT.ENTER_STORAGE_TYPE = {
     [DICT.TRANSFER_IN_STORAGE]:"过货入库",
 }
 
+/***自提***/
+DICT.PICK_UP_SELF = "0"
+/***平台代运***/
+DICT.PICK_UP_PLANT = "1"
+/***提货方式***/
+DICT.PICK_UP_TYPE = {
+    [DICT.PICK_UP_SELF]:"自提",
+    [DICT.PICK_UP_PLANT]:"平台代运",
+}
+
+
+
 export default DICT;
