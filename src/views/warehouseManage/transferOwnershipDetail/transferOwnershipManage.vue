@@ -335,7 +335,8 @@ export default {
     async _getTransferAvailable_(arr) {
       const res = await this.$api.getTransferAvailable({
         cargoId: arr[0].userId || null,
-        stockId: arr[0].id || ""
+        stockId: arr[0].id || "",
+        productTypeCode:this.productType
       });
       switch (res.code) {
         case Dict.SUCCESS:

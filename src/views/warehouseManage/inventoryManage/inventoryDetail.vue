@@ -357,7 +357,8 @@ export default {
         .then(async () => {
           const res = await that.$api.getTransferAvailable({
             cargoId: this.form.userId,
-            stockId: stockInventoryId
+            stockId: stockInventoryId,
+            productTypeCode:this.productType
           });
           switch (res.code) {
             case Dict.SUCCESS:
@@ -388,7 +389,8 @@ export default {
         .then(async () => {
           const res = await that.$api.getTransferAvailable({
             cargoId: this.form.userId,
-            stockId: stockInventoryId
+            stockId: stockInventoryId,
+            productTypeCode:this.productType
           });
           switch (res.code) {
             case Dict.SUCCESS:
