@@ -84,6 +84,11 @@ const defaulttableHeader = [
     width: "180"
   },
   {
+    prop: "productTypeCodeText",
+    label: "大类",
+    width: "180"
+  },
+  {
     prop: "inventoryTotalNums",
     label: "库存数量",
     width: "180",

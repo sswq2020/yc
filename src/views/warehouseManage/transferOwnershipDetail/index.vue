@@ -170,27 +170,33 @@ const defaultListData = {
 const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
-    label: "交割仓库"
+    label: "交割仓库",
+    width: "180"
   },
   {
     prop: "originalShipperName",
-    label: "原货主"
+    label: "原货主",
+    width: "180"
   },
   {
     prop: "newShipperName",
-    label: "新货主"
+    label: "新货主",
+    width: "180"
   },
   {
     prop: "transferTime",
-    label: "过户日期"
+    label: "过户日期",
+    width: "180"
   },
   {
     prop: "pilePosition",
-    label: "区桩位"
+    label: "区桩位",
+    width: "180"
   },
   {
     prop: "piles",
-    label: "层数"
+    label: "层数",
+    width: "180"
   },
   {
     prop: "firstCatalogName",
@@ -210,7 +216,8 @@ const defaultSWtableHeader = [
   },  
   {
     prop: "transferNumsText",
-    label: "过户数量"
+    label: "过户数量",
+    width: "110"
   },
   {
     prop: "realTransferNumsText",
@@ -219,7 +226,8 @@ const defaultSWtableHeader = [
   },
   {
     prop: "transferWeightsText",
-    label: "过户重量"
+    label: "过户重量",
+    width: "110"
   },
   {
     prop: "realTransferWeightsText",
@@ -228,59 +236,72 @@ const defaultSWtableHeader = [
   },
   {
     prop: "measuringText",
-    label: "计量方式"
+    label: "计量方式",
+    width:"120"
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型"
+    label: "入库类型",
+    width:"120"
   },
   {
     prop: "incomingId",
-    label: "入库单号"
+    label: "入库单号",
+    width:"120"
   },
   {
     prop: "transferTypeText",
-    label: "业务类型"
+    label: "业务类型",
+    width:"120"
   }
 ];
 
 const defaultOILtableHeader = [
   {
     prop: "deliveryStore",
-    label: "交割仓库"
+    label: "交割仓库",
+    width: "180"
   },
   {
     prop: "originalShipperName",
-    label: "原货主"
+    label: "原货主",
+    width: "180"
   },
   {
     prop: "newShipperName",
-    label: "新货主"
+    label: "新货主",
+    width: "180"
   },
   {
     prop: "transferTime",
-    label: "过户日期"
+    label: "过户日期",
+    width: "180"
   },
   {
     prop: "oilTankCode",
-    label: "储罐编号"
+    label: "储罐编号",
+    width: "180"
   },
   {
     prop: "firstCatalogName",
-    label: "品类"
+    label: "品类",
+    width: "180"
   },
   {
     prop: "secondCatalogName",
     label: "规格/牌号",
-    align: "right"
+    align: "right",
+    width: "180"
   },
   {
     prop: "producerName",
-    label: "生产商"
+    label: "生产商",
+    width: "180"
   },
   {
     prop: "transferNumsText",
-    label: "过户数量"
+    label: "过户数量",
+    width: "110"
   },
   {
     prop: "realTransferNumsText",
@@ -289,28 +310,33 @@ const defaultOILtableHeader = [
   },
   {
     prop: "transferWeightsText",
-    label: "过户重量"
+    label: "过户重量",
+    width: "110"    
   },
   {
     prop: "realTransferWeightsText",
     label: "实际过户重量",
-    width:"110"
+    width:"120"
   },
   {
     prop: "measuringText",
-    label: "计量方式"
+    label: "计量方式",
+    width: "120"    
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型"
+    label: "入库类型",
+    width: "120"    
   },
   {
     prop: "incomingId",
-    label: "入库单号"
+    label: "入库单号",
+    width: "120"    
   },
   {
     prop: "transferTypeText",
-    label: "业务类型"
+    label: "业务类型",
+    width: "120"    
   }
 ];
 
