@@ -201,9 +201,13 @@ export default {
       });
     },
     async init() {
-      if (this.releasePledgeData && this.releasePledgeData.cargoId) {
+      const {cargoId,productTypeCode} = this.releasePledgeData;
+      if (this.releasePledgeData && cargoId && productTypeCode) {
         const res = await this.$api.getPledgeNum(
-          this.releasePledgeData.cargoId
+          {
+            cargoId,
+            productTypeCode
+          }
         );
         switch (res.code) {
           case Dict.SUCCESS:

@@ -1093,8 +1093,8 @@ export default {
      * @param cargoId 货主id
      * @description 获取质押总量
      * */    
-    getPledgeNum(cargoId){
-        return fetch(storageURL + '/web/yc/pledgeinfo/pledgeNum', {cargoId},'get')         
+    getPledgeNum(params){
+        return fetch(storageURL + '/web/yc/pledgeinfo/pledgeNum', params,'get')         
     }, 
     /**
      * @author sswq
