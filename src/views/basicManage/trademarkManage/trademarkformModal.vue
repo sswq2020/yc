@@ -1,6 +1,6 @@
 <template>
-  <el-dialog :title="title" :visible="visible" width="575px" @close="cancle()" class="dialog-form">
-    <el-form :model="form" ref="ruleForm" label-position="right" label-width="135px" class="form">
+  <el-dialog :title="title" :visible="visible" width="605px" @close="cancle()" class="dialog-form">
+    <el-form :model="form" ref="ruleForm" label-position="right" label-width="140px" class="form">
       <el-form-item 
         label="大类:" 
         prop="productTypeCode"  
@@ -19,7 +19,7 @@
         prop="categoryId"
         :rules="[{ required: true, message: '请选择品类', trigger: 'blur' }]"
         >
-        <el-select v-model="form.categoryId" placeholder="请选择" size="small" style="width:100%">
+        <el-select v-model="form.categoryId" placeholder="请选择" size="small">
           <el-option
             v-for="(item,index) in selectList"
             :key="index"

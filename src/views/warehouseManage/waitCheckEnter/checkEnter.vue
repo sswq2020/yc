@@ -28,8 +28,19 @@
                 :md="24"
                 :sm="24"
                 :xs="24"
+                v-if="productType!==Dict.PRODUCT_OIL"
               >
                 <el-form-item label="区桩位:" prop="pilePosition">{{item.pilePosition}}</el-form-item>
+              </el-col>
+              <el-col
+                :xl="8"
+                :lg="12"
+                :md="24"
+                :sm="24"
+                :xs="24"
+                v-if="productType!==Dict.PRODUCT_OIL"
+              >
+                <el-form-item label="层数:" prop="piles">{{item.piles}}</el-form-item>
               </el-col>
               <el-col
                 :xl="8"
@@ -52,16 +63,6 @@
                     </el-select>
 
                 </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="层数:" prop="piles">{{item.piles}}</el-form-item>
               </el-col>
             </el-row>
             <div class="head">商品信息</div>
