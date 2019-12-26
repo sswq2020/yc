@@ -215,22 +215,22 @@ const defaultSWtableHeader = [
     width: "180"
   },  
   {
-    prop: "transferNumsText",
+    prop: "transferNums",
     label: "过户数量",
     width: "110"
   },
   {
-    prop: "realTransferNumsText",
+    prop: "realTransferNums",
     label: "实际过户数量",
     width:"110"
   },
   {
-    prop: "transferWeightsText",
+    prop: "transferWeights",
     label: "过户重量",
     width: "110"
   },
   {
-    prop: "realTransferWeightsText",
+    prop: "realTransferWeights",
     label: "实际过户重量",
     width:"110"
   },
@@ -299,22 +299,22 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "transferNumsText",
+    prop: "transferNums",
     label: "过户数量",
     width: "110"
   },
   {
-    prop: "realTransferNumsText",
+    prop: "realTransferNums",
     label: "实际过户数量",
     width:"110"
   },
   {
-    prop: "transferWeightsText",
+    prop: "transferWeights",
     label: "过户重量",
     width: "110"    
   },
   {
-    prop: "realTransferWeightsText",
+    prop: "realTransferWeights",
     label: "实际过户重量",
     width:"120"
   },
@@ -349,10 +349,6 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               piles:row.piles || "-",
-              transferNumsText:`${row.transferNums || "-"}${row.transferNums ? row.numUnitText : ""}`,
-              realTransferNumsText:`${row.realTransferNums || "-"}${row.realTransferNums ? row.numUnitText : ""}`,
-              transferWeightsText:`${row.transferWeights}${row.weightUnitText}`,
-              realTransferWeightsText:`${row.realTransferWeights}${row.weightUnitText}`,
             }
         })
     }

@@ -137,11 +137,11 @@
                   <el-input :value="item.measuringText" disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <!-- <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="计量单位" prop="weightUnitText">
                   <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
             <div class="head">出库信息</div>
             <el-row>
@@ -164,7 +164,7 @@
                 </el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="备注" prop="remark">
+                <el-form-item label="备注:" prop="remark">
                   {{item.remark}}
                 </el-form-item>
               </el-col>
