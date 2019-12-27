@@ -423,6 +423,8 @@ export default {
               const index = findIndexByValue(this.deliveryStoreList, newV);
               this.oiltankList = this.deliveryStoreList[index].child;
             }, 20);
+          }else{
+            this.oiltankList = []
           }
         }
       }
