@@ -212,8 +212,7 @@ const defaultSWtableHeader = [
   {
     prop: "secondCatalogName",
     label: "规格/牌号",
-    width: "180",
-    align: "right"
+    width: "180"
   },
   {
     prop: "manufacturerName",
@@ -221,7 +220,7 @@ const defaultSWtableHeader = [
     width: "180"
   },  
   {
-    prop: "numText",
+    prop: "num",
     label: "入库数量",
     width: "180"
   },
@@ -280,9 +279,8 @@ const defaultOILtableHeader = [
   },
   {
     prop: "secondCatalogName",
-    label: "牌号",
-    width: "180",
-    align: "right"
+    label: "规格/牌号",
+    width: "180"
   },
   {
     prop: "manufacturerName",
@@ -290,7 +288,7 @@ const defaultOILtableHeader = [
     width: "180"
   },
   {
-    prop: "numText",
+    prop: "num",
     label: "入库数量",
     width: "180"
   },
@@ -337,10 +335,6 @@ const rowAdapter = list => {
           (row.measuringTypeEnum && row.measuringTypeEnum.text) || "-",
         incomingTypeText:
           (row.incomingTypeEnum && row.incomingTypeEnum.text) || "-",
-        numText: `${row.num || "-"}${(row.num &&
-          row.numUnitTypeEnum &&
-          row.numUnitTypeEnum.text) ||
-          ""}`,
         weightText: `${row.weight}${(row.weightUnitTypeEnum &&
           row.weightUnitTypeEnum.text) ||
           "-"}`,
