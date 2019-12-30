@@ -48,6 +48,17 @@
                 </el-select>
               </el-form-item>
             </el-col>
+
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item
+                label="提货人号码"
+                prop="pickUpPhone"
+                :rules="[{ required: true, message: '请输入提货人号码', trigger: 'blur' }]"
+              >
+                <el-input v-model.number="form.pickUpPhone"></el-input>
+              </el-form-item>
+            </el-col>
+
           </el-row>
         </div>
         <div class="form-block" v-for="(item,index) in form.needShowData" :key="item.id">
@@ -167,7 +178,8 @@ const defualtFormParams = {
   consignee: null,
   name: null,
   pickUpPassword: null,
-  pickUpType:Dict.PICK_UP_SELF
+  pickUpType:Dict.PICK_UP_SELF,
+  pickUpPhone:null
 };
 
 export default {
