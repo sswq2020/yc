@@ -265,12 +265,13 @@ export default {
     _serialize_() {
       const {
           consignee,
-          pickUpPassword
+          pickUpPassword,
+          pickUpPhone
       } = this.form;
       const params = this.form.needShowData.map((item) => {
         return Object.assign(
         {},
-        {consignee,pickUpPassword},
+        {consignee,pickUpPassword,pickUpPhone},
         item,
         {productTypeCode:this.productType},
         {id:null},
