@@ -17,20 +17,9 @@
       </div>
       <div class="form-item">
         <label>新货主</label>
-        <!-- <div class="form-control">
-          <el-select v-model="form.newShipperId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in cargoList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div> -->
         <div class="form-control">
          <cargoglass ref="cargoglass" @cargoSelect="acceptcargo"></cargoglass>          
         </div>
-
       </div>
       <div class="form-item">
         <label>交割仓库</label>
@@ -48,7 +37,7 @@
       <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
         <label>储罐编号</label>
         <div class="form-control">
-          <el-select v-model="form.oiltankId" placeholder="请选择" size="small">
+          <el-select v-model="form.oilTankId" placeholder="请选择" size="small">
             <el-option
               v-for="(item,index) in oiltankList"
               :key="index"
@@ -58,7 +47,7 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+      <div class="form-item">
         <label>品类</label>
         <div class="form-control">
           <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
@@ -71,8 +60,8 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
-        <label>牌号</label>
+      <div class="form-item">
+        <label>规格/牌号</label>
         <div class="form-control">
           <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
             <el-option
@@ -84,70 +73,10 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
-        <label>排放标准</label>
+      <div class="form-item">
+        <label>生产商</label>
         <div class="form-control">
-          <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in HywEmissionStandardList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-
-      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
-        <label>品名</label>
-        <div class="form-control">
-          <el-select v-model="form.productNameId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in productNameList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
-        <label>材质</label>
-        <div class="form-control">
-          <el-select v-model="form.materialId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in materialList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
-        <label>规格</label>
-        <div class="form-control">
-          <el-select v-model="form.specificationsId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in specificationsList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
-        <label>产地</label>
-        <div class="form-control">
-          <el-select v-model="form.originPlaceId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in originPlaceList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <manufactureglass ref="manufactureglass" @manufactureSelect="acceptManufacture"></manufactureglass>
         </div>
       </div>
       <div class="form-item">
@@ -160,7 +89,7 @@
         <el-button size="small" @click="clearListParams">重置</el-button>
       </div>
     </div>
-    <heltable
+    <HletongTable
       ref="tb"
       @sizeChange="changePageSize"
       @pageChange="changePage"
@@ -168,6 +97,7 @@
       :currentPage="listParams.page"
       :pageSize="listParams.pageSize"
       :data="listData.list"
+      :blankCol="false"
       :loading="isListDataLoading"
     >
       <el-table-column
@@ -189,7 +119,7 @@
           <el-button type="text" @click="detail(listData.list[scope.$index])">过户单</el-button>
         </template>
       </el-table-column>
-    </heltable>
+    </HletongTable>
 
     <tickets
       :visible="visible"
@@ -211,23 +141,20 @@ import { findIndexByValue } from "common/util.js";
 // import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-import heltable from "components/hl_table";
 import tickets from "components/tickets";
 import transferticket from "./transferticket";
 import cargoglass from "components/cargoglass";
+import manufactureglass from "components/manufactureglass.vue";
 
 const defaultFormData = {
   newShipperId: null,
   deliveryStoreId: null,
-  productNameId: null,
-  materialId: null,
-  specificationsId: null,
-  originPlaceId: null,
 
-  oiltankId: null,
+  oilTankId: null,
   firstCatalogId: null,
   secondCatalogId: null,
-  emissionStandard: null
+
+  manufactureId:null
 };
 const defaultListParams = {
   pageSize: 20,
@@ -243,156 +170,173 @@ const defaultListData = {
 const defaultSWtableHeader = [
   {
     prop: "deliveryStore",
-    label: "交割仓库"
+    label: "交割仓库",
+    width: "180"
   },
   {
     prop: "originalShipperName",
-    label: "原货主"
+    label: "原货主",
+    width: "180"
   },
   {
     prop: "newShipperName",
-    label: "新货主"
+    label: "新货主",
+    width: "180"
   },
   {
     prop: "transferTime",
-    label: "过户日期"
+    label: "过户日期",
+    width: "180"
   },
   {
     prop: "pilePosition",
-    label: "区桩位"
+    label: "区桩位",
+    width: "180"
   },
   {
     prop: "piles",
-    label: "层数"
+    label: "层数",
+    width: "180"
   },
   {
-    prop: "productName",
-    label: "品名"
+    prop: "firstCatalogName",
+    label: "品类",
+    width: "180"
   },
   {
-    prop: "materialName",
-    label: "材质"
+    prop: "secondCatalogName",
+    label: "规格/牌号",
+    width: "180",
+    align: "right"
   },
   {
-    prop: "specificationsName",
-    label: "规格"
+    prop: "manufacturerName",
+    label: "生产商",
+    width: "180"
+  },  
+  {
+    prop: "transferNums",
+    label: "过户数量",
+    width: "110"
   },
   {
-    prop: "originPlaceName",
-    label: "产地"
-  },
-  {
-    prop: "transferNumsText",
-    label: "过户数量"
-  },
-  {
-    prop: "realTransferNumsText",
+    prop: "realTransferNums",
     label: "实际过户数量",
     width:"110"
   },
   {
-    prop: "transferWeightsText",
-    label: "过户重量"
+    prop: "transferWeights",
+    label: "过户重量",
+    width: "110"
   },
   {
-    prop: "realTransferWeightsText",
+    prop: "realTransferWeights",
     label: "实际过户重量",
     width:"110"
   },
   {
     prop: "measuringText",
-    label: "计量方式"
+    label: "计量方式",
+    width:"120"
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型"
+    label: "入库类型",
+    width:"120"
   },
   {
     prop: "incomingId",
-    label: "入库单号"
+    label: "入库单号",
+    width:"120"
   },
   {
     prop: "transferTypeText",
-    label: "业务类型"
+    label: "业务类型",
+    width:"120"
   }
 ];
 
 const defaultOILtableHeader = [
   {
     prop: "deliveryStore",
-    label: "交割仓库"
+    label: "交割仓库",
+    width: "180"
   },
   {
     prop: "originalShipperName",
-    label: "原货主"
+    label: "原货主",
+    width: "180"
   },
   {
     prop: "newShipperName",
-    label: "新货主"
+    label: "新货主",
+    width: "180"
   },
   {
     prop: "transferTime",
-    label: "过户日期"
+    label: "过户日期",
+    width: "180"
   },
   {
     prop: "oilTankCode",
-    label: "储罐编号"
+    label: "储罐编号",
+    width: "180"
   },
   {
     prop: "firstCatalogName",
-    label: "品类"
+    label: "品类",
+    width: "180"
   },
   {
     prop: "secondCatalogName",
-    label: "牌号",
-    align: "right"
-  },
-  {
-    prop: "emissionStandard",
-    label: "排放标准"
-  },
-  {
-    prop: "density",
-    label: "密度",
-    align: "right"
+    label: "规格/牌号",
+    align: "right",
+    width: "180"
   },
   {
     prop: "producerName",
-    label: "生产商"
+    label: "生产商",
+    width: "180"
   },
   {
-    prop: "transferNumsText",
-    label: "过户数量"
+    prop: "transferNums",
+    label: "过户数量",
+    width: "110"
   },
   {
-    prop: "realTransferNumsText",
+    prop: "realTransferNums",
     label: "实际过户数量",
     width:"110"
   },
   {
-    prop: "transferWeightsText",
-    label: "过户重量"
+    prop: "transferWeights",
+    label: "过户重量",
+    width: "110"    
   },
   {
-    prop: "realTransferWeightsText",
+    prop: "realTransferWeights",
     label: "实际过户重量",
-    width:"110"
+    width:"120"
   },
   {
     prop: "measuringText",
-    label: "计量方式"
+    label: "计量方式",
+    width: "120"    
   },
   {
     prop: "incomingTypeText",
-    label: "入库类型"
+    label: "入库类型",
+    width: "120"    
   },
   {
     prop: "incomingId",
-    label: "入库单号"
+    label: "入库单号",
+    width: "120"    
   },
   {
     prop: "transferTypeText",
-    label: "业务类型"
+    label: "业务类型",
+    width: "120"    
   }
 ];
 
@@ -405,10 +349,6 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               piles:row.piles || "-",
-              transferNumsText:`${row.transferNums || "-"}${row.transferNums ? row.numUnitText : ""}`,
-              realTransferNumsText:`${row.realTransferNums || "-"}${row.realTransferNums ? row.numUnitText : ""}`,
-              transferWeightsText:`${row.transferWeights}${row.weightUnitText}`,
-              realTransferWeightsText:`${row.realTransferWeights}${row.weightUnitText}`,
             }
         })
     }
@@ -419,11 +359,10 @@ export default {
   name: "transferOwnershipDetail",
   mixins: [baseMixin,dictMixin],
   components: {
-    heltable,
     tickets,
     transferticket,
-    cargoglass
-    
+    cargoglass,
+    manufactureglass
   },
   data() {
     return {
@@ -463,6 +402,9 @@ export default {
       this.listData = { ...defaultListData };
       if(this.$refs.cargoglass) {
         this.$refs.cargoglass.clearValue();
+      }
+      if(this.$refs.manufactureglass) {
+        this.$refs.manufactureglass.clearValue();
       }
       setTimeout(()=>{
         this.getListData();
@@ -515,6 +457,10 @@ export default {
     acceptcargo(obj) {
       this.form.newShipperId = obj.userId;
     },      
+    /**接生产商传递的对象*/    
+    acceptManufacture(obj) {
+      this.form.manufactureId = obj.id;
+    },
     init() {
       setTimeout(() => {
         this.clearListParams();
@@ -548,6 +494,8 @@ export default {
               const index = findIndexByValue(this.deliveryStoreList, newV);
               this.oiltankList = this.deliveryStoreList[index].child;
             }, 20);
+          }else{
+            this.oiltankList = []
           }
         }
       }
@@ -556,11 +504,13 @@ export default {
       handler(newV, oldV) {
         if (newV !== oldV) {
           this.form.secondCatalogId = null;
-          if (newV && this.storageclass === Dict.PRODUCT_OIL) {
+          if (newV) {
             setTimeout(() => {
               const index = findIndexByValue(this.firstCatalogList, newV);
               this.trademarkList = this.firstCatalogList[index].child;
             }, 20);
+          }else{
+            this.trademarkList = [];
           }
         }
       }

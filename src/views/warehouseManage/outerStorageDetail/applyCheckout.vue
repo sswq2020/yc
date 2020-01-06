@@ -32,6 +32,33 @@
                 <el-input v-model.number="form.pickUpPassword"></el-input>
               </el-form-item>
             </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item
+                label="提货方式"
+                prop="pickUpType"
+                :rules="[{ required: true, message: '请选择提货方式'}]"
+              >
+                <el-select v-model="form.pickUpType" placeholder="请选择" size="small">
+                  <el-option
+                    v-for="(item,index) in PICKUPTYPES"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item
+                label="提货人号码"
+                prop="pickUpPhone"
+                :rules="[{ required: true, message: '请输入提货人号码', trigger: 'blur' }]"
+              >
+                <el-input v-model.number="form.pickUpPhone"></el-input>
+              </el-form-item>
+            </el-col>
+
           </el-row>
         </div>
         <div class="form-block" v-for="(item,index) in form.needShowData" :key="item.id">
@@ -43,44 +70,6 @@
               </el-form-item>
             </el-col>
 
-            <!--石油开始-->
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="储罐编号" prop="oilTankCode">
-                <el-input :value="item.oilTankCode" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="品类" prop="firstCatalogName">
-                <el-input :value="item.firstCatalogName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="牌号" prop="secondCatalogName">
-                <el-input :value="item.secondCatalogName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="排放标准" prop="emissionStandardText">
-                <el-input :value="item.emissionStandardText" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="密度(kg/m³)" prop="density">
-                <el-input :value="item.density" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="型号" prop="serialNumber">
-                <el-input :value="item.serialNumber" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
-              <el-form-item label="生产商" prop="manufacturerName">
-                <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-             <!--石油结束-->
-
             <!--钢木开始-->
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="区桩位" prop="pilePosition">
@@ -88,31 +77,34 @@
               </el-form-item>
             </el-col>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="品名" prop="productName">
-                <el-input :value="item.productName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
               <el-form-item label="层数" prop="piles">
                 <el-input :value="item.piles" disabled="disabled"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="材质" prop="materialName">
-                <el-input :value="item.materialName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="规格" prop="specificationsName">
-                <el-input :value="item.specificationsName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType!==Dict.PRODUCT_OIL">
-              <el-form-item label="产地" prop="originPlaceName">
-                <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
-              </el-form-item>
-            </el-col>
             <!--钢木结束-->
+            
+            <!--石油开始-->
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24" v-if="productType===Dict.PRODUCT_OIL">
+              <el-form-item label="储罐编号" prop="oilTankCode">
+                <el-input :value="item.oilTankCode" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="品类" prop="firstCatalogName">
+                <el-input :value="item.firstCatalogName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="规格/牌号" prop="secondCatalogName">
+                <el-input :value="item.secondCatalogName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="生产商" prop="manufacturerName">
+                <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
+              </el-form-item>
+            </el-col>
+             <!--石油结束-->
 
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存数量" prop="totalNumInventory">
@@ -180,10 +172,14 @@
 <script>
 import { mapState } from "vuex";
 import Dict from "@/util/dict.js";
+import { DICT_SELECT_ARR,deepMerge } from "common/util";
+const PICKUPTYPES = DICT_SELECT_ARR(Dict.PICK_UP_TYPE);
 const defualtFormParams = {
   consignee: null,
   name: null,
-  pickUpPassword: null
+  pickUpPassword: null,
+  pickUpType:Dict.PICK_UP_SELF,
+  pickUpPhone:null
 };
 
 export default {
@@ -197,8 +193,9 @@ export default {
       disabled: true,
       form: {
         needShowData: [],
-        ...defualtFormParams
+        ...deepMerge(defualtFormParams)
       },
+      PICKUPTYPES,
       max: null, // 从库存明细页跳转过来,会另外带来最大重量的限制
       Dict:Dict
     };
@@ -268,12 +265,13 @@ export default {
     _serialize_() {
       const {
           consignee,
-          pickUpPassword
+          pickUpPassword,
+          pickUpPhone
       } = this.form;
       const params = this.form.needShowData.map((item) => {
         return Object.assign(
         {},
-        {consignee,pickUpPassword},
+        {consignee,pickUpPassword,pickUpPhone},
         item,
         {productTypeCode:this.productType},
         {id:null},
@@ -303,7 +301,8 @@ export default {
     async _getTransferAvailable_(arr) {
       const res = await this.$api.getTransferAvailable({
         cargoId: arr[0].userId || null,
-        stockId: arr[0].id || ""
+        stockId: arr[0].id || "",
+        productTypeCode:this.productType
       });
       switch (res.code) {
         case Dict.SUCCESS:
@@ -337,6 +336,7 @@ export default {
           });
           this.form = Object.assign(
             {},
+            this.form,
             {
               name: res.data[0].name
             },

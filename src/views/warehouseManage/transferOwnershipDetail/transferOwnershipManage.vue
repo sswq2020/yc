@@ -44,98 +44,10 @@
             <div class="head">库存信息</div>
             <el-row>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="交易仓库" prop="deliveryStore">
+                <el-form-item label="交割仓库" prop="deliveryStore">
                   <el-input :value="item.deliveryStore" disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
-
-              <!--石油开始-->
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="储罐编号" prop="oilTankCode">
-                  <el-input :value="item.oilTankCode" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="品类" prop="firstCatalogName">
-                  <el-input :value="item.firstCatalogName" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="牌号" prop="secondCatalogName">
-                  <el-input :value="item.secondCatalogName" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="排放标准" prop="emissionStandardText">
-                  <el-input :value="item.emissionStandardText" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="密度(kg/m³)" prop="density">
-                  <el-input :value="item.density" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="型号" prop="serialNumber">
-                  <el-input :value="item.serialNumber" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="生产商" prop="manufacturerName">
-                  <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <!--石油结束-->
-
               <!--钢木开始-->
               <el-col
                 :xl="8"
@@ -161,55 +73,55 @@
                   <el-input :value="item.piles" disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="品名" prop="productName">
-                  <el-input :value="item.productName" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="材质" prop="materialName">
-                  <el-input :value="item.materialName" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="规格" prop="specificationsName">
-                  <el-input :value="item.specificationsName" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="产地" prop="originPlaceName">
-                  <el-input :value="item.originPlaceName" disabled="disabled"></el-input>
-                </el-form-item>
-              </el-col>
               <!--钢木结束-->
+              
+              <!--石油开始-->
+              <el-col
+                :xl="8"
+                :lg="12"
+                :md="24"
+                :sm="24"
+                :xs="24"
+                v-if="productType===Dict.PRODUCT_OIL"
+              >
+                <el-form-item label="储罐编号" prop="oilTankCode">
+                  <el-input :value="item.oilTankCode" disabled="disabled"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col
+                :xl="8"
+                :lg="12"
+                :md="24"
+                :sm="24"
+                :xs="24"
+              >
+                <el-form-item label="品类" prop="firstCatalogName">
+                  <el-input :value="item.firstCatalogName" disabled="disabled"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col
+                :xl="8"
+                :lg="12"
+                :md="24"
+                :sm="24"
+                :xs="24"
+              >
+                <el-form-item label="规格/牌号" prop="secondCatalogName">
+                  <el-input :value="item.secondCatalogName" disabled="disabled"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col
+                :xl="8"
+                :lg="12"
+                :md="24"
+                :sm="24"
+                :xs="24"
+              >
+                <el-form-item label="生产商" prop="manufacturerName">
+                  <el-input :value="item.manufacturerName" disabled="disabled"></el-input>
+                </el-form-item>
+              </el-col>
+              <!--石油结束-->
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="库存数量" prop="totalNumInventory">
                   <el-input :value="item.totalNumInventory" disabled="disabled"></el-input>
@@ -225,11 +137,11 @@
                   <el-input :value="item.measuringText" disabled="disabled"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <!-- <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="计量单位" prop="weightUnitText">
                   <el-input :value="item.weightUnitText" disabled="disabled"></el-input>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
             <div class="head">出库信息</div>
             <el-row>
@@ -252,7 +164,7 @@
                 </el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="备注" prop="remark">
+                <el-form-item label="备注:" prop="remark">
                   {{item.remark}}
                 </el-form-item>
               </el-col>
@@ -423,7 +335,8 @@ export default {
     async _getTransferAvailable_(arr) {
       const res = await this.$api.getTransferAvailable({
         cargoId: arr[0].userId || null,
-        stockId: arr[0].id || ""
+        stockId: arr[0].id || "",
+        productTypeCode:this.productType
       });
       switch (res.code) {
         case Dict.SUCCESS:

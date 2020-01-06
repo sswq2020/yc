@@ -60,13 +60,13 @@ DICT.STORAGE_TYPE_OIL = '01'
 
 /**存储类型*/
 DICT.STORAGE_TYPE = {
- [DICT.STORAGE_TYPE_STEEL_WOOD]:"钢木",
+ [DICT.STORAGE_TYPE_STEEL_WOOD]:"钢材、木材",
  [DICT.STORAGE_TYPE_OIL]:"石油",
 } 
 
 /**钢材*/
 DICT.PRODUCT_STELL = '00'
-/**石油*/
+/**石化*/
 DICT.PRODUCT_OIL = '01'
 /**木材*/
 DICT.PRODUCT_WOOD = '02'
@@ -74,7 +74,7 @@ DICT.PRODUCT_WOOD = '02'
 /**商品大类*/
 DICT.PRODUCT_CATEGORY = {
     [DICT.PRODUCT_STELL]:"钢材",
-    [DICT.PRODUCT_OIL]:"石油",
+    [DICT.PRODUCT_OIL]:"石化",
     [DICT.PRODUCT_WOOD]:"木材",
 }
 
@@ -146,5 +146,27 @@ DICT.MEASURE_TYPE ={
   [DICT.VOLUME_FLOWMETER]:"体积流量计",
   [DICT.MASS_FLOWMETER]:"质量流量计",
 }
+
+/***收货入库***/
+DICT.TAKE_IN_STORAGE = "0"
+/***过货入库***/
+DICT.TRANSFER_IN_STORAGE = "1"
+/***入库方式***/
+DICT.ENTER_STORAGE_TYPE = {
+    [DICT.TAKE_IN_STORAGE]:"收货入库",
+    [DICT.TRANSFER_IN_STORAGE]:"过货入库",
+}
+
+/***自提***/
+DICT.PICK_UP_SELF = "0"
+/***平台代运***/
+DICT.PICK_UP_PLANT = "1"
+/***提货方式***/
+DICT.PICK_UP_TYPE = {
+    [DICT.PICK_UP_SELF]:"自主提货",
+    [DICT.PICK_UP_PLANT]:"平台代运",
+}
+
+
 
 export default DICT;

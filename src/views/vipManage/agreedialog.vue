@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :show-close="false" :title="title" :visible="agreedialogVisible" width="575px" append-to-body  class="dialog-form">
+  <el-dialog :show-close="false" :title="title" :visible="agreedialogVisible" width="575px" append-to-body>
     <el-form :model="agreeFormParams" ref="agreeForm" label-position="right" label-width="110px">
       <el-form-item label="协议名称" prop="agreementName" :rules="[{ required: true, message: '必选'  }]">
         <el-input v-model="agreeFormParams.agreementName" size="small"></el-input>
@@ -17,6 +17,7 @@
       </el-form-item>
       <el-form-item label="协议生效日期" prop="effectTime" :rules="[{ required: true, message: '必选'  }]">
         <el-date-picker
+          style="width:100%"
           size="small"
           v-model="agreeFormParams.effectTime"
           type="date"
@@ -31,6 +32,7 @@
       >
         <el-date-picker
           size="small"
+          style="width:100%"
           v-model="agreeFormParams.dueTime"
           :disabled="dueTimeDisabled"
           type="date"
@@ -42,18 +44,18 @@
         <el-checkbox v-model="checked"></el-checkbox>
       </el-form-item>
       <el-form-item label="协议图片" prop="picLength" :rules="validPic()">
-        <div class="imgBox" :key="index" v-for="(url,index) in agreeFormParams.picUrlList">
+        <div class="imgBox" style="display:inline-block;margin-right:5px;" :key="index" v-for="(url,index) in agreeFormParams.picUrlList">
           <ImageBox :url="url" :onDelete="()=>{uploadDelete(index)}"></ImageBox>
         </div>
-        <div class="imgBox">
+        <div class="imgBox" style="display:inline-block;">
           <ImageUpload :onSuccess="(file)=>{this.uploadSuceess(file)}"></ImageUpload>
         </div>
         <el-input type="hidden" :value="agreeFormParams.picLength"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="cancle" size="small">取消</el-button>
-      <el-button type="primary" @click="confirm" :loading="loading" size="small">确定</el-button>
+      <el-button @click="cancle">取 消</el-button>
+      <el-button type="primary" @click="confirm" :loading="loading"    >确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -108,8 +110,6 @@ export default {
   },
   methods: {
     ...mapMutations("agreement", [
-      "setAgreeDialogEdit",
-      "setAgreeFormParams",
       "setAgreeDialogVisible"
     ]),
     ...mapActions("agreement", ["detelePic", "addPic", "clearAll"]),

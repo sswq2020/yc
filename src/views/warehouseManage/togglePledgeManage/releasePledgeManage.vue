@@ -41,17 +41,22 @@
           <el-row>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="货主" prop="pledgeCargo">
-                <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
+                {{form.pledgeCargo}}
               </el-form-item>
             </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+            <!-- <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存数量" prop="inventoryTotalNums">
                 <el-input :value="form.inventoryTotalNums" disabled="disabled"></el-input>
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存重量" prop="inventoryTotalWeight">
-                <el-input :value="form.inventoryTotalWeight" disabled="disabled"></el-input>
+                {{form.inventoryTotalWeight}}
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="大类" prop="productTypeCode">
+                {{Dict.PRODUCT_CATEGORY[form.productTypeCode]}}
               </el-form-item>
             </el-col>
           </el-row>
@@ -80,7 +85,8 @@ const defualtFormParams = {
   releaseWeight: null, // 解押重量
   releaseCode: null, // 解押单号
   inventoryTotalNums: null, // 库存数量
-  inventoryTotalWeight: null // 库存重量
+  inventoryTotalWeight: null, // 库存重量
+  productTypeCode:Dict.PRODUCT_OIL
 };
 
 export default {
@@ -94,6 +100,7 @@ export default {
       form: {
         ...defualtFormParams
       },
+      Dict,
       maxweight: null,
       maxnum: null
     };
@@ -194,9 +201,13 @@ export default {
       });
     },
     async init() {
-      if (this.releasePledgeData && this.releasePledgeData.cargoId) {
+      const {cargoId,productTypeCode} = this.releasePledgeData;
+      if (this.releasePledgeData && cargoId && productTypeCode) {
         const res = await this.$api.getPledgeNum(
-          this.releasePledgeData.cargoId
+          {
+            cargoId,
+            productTypeCode
+          }
         );
         switch (res.code) {
           case Dict.SUCCESS:
@@ -209,8 +220,10 @@ export default {
             this.$messageError(res.mesg);
             break;
         }
-        const res_ = await this.$api.getPledgeCargoinfo(
-          this.releasePledgeData.cargoId
+        const res_ = await this.$api.getPledgeCargoinfo({
+            cargoId,
+            productTypeCode
+          }
         );
         switch (res_.code) {
           case Dict.SUCCESS:

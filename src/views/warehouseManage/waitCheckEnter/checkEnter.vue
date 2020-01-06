@@ -8,16 +8,19 @@
             <div class="head">基本信息</div>
             <el-row>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="登记日期:" prop="registerTime">{{item.registerTime}}</el-form-item>
+                <el-form-item label="预报日期:" prop="registerTime">{{item.registerTime}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="货主:" prop="name">{{item.name}}</el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item label="入库类型:" prop="incomingTypeText">{{item.incomingTypeText||"-"}}</el-form-item>
               </el-col>
             </el-row>
             <div class="head">仓库信息</div>
             <el-row>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="交易仓库:" prop="deliveryStore">{{item.deliveryStore}}</el-form-item>
+                <el-form-item label="交割仓库:" prop="deliveryStore">{{item.deliveryStore}}</el-form-item>
               </el-col>
               <el-col
                 :xl="8"
@@ -28,6 +31,16 @@
                 v-if="productType!==Dict.PRODUCT_OIL"
               >
                 <el-form-item label="区桩位:" prop="pilePosition">{{item.pilePosition}}</el-form-item>
+              </el-col>
+              <el-col
+                :xl="8"
+                :lg="12"
+                :md="24"
+                :sm="24"
+                :xs="24"
+                v-if="productType!==Dict.PRODUCT_OIL"
+              >
+                <el-form-item label="层数:" prop="piles">{{item.piles}}</el-form-item>
               </el-col>
               <el-col
                 :xl="8"
@@ -51,19 +64,6 @@
 
                 </el-form-item>
               </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="入库类型:" prop="incomingTypeText">{{item.incomingTypeText||"-"}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="层数:" prop="piles">{{item.piles}}</el-form-item>
-              </el-col>
             </el-row>
             <div class="head">商品信息</div>
             <el-row>
@@ -73,48 +73,6 @@
                 :md="24"
                 :sm="24"
                 :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="品名:" prop="productName">{{item.productName}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="材质:" prop="materialName">{{item.materialName}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="产地:" prop="originPlaceName">{{item.originPlaceName}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="规格:" prop="specificationsName">{{item.specificationsName}}</el-form-item>
-              </el-col>
-              <!--石油开始-->
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
               >
                 <el-form-item label="品类:" prop="firstCatalogName">{{item.firstCatalogName}}</el-form-item>
               </el-col>
@@ -124,24 +82,11 @@
                 :md="24"
                 :sm="24"
                 :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
               >
-                <el-form-item label="牌号:" prop="secondCatalogName">{{item.secondCatalogName}}</el-form-item>
+                <el-form-item label="规格/牌号:" prop="secondCatalogName">{{item.secondCatalogName}}</el-form-item>
               </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item
-                  label="排放标准:"
-                  prop="emissionStandardText"
-                >{{item.emissionStandardText}}</el-form-item>
-              </el-col>
-              <el-col
+              <!--石油开始-->
+              <!-- <el-col
                 :xl="8"
                 :lg="12"
                 :md="24"
@@ -153,24 +98,13 @@
                 :rules="[{pattern: /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,3})?$/,message: '正数可以包含3位小数'}]">
                     <el-input v-model="item.density"></el-input>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col
                 :xl="8"
                 :lg="12"
                 :md="24"
                 :sm="24"
                 :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="型号:" prop="serialNumber">{{item.serialNumber}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
               >
                 <el-form-item label="生产商:" prop="manufacturerName">{{item.manufacturerName}}</el-form-item>
               </el-col>
@@ -180,9 +114,6 @@
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="应收重量:" prop="supposedWeight">{{item.supposedWeight}}</el-form-item>
-              </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="计量单位:" prop="weightUnitText">{{item.weightUnitText}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="计量方式:" prop="measuringText">{{item.measuringText}}</el-form-item>
@@ -211,6 +142,27 @@
                   <el-input v-model="item.weight"></el-input>
                 </el-form-item>
               </el-col>
+
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <!-- <el-form-item
+                  label="单据上传"
+                  :prop="'needShowData.' + index + '.fileId'"
+                  :rules="[{ required: true, message: '请正确上传图片' }]"
+                > -->
+                <el-form-item
+                  label="单据上传"
+                  :prop="'needShowData.' + index + '.fileId'"
+                >                
+                  <div class="imgBox" style="display:inline-block;" v-show="item.fileId">
+                    <ImageBox :url="item.url" :onDelete="()=>{uploadDelete(index)}"></ImageBox>
+                  </div>
+                  <div class="imgBox" style="display:inline-block;" v-show="!(item.fileId)">
+                    <ImageUpload :onSuccess="(file)=>{uploadSuceess(file,index)}"></ImageUpload>
+                  </div>
+                  <el-input type="hidden" :value="item.fileId" style="display:inline;height:0"></el-input>
+                </el-form-item>
+              </el-col>
+
             </el-row>
             <el-row></el-row>
           </div>
@@ -232,8 +184,11 @@
 
 <script>
 import { mapState } from "vuex";
+import _ from 'lodash'
 import Dict from "@/util/dict.js";
 import { judgeAuth } from "util/util.js";
+import ImageBox from "components/ImageBox";
+import ImageUpload from "components/ImageUpload";
 import {
   _toArray_,
   // handleFilterSelf,
@@ -242,7 +197,10 @@ import {
 } from "common/util";
 export default {
   name: "checkEnter",
-  components: {},
+  components: {
+    ImageBox,
+    ImageUpload
+  },
   data() {
     return {
       loading: false,
@@ -345,6 +303,17 @@ export default {
           break;
       }
     },
+    uploadDelete(index) {
+      let copyObj = _.cloneDeep(this.form.needShowData[index])
+      /**不要直接使用array[index] = item,Vue无法观察数组的变化,必须用变异的函数*/
+      this.form.needShowData.splice(index,1,{...copyObj,url:"#",fileId:null})
+    },
+    uploadSuceess(res,index) {
+      const {url,id} = res.data;
+      let copyObj = _.cloneDeep(this.form.needShowData[index])   
+      /**不要直接使用array[index] = item,Vue无法观察数组的变化,必须用变异的函数*/
+      this.form.needShowData.splice(index,1,{...copyObj,url,fileId:id})      
+    },    
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -372,6 +341,10 @@ export default {
                   (item.measuringTypeEnum && item.measuringTypeEnum.text) || "-",
                 weightUnitText:
                   (item.weightUnitTypeEnum && item.weightUnitTypeEnum.text) || "-"
+              },
+              {
+                fileId:null,
+                url:"#"
               }
             );
           });

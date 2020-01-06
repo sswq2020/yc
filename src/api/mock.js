@@ -334,6 +334,10 @@ const EnterpriseList = {
         "province": "@PROVINCE()", //所属省
         "userId": "@INTEGER(1,2019690999)", //用户id
         "isRetrade":"@PICK('0','1')" // 重复交易
+    },
+    "userInfo": {
+        mobile: "18019693069",
+        username: "18019693069",
     }
 }
 

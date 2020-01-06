@@ -1,5 +1,5 @@
 <template>
-  <div class="container single-page" id="fixpadding">
+  <div class="container single-page">
     <HletongBreadcrumb :data="breadTitle">
       <!-- <el-button
         type="primary"
@@ -100,7 +100,7 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
+      <div class="form-item">
         <label>品类</label>
         <div class="form-control">
           <el-select v-model="form.firstCatalogId" placeholder="请选择" size="small">
@@ -113,8 +113,8 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
-        <label>牌号</label>
+      <div class="form-item">
+        <label>规格/牌号</label>
         <div class="form-control">
           <el-select v-model="form.secondCatalogId" placeholder="请选择" size="small">
             <el-option
@@ -126,70 +126,10 @@
           </el-select>
         </div>
       </div>
-      <div class="form-item" v-if="storageclass===Dict.PRODUCT_OIL">
-        <label>排放标准</label>
+      <div class="form-item">
+        <label>生产商</label>
         <div class="form-control">
-          <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in HywEmissionStandardList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-
-      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
-        <label>品名</label>
-        <div class="form-control">
-          <el-select v-model="form.productNameId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in productNameList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
-        <label>材质</label>
-        <div class="form-control">
-          <el-select v-model="form.materialId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in materialList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
-        <label>规格</label>
-        <div class="form-control">
-          <el-select v-model="form.specificationsId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in specificationsList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="form-item" v-if="storageclass!==Dict.PRODUCT_OIL">
-        <label>产地</label>
-        <div class="form-control">
-          <el-select v-model="form.originPlaceId" placeholder="请选择" size="small">
-            <el-option
-              v-for="(item,index) in originPlaceList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <manufactureglass ref="manufactureglass" @manufactureSelect="acceptManufacture"></manufactureglass>
         </div>
       </div>
       <div class="form-item">
@@ -277,27 +217,24 @@
 <script>
 // import NP from "number-precision";
 import { mapState,mapGetters, mapMutations } from "vuex";
-import { baseMixin, dictMixin } from "common/mixin.js";
+import { baseMixin } from "common/mixin.js";
 import {findIndexByValue} from "common/util.js"
 import { judgeAuth } from "util/util.js";
 import _ from "lodash";
 import Dict from "util/dict.js";
-// import heltable from "components/hl_table";
 import transitiondialog from "components/transitiondialog";
 import cargoglass from "components/cargoglass.vue";
+import manufactureglass from "components/manufactureglass.vue";
 
 const defaultFormData = {
   userId: null,
   deliveryStoreId: null,
-  productNameId: null,
-  materialId: null,
-  specificationsId: null,
-  originPlaceId: null,
 
   oilTankId: null,
   firstCatalogId: null,
   secondCatalogId: null,
-  emissionStandard: null
+
+  manufactureId:null
 };
 const defaultListParams = {
   pageSize: 20,
@@ -318,7 +255,7 @@ const defaultSWtableHeader = [
   {
     prop: "incomingDays",
     label: "入库天数",
-    width: "50",
+    width: "80",
     align: "right"
   },
   {
@@ -336,20 +273,13 @@ const defaultSWtableHeader = [
     align: "right"
   },
   {
-    prop: "productName",
-    label: "品名"
+    prop: "secondCatalogName",
+    label: "规格/牌号",
+    width: "80",
   },
   {
-    prop: "materialName",
-    label: "材质"
-  },
-  {
-    prop: "specificationsName",
-    label: "规格"
-  },
-  {
-    prop: "originPlaceName",
-    label: "产地"
+    prop: "manufacturerName",
+    label: "生产商"
   },
   {
     prop: "totalNumInventoryText",
@@ -364,10 +294,6 @@ const defaultSWtableHeader = [
   {
     prop: "measuringText",
     label: "计量方式"
-  },
-  {
-    prop: "weightUnitText",
-    label: "计量单位"
   },
   {
     prop: "incomingTypeText",
@@ -408,21 +334,7 @@ const defaultOILtableHeader = [
   },
   {
     prop: "secondCatalogName",
-    label: "牌号",
-    width: "80",
-    align: "right"
-  },
-  {
-    prop: "emissionStandardText",
-    label: "排放标准"
-  },
-  {
-    prop: "serialNumber",
-    label: "产品型号"
-  },
-  {
-    prop: "density",
-    label: "密度",
+    label: "规格/牌号",
     width: "80",
     align: "right"
   },
@@ -443,10 +355,6 @@ const defaultOILtableHeader = [
   {
     prop: "measuringText",
     label: "计量方式"
-  },
-  {
-    prop: "weightUnitText",
-    label: "计量单位"
   },
   {
     prop: "incomingTypeText",
@@ -471,7 +379,6 @@ const rowAdapter = (list) => {
             return row = { 
               ...row,
               piles:row.piles || "-",
-              weightUnitText:row.weightUnitTypeEnum&&row.weightUnitTypeEnum.text || "-",
               measuringText:row.measuringTypeEnum&&row.measuringTypeEnum.text || "-",
               incomingTypeText:row.incomingTypeEnum&&row.incomingTypeEnum.text || "-",
               totalNumInventoryText:`${row.totalNumInventory || "-"}`,
@@ -484,11 +391,11 @@ const rowAdapter = (list) => {
 
 export default {
   name: "inventoryTable",
-  mixins: [baseMixin, dictMixin],
+  mixins: [baseMixin],
   components: {
-    // heltable,
     transitiondialog,
-    cargoglass
+    cargoglass,
+    manufactureglass
   },
   data() {
     return {
@@ -625,6 +532,9 @@ export default {
       if(this.$refs.cargoglass) {
         this.$refs.cargoglass.clearValue();
       }
+      if(this.$refs.manufactureglass) {
+        this.$refs.manufactureglass.clearValue();
+      }      
       setTimeout(()=>{
         this.getListData();
       },20)
@@ -726,6 +636,10 @@ export default {
     acceptcargo(obj) {
       this.form.userId = obj.userId;
     },
+    /**接生产商传递的对象*/    
+    acceptManufacture(obj) {
+      this.form.manufactureId = obj.id;
+    },
     init() {
       setTimeout(() => {
         this.clearListParams();
@@ -768,6 +682,8 @@ export default {
               const index = findIndexByValue(this.deliveryStoreList,newV)
               this.oiltankList = this.deliveryStoreList[index].child;
             }, 20);
+          }else{
+            this.oiltankList = []
           }
         }
       }
@@ -776,11 +692,13 @@ export default {
       handler(newV, oldV) {
         if (newV !== oldV) {
           this.form.secondCatalogId = null;
-          if (newV && this.storageclass=== Dict.PRODUCT_OIL) {
+          if (newV) {
             setTimeout(() => {
               const index = findIndexByValue(this.firstCatalogList,newV)
               this.trademarkList = this.firstCatalogList[index].child;
             }, 20);
+          }else {
+            this.trademarkList = [];
           }
         }
       }

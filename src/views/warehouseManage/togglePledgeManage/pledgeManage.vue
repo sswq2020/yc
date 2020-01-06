@@ -68,17 +68,22 @@
           <el-row>
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="货主" prop="pledgeCargo">
-                <el-input :value="form.pledgeCargo" disabled="disabled"></el-input>
+                {{form.pledgeCargo}}
               </el-form-item>
             </el-col>
-            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+            <!-- <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存数量" prop="inventoryTotalNums">
                 <el-input :value="form.inventoryTotalNums" disabled="disabled"></el-input>
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="库存重量" prop="inventoryTotalWeight">
-                <el-input :value="form.inventoryTotalWeight" disabled="disabled"></el-input>
+                {{form.inventoryTotalWeight}}
+              </el-form-item>
+            </el-col>
+            <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+              <el-form-item label="大类" prop="productTypeCode">
+                {{Dict.PRODUCT_CATEGORY[form.productTypeCode]}}
               </el-form-item>
             </el-col>
           </el-row>
@@ -111,7 +116,8 @@ const defualtFormParams = {
   pledgeCode: null,
   inventoryTotalNums: null,
   inventoryTotalWeight: null,
-  totalPledgeNums:0
+  totalPledgeNums:0,
+  productTypeCode:Dict.PRODUCT_OIL
 };
 
 export default {
@@ -126,6 +132,7 @@ export default {
       form: {
         ...defualtFormParams
       },
+      Dict,
       typeDatas: TypeDatas,
       max: null // 进入该页面需要获取最大可用重量
     };

@@ -9,9 +9,11 @@
     "lint": "vue-cli-service lint",
     "test": "cross-env NODE_ENV=test vue-cli-service build --mode test",
     "ywtest": "cross-env NODE_ENV=ywtest vue-cli-service build --mode ywtest", 
-    "appendyw":"cross-env NODE_ENV=ywtest node appended",        
+    "appendyw":"cross-env NODE_ENV=ywtest node appended",
+    "stampyw":"cross-env NODE_ENV=ywtest node appendtime",            
     "append":"cross-env NODE_ENV=production node appended",
-    "pro": "cross-env NODE_ENV=production vue-cli-service build"
+    "pro": "cross-env NODE_ENV=production vue-cli-service build",
+    "stamp":"cross-env NODE_ENV=production node appendtime"
   },
   "dependencies": {
     "cookie-parse": "^0.4.0",

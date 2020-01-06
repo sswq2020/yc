@@ -9,6 +9,22 @@
             <el-row>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item
+                  label="大类"
+                  prop="productTypeCode"
+                  :rules="[{ required: true, message: '必选'  }]"
+                >
+                  <el-select v-model="form.productTypeCode" placeholder="请选择" size="small">
+                    <el-option
+                      v-for="(item,index) in TypeProductDatas"
+                      :key="index"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item
                   label="品类"
                   prop="firstCatalogId"
                   :rules="[{ required: true, message: '必选'  }]"
@@ -25,7 +41,7 @@
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item
-                  label="牌号"
+                  label="规格/牌号"
                   prop="secondCatalogId"
                   :rules="[{ required: true, message:'必选'  }]"
                 >
@@ -37,40 +53,6 @@
                       :value="item.value"
                     ></el-option>
                   </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item
-                  label="排放标准"
-                  prop="emissionStandard"
-                  :rules="[{ required: true, message: '必选' }]"
-                >
-                  <el-select v-model="form.emissionStandard" placeholder="请选择" size="small">
-                    <el-option
-                      v-for="(item,index) in HywEmissionStandardList"
-                      :key="index"
-                      :label="item.label"
-                      :value="item.value"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item
-                  label="密度(kg/m³)"
-                  prop="density"
-                  :rules="[{ required: true, message: '必填' }]"
-                >
-                  <el-input v-model="form.density"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item
-                  label="产品型号"
-                  prop="serialNumber"
-                  :rules="[{ required: true, message: '必填' }]"
-                >
-                  <el-input v-model="form.serialNumber"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
@@ -91,16 +73,16 @@
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item
-                  label="产地"
-                  prop="addressProvince"
-                  :rules="[{ required: true, message: '必填' }]"
+                  label="计量方式"
+                  prop="measuringId"
+                  :rules="[{ required: true, message: '请选择计量方式', trigger:'blur'}]"
                 >
-                  <el-select v-model="form.addressProvince" placeholder="请选择" size="small">
+                  <el-select v-model="form.measuringId" placeholder="请选择" size="small">
                     <el-option
-                      v-for="(item,index) in ProvinceDataList"
+                      v-for="(item,index) in MeasuringTypeList"
                       :key="index"
-                      :label="item.name"
-                      :value="item.name"
+                      :label="item.label"
+                      :value="item.value"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -144,11 +126,11 @@
                     :label="item.paraName"
                     :prop="'parameterList.' + index + '.paraValue'"
                     :rules="{required: true, message: '必填', trigger: 'blur'}"
-                  > -->
+                  >-->
                   <el-form-item
                     :label="item.paraName"
                     :prop="'parameterList.' + index + '.paraValue'"
-                  >                
+                  >
                     <el-input v-model="item.paraValue"></el-input>
                   </el-form-item>
                 </el-col>
@@ -165,6 +147,7 @@
         :loading="loading"
         @click="submitForm('form')"
       >{{isEdit ? "更新" : "新增"}}</el-button>
+      <el-button size="small" @click="back">取消</el-button>
     </div>
   </div>
 </template>
@@ -173,28 +156,33 @@
 import _ from "lodash";
 import { mapState, mapMutations } from "vuex";
 import { baseMixin, dictMixin } from "common/mixin";
-import { findLabelByValue, findIndexByValue, _toArray_ } from "common/util";
+import {
+  findLabelByValue,
+  findIndexByValue,
+  DICT_SELECT_ARR,
+  _toArray_
+} from "common/util";
 import Dict from "util/dict";
-import areaData from "components/areaData.js";
 import ImageBox from "components/ImageBox";
 import ImageUpload from "components/ImageUpload";
 // import { judgeAuth } from "util/util.js";
 
-const ProvinceDataList = areaData.map(item => {
-  return {
-    name: item.value
-  };
-});
+const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
+const MeasuringTypeList = DICT_SELECT_ARR(Dict.MEASURE_TYPE);
 
 const defualtFormParams = {
+  /**图片id*/
   fileId: null, // 图片上传成功后返回的id
+  /**大类code*/
+  productTypeCode: null,
+  /**品类code*/
   firstCatalogId: null,
+  /**牌号/规格*/
   secondCatalogId: null,
-  emissionStandard: null,
-  density: null,
-  serialNumber: null,
+  /**生产商*/
   manufacturerId: null,
-  addressProvince: null,
+  /**计量方式*/
+  measuringId: null,
   parameterList: []
 };
 
@@ -216,19 +204,28 @@ export default {
       ExternalTrigger: false,
       reservaSecondClassId: null,
       ManufacturerList: [],
-      ProvinceDataList
+      MeasuringTypeList,
+      TypeProductDatas
     };
   },
   computed: {
-    ...mapState("oilQualityInfo", ["isEdit", "oilQualityInfoId"]),
+    ...mapState("oilQualityInfo", [
+      "isEdit",
+      "oilQualityInfoId",
+      "productTypeCode"
+    ]),
     breadTitle() {
       return this.isEdit
-        ? ["基础信息", "编辑油品信息"]
-        : ["基础信息", "新增油品信息"];
+        ? ["基础信息", "信息库管理", "编辑信息库"]
+        : ["基础信息", "信息库管理", "新增信息库"];
     }
   },
   methods: {
-    ...mapMutations("oilQualityInfo", ["setIsEdit", "setoilQualityInfoId"]),
+    ...mapMutations("oilQualityInfo", [
+      "setIsEdit",
+      "setoilQualityInfoId",
+      "setProductTypeCode"
+    ]),
     back() {
       this.$router.push({
         path: "/web/yc/product/product/pageForSale"
@@ -285,11 +282,16 @@ export default {
               this.form.manufacturerId
             )
           },
-          { url: this.url },
           {
-            sellStateEnum: null,
-            emissionStandardEnum: null
-          }
+            measuringName: findLabelByValue(
+              this.MeasuringTypeList,
+              this.form.measuringId
+            )
+          },
+          {
+            productTypeCodeTest:Dict.PRODUCT_CATEGORY[this.form.productTypeCode]
+          },
+          { url: this.url }
         )
       );
       if (params.hasOwnProperty("manufacturerId_")) {
@@ -381,17 +383,10 @@ export default {
         this.back();
       }
       this.ExternalTrigger = true;
-      this._getAllBaseInfo(Dict.PRODUCT_OIL)
-        .then(() => {
-          this._getProducerSelectList();
-        })
-        .then(() => {
-          this._getDetailCommodity(this.oilQualityInfoId);
-        });
+      // 首先赋值表单的大类
+      this.form.productTypeCode = this.productTypeCode;
     } else {
-      this._getAllBaseInfo(Dict.PRODUCT_OIL).then(() => {
         this._getProducerSelectList();
-      });
     }
     this.init();
   },
@@ -401,9 +396,38 @@ export default {
     this.setoilQualityInfoId(null);
   },
   watch: {
+    "form.productTypeCode": {
+      handler(newV, oldV) {
+        if (newV !== oldV) {
+          // 除了编辑进来的第一次不需要操作vuex,其他的时候都需要
+          if (!this.ExternalTrigger) {
+            this.setProductTypeCode(newV);
+          }
+          this.firstCatalogList = [];
+          this.form.firstCatalogId = null;
+          // 只在编辑进来的第一次时请求生产商和详细,其他的时候都不需要
+          if (this.ExternalTrigger) {
+            this._getAllBaseInfo(newV)
+              .then(() => {
+                this._getProducerSelectList();
+              })
+              .then(() => {
+                this._getDetailCommodity(this.oilQualityInfoId);
+              });
+          }else {
+            this._getAllBaseInfo(newV)
+          }
+        }
+      }
+    },
+
     "form.firstCatalogId": {
       handler(newV, oldV) {
         if (newV !== oldV) {
+          if (!newV) {
+            this.form.secondCatalogId = null;
+            return;
+          }
           if (newV) {
             const index = findIndexByValue(this.firstCatalogList, newV);
             this.trademarkList = this.firstCatalogList[index].child;

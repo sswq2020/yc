@@ -5,6 +5,19 @@
     </HletongBreadcrumb>
     <div class="search-box">
       <div class="form-item">
+        <label>大类</label>
+        <div class="form-control">
+          <el-select v-model="listParams.productTypeCode" placeholder="请选择" size="small">
+            <el-option
+              v-for="(item,index) in TypeProductDatas"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="form-item">
         <label>品类名称</label>
         <div class="form-control">
           <el-input v-model="listParams.categoryName" placeholder="请输入" size="small"></el-input>
@@ -56,6 +69,7 @@
       ref="modal"
       :loading="isEditLoading"
       :isEdit="isEdit"
+      :productTypes="TypeProductDatas"
       :confirmCb="modalConfirm"
       :categoryObj="categoryObj"
     ></categoryformModal>
@@ -66,15 +80,24 @@
 import { mapState, mapMutations } from "vuex";
 import moment from "moment";
 // import { judgeAuth } from "@/util/util.js";
+import { DICT_SELECT_ARR } from "common/util";
 import Dict from "@/util/dict.js";
 import categoryformModal from "./categoryformModal.vue";
+
+const TypeProductDatas = DICT_SELECT_ARR(Dict.PRODUCT_CATEGORY);
 
 const defaultListParams = {
   pageSize: 20,
   page: 1,
-  categoryName: null
+  categoryName: null,
+  productTypeCode:null
 };
 const defaulttableHeader = [
+  {
+    prop: "productTypeText",
+    label: "大类",
+    width: "180"    
+  },
   {
     prop: "categoryName",
     label: "品类名称",
@@ -139,6 +162,8 @@ export default {
       showOverflowTooltip: true,
       // #endgion
 
+      TypeProductDatas,
+
       // #region 弹窗相关
       isEdit: false,
       categoryObj: null
@@ -180,8 +205,10 @@ export default {
       }
     },
     async modalConfirm(obj) {
+      this.isEditLoading = true;
       const serve = this.isEdit ? "updateCategory" : "addCategory";
       const response = await this.$api[serve]({ ...obj });
+      this.isEditLoading = false;
       switch (response.code) {
         case Dict.SUCCESS:
           this.$messageSuccess(`${this.isEdit ? "修改" : "新增"}成功`);
@@ -219,10 +246,11 @@ export default {
     },
     editItem(obj) {
       this.isEdit = true;
-      const { id, categoryName } = obj;
+      const { id, categoryName,productTypeCode } = obj;
       this.categoryObj = {
         id,
-        categoryName
+        categoryName,
+        productTypeCode
       };
       this.SET_MODAL_VISIBLE(true);
     },

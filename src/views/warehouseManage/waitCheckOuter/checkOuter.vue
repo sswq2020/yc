@@ -42,6 +42,7 @@
               >
                 <el-form-item label="区桩位:" prop="pilePosition">{{item.pilePosition}}</el-form-item>
               </el-col>
+
               <el-col
                 :xl="8"
                 :lg="12"
@@ -50,37 +51,7 @@
                 :xs="24"
                 v-if="productType!==Dict.PRODUCT_OIL"
               >
-                <el-form-item label="品名:" prop="productName">{{item.productName}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="材质:" prop="materialName">{{item.materialName}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="产地:" prop="originPlaceName">{{item.originPlaceName}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType!==Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="规格:" prop="specificationsName">{{item.specificationsName}}</el-form-item>
+                <el-form-item label="层数:" prop="piles">{{item.piles}}</el-form-item>
               </el-col>
               <!--钢木结束-->
 
@@ -93,63 +64,18 @@
                 :xs="24"
                 v-if="productType===Dict.PRODUCT_OIL"
               >
+                <el-form-item label="储罐编号:" prop="oilTankCode">{{item.oilTankCode}}</el-form-item>
+              </el-col>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="品类:" prop="firstCatalogName">{{item.firstCatalogName}}</el-form-item>
               </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="牌号:" prop="secondCatalogName">{{item.secondCatalogName}}</el-form-item>
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
+                <el-form-item label="规格/牌号:" prop="secondCatalogName">{{item.secondCatalogName}}</el-form-item>
               </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item
-                  label="排放标准:"
-                  prop="emissionStandardText"
-                >{{item.emissionStandardText}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="密度(kg/m³):" prop="density">{{item.density}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
-                <el-form-item label="型号:" prop="serialNumber">{{item.serialNumber}}</el-form-item>
-              </el-col>
-              <el-col
-                :xl="8"
-                :lg="12"
-                :md="24"
-                :sm="24"
-                :xs="24"
-                v-if="productType===Dict.PRODUCT_OIL"
-              >
+              <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="生产商:" prop="manufacturerName">{{item.manufacturerName}}</el-form-item>
               </el-col>
               <!--石油结束-->
-
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
                 <el-form-item label="应出数量:" prop="supposedRemovalNum">{{item.supposedRemovalNum}}</el-form-item>
               </el-col>
@@ -160,10 +86,10 @@
                 >{{item.supposedRemovalWeight}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="计量单位:" prop="weightUnitText">{{item.weightUnitText}}</el-form-item>
+                <el-form-item label="计量方式:" prop="measuringText">{{item.measuringText}}</el-form-item>
               </el-col>
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="计量方式:" prop="measuringText">{{item.measuringText}}</el-form-item>
+                <el-form-item label="备注:" prop="remark">{{item.remark}}</el-form-item>
               </el-col>
             </el-row>
             <div class="head">验收信息</div>
@@ -186,12 +112,26 @@
                   <el-input v-model="item.actualRemovalWeight"></el-input>
                 </el-form-item>
               </el-col>
+
               <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
-                <el-form-item label="备注:" prop="remark">
-                  {{item.remark}}
+                <!-- <el-form-item
+                  label="单据上传"
+                  :prop="'needShowData.' + index + '.fileId'"
+                  :rules="[{ required: true, message: '请正确上传图片' }]"
+                > -->
+                <el-form-item
+                  label="单据上传"
+                  :prop="'needShowData.' + index + '.fileId'"
+                >                
+                  <div class="imgBox" style="display:inline-block;" v-show="item.fileId">
+                    <ImageBox :url="item.url" :onDelete="()=>{uploadDelete(index)}"></ImageBox>
+                  </div>
+                  <div class="imgBox" style="display:inline-block;" v-show="!(item.fileId)">
+                    <ImageUpload :onSuccess="(file)=>{uploadSuceess(file,index)}"></ImageUpload>
+                  </div>
+                  <el-input type="hidden" :value="item.fileId" style="display:inline;height:0"></el-input>
                 </el-form-item>
               </el-col>
-
             </el-row>
           </div>
         </el-form>
@@ -212,8 +152,11 @@
 
 <script>
 import { mapState } from "vuex";
+import _ from 'lodash'
 import Dict from "@/util/dict.js";
 import { judgeAuth } from "util/util.js";
+import ImageBox from "components/ImageBox";
+import ImageUpload from "components/ImageUpload";
 const defualtFormParams = {
   pickUpPassword: null,
   name: null,
@@ -222,7 +165,10 @@ const defualtFormParams = {
 
 export default {
   name: "checkOuter",
-  components: {},
+  components: {
+    ImageBox,
+    ImageUpload
+  },
   data() {
     return {
       loading: false,
@@ -313,13 +259,23 @@ export default {
           break;
       }
     },
+    uploadDelete(index) {
+      let copyObj = _.cloneDeep(this.form.needShowData[index])
+      /**不要直接使用array[index] = item,Vue无法观察数组的变化,必须用变异的函数*/
+      this.form.needShowData.splice(index,1,{...copyObj,url:"#",fileId:null})
+    },
+    uploadSuceess(res,index) {
+      const {url,id} = res.data;
+      let copyObj = _.cloneDeep(this.form.needShowData[index])   
+      /**不要直接使用array[index] = item,Vue无法观察数组的变化,必须用变异的函数*/
+      this.form.needShowData.splice(index,1,{...copyObj,url,fileId:id})      
+    },    
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           const params = this._serialize_();
           this._removalCheck_(params);
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -337,7 +293,9 @@ export default {
                 "-",
               actualRemovalNum: null,
               actualRemovalWeight: null,
-              remark:item.remark || null
+              remark: item.remark || null,
+              fileId:null,
+              url:"#",
             });
           });
           this.form = Object.assign(
@@ -348,7 +306,6 @@ export default {
             },
             { needShowData: res.data }
           );
-          console.log(this.form);
           break;
         default:
           this.$messageError(res.mesg);
@@ -408,7 +365,7 @@ export default {
     min-width: 64px;
     margin-left: 20px;
     margin-top: 10px;
-    &:last-child{
+    &:last-child {
       margin-left: 16px;
     }
   }
