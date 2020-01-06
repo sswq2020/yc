@@ -208,7 +208,6 @@ export default {
       form: { ...defualtFormParams },
       Dict: Dict,
       oilInfoObj: null,
-      commodityObj: null,
       /**商品大类数据源*/
       TypeProductDatas,
       EnterStorageTypeList,
@@ -280,7 +279,7 @@ export default {
       switch (res.code) {
         case Dict.SUCCESS:
           this.$messageSuccess("入库登记成功");
-          this.back();
+          this.clear();
           break;
         default:
           this.$messageError(res.mesg);
