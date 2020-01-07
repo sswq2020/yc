@@ -30,7 +30,7 @@
             <el-col :xl="8" :lg="12" :md="24" :sm="24" :xs="24">
               <el-form-item label="货主" prop="userId" :rules="validateShipper(IS_SHIPPER)">
                 <el-input v-if="IS_SHIPPER" size="small" :value="realname" :disabled="true"></el-input>
-                <cargoglass v-if="!IS_SHIPPER" @cargoSelect="acceptcargo"></cargoglass>
+                <cargoglass ref="cargoglass" v-if="!IS_SHIPPER" @cargoSelect="acceptcargo"></cargoglass>
                 <el-input v-if="!IS_SHIPPER" type="hidden" :value="form.userId" style="display:inline;height:0"></el-input>
               </el-form-item>
             </el-col>
@@ -230,6 +230,9 @@ export default {
       if(this.$refs.infoglass) {
         this.$refs.infoglass.clearValue();
       }
+      if(this.$refs.cargoglass) {
+        this.$refs.cargoglass.clearValue();
+      }
       this.oilInfoObj = null;
     },
     submitForm(formName) {
@@ -348,7 +351,8 @@ export default {
         return  [
         {
           required: true,
-          message: "货主必填"
+          message: "货主必填",
+          trigger:'blur'
         }]
       }
     }
